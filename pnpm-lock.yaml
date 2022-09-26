@@ -1,14 +1,16 @@
-lockfileVersion: 5.3
+lockfileVersion: 5.4
 
 importers:
 
   .:
     specifiers:
       '@babel/runtime': 7.12.18
+      '@react_db_client/components.emoji': 0.1.8
+      '@react_db_client/constants.client-types': 0.2.13
       '@teambit/eslint-config-bit-react': ~0.0.367
       '@teambit/harmony': 0.3.3
       '@testing-library/react': 12.0.0
-      '@types/jest': '>=26.0.0 <27.0.0'
+      '@types/jest': 26.0.20
       '@types/node': 12.20.4
       '@types/react': '>=17.0.8 <18.0.0'
       '@types/react-dom': '>=17.0.5 <18.0.0'
@@ -27,14 +29,16 @@ importers:
       react-dom: 17.0.2
     dependencies:
       '@babel/runtime': registry.npmjs.org/@babel/runtime/7.12.18
-      '@teambit/eslint-config-bit-react': registry.npmjs.org/@teambit/eslint-config-bit-react/0.0.367_42c1a70dd5598d21f152f1cd353fd960
+      '@react_db_client/components.emoji': registry.npmjs.org/@react_db_client/components.emoji/0.1.8_mnjzo2axdlbvokesplzuolben4
+      '@react_db_client/constants.client-types': registry.npmjs.org/@react_db_client/constants.client-types/0.2.13_sfoxds7t5ydpegc3knd667wn6m
+      '@teambit/eslint-config-bit-react': registry.npmjs.org/@teambit/eslint-config-bit-react/0.0.367_ila2odovlggsd4ks6hgtkp6zma
       '@teambit/harmony': registry.npmjs.org/@teambit/harmony/0.3.3
-      '@testing-library/react': registry.npmjs.org/@testing-library/react/12.0.0_react-dom@17.0.2+react@17.0.2
+      '@testing-library/react': registry.npmjs.org/@testing-library/react/12.0.0_sfoxds7t5ydpegc3knd667wn6m
       '@typescript-eslint/eslint-plugin': registry.npmjs.org/@typescript-eslint/eslint-plugin/4.29.3
       core-js: registry.npmjs.org/core-js/3.25.2
       eslint-import-resolver-node: registry.npmjs.org/eslint-import-resolver-node/0.3.6
       eslint-plugin-import: registry.npmjs.org/eslint-plugin-import/2.22.1
-      eslint-plugin-jest: registry.npmjs.org/eslint-plugin-jest/24.4.0_f56de5161e43747d9d82fcdf1d245b16
+      eslint-plugin-jest: registry.npmjs.org/eslint-plugin-jest/24.4.0_6vw6kfq6in2h3hmc7tpr2jc3cy
       eslint-plugin-jsx-a11y: registry.npmjs.org/eslint-plugin-jsx-a11y/6.4.1
       eslint-plugin-mdx: registry.npmjs.org/eslint-plugin-mdx/1.15.0
       eslint-plugin-react: registry.npmjs.org/eslint-plugin-react/7.25.1
@@ -43,7 +47,7 @@ importers:
       react: registry.npmjs.org/react/17.0.2
       react-dom: registry.npmjs.org/react-dom/17.0.2_react@17.0.2
     devDependencies:
-      '@types/jest': registry.npmjs.org/@types/jest/26.0.24
+      '@types/jest': registry.npmjs.org/@types/jest/26.0.20
       '@types/node': registry.npmjs.org/@types/node/12.20.4
       '@types/react': registry.npmjs.org/@types/react/17.0.50
       '@types/react-dom': registry.npmjs.org/@types/react-dom/17.0.17
@@ -53,6 +57,9 @@ importers:
     specifiers: {}
 
   form-extendable/generator/typescript:
+    specifiers: {}
+
+  form-extendable/lib:
     specifiers: {}
 
 packages:
@@ -241,7 +248,10 @@ packages:
     name: '@babel/plugin-proposal-object-rest-spread'
     version: 7.12.1
     peerDependencies:
-      '@babel/core': ^7.0.0-0
+      '@babel/core': '*'
+    peerDependenciesMeta:
+      '@babel/core':
+        optional: true
     dependencies:
       '@babel/core': registry.npmjs.org/@babel/core/7.12.9
       '@babel/helper-plugin-utils': registry.npmjs.org/@babel/helper-plugin-utils/7.10.4
@@ -255,7 +265,10 @@ packages:
     name: '@babel/plugin-syntax-jsx'
     version: 7.12.1
     peerDependencies:
-      '@babel/core': ^7.0.0-0
+      '@babel/core': '*'
+    peerDependenciesMeta:
+      '@babel/core':
+        optional: true
     dependencies:
       '@babel/core': registry.npmjs.org/@babel/core/7.12.9
       '@babel/helper-plugin-utils': registry.npmjs.org/@babel/helper-plugin-utils/7.10.4
@@ -267,7 +280,10 @@ packages:
     name: '@babel/plugin-syntax-object-rest-spread'
     version: 7.8.3
     peerDependencies:
-      '@babel/core': ^7.0.0-0
+      '@babel/core': '*'
+    peerDependenciesMeta:
+      '@babel/core':
+        optional: true
     dependencies:
       '@babel/core': registry.npmjs.org/@babel/core/7.12.9
       '@babel/helper-plugin-utils': registry.npmjs.org/@babel/helper-plugin-utils/7.10.4
@@ -280,7 +296,10 @@ packages:
     version: 7.18.8
     engines: {node: '>=6.9.0'}
     peerDependencies:
-      '@babel/core': ^7.0.0-0
+      '@babel/core': '*'
+    peerDependenciesMeta:
+      '@babel/core':
+        optional: true
     dependencies:
       '@babel/core': registry.npmjs.org/@babel/core/7.12.9
       '@babel/helper-plugin-utils': registry.npmjs.org/@babel/helper-plugin-utils/7.19.0
@@ -441,21 +460,76 @@ packages:
       fastq: registry.npmjs.org/fastq/1.13.0
     dev: false
 
-  registry.npmjs.org/@teambit/eslint-config-bit-react/0.0.367_42c1a70dd5598d21f152f1cd353fd960:
+  registry.npmjs.org/@react_db_client/components.emoji/0.1.8_mnjzo2axdlbvokesplzuolben4:
+    resolution: {integrity: sha512-IYlsUrmcTEMRndmRsaM5f0bmkY4+wRv1n9u8xFpm1gP9LfRJUOKDsPanF9fMa7vbEiFxStUt6Oq6yIofeQw06A==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/components.emoji/-/components.emoji-0.1.8.tgz}
+    id: registry.npmjs.org/@react_db_client/components.emoji/0.1.8
+    name: '@react_db_client/components.emoji'
+    version: 0.1.8
+    peerDependencies:
+      '@testing-library/react': '*'
+      prop-types: '*'
+      react: '*'
+      react-dom: '*'
+    peerDependenciesMeta:
+      '@testing-library/react':
+        optional: true
+      prop-types:
+        optional: true
+      react:
+        optional: true
+      react-dom:
+        optional: true
+    dependencies:
+      '@testing-library/react': registry.npmjs.org/@testing-library/react/12.0.0_sfoxds7t5ydpegc3knd667wn6m
+      core-js: registry.npmjs.org/core-js/3.25.2
+      prop-types: registry.npmjs.org/prop-types/15.8.1
+      react: registry.npmjs.org/react/17.0.2
+      react-dom: registry.npmjs.org/react-dom/17.0.2_react@17.0.2
+    dev: false
+
+  registry.npmjs.org/@react_db_client/constants.client-types/0.2.13_sfoxds7t5ydpegc3knd667wn6m:
+    resolution: {integrity: sha512-dnX+gOzrnRlDPP9UliaPWRXO/jV8MZoDm2OQ2wQCmzkK02bz1kYFqqi279HjKdtacurFZvsa/BE45qHQF9vPHA==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/constants.client-types/-/constants.client-types-0.2.13.tgz}
+    id: registry.npmjs.org/@react_db_client/constants.client-types/0.2.13
+    name: '@react_db_client/constants.client-types'
+    version: 0.2.13
+    peerDependencies:
+      react: '*'
+      react-dom: '*'
+    peerDependenciesMeta:
+      react:
+        optional: true
+      react-dom:
+        optional: true
+    dependencies:
+      core-js: registry.npmjs.org/core-js/3.25.2
+      react: registry.npmjs.org/react/17.0.2
+      react-dom: registry.npmjs.org/react-dom/17.0.2_react@17.0.2
+    dev: false
+
+  registry.npmjs.org/@teambit/eslint-config-bit-react/0.0.367_ila2odovlggsd4ks6hgtkp6zma:
     resolution: {integrity: sha512-d8N9+n/OSxaVpeFBkRhYm6QvqKbzaMf4bN8NJrLmPBuJh4on74U3z4xsqu8sLIphEO0fA2G8ISB9Mo+TINqbMw==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@teambit/eslint-config-bit-react/-/eslint-config-bit-react-0.0.367.tgz}
     id: registry.npmjs.org/@teambit/eslint-config-bit-react/0.0.367
     name: '@teambit/eslint-config-bit-react'
     version: 0.0.367
     peerDependencies:
-      '@teambit/legacy': 1.0.85
-      eslint: '> 7.0.0'
-      react: ^16.8.0 || ^17.0.0
-      react-dom: ^16.8.0 || ^17.0.0
+      '@teambit/legacy': '*'
+      eslint: '*'
+      react: '*'
+      react-dom: '*'
+    peerDependenciesMeta:
+      '@teambit/legacy':
+        optional: true
+      eslint:
+        optional: true
+      react:
+        optional: true
+      react-dom:
+        optional: true
     dependencies:
-      '@typescript-eslint/eslint-plugin': registry.npmjs.org/@typescript-eslint/eslint-plugin/4.13.0_@typescript-eslint+parser@4.13.0
+      '@typescript-eslint/eslint-plugin': registry.npmjs.org/@typescript-eslint/eslint-plugin/4.13.0_xacbc5ghh6tt6crnaio23vvpiq
       '@typescript-eslint/parser': registry.npmjs.org/@typescript-eslint/parser/4.13.0
       core-js: registry.npmjs.org/core-js/3.25.2
-      eslint-config-airbnb-typescript: registry.npmjs.org/eslint-config-airbnb-typescript/12.0.0_1ba5e5e0b4d7b2a6f0e93c5490c5c8b1
+      eslint-config-airbnb-typescript: registry.npmjs.org/eslint-config-airbnb-typescript/12.0.0_dos6lyfu26zkn4hjhrkjbroiwe
       react: registry.npmjs.org/react/17.0.2
       react-dom: registry.npmjs.org/react-dom/17.0.2_react@17.0.2
     transitivePeerDependencies:
@@ -496,7 +570,7 @@ packages:
       pretty-format: registry.npmjs.org/pretty-format/27.5.1
     dev: false
 
-  registry.npmjs.org/@testing-library/react/12.0.0_react-dom@17.0.2+react@17.0.2:
+  registry.npmjs.org/@testing-library/react/12.0.0_sfoxds7t5ydpegc3knd667wn6m:
     resolution: {integrity: sha512-sh3jhFgEshFyJ/0IxGltRhwZv2kFKfJ3fN1vTZ6hhMXzz9ZbbcTgmDYM4e+zJv+oiVKKEWZPyqPAh4MQBI65gA==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@testing-library/react/-/react-12.0.0.tgz}
     id: registry.npmjs.org/@testing-library/react/12.0.0
     name: '@testing-library/react'
@@ -505,6 +579,11 @@ packages:
     peerDependencies:
       react: '*'
       react-dom: '*'
+    peerDependenciesMeta:
+      react:
+        optional: true
+      react-dom:
+        optional: true
     dependencies:
       '@babel/runtime': registry.npmjs.org/@babel/runtime/7.19.0
       '@testing-library/dom': registry.npmjs.org/@testing-library/dom/8.18.1
@@ -538,6 +617,15 @@ packages:
     version: 3.0.1
     dependencies:
       '@types/istanbul-lib-report': registry.npmjs.org/@types/istanbul-lib-report/3.0.0
+    dev: true
+
+  registry.npmjs.org/@types/jest/26.0.20:
+    resolution: {integrity: sha512-9zi2Y+5USJRxd0FsahERhBwlcvFh6D2GLQnY2FH2BzK8J9s9omvNHIbvABwIluXa0fD8XVKMLTO0aOEuUfACAA==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@types/jest/-/jest-26.0.20.tgz}
+    name: '@types/jest'
+    version: 26.0.20
+    dependencies:
+      jest-diff: registry.npmjs.org/jest-diff/26.6.2
+      pretty-format: registry.npmjs.org/pretty-format/26.6.2
     dev: true
 
   registry.npmjs.org/@types/jest/26.0.24:
@@ -639,17 +727,21 @@ packages:
       '@types/yargs-parser': registry.npmjs.org/@types/yargs-parser/21.0.0
     dev: true
 
-  registry.npmjs.org/@typescript-eslint/eslint-plugin/4.13.0_@typescript-eslint+parser@4.13.0:
+  registry.npmjs.org/@typescript-eslint/eslint-plugin/4.13.0_xacbc5ghh6tt6crnaio23vvpiq:
     resolution: {integrity: sha512-ygqDUm+BUPvrr0jrXqoteMqmIaZ/bixYOc3A4BRwzEPTZPi6E+n44rzNZWaB0YvtukgP+aoj0i/fyx7FkM2p1w==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@typescript-eslint/eslint-plugin/-/eslint-plugin-4.13.0.tgz}
     id: registry.npmjs.org/@typescript-eslint/eslint-plugin/4.13.0
     name: '@typescript-eslint/eslint-plugin'
     version: 4.13.0
     engines: {node: ^10.12.0 || >=12.0.0}
     peerDependencies:
-      '@typescript-eslint/parser': ^4.0.0
-      eslint: ^5.0.0 || ^6.0.0 || ^7.0.0
+      '@typescript-eslint/parser': '*'
+      eslint: '*'
       typescript: '*'
     peerDependenciesMeta:
+      '@typescript-eslint/parser':
+        optional: true
+      eslint:
+        optional: true
       typescript:
         optional: true
     dependencies:
@@ -672,10 +764,14 @@ packages:
     version: 4.29.3
     engines: {node: ^10.12.0 || >=12.0.0}
     peerDependencies:
-      '@typescript-eslint/parser': ^4.0.0
-      eslint: ^5.0.0 || ^6.0.0 || ^7.0.0
+      '@typescript-eslint/parser': '*'
+      eslint: '*'
       typescript: '*'
     peerDependenciesMeta:
+      '@typescript-eslint/parser':
+        optional: true
+      eslint:
+        optional: true
       typescript:
         optional: true
     dependencies:
@@ -697,6 +793,9 @@ packages:
     engines: {node: ^10.12.0 || >=12.0.0}
     peerDependencies:
       eslint: '*'
+    peerDependenciesMeta:
+      eslint:
+        optional: true
     dependencies:
       '@types/json-schema': registry.npmjs.org/@types/json-schema/7.0.11
       '@typescript-eslint/scope-manager': registry.npmjs.org/@typescript-eslint/scope-manager/4.13.0
@@ -716,6 +815,9 @@ packages:
     engines: {node: ^10.12.0 || >=12.0.0}
     peerDependencies:
       eslint: '*'
+    peerDependenciesMeta:
+      eslint:
+        optional: true
     dependencies:
       '@types/json-schema': registry.npmjs.org/@types/json-schema/7.0.11
       '@typescript-eslint/scope-manager': registry.npmjs.org/@typescript-eslint/scope-manager/4.29.3
@@ -735,6 +837,9 @@ packages:
     engines: {node: ^10.12.0 || >=12.0.0}
     peerDependencies:
       eslint: '*'
+    peerDependenciesMeta:
+      eslint:
+        optional: true
     dependencies:
       '@types/json-schema': registry.npmjs.org/@types/json-schema/7.0.11
       '@typescript-eslint/scope-manager': registry.npmjs.org/@typescript-eslint/scope-manager/4.33.0
@@ -753,9 +858,11 @@ packages:
     version: 4.13.0
     engines: {node: ^10.12.0 || >=12.0.0}
     peerDependencies:
-      eslint: ^5.0.0 || ^6.0.0 || ^7.0.0
+      eslint: '*'
       typescript: '*'
     peerDependenciesMeta:
+      eslint:
+        optional: true
       typescript:
         optional: true
     dependencies:
@@ -773,9 +880,11 @@ packages:
     version: 4.4.1
     engines: {node: ^10.12.0 || >=12.0.0}
     peerDependencies:
-      eslint: ^5.0.0 || ^6.0.0 || ^7.0.0
+      eslint: '*'
       typescript: '*'
     peerDependenciesMeta:
+      eslint:
+        optional: true
       typescript:
         optional: true
     dependencies:
@@ -1480,15 +1589,20 @@ packages:
     engines: {node: '>=0.8.0'}
     dev: false
 
-  registry.npmjs.org/eslint-config-airbnb-base/14.2.0_eslint-plugin-import@2.22.1:
+  registry.npmjs.org/eslint-config-airbnb-base/14.2.0_5r6sr333lc7gkp2zt7fcegg6vi:
     resolution: {integrity: sha512-Snswd5oC6nJaevs3nZoLSTvGJBvzTfnBqOIArkf3cbyTyq9UD79wOk8s+RiL6bhca0p/eRO6veczhf6A/7Jy8Q==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/eslint-config-airbnb-base/-/eslint-config-airbnb-base-14.2.0.tgz}
     id: registry.npmjs.org/eslint-config-airbnb-base/14.2.0
     name: eslint-config-airbnb-base
     version: 14.2.0
     engines: {node: '>= 6'}
     peerDependencies:
-      eslint: ^5.16.0 || ^6.8.0 || ^7.2.0
-      eslint-plugin-import: ^2.21.2
+      eslint: '*'
+      eslint-plugin-import: '*'
+    peerDependenciesMeta:
+      eslint:
+        optional: true
+      eslint-plugin-import:
+        optional: true
     dependencies:
       confusing-browser-globals: registry.npmjs.org/confusing-browser-globals/1.0.11
       eslint-plugin-import: registry.npmjs.org/eslint-plugin-import/2.22.1
@@ -1496,18 +1610,21 @@ packages:
       object.entries: registry.npmjs.org/object.entries/1.1.5
     dev: false
 
-  registry.npmjs.org/eslint-config-airbnb-typescript/12.0.0_1ba5e5e0b4d7b2a6f0e93c5490c5c8b1:
+  registry.npmjs.org/eslint-config-airbnb-typescript/12.0.0_dos6lyfu26zkn4hjhrkjbroiwe:
     resolution: {integrity: sha512-TUCVru1Z09eKnVAX5i3XoNzjcCOU3nDQz2/jQGkg1jVYm+25fKClveziSl16celfCq+npU0MBPW/ZnXdGFZ9lw==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/eslint-config-airbnb-typescript/-/eslint-config-airbnb-typescript-12.0.0.tgz}
     id: registry.npmjs.org/eslint-config-airbnb-typescript/12.0.0
     name: eslint-config-airbnb-typescript
     version: 12.0.0
     peerDependencies:
-      '@typescript-eslint/eslint-plugin': ^4.4.1
+      '@typescript-eslint/eslint-plugin': '*'
+    peerDependenciesMeta:
+      '@typescript-eslint/eslint-plugin':
+        optional: true
     dependencies:
-      '@typescript-eslint/eslint-plugin': registry.npmjs.org/@typescript-eslint/eslint-plugin/4.13.0_@typescript-eslint+parser@4.13.0
+      '@typescript-eslint/eslint-plugin': registry.npmjs.org/@typescript-eslint/eslint-plugin/4.13.0_xacbc5ghh6tt6crnaio23vvpiq
       '@typescript-eslint/parser': registry.npmjs.org/@typescript-eslint/parser/4.4.1
-      eslint-config-airbnb: registry.npmjs.org/eslint-config-airbnb/18.2.0_3b76da12beabbffa7ce5d9ffed8a7d19
-      eslint-config-airbnb-base: registry.npmjs.org/eslint-config-airbnb-base/14.2.0_eslint-plugin-import@2.22.1
+      eslint-config-airbnb: registry.npmjs.org/eslint-config-airbnb/18.2.0_hn3nuev6vo77u7hf3h763ct5de
+      eslint-config-airbnb-base: registry.npmjs.org/eslint-config-airbnb-base/14.2.0_5r6sr333lc7gkp2zt7fcegg6vi
     transitivePeerDependencies:
       - eslint
       - eslint-plugin-import
@@ -1518,20 +1635,31 @@ packages:
       - typescript
     dev: false
 
-  registry.npmjs.org/eslint-config-airbnb/18.2.0_3b76da12beabbffa7ce5d9ffed8a7d19:
+  registry.npmjs.org/eslint-config-airbnb/18.2.0_hn3nuev6vo77u7hf3h763ct5de:
     resolution: {integrity: sha512-Fz4JIUKkrhO0du2cg5opdyPKQXOI2MvF8KUvN2710nJMT6jaRUpRE2swrJftAjVGL7T1otLM5ieo5RqS1v9Udg==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/eslint-config-airbnb/-/eslint-config-airbnb-18.2.0.tgz}
     id: registry.npmjs.org/eslint-config-airbnb/18.2.0
     name: eslint-config-airbnb
     version: 18.2.0
     engines: {node: '>= 6'}
     peerDependencies:
-      eslint: ^5.16.0 || ^6.8.0 || ^7.2.0
-      eslint-plugin-import: ^2.21.2
-      eslint-plugin-jsx-a11y: ^6.3.0
-      eslint-plugin-react: ^7.20.0
-      eslint-plugin-react-hooks: ^4 || ^3 || ^2.3.0 || ^1.7.0
+      eslint: '*'
+      eslint-plugin-import: '*'
+      eslint-plugin-jsx-a11y: '*'
+      eslint-plugin-react: '*'
+      eslint-plugin-react-hooks: '*'
+    peerDependenciesMeta:
+      eslint:
+        optional: true
+      eslint-plugin-import:
+        optional: true
+      eslint-plugin-jsx-a11y:
+        optional: true
+      eslint-plugin-react:
+        optional: true
+      eslint-plugin-react-hooks:
+        optional: true
     dependencies:
-      eslint-config-airbnb-base: registry.npmjs.org/eslint-config-airbnb-base/14.2.0_eslint-plugin-import@2.22.1
+      eslint-config-airbnb-base: registry.npmjs.org/eslint-config-airbnb-base/14.2.0_5r6sr333lc7gkp2zt7fcegg6vi
       eslint-plugin-import: registry.npmjs.org/eslint-plugin-import/2.22.1
       eslint-plugin-jsx-a11y: registry.npmjs.org/eslint-plugin-jsx-a11y/6.4.1
       eslint-plugin-react: registry.npmjs.org/eslint-plugin-react/7.25.1
@@ -1556,7 +1684,10 @@ packages:
     version: 1.17.1
     engines: {node: '>=10.0.0'}
     peerDependencies:
-      eslint: '>=5.0.0'
+      eslint: '*'
+    peerDependenciesMeta:
+      eslint:
+        optional: true
     dependencies:
       cosmiconfig: registry.npmjs.org/cosmiconfig/7.0.1
       remark-mdx: registry.npmjs.org/remark-mdx/1.6.22
@@ -1568,7 +1699,7 @@ packages:
       - supports-color
     dev: false
 
-  registry.npmjs.org/eslint-module-utils/2.7.4_a2e9ad6bb1d60475ebc0dfc5e76a2549:
+  registry.npmjs.org/eslint-module-utils/2.7.4_ulu2225r2ychl26a37c6o2rfje:
     resolution: {integrity: sha512-j4GT+rqzCoRKHwURX7pddtIPGySnX9Si/cgMI5ztrcqOPtk5dDEeZ34CQVPphnqkJytlc97Vuk05Um2mJ3gEQA==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/eslint-module-utils/-/eslint-module-utils-2.7.4.tgz}
     id: registry.npmjs.org/eslint-module-utils/2.7.4
     name: eslint-module-utils
@@ -1605,9 +1736,11 @@ packages:
     engines: {node: '>=4'}
     peerDependencies:
       '@typescript-eslint/parser': '*'
-      eslint: ^2 || ^3 || ^4 || ^5 || ^6 || ^7.2.0
+      eslint: '*'
     peerDependenciesMeta:
       '@typescript-eslint/parser':
+        optional: true
+      eslint:
         optional: true
     dependencies:
       array-includes: registry.npmjs.org/array-includes/3.1.5
@@ -1616,7 +1749,7 @@ packages:
       debug: registry.npmjs.org/debug/2.6.9
       doctrine: registry.npmjs.org/doctrine/1.5.0
       eslint-import-resolver-node: registry.npmjs.org/eslint-import-resolver-node/0.3.6
-      eslint-module-utils: registry.npmjs.org/eslint-module-utils/2.7.4_a2e9ad6bb1d60475ebc0dfc5e76a2549
+      eslint-module-utils: registry.npmjs.org/eslint-module-utils/2.7.4_ulu2225r2ychl26a37c6o2rfje
       has: registry.npmjs.org/has/1.0.3
       minimatch: registry.npmjs.org/minimatch/3.1.2
       object.values: registry.npmjs.org/object.values/1.1.5
@@ -1629,17 +1762,19 @@ packages:
       - supports-color
     dev: false
 
-  registry.npmjs.org/eslint-plugin-jest/24.4.0_f56de5161e43747d9d82fcdf1d245b16:
+  registry.npmjs.org/eslint-plugin-jest/24.4.0_6vw6kfq6in2h3hmc7tpr2jc3cy:
     resolution: {integrity: sha512-8qnt/hgtZ94E9dA6viqfViKBfkJwFHXgJmTWlMGDgunw1XJEGqm3eiPjDsTanM3/u/3Az82nyQM9GX7PM/QGmg==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/eslint-plugin-jest/-/eslint-plugin-jest-24.4.0.tgz}
     id: registry.npmjs.org/eslint-plugin-jest/24.4.0
     name: eslint-plugin-jest
     version: 24.4.0
     engines: {node: '>=10'}
     peerDependencies:
-      '@typescript-eslint/eslint-plugin': '>= 4'
-      eslint: '>=5'
+      '@typescript-eslint/eslint-plugin': '*'
+      eslint: '*'
     peerDependenciesMeta:
       '@typescript-eslint/eslint-plugin':
+        optional: true
+      eslint:
         optional: true
     dependencies:
       '@typescript-eslint/eslint-plugin': registry.npmjs.org/@typescript-eslint/eslint-plugin/4.29.3
@@ -1655,7 +1790,10 @@ packages:
     version: 6.4.1
     engines: {node: '>=4.0'}
     peerDependencies:
-      eslint: ^3 || ^4 || ^5 || ^6 || ^7
+      eslint: '*'
+    peerDependenciesMeta:
+      eslint:
+        optional: true
     dependencies:
       '@babel/runtime': registry.npmjs.org/@babel/runtime/7.19.0
       aria-query: registry.npmjs.org/aria-query/4.2.2
@@ -1676,7 +1814,10 @@ packages:
     version: 2.2.1
     engines: {node: ^8.10.0 || ^10.12.0 || >= 12.0.0}
     peerDependencies:
-      eslint: '>=6.0.0'
+      eslint: '*'
+    peerDependenciesMeta:
+      eslint:
+        optional: true
     dependencies:
       mdast-util-from-markdown: registry.npmjs.org/mdast-util-from-markdown/0.8.5
     transitivePeerDependencies:
@@ -1689,7 +1830,10 @@ packages:
     version: 1.15.0
     engines: {node: '>=10.0.0'}
     peerDependencies:
-      eslint: '>=5.0.0'
+      eslint: '*'
+    peerDependenciesMeta:
+      eslint:
+        optional: true
     dependencies:
       eslint-mdx: registry.npmjs.org/eslint-mdx/1.17.1
       eslint-plugin-markdown: registry.npmjs.org/eslint-plugin-markdown/2.2.1
@@ -1706,7 +1850,10 @@ packages:
     version: 7.25.1
     engines: {node: '>=4'}
     peerDependencies:
-      eslint: ^3 || ^4 || ^5 || ^6 || ^7
+      eslint: '*'
+    peerDependenciesMeta:
+      eslint:
+        optional: true
     dependencies:
       array-includes: registry.npmjs.org/array-includes/3.1.5
       array.prototype.flatmap: registry.npmjs.org/array.prototype.flatmap/1.3.0
@@ -1748,7 +1895,10 @@ packages:
     version: 3.0.0
     engines: {node: ^10.0.0 || ^12.0.0 || >= 14.0.0}
     peerDependencies:
-      eslint: '>=5'
+      eslint: '*'
+    peerDependenciesMeta:
+      eslint:
+        optional: true
     dependencies:
       eslint-visitor-keys: registry.npmjs.org/eslint-visitor-keys/2.1.0
     dev: false
@@ -2752,7 +2902,10 @@ packages:
     name: react-dom
     version: 17.0.2
     peerDependencies:
-      react: 17.0.2
+      react: '*'
+    peerDependenciesMeta:
+      react:
+        optional: true
     dependencies:
       loose-envify: registry.npmjs.org/loose-envify/1.4.0
       object-assign: registry.npmjs.org/object-assign/4.1.1
@@ -3195,7 +3348,10 @@ packages:
     version: 3.21.0
     engines: {node: '>= 6'}
     peerDependencies:
-      typescript: '>=2.8.0 || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.6.0-beta || >= 3.7.0-dev || >= 3.7.0-beta'
+      typescript: '*'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
     dependencies:
       tslib: registry.npmjs.org/tslib/1.14.1
     dev: false
@@ -3225,6 +3381,7 @@ packages:
     name: unified
     version: 9.2.0
     dependencies:
+      '@types/unist': registry.npmjs.org/@types/unist/2.0.6
       bail: registry.npmjs.org/bail/1.0.5
       extend: registry.npmjs.org/extend/3.0.2
       is-buffer: registry.npmjs.org/is-buffer/2.0.5
@@ -3238,6 +3395,7 @@ packages:
     name: unified
     version: 9.2.2
     dependencies:
+      '@types/unist': registry.npmjs.org/@types/unist/2.0.6
       bail: registry.npmjs.org/bail/1.0.5
       extend: registry.npmjs.org/extend/3.0.2
       is-buffer: registry.npmjs.org/is-buffer/2.0.5

@@ -21,5 +21,11 @@
         "mainFile": "index.ts",
         "rootDir": "form-extendable/generator/typescript"
     },
-    "$schema-version": "14.9.0"
+    "lib": {
+        "scope": "",
+        "version": "",
+        "mainFile": "index.ts",
+        "rootDir": "form-extendable/lib"
+    },
+    "$schema-version": "15.0.0"
 }
