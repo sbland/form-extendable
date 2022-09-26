@@ -29,6 +29,12 @@
      **/
     "defaultScope": "form-extendable"
   },
+  "teambit.generator/generator": {
+    "aspects": [
+      "form-extendable/generator/typescript"
+    ]
+  },
+  "form-extendable/generator/typescript": {},
   /**
    * main configuration for component dependency resolution.
    **/
@@ -46,7 +52,9 @@
         "eslint-plugin-jest": "24.4.0",
         "eslint-plugin-jsx-a11y": "6.4.1",
         "eslint-plugin-mdx": "1.15.0",
-        "eslint-plugin-react": "7.25.1"
+        "eslint-plugin-react": "7.25.1",
+        "lodash": "4.17.21",
+        "prop-types": "15.8.1"
       },
       "peerDependencies": {
         "@testing-library/react": "12.0.0",

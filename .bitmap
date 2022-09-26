@@ -11,15 +11,15 @@
 {
     "components/form": {
         "scope": "",
-        "version": "",
+        "version": "0.0.1",
         "mainFile": "index.ts",
-        "rootDir": "form-extendable/components/form",
-        "config": {
-            "teambit.react/react": {},
-            "teambit.envs/envs": {
-                "env": "teambit.react/react"
-            }
-        }
+        "rootDir": "form-extendable/components/form"
+    },
+    "generator/typescript": {
+        "scope": "",
+        "version": "0.0.1",
+        "mainFile": "index.ts",
+        "rootDir": "form-extendable/generator/typescript"
     },
     "$schema-version": "14.9.0"
 }
