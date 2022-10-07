@@ -9,11 +9,161 @@
  */
 
 {
-    "components/form": {
+    "component": {
         "scope": "",
-        "version": "0.0.1",
+        "version": "",
         "mainFile": "index.ts",
-        "rootDir": "form-extendable/components/form"
+        "rootDir": "form-extendable/component",
+        "config": {
+            "teambit.react/react": {},
+            "teambit.envs/envs": {
+                "env": "teambit.react/react"
+            }
+        }
+    },
+    "components/component-map": {
+        "scope": "",
+        "version": "",
+        "mainFile": "index.ts",
+        "rootDir": "form-extendable/components/component-map",
+        "config": {
+            "teambit.react/react": {},
+            "teambit.envs/envs": {
+                "env": "teambit.react/react"
+            }
+        }
+    },
+    "fields/field-bool": {
+        "scope": "",
+        "version": "",
+        "mainFile": "index.ts",
+        "rootDir": "form-extendable/fields/field-bool",
+        "config": {
+            "teambit.react/react": {},
+            "teambit.envs/envs": {
+                "env": "teambit.react/react"
+            }
+        }
+    },
+    "fields/field-date": {
+        "scope": "",
+        "version": "",
+        "mainFile": "index.ts",
+        "rootDir": "form-extendable/fields/field-date",
+        "config": {
+            "teambit.react/react": {},
+            "teambit.envs/envs": {
+                "env": "teambit.react/react"
+            }
+        }
+    },
+    "fields/field-file": {
+        "scope": "",
+        "version": "",
+        "mainFile": "index.ts",
+        "rootDir": "form-extendable/fields/field-file",
+        "config": {
+            "teambit.react/react": {},
+            "teambit.envs/envs": {
+                "env": "teambit.react/react"
+            }
+        }
+    },
+    "fields/field-multi-select": {
+        "scope": "",
+        "version": "",
+        "mainFile": "index.ts",
+        "rootDir": "form-extendable/fields/field-multi-select",
+        "config": {
+            "teambit.react/react": {},
+            "teambit.envs/envs": {
+                "env": "teambit.react/react"
+            }
+        }
+    },
+    "fields/field-number": {
+        "scope": "",
+        "version": "",
+        "mainFile": "index.ts",
+        "rootDir": "form-extendable/fields/field-number",
+        "config": {
+            "teambit.react/react": {},
+            "teambit.envs/envs": {
+                "env": "teambit.react/react"
+            }
+        }
+    },
+    "fields/field-object-ref": {
+        "scope": "",
+        "version": "",
+        "mainFile": "index.ts",
+        "rootDir": "form-extendable/fields/field-object-ref",
+        "config": {
+            "teambit.react/react": {},
+            "teambit.envs/envs": {
+                "env": "teambit.react/react"
+            }
+        }
+    },
+    "fields/field-read-only": {
+        "scope": "",
+        "version": "",
+        "mainFile": "index.ts",
+        "rootDir": "form-extendable/fields/field-read-only",
+        "config": {
+            "teambit.react/react": {},
+            "teambit.envs/envs": {
+                "env": "teambit.react/react"
+            }
+        }
+    },
+    "fields/field-select": {
+        "scope": "",
+        "version": "",
+        "mainFile": "index.ts",
+        "rootDir": "form-extendable/fields/field-select",
+        "config": {
+            "teambit.react/react": {},
+            "teambit.envs/envs": {
+                "env": "teambit.react/react"
+            }
+        }
+    },
+    "fields/field-select-search": {
+        "scope": "",
+        "version": "",
+        "mainFile": "index.ts",
+        "rootDir": "form-extendable/fields/field-select-search",
+        "config": {
+            "teambit.react/react": {},
+            "teambit.envs/envs": {
+                "env": "teambit.react/react"
+            }
+        }
+    },
+    "fields/field-text": {
+        "scope": "",
+        "version": "",
+        "mainFile": "index.ts",
+        "rootDir": "form-extendable/fields/field-text",
+        "config": {
+            "teambit.react/react": {},
+            "teambit.envs/envs": {
+                "env": "teambit.react/react"
+            }
+        }
+    },
+    "fields/field-text-area": {
+        "scope": "",
+        "version": "",
+        "mainFile": "index.ts",
+        "rootDir": "form-extendable/fields/field-text-area",
+        "config": {
+            "teambit.react/react": {},
+            "teambit.envs/envs": {
+                "env": "teambit.react/react"
+            }
+        }
     },
     "generator/typescript": {
         "scope": "",
@@ -26,6 +176,30 @@
         "version": "",
         "mainFile": "index.ts",
         "rootDir": "form-extendable/lib"
+    },
+    "styles": {
+        "scope": "",
+        "version": "",
+        "mainFile": "index.ts",
+        "rootDir": "form-extendable/styles",
+        "config": {
+            "teambit.react/react": {},
+            "teambit.envs/envs": {
+                "env": "teambit.react/react"
+            }
+        }
+    },
+    "utils": {
+        "scope": "",
+        "version": "",
+        "mainFile": "index.ts",
+        "rootDir": "form-extendable/utils",
+        "config": {
+            "teambit.react/react": {},
+            "teambit.envs/envs": {
+                "env": "teambit.react/react"
+            }
+        }
     },
     "$schema-version": "15.0.0"
 }

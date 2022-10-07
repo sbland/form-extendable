@@ -1,22 +1,29 @@
-import { IHeading } from './IHeading';
+import { THeading } from './IHeading';
 
-export interface IFieldProps<T extends unknown> {
-  heading: IHeading<T>;
-  value: T;
-  onChange: (v: T) => void;
+export interface IFieldProps<V extends unknown> {
+  heading: THeading<V>;
+  value: V;
+  onChange: (v: V) => void;
   additionalData: any;
 }
 
-export interface IFieldComponentProps<T extends unknown>
-  extends Omit<React.HTMLProps<HTMLInputElement>, 'defaultValue' | 'value' | 'onChange'> {
+export interface IFieldComponentProps<V = unknown>
+  extends Omit<
+    React.HTMLProps<HTMLInputElement>,
+    'defaultValue' | 'value' | 'onChange' | 'type'
+  > {
   uid: string;
   unit?: string;
-  value: T;
-  onChange: (v: T) => void;
-  additionalData: any;
+  value: V | null;
+  onChange: (v: V | null) => void;
+  additionalData?: any;
   inputTypeOverride?: '';
-  useArea?: boolean;
   required?: boolean;
   disableAutofill?: boolean;
-  defaultValue?: T;
+  defaultValue?: V;
+  label: string;
 }
+
+export type TFieldComponentPropsAll<V, H extends THeading<V>> = React.FC<
+  IFieldComponentProps<V> & H
+>;

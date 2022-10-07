@@ -1,0 +1,117 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+import { MultiSelectDropdown } from '@react_db_client/components.form.form-components.multi-select-dropdown';
+import { BubbleSelector } from '@react_db_client/components.form.form-components.bubble-selector';
+import {
+  IFieldComponentProps,
+  IHeadingSelectMulti,
+  IOpt,
+  TMultiSelectValue,
+} from '@form-extendable/lib';
+
+export type TFIeldMultiSelect = IFieldComponentProps<TMultiSelectValue> &
+  IHeadingSelectMulti;
+
+export const FieldMultiSelect = ({
+  uid,
+  unit,
+  onChange,
+  value,
+  options,
+  required,
+  asDropdown,
+  selectType,
+  ...additionalProps
+}: TFIeldMultiSelect) => {
+  const currentSelection: (string | number)[] = React.useMemo(() => {
+    if (!value) return [];
+    if (typeof value === 'string' || typeof value === 'number') return [value];
+    if (Array.isArray(value))
+      return value
+        .map((v: number | string | IOpt) => {
+          if (typeof v === 'string' || typeof v === 'number') return v;
+          if (typeof v === 'object') return v.uid;
+          return null;
+        })
+        .filter((v) => v) as (string | number)[];
+    if (typeof value === 'object' && value.uid) return [value.uid];
+    return [] as string[];
+  }, [value]);
+
+  if (asDropdown && selectType === 'dropdown') {
+    return (
+      <>
+        <MultiSelectDropdown
+          activeSelection={currentSelection || []}
+          updateActiveSelection={(newVal) => onChange(newVal)}
+          options={options}
+          selectButtonProps={{
+            id: `${uid}-input`,
+            'aria-labelledby': `${uid}-label`,
+          }}
+          // required={required} // TODO: Implement required on multi select dropdown
+          {...additionalProps}
+        />
+        {unit && <span>{unit}</span>}
+      </>
+    );
+  }
+
+  if (selectType === 'showall') {
+    return (
+      <>
+        <BubbleSelector
+          activeSelection={value || []}
+          updateActiveSelection={(newVal) => onChange(newVal)}
+          options={options}
+          {...additionalProps}
+        />
+        {unit && <span>{unit}</span>}
+      </>
+    );
+  }
+  if (!asDropdown || selectType === 'hideunselected') {
+    return (
+      <>
+        <BubbleSelector
+          activeSelection={value || []}
+          updateActiveSelection={(newVal) => onChange(newVal)}
+          options={options}
+          isSorted
+          {...additionalProps}
+        />
+        {unit && <span>{unit}</span>}
+      </>
+    );
+  }
+  return (
+    <>
+      Invalid select type
+      {selectType}
+    </>
+  );
+};
+
+FieldMultiSelect.propTypes = {
+  uid: PropTypes.string.isRequired,
+  unit: PropTypes.string,
+  value: PropTypes.arrayOf(PropTypes.string),
+  onChange: PropTypes.func.isRequired,
+  options: PropTypes.arrayOf(
+    PropTypes.shape({
+      uid: PropTypes.string.isRequired,
+      label: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+  required: PropTypes.bool,
+  asDropdown: PropTypes.bool,
+  selectType: PropTypes.oneOf(['dropdown', 'showall', 'hideunselected']),
+};
+
+FieldMultiSelect.defaultProps = {
+  unit: '',
+  value: [],
+  required: false,
+  asDropdown: true,
+  selectType: 'dropdown',
+} as Partial<React.ComponentProps<typeof FieldMultiSelect>>;
