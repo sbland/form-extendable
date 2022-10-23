@@ -5,3 +5,5 @@ import { Form } from './form';
 export const BasicForm = () => (
   <Form {...defaultProps} onSubmit={(data) => console.info(data)} />
 );
+
+BasicForm.waitForReady = async () => {};

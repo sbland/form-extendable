@@ -12,6 +12,8 @@ const parseInput = (value) =>
     ? ''
     : Number(value);
 
+export type TFieldNumberProps = IFieldComponentProps<number> & IHeadingNumber;
+
 export const FieldNumber = ({
   uid,
   unit,
@@ -22,7 +24,7 @@ export const FieldNumber = ({
   onChange,
   value: valueIn,
   required,
-}: IFieldComponentProps<number> & IHeadingNumber) => {
+}: TFieldNumberProps) => {
   const ref = useRef<HTMLInputElement>(null);
   const value = parseInput(valueIn);
 

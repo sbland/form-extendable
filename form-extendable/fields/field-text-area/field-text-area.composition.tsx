@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
-import {
-  CompositionWrapDefault,
-  WrapFieldComponent,
-} from '@react_db_client/helpers.composition-wraps';
+import { CompositionWrapDefault } from '@react_db_client/helpers.composition-wraps';
+import { WrapFieldComponent } from '@form-extendable/composition-helpers';
 import { FieldTextArea, TFieldTextAreaProps } from './field-text-area';
 import { defaultVal } from './demo-data';
 import { EFilterType } from '@react_db_client/constants.client-types';

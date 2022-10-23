@@ -1,8 +1,12 @@
 import React from 'react';
-import { EFilterType } from '@react_db_client/constants.client-types';
+import {
+  EFileType,
+  EFilterType,
+  FilterObjectClass,
+  IFile,
+} from '@react_db_client/constants.client-types';
 import {
   IFieldComponentProps,
-  IFile,
   IPopupProps,
   TComponentMap,
 } from '@form-extendable/lib';
@@ -28,19 +32,26 @@ export const failAll = Object.values(EFilterType).reduce(
 ) as TComponentMap;
 
 export interface IDefaultComponentMapProps {
-  asyncGetDocuments?: () => Promise<any[]>;
+  asyncGetFiles?: (filters?: FilterObjectClass[]) => Promise<any[]>;
+  asyncFileUpload?: (
+    data: File,
+    fileType: EFileType,
+    callback: () => void
+  ) => Promise<void>;
   fileServerUrl?: string;
   PopupPanel?: React.FC<IPopupProps>;
 }
 
-export const defaultComponentMap = <V,>({
-  asyncGetDocuments = async () => {
-    throw Error('Missing asyncGetDocuments prop');
+export const defaultComponentMap = ({
+  asyncFileUpload = async () => {
+    throw Error('Missing asyncFileUpload prop');
+  },
+  asyncGetFiles = async () => {
+    throw Error('Missing asyncGetFiles prop');
   },
   fileServerUrl = 'MISSING_FILE_SERVER_URL',
   PopupPanel = ({ children }) => <>{children}</>,
-}: // additionalComponents:
-IDefaultComponentMapProps = {}): TComponentMap => {
+}: IDefaultComponentMapProps = {}): TComponentMap => {
   return {
     [EFilterType.uid]: () => allowReadOnly(FieldText),
     [EFilterType.text]: () => allowReadOnly(FieldText),
@@ -53,7 +64,8 @@ IDefaultComponentMapProps = {}): TComponentMap => {
           onChange={(v) => props.onChange(v as IFile | null)}
           PopupPanel={PopupPanel}
           fileServerUrl={fileServerUrl}
-          asyncGetDocuments={asyncGetDocuments}
+          asyncGetFiles={asyncGetFiles}
+          asyncFileUpload={asyncFileUpload}
         />
       )),
     [EFilterType.fileMultiple]: () =>
@@ -63,7 +75,8 @@ IDefaultComponentMapProps = {}): TComponentMap => {
           onChange={(v) => props.onChange(v as IFile[] | null)}
           PopupPanel={PopupPanel}
           fileServerUrl={fileServerUrl}
-          asyncGetDocuments={asyncGetDocuments}
+          asyncGetFiles={asyncGetFiles}
+          asyncFileUpload={asyncFileUpload}
         />
       )),
     [EFilterType.image]: () =>
@@ -73,7 +86,8 @@ IDefaultComponentMapProps = {}): TComponentMap => {
           onChange={(v) => props.onChange(v as IFile | null)}
           fileServerUrl={fileServerUrl}
           PopupPanel={PopupPanel}
-          asyncGetDocuments={asyncGetDocuments}
+          asyncGetFiles={asyncGetFiles}
+          asyncFileUpload={asyncFileUpload}
         />
       )),
     [EFilterType.textLong]: () => allowReadOnly(FieldTextArea),
@@ -95,7 +109,7 @@ IDefaultComponentMapProps = {}): TComponentMap => {
           <FieldSelectSearch
             {...props}
             searchFn={searchFnReference(
-              asyncGetDocuments,
+              asyncGetFiles,
               props.collection,
               '_id',
               props.labelField
@@ -108,7 +122,7 @@ IDefaultComponentMapProps = {}): TComponentMap => {
           <FieldSelectSearch
             {...props}
             searchFn={searchFnReference(
-              asyncGetDocuments,
+              asyncGetFiles,
               props.collection,
               '_id',
               props.labelField

@@ -22,10 +22,13 @@ import {
   editValue as editSelectValue,
   THeadingTypes as THeadingTypesSelect,
 } from '@form-extendable/fields.field-select-search';
+import * as compositions from './form.composition';
 
 const onSubmit = jest.fn();
 const errorCallback = jest.fn();
-const asyncGetDocuments = jest.fn();
+// TODO: We shouldn't be calling this on init
+const asyncGetFiles = jest.fn().mockImplementation(async () => []);
+const asyncFileUpload = jest.fn().mockImplementation(async () => {});
 
 beforeEach(() => {
   jest.clearAllMocks();
@@ -51,7 +54,8 @@ const CustomFieldType: React.FC<
 const componentMap = {
   [demoCustomTypeHeading.type]: () => CustomFieldType,
   ...defaultComponentMap({
-    asyncGetDocuments,
+    asyncGetFiles,
+    asyncFileUpload,
     fileServerUrl,
   }),
 };
@@ -163,6 +167,15 @@ const fillInForm = async (formEl, data: TFormData) => {
 };
 
 describe('Form Main Component', () => {
+  describe('Compositions', () => {
+    Object.entries(compositions).forEach(([name, Composition]) => {
+      test(name, async () => {
+        render(<Composition />);
+        if (Composition.waitForReady) await Composition.waitForReady();
+      });
+    });
+  });
+
   describe('Demo Data', () => {
     test('should have all field types in demo headings', () => {
       expect(new Set(demoHeadingsData.map((h) => h.type))).toEqual(

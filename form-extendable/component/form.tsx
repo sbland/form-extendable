@@ -5,11 +5,11 @@ import cloneDeep from 'lodash/cloneDeep';
 import { Emoji } from '@react_db_client/components.emoji';
 import { TComponentMap, TFormData, THeading } from '@form-extendable/lib';
 import { formValidation, IValidationError } from '@form-extendable/utils';
-import { defaultComponentMap } from '@form-extendable/components.component-map';
 import { FormStyled } from '@form-extendable/styles';
 
 import { FormField as DefaultFormField } from './form-field';
 import { FormInputs } from './form-inputs';
+import { defaultComponentMap } from '@form-extendable/components.component-map';
 
 export interface IFormSubmit {
   formEditData: TFormData;
@@ -19,7 +19,7 @@ export interface IFormSubmit {
 export interface IFormProps {
   FormField?: typeof DefaultFormField;
   formDataInitial?: TFormData;
-  headings: THeading[];
+  headings: THeading<any>[];
   onSubmit: (submissionData: IFormSubmit) => void;
   onChange?: (field: string, value: any, newFormData: TFormData) => void;
   showEndBtns?: boolean;
@@ -68,7 +68,7 @@ export const Form = ({
   endButtonRefOverride,
   errorCallback,
   additionalData,
-  componentMap,
+  componentMap=defaultComponentMap(),
 }: IFormProps) => {
   const [formEditData, setFormEditData] = useState({});
   const [endButtonContainerRef, setEndButtonContainerRef] =

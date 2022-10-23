@@ -1,10 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  IFieldComponentProps,
-  IHeading,
-  IHeadingDate,
-} from '@form-extendable/lib';
+import { IFieldComponentProps, IHeadingDate } from '@form-extendable/lib';
 
 export const FieldDate: React.FC<
   IFieldComponentProps<string | number | Date> &

@@ -1,10 +1,12 @@
 import {
+  EFileType,
   EFilterType,
   FilterObjectClass,
+  IFile,
+  Uid,
 } from '@react_db_client/constants.client-types';
-import { IFile } from './IFile';
 import { IObj } from './IObj';
-import { IOpt, Uid } from './IOpt';
+import { IOpt } from './IOpt';
 
 /* These are filter types that do not have a type */
 export type GenericFilterTypes = EFilterType.bool | EFilterType.button;
@@ -19,7 +21,8 @@ export interface IHeading<T = unknown> {
   defaultValue?: T;
 }
 
-export interface IHeadingNumber<T extends number = number> extends IHeading<T> {
+export interface IHeadingNumber<T extends number | string = number>
+  extends IHeading<T> {
   type: EFilterType.number;
   min?: number;
   max?: number;
@@ -28,7 +31,7 @@ export interface IHeadingNumber<T extends number = number> extends IHeading<T> {
 
 export interface IHeadingDate<T extends Date | number | string>
   extends IHeading<T> {
-  type: EFilterType.number;
+  type: EFilterType.date;
   min?: number;
   max?: number;
 }
@@ -39,7 +42,7 @@ export interface IHeadingBool<T extends boolean = boolean> extends IHeading<T> {
   useToggle?: boolean;
 }
 
-export interface IHeadingSelect<T extends string = Uid> extends IHeading<T> {
+export interface IHeadingSelect<T extends Uid = Uid> extends IHeading<T> {
   type: EFilterType.select | EFilterType.selectMulti;
   options: {
     uid: Uid;
@@ -110,15 +113,15 @@ export interface IHeadingReferenceMulti<T extends IObj>
 
 export interface IHeadingFile<T extends IFile | IFile[]> extends IHeading<T> {
   type: EFilterType.file | EFilterType.fileMultiple;
-  collectionId: string;
-  documentId: string;
-  fileType: '*' | 'document' | 'image';
+  // collectionId: string;
+  // documentId: string;
+  fileType: EFileType;
 }
 
 export interface IHeadingImage<T = unknown> extends IHeading<T> {
   type: EFilterType.image;
-  collectionId: string;
-  documentId: string;
+  // collectionId: string;
+  // documentId: string;
   fileType: 'image';
 }
 

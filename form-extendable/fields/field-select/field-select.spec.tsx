@@ -33,11 +33,4 @@ describe('Field Select', () => {
       });
     });
   });
-  describe('shallow renders', () => {
-    test('Matches Snapshot', () => {
-      render(<FieldSelect {...defaultProps} />);
-      const tree = screen.debug();
-      expect(tree).toMatchSnapshot();
-    });
-  });
 });

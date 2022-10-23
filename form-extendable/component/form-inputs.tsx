@@ -7,7 +7,7 @@ import { IHeadingEmbedded, TComponentMap, TFormData, THeading } from '@form-exte
 
 export interface IFormInputsProps {
   FormField: typeof DefaultFormField;
-  headings: THeading<unknown>[];
+  headings: THeading<any>[];
   formData: TFormData;
   onFormInputChange: (uid: string, val: any) => void;
   orientation: 'horiz' | 'vert';

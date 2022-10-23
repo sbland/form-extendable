@@ -1,5 +1,5 @@
+import { Uid } from "@react_db_client/constants.client-types";
 
-export type Uid = string;
 export interface IOpt {
   uid: Uid;
   label: string;

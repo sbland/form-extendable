@@ -1,9 +1,9 @@
 import { THeading } from './IHeading';
 
-export interface IFieldProps<V extends unknown> {
-  heading: THeading<V>;
+export interface IFieldProps<V = unknown, H extends THeading<V> = THeading<V>> {
+  heading: H;
   value: V;
-  onChange: (v: V) => void;
+  onChange: (v: V | null) => void;
   additionalData: any;
 }
 
@@ -24,6 +24,6 @@ export interface IFieldComponentProps<V = unknown>
   label: string;
 }
 
-export type TFieldComponentPropsAll<V, H extends THeading<V>> = React.FC<
+export type TFieldReactComponent<V, H extends THeading<V>> = React.FC<
   IFieldComponentProps<V> & H
 >;

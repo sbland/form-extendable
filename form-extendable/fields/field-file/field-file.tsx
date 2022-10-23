@@ -1,25 +1,39 @@
 // TODO: The types in this file need checking
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
+import { Emoji } from '@react_db_client/components.emoji';
 import { FileManager } from '@react_db_client/components.file-manager';
-import { ItemList } from '@react_db_client/components.item-list';
+import {
+  EItemTypes,
+  EViewTypes,
+  IItemButton,
+  IItemImage,
+  ItemList,
+} from '@react_db_client/components.item-list';
+import {
+  EFileType,
+  FilterObjectClass,
+  IFile,
+  Uid,
+} from '@react_db_client/constants.client-types';
 import {
   IFieldComponentProps,
-  IFile,
   IHeadingFile,
   IPopupProps,
 } from '@form-extendable/lib';
-import { FilterObjectClass } from '@react_db_client/constants.client-types';
 
 export interface IFieldFileProps<V extends IFile | IFile[]>
   extends IFieldComponentProps<V>,
     IHeadingFile<V> {
   fileServerUrl: string;
-  asyncGetDocuments: (filters: FilterObjectClass[]) => Promise<IFile[]>;
+  asyncGetFiles: (filters?: FilterObjectClass[]) => Promise<IFile[]>;
+  asyncFileUpload: (
+    data: File,
+    fileType: EFileType,
+    callback: () => void
+  ) => Promise<void>;
   PopupPanel: React.FC<IPopupProps>;
 }
-
-export type Foo = IFieldFileProps<IFile>['onChange'];
 
 /**
  * Form component file field
@@ -31,12 +45,13 @@ export const FieldFile: React.FC<IFieldFileProps<IFile | IFile[]>> = ({
   uid,
   multiple,
   onChange,
-  collectionId,
-  documentId,
+  // collectionId,
+  // documentId,
   fileType,
   value,
   fileServerUrl,
-  asyncGetDocuments,
+  asyncGetFiles,
+  asyncFileUpload,
   // TODO: Add required check
   // required,
   PopupPanel,
@@ -47,18 +62,24 @@ export const FieldFile: React.FC<IFieldFileProps<IFile | IFile[]>> = ({
   )
     throw Error(`Value must be file type. Got ${value}`);
 
-  const [fileList, setFileList] = useState<IFile[]>(() =>
-    value && Array.isArray(value) ? value : (value && [value]) || []
+  const [fileListRaw, setFileList] = useState(value);
+
+  const fileList = React.useMemo(
+    () =>
+      fileListRaw && Array.isArray(fileListRaw)
+        ? fileListRaw
+        : (fileListRaw && [fileListRaw]) || [],
+    []
   );
   const [showFileSelectionPanel, setShowFileSelectionPanel] = useState(false);
 
-  useEffect(() => {
-    setFileList(
-      value && Array.isArray(value) ? value : (value && [value]) || []
-    );
-  }, [value]);
+  // useEffect(() => {
+  //   setFileList(
+  //     value && Array.isArray(value) ? value : (value && [value]) || []
+  //   );
+  // }, [value]);
 
-  const handleSelected = (file: IFile, fileData: IFile | IFile[]) => {
+  const handleSelected = (fileData: IFile | IFile[] | null) => {
     const newFileList = multiple
       ? [...fileList, ...(fileData as IFile[])]
       : [fileData as IFile];
@@ -77,7 +98,7 @@ export const FieldFile: React.FC<IFieldFileProps<IFile | IFile[]>> = ({
     onChange && onChange(newData);
   };
 
-  const filesData = useMemo(
+  const filesData: (IItemImage | IItemButton)[] = useMemo(
     () =>
       fileList &&
       fileList
@@ -85,7 +106,8 @@ export const FieldFile: React.FC<IFieldFileProps<IFile | IFile[]>> = ({
         .map((file) => ({
           uid: file.uid || file.name,
           label: file.name,
-          type: fileType === 'image' ? 'image' : 'button',
+          type:
+            fileType === EFileType.IMAGE ? EItemTypes.IMAGE : EItemTypes.BUTTON,
           src: `${fileServerUrl}/${file.filePath}`,
         })),
     [fileList, fileType]
@@ -100,12 +122,11 @@ export const FieldFile: React.FC<IFieldFileProps<IFile | IFile[]>> = ({
       >
         <FileManager
           handleSelect={handleSelected}
-          collectionId={collectionId}
-          documentId={documentId}
           fileType={fileType}
           allowMultiple={multiple}
-          asyncGetDocuments={asyncGetDocuments}
+          asyncGetFiles={asyncGetFiles}
           fileServerUrl={fileServerUrl}
+          asyncFileUpload={asyncFileUpload}
         />
       </PopupPanel>
       <div className="FieldFile">
@@ -121,14 +142,15 @@ export const FieldFile: React.FC<IFieldFileProps<IFile | IFile[]>> = ({
         <div style={{ display: 'flex' }}>
           Files:
           <ItemList
-            viewType={fileType === 'image' ? 'grid' : 'list'}
+            viewType={
+              fileType === EFileType.IMAGE ? EViewTypes.GRID : EViewTypes.LIST
+            }
             items={filesData}
             overlayButtons={[
               {
-                uid: 'remove',
-                func: (fuid) => handleFileDelete(fuid),
+                onClick: (fuid: Uid) => handleFileDelete(fuid),
                 label: 'Remove',
-                icon: '🗑️',
+                icon: <Emoji emoj="🗑️" label="Remove" />,
               },
             ]}
           />
@@ -150,19 +172,18 @@ FieldFile.propTypes = {
     PropTypes.arrayOf(PropTypes.shape(fileValueShape)),
   ]),
   onChange: PropTypes.func.isRequired,
-  collectionId: PropTypes.string.isRequired,
-  documentId: PropTypes.string.isRequired,
   fileType: PropTypes.oneOf(['image', 'document', 'data', '*']),
   multiple: PropTypes.bool,
   fileServerUrl: PropTypes.string.isRequired,
-  asyncGetDocuments: PropTypes.func.isRequired,
+  asyncGetFiles: PropTypes.func.isRequired,
+  asyncFileUpload: PropTypes.func.isRequired,
   PopupPanel: PropTypes.elementType.isRequired,
 };
 
 FieldFile.defaultProps = {
   value: [],
   multiple: false,
-  fileType: '*',
+  fileType: EFileType.ANY,
   PopupPanel: (({ children, isOpen }) =>
     isOpen ? children : '') as React.FC<IPopupProps>,
 };

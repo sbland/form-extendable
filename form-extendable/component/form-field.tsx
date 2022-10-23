@@ -1,45 +1,54 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import {
-  EFilterType,
-  filterTypes,
-} from '@react_db_client/constants.client-types';
+import { EFilterType } from '@react_db_client/constants.client-types';
 import { switchF } from '@react_db_client/helpers.func-tools';
 import {
   TComponentMap,
   IFieldComponentProps,
   IFieldProps,
-  TComponentMapComponent,
   THeading,
+  TFieldReactComponent,
 } from '@form-extendable/lib';
 import { defaultComponent } from '@form-extendable/components.component-map';
 import { FieldLabel } from './field-label';
 
-export interface IFormFieldProps<T extends unknown> extends IFieldProps<T> {
-  componentMap: TComponentMap<T>;
+export interface IFormFieldProps<V, H extends THeading<V>>
+  extends IFieldProps<V, H> {
+  componentMap: TComponentMap;
 }
 
-export const FormField = <T extends unknown>(propsIn: IFormFieldProps<T>) => {
+export const FormField = <V, H extends THeading<V>>(
+  propsIn: IFormFieldProps<V, H>
+) => {
   const { heading, value, onChange, additionalData, componentMap } = propsIn;
-  const props: IFieldComponentProps<T> & THeading<T> = useMemo(() => {
-    const mergedProps: IFieldComponentProps<T> & THeading<T> = {
+  const props: IFieldComponentProps<V> & H = useMemo(() => {
+    const fProps: IFieldComponentProps<V> = {
+      uid: heading.uid,
+      label: heading.label,
       onChange,
       value,
       key: `${heading.uid}-sub`,
       additionalData,
+    };
+    const mergedProps: IFieldComponentProps<V> & H = {
+      ...fProps,
       ...heading,
     };
     return mergedProps;
   }, [heading, onChange, value, additionalData]);
   const { label, required, type, uid, hasChanged, hideLabel } = heading;
 
-  const FormComponent: ReturnType<TComponentMapComponent<T>> = useMemo(
+  const FormComponent = useMemo(
     () =>
-      switchF<EFilterType | string, ReturnType<TComponentMapComponent<T>>>(
+      // switchF<EFilterType | string, ReturnType<TComponentMapComponent<T, H>>>(
+      switchF(
         heading.type,
-        componentMap,
+        componentMap as Record<
+          string | EFilterType,
+          () => TFieldReactComponent<V, THeading<V>>
+        >,
         defaultComponent
-      ),
+      ) as TFieldReactComponent<V, H>,
     [heading.type, componentMap, defaultComponent]
   );
 
@@ -55,7 +64,13 @@ export const FormField = <T extends unknown>(propsIn: IFormFieldProps<T>) => {
     .join(' ');
 
   return (
-    <div className={rowClassname} key={uid} data-testid={`${type}-${uid}`}>
+    <div
+      className={rowClassname}
+      // TODO: Remove this styling
+      style={{ border: '1px solid red', padding: '1rem' }}
+      key={uid}
+      data-testid={`${type}-${uid}`}
+    >
       <FieldLabel
         uid={uid}
         label={label}

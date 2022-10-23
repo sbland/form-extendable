@@ -6,7 +6,7 @@ const defaultProps = {
   //
 };
 
-describe('field bool', () => {
+describe('field text', () => {
   describe('Compositions', () => {
     Object.entries(compositions).forEach(([name, Composition]) => {
       test(name, () => {

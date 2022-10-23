@@ -33,13 +33,6 @@ describe('field-text-area', () => {
       });
     });
   });
-  describe('shallow renders', () => {
-    test('Matches Snapshot', () => {
-      render(<FieldTextArea {...defaultProps} />);
-      const tree = screen.debug();
-      expect(tree).toMatchSnapshot();
-    });
-  });
   // describe('Unit Tests', () => {
   //   let component;
   //   let spyRef;

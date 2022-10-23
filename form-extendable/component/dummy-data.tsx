@@ -1,5 +1,8 @@
 import { IHeadingCustomType, IObj, THeading } from '@form-extendable/lib';
-import { EFilterType } from '@react_db_client/constants.client-types';
+import {
+  EFileType,
+  EFilterType,
+} from '@react_db_client/constants.client-types';
 
 export const demoCustomTypeHeading: IHeadingCustomType = {
   uid: 'demoField',
@@ -60,25 +63,19 @@ export const demoHeadingsData: THeading<any>[] = [
   {
     uid: 'file',
     label: 'File',
-    collectionId: 'democollection',
-    documentId: 'docid',
-    fileType: 'document',
+    fileType: EFileType.DOCUMENT,
     type: EFilterType.file,
   },
   {
     uid: 'fileMultiple',
     label: 'File Multiple',
-    collectionId: 'democollection',
-    documentId: 'docid',
-    fileType: 'document',
+    fileType: EFileType.DOCUMENT,
     type: EFilterType.fileMultiple,
   },
   {
     uid: 'image',
     label: 'Image',
-    collectionId: 'collectionId',
-    documentId: 'documentId',
-    fileType: 'image',
+    fileType: EFileType.IMAGE,
     type: EFilterType.image,
   },
   {
@@ -90,7 +87,7 @@ export const demoHeadingsData: THeading<any>[] = [
     uid: 'toggle',
     hideLabel: true,
     label: 'Toggle',
-    checkboxContent: "Click Me",
+    checkboxContent: 'Click Me',
     type: EFilterType.toggle,
   },
   {
@@ -224,7 +221,13 @@ export const demoFormData = {
   embedded: null,
   embeddedb: null,
   image: 'example_file.jpg',
-  file: 'example_file.jpg',
+  file: {
+    uid: 'example_file',
+    label: 'example file label',
+    fileType: EFileType.DOCUMENT,
+    filePath: 'dir1',
+    name: 'example_file.jpg',
+  },
   fileMultiple: ['example_file.jpg'],
   select: 'example_item',
   selectSearch: 'example_item',

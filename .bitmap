@@ -33,6 +33,18 @@
             }
         }
     },
+    "composition-helpers": {
+        "scope": "",
+        "version": "",
+        "mainFile": "index.ts",
+        "rootDir": "form-extendable/composition-helpers",
+        "config": {
+            "teambit.react/react": {},
+            "teambit.envs/envs": {
+                "env": "teambit.react/react"
+            }
+        }
+    },
     "fields/field-bool": {
         "scope": "",
         "version": "",

@@ -9,7 +9,7 @@ import {
   TMultiSelectValue,
 } from '@form-extendable/lib';
 
-export type TFIeldMultiSelect = IFieldComponentProps<TMultiSelectValue> &
+export type TFieldMultiSelect = IFieldComponentProps<TMultiSelectValue> &
   IHeadingSelectMulti;
 
 export const FieldMultiSelect = ({
@@ -22,7 +22,7 @@ export const FieldMultiSelect = ({
   asDropdown,
   selectType,
   ...additionalProps
-}: TFIeldMultiSelect) => {
+}: TFieldMultiSelect) => {
   const currentSelection: (string | number)[] = React.useMemo(() => {
     if (!value) return [];
     if (typeof value === 'string' || typeof value === 'number') return [value];
@@ -58,10 +58,17 @@ export const FieldMultiSelect = ({
   }
 
   if (selectType === 'showall') {
+    const va = Array.isArray(value) ? value : [value];
+    const v =
+      typeof va[0] === 'object'
+        ? (va as unknown as IOpt[]).map(
+            (v: null | IOpt) => v?.label || 'MISSING LABEL'
+          )
+        : (va as unknown as (string | number)[]);
     return (
       <>
         <BubbleSelector
-          activeSelection={value || []}
+          activeSelection={v || []}
           updateActiveSelection={(newVal) => onChange(newVal)}
           options={options}
           {...additionalProps}
@@ -71,10 +78,18 @@ export const FieldMultiSelect = ({
     );
   }
   if (!asDropdown || selectType === 'hideunselected') {
+    const va = Array.isArray(value) ? value : [value];
+    const v =
+      typeof va[0] === 'object'
+        ? (va as unknown as IOpt[]).map(
+            (v: null | IOpt) => v?.label || 'MISSING LABEL'
+          )
+        : (va as unknown as (string | number)[]);
+
     return (
       <>
         <BubbleSelector
-          activeSelection={value || []}
+          activeSelection={v || []}
           updateActiveSelection={(newVal) => onChange(newVal)}
           options={options}
           isSorted
@@ -95,7 +110,16 @@ export const FieldMultiSelect = ({
 FieldMultiSelect.propTypes = {
   uid: PropTypes.string.isRequired,
   unit: PropTypes.string,
-  value: PropTypes.arrayOf(PropTypes.string),
+  value: PropTypes.arrayOf(
+    PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+      PropTypes.shape({
+        uid: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+        label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+      }),
+    ])
+  ),
   onChange: PropTypes.func.isRequired,
   options: PropTypes.arrayOf(
     PropTypes.shape({

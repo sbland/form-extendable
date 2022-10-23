@@ -1,1 +1,1 @@
-export { FieldMultiSelect } from './field-multi-select';
+export { FieldMultiSelect, TFieldMultiSelect } from './field-multi-select';

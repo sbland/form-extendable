@@ -1,4 +1,6 @@
+import React from 'react';
 import { defaultComponentMap } from '@form-extendable/components.component-map';
+import { IPopupProps } from '@form-extendable/lib';
 import { demoHeadingsData } from './dummy-data';
 import { IFormProps } from './form';
 
@@ -6,11 +8,30 @@ const onSubmit = () => {};
 const errorCallback = () => {};
 
 const fileServerUrl = 'FILE_SERVER_URL';
-const asyncGetDocuments = async () => [];
+const asyncGetFiles = async () => {
+  console.info("Getting files")
+  return [];
+};
+
+const SimplePopup: React.FC<IPopupProps> = ({
+  isOpen,
+  handleClose,
+  children,
+}) => {
+  return isOpen ? (
+    <>
+      <button onClick={() => handleClose && handleClose()}>Close</button>
+      {children}
+    </>
+  ) : (
+    <></>
+  );
+};
 
 const componentMap = defaultComponentMap({
-  asyncGetDocuments,
+  asyncGetFiles,
   fileServerUrl,
+  PopupPanel: SimplePopup,
 });
 
 export const defaultProps: IFormProps = {
