@@ -56,7 +56,8 @@ export const FieldSelect = ({
       // TODO: Check input requirements of toggle box radio groups
       return (
         <ToggleBoxRadioGroup
-          selected={options.findIndex((opt) => opt.uid === value)}
+          // TODO: Update toggle box
+          selected={options.findIndex((opt) => opt.uid === value) as any}
           allowDeselect
           onChange={(i, v) => onChange(v as string)}
           className="flexHoriz"
@@ -64,7 +65,8 @@ export const FieldSelect = ({
           {options.map((opt) => (
             <ToggleBox
               text={opt.label}
-              id={opt.uid}
+          // TODO: Update toggle box
+              id={opt.uid as string}
               key={opt.uid}
               onChange={() => {}}
             />

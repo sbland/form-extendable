@@ -1,8 +1,8 @@
 import React from 'react';
 import { CompositionWrapDefault } from '@react_db_client/helpers.composition-wraps';
+import { EFilterType } from '@react_db_client/constants.client-types';
 import { FieldSelect, TFieldSelectProps } from './field-select';
 import { defaultVal, demoOptions } from './demo-data';
-import { EFilterType } from '@react_db_client/constants.client-types';
 
 const onChange = () => {};
 

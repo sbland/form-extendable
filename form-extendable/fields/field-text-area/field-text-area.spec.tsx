@@ -1,11 +1,11 @@
 import React from 'react';
 
-import { FieldTextArea } from './field-text-area';
-import * as compositions from './field-text-area.composition';
-import { defaultVal } from './demo-data';
 import { render, screen } from '@testing-library/react';
 import { IFieldComponentProps, IHeadingTextArea } from '@form-extendable/lib';
 import { EFilterType } from '@react_db_client/constants.client-types';
+import { FieldTextArea } from './field-text-area';
+import * as compositions from './field-text-area.composition';
+import { defaultVal } from './demo-data';
 
 const onChange = jest.fn();
 

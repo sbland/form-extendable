@@ -1,14 +1,13 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 
+import { EFilterType } from '@react_db_client/constants.client-types';
 import {
   FieldSelectSearch,
-  ShowMultiSelection,
   TFieldSelectSearchProps,
 } from './field-select-search';
 import * as compositions from './field-select-search.composition';
 import { defaultVal } from './demo-data';
-import { EFilterType } from '@react_db_client/constants.client-types';
 
 // jest.mock('@react_db_client/components.search-and-select-dropdown', () =>
 //   MockReactC('SearchAndSelectDropdown', ['SearchAndSelectDropdown'])
@@ -17,7 +16,7 @@ import { EFilterType } from '@react_db_client/constants.client-types';
 const onChange = jest.fn();
 const searchFn = jest.fn();
 
-const defaultProps: TFieldSelectSearchProps = {
+const defaultProps: TFieldSelectSearchProps<string> = {
   type: EFilterType.selectSearch,
   label: 'Select search field',
   uid: 'demoid',

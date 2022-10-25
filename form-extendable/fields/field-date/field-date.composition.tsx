@@ -2,9 +2,9 @@ import React from 'react';
 import { CompositionWrapDefault } from '@react_db_client/helpers.composition-wraps';
 import { WrapFieldComponent } from '@form-extendable/composition-helpers';
 
+import { EFilterType } from '@react_db_client/constants.client-types';
 import { defaultVal } from './demo-data';
 import { FieldDate } from './field-date';
-import { EFilterType } from '@react_db_client/constants.client-types';
 
 export const BasicFieldDate = () => (
   <CompositionWrapDefault height="4rem" width="4rem">

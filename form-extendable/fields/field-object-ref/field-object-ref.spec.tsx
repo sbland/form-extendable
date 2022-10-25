@@ -1,6 +1,6 @@
 test('Deprected', () => {
   //
- })
+ });
 // import React from 'react';
 // import { render, screen } from '@testing-library/react';
 // import { FieldObjectRef, TFieldObjectRefProps } from './field-object-ref';

@@ -29,8 +29,7 @@ export const FieldDate: React.FC<
         id={`${uid}-input`}
         value={value ? parsedDate : ''}
         onChange={(e) =>
-          onChange(new Date(e.target.value).toISOString().substr(0, 10))
-        }
+          onChange(new Date(e.target.value).toISOString().substr(0, 10))}
         required={required}
       />
       {unit && <span>{unit}</span>}

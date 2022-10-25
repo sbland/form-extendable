@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import cloneDeep from 'lodash/cloneDeep';
 import { Emoji } from '@react_db_client/components.emoji';
+import { defaultComponentMap } from '@form-extendable/components.component-map';
 import { TComponentMap, TFormData, THeading } from '@form-extendable/lib';
 import { formValidation, IValidationError } from '@form-extendable/utils';
 import { FormStyled } from '@form-extendable/styles';
 
-import { FormField as DefaultFormField } from './form-field';
+import { FormField as DefaultFormField, IFormFieldProps } from './form-field';
 import { FormInputs } from './form-inputs';
-import { defaultComponentMap } from '@form-extendable/components.component-map';
 
 export interface IFormSubmit {
   formEditData: TFormData;
@@ -17,7 +17,7 @@ export interface IFormSubmit {
 }
 
 export interface IFormProps {
-  FormField?: typeof DefaultFormField;
+  FormField?: React.FC<IFormFieldProps<any, THeading<any>>>;
   formDataInitial?: TFormData;
   headings: THeading<any>[];
   onSubmit: (submissionData: IFormSubmit) => void;
@@ -51,7 +51,8 @@ export interface IFormProps {
  * onChange Signature:
  * (field, value, newFormData) => {...}
 
- * additionalData - additional data to be passed to form field components. Useful when using a custom field
+ * additionalData - additional data to be passed to form field components.
+Useful when using a custom field
  * componentMap - a map of field type against react component
  */
 export const Form = ({
@@ -68,7 +69,7 @@ export const Form = ({
   endButtonRefOverride,
   errorCallback,
   additionalData,
-  componentMap=defaultComponentMap(),
+  componentMap = defaultComponentMap(),
 }: IFormProps) => {
   const [formEditData, setFormEditData] = useState({});
   const [endButtonContainerRef, setEndButtonContainerRef] =
@@ -98,9 +99,9 @@ export const Form = ({
   const handleSubmit = useCallback(() => {
     const passesFormValidation = formValidation(formData, headings);
     if (passesFormValidation === true) onSubmit({ formEditData, formData });
-    else
-      errorCallback &&
-        errorCallback((passesFormValidation as IValidationError).error);
+    else if (errorCallback) {
+      errorCallback((passesFormValidation as IValidationError).error);
+    }
   }, [formData, formEditData, headings, onSubmit, errorCallback]);
 
   return (
@@ -178,7 +179,12 @@ Form.propTypes = {
   /* Form orientation (horiz/vert) */
   orientation: PropTypes.oneOf(['horiz', 'vert']),
   /* React reference for button container */
-  endButtonRefOverride: PropTypes.any, // Should be a react reference
+  endButtonRefOverride: PropTypes.oneOfType([
+    // Either a function
+    PropTypes.func,
+    // Or the instance of a DOM native element (see the note about SSR)
+    PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
+  ]), // Should be a react reference
   /* Callback on error */
   errorCallback: PropTypes.func,
   /* Additional data to apply to form on save */
@@ -189,7 +195,7 @@ Form.propTypes = {
 
 Form.defaultProps = {
   FormField: DefaultFormField,
-  formDatainitial: {},
+  formDataInitial: {},
   onChange: () => {},
   showEndBtns: true,
   submitBtnText: null,
@@ -199,8 +205,5 @@ Form.defaultProps = {
   endButtonRefOverride: null,
   errorCallback: alert,
   additionalData: {},
-  // componentMap: defaultComponentMap({
-  //   asyncGetDocuments: async () => Error('Not Implemented'),
-  //   fileServerUrl: 'MISSING_FILE_SERVER_URL',
-  // }),
+  componentMap: defaultComponentMap({}),
 };

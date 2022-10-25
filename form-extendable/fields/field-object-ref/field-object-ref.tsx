@@ -16,12 +16,9 @@ const parseVal = (val: IObj | IObj[] | null): IObj[] => {
   return Array.isArray(val) ? val : [val];
 };
 
-const getSearchFieldPlaceholder = (val, field) => {
-  return val[0] ? val[0][field] : 'Search...';
-};
+const getSearchFieldPlaceholder = (val, field) => val[0] ? val[0][field] : 'Search...';
 
-const SelectedItems = ({ items, labelField, handleItemClick }) => {
-  return (
+const SelectedItems = ({ items, labelField, handleItemClick }) => (
     <div className="">
       {items.map((item) => (
         <button
@@ -34,24 +31,27 @@ const SelectedItems = ({ items, labelField, handleItemClick }) => {
       ))}
     </div>
   );
-};
 
 const searchFn =
   (asyncGetDocuments, collection, schema, sortBy) =>
-  async (filters?: FilterObjectClass[]): Promise<IObj[]> => {
-    return asyncGetDocuments(collection, filters || [], schema, sortBy);
-  };
+  async (filters?: FilterObjectClass[]): Promise<IObj[]> => asyncGetDocuments(collection, filters || [], schema, sortBy);
 
-export type TFieldObjectRefProps = IFieldComponentProps<IObj[] | IObj | null> &
-  IHeadingReference;
+// TODO: Fix types
+export interface IFieldObjectRefAdditionalProps<V = unknown> {
+  asyncGetDocuments: () => Promise<unknown>;
+}
 
+export type TFieldObjectRefProps<V extends IObj[] | IObj | null> =
+  IFieldComponentProps<V> &
+    IHeadingReference<IObj> &
+    IFieldObjectRefAdditionalProps;
 
 /**
  * A form field that deals with object id references
  *
  * @deprecated Use FieldSelectSearch and pass in custom searchFn instead
  */
-export const FieldObjectRef = ({
+export const FieldObjectRef = <V extends IObj[] | IObj | null>({
   uid,
   unit,
   onChange,
@@ -62,9 +62,9 @@ export const FieldObjectRef = ({
   labelField, // The field in the returned data to use as the label
   allowEmptySearch,
   asyncGetDocuments,
-}: TFieldObjectRefProps) => {
-  let valueChecked = useMemo(() => parseVal(value), [value]);
-  let searchFieldPlaceholder = multiple
+}: TFieldObjectRefProps<V>) => {
+  const valueChecked = useMemo(() => parseVal(value), [value]);
+  const searchFieldPlaceholder = multiple
     ? 'Choose from dropdown...'
     : getSearchFieldPlaceholder(valueChecked, labelField);
 
@@ -85,7 +85,7 @@ export const FieldObjectRef = ({
   const handleSelectedClick = useCallback(
     (itemUid) => {
       const newData = valueChecked.filter((v) => v.uid !== itemUid);
-      onChange(newData);
+      onChange(newData as V);
     },
     [onChange, uid, valueChecked]
   );

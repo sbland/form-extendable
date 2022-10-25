@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { CompositionWrapDefault } from '@react_db_client/helpers.composition-wraps';
 import { WrapFieldComponent } from '@form-extendable/composition-helpers';
+import { EFilterType } from '@react_db_client/constants.client-types';
 import { FieldTextArea, TFieldTextAreaProps } from './field-text-area';
 import { defaultVal } from './demo-data';
-import { EFilterType } from '@react_db_client/constants.client-types';
 
 const onChange = () => {};
 
@@ -45,8 +45,7 @@ export const FieldTextAreaMultiple = () => (
   </CompositionWrapDefault>
 );
 
-export const FieldTextAreaMultipleHoriz = () => {
-  return (
+export const FieldTextAreaMultipleHoriz = () => (
     <CompositionWrapDefault height="4rem" width="16rem">
       <div style={{ display: 'flex' }}>
         <WrapFieldComponent>
@@ -57,4 +56,3 @@ export const FieldTextAreaMultipleHoriz = () => {
       </div>
     </CompositionWrapDefault>
   );
-};

@@ -1,12 +1,16 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { filterTypes } from '@react_db_client/constants.client-types';
-
-import { FormField as DefaultFormField } from './form-field';
-import { IHeadingEmbedded, TComponentMap, TFormData, THeading } from '@form-extendable/lib';
+import {
+  IHeadingEmbedded,
+  TComponentMap,
+  TFormData,
+  THeading,
+} from '@form-extendable/lib';
+import { FormField as DefaultFormField, IFormFieldProps } from './form-field';
 
 export interface IFormInputsProps {
-  FormField: typeof DefaultFormField;
+  FormField: React.FC<IFormFieldProps<any, THeading<any>>>;
   headings: THeading<any>[];
   formData: TFormData;
   onFormInputChange: (uid: string, val: any) => void;
@@ -103,6 +107,7 @@ FormInputs.propTypes = {
       children: PropTypes.arrayOf(PropTypes.shape({})),
     })
   ).isRequired,
+  /* eslint-disable-next-line react/forbid-prop-types */
   formData: PropTypes.object.isRequired,
   onFormInputChange: PropTypes.func.isRequired,
   orientation: PropTypes.oneOf(['horiz', 'vert']),
@@ -111,7 +116,7 @@ FormInputs.propTypes = {
   showKey: PropTypes.bool,
   additionalData: PropTypes.shape({}),
   componentMap: PropTypes.objectOf(PropTypes.elementType).isRequired,
-  id: PropTypes.any,
+  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
 
 FormInputs.defaultProps = {

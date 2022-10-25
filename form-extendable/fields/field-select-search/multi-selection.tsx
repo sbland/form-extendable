@@ -13,8 +13,7 @@ export const ShowMultiSelection = <V,>({
   labels,
   keys,
   onSelect,
-}: IShowMultiSelectionProps<V>) => {
-  return (
+}: IShowMultiSelectionProps<V>) => (
     <div>
       {ids?.map((v: V, i) => (
         <button onClick={() => onSelect(v)} key={keys[i]}>
@@ -23,4 +22,3 @@ export const ShowMultiSelection = <V,>({
       ))}
     </div>
   );
-};

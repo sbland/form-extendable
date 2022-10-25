@@ -1,25 +1,23 @@
+/* eslint react/prop-types: 0 */
 import React from 'react';
 import { EFilterType } from '@react_db_client/constants.client-types';
 import { CompositionWrapDefault } from '@react_db_client/helpers.composition-wraps';
 import { WrapFieldComponent } from '@form-extendable/composition-helpers';
-import { defaultComponent, defaultComponentMap } from './default-component-map';
 import { switchF } from '@react_db_client/helpers.func-tools';
 import {
-  IFieldComponentProps,
   TComponentMap,
   TFieldReactComponent,
   THeading,
 } from '@form-extendable/lib';
+import { defaultComponent, defaultComponentMap } from './default-component-map';
 
-const SelectType = ({ type, setType }) => {
-  return (
-    <select value={type}>
-      {Object.values(EFilterType).map((k) => (
-        <option value={k}>k</option>
-      ))}
-    </select>
-  );
-};
+const SelectType = ({ type, setType }) => (
+  <select value={type} onChange={(e) => setType(e.target.value)}>
+    {Object.values(EFilterType).map((k) => (
+      <option value={k}>k</option>
+    ))}
+  </select>
+);
 
 const componentMap: TComponentMap = defaultComponentMap();
 

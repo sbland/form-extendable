@@ -1,7 +1,7 @@
 /**
  * this is the main configuration file of your bit workspace.
  * for full documentation, please see: https://bit.dev/docs/workspace/workspace-configuration
- **/{
+ **/ {
   "$schema": "https://static.bit.dev/teambit/schemas/schema.json",
   /**
    * main configuration of the Bit workspace.
@@ -30,9 +30,7 @@
     "defaultScope": "form-extendable"
   },
   "teambit.generator/generator": {
-    "aspects": [
-      "form-extendable/generator/typescript"
-    ]
+    "aspects": ["form-extendable/generator/typescript"]
   },
   "form-extendable/generator/typescript": {},
   /**
@@ -49,9 +47,9 @@
         "@react_db_client/components.file-manager": "0.2.68",
         "@react_db_client/components.form.form-components.bubble-selector": "0.2.7",
         "@react_db_client/components.form.form-components.multi-select-dropdown": "0.2.16",
-        "@react_db_client/components.form.form-components.toggle-box": "^0.2.14",
+        "@react_db_client/components.form.form-components.toggle-box": "0.2.14",
         "@react_db_client/components.item-list": "^0.2.10",
-        "@react_db_client/components.search-and-select-dropdown": "^0.2.70",
+        "@react_db_client/components.search-and-select-dropdown": "0.2.70",
         "@react_db_client/constants.client-types": "^0.2.17",
         "@react_db_client/helpers.composition-wraps": "^0.1.5",
         "@react_db_client/helpers.func-tools": "^0.1.8",
@@ -84,5 +82,12 @@
    * wrap the rule with curly brackets (e.g. `"{ui/*}": {}`)
    * see https://bit.dev/docs/workspace/variants for more info.
    **/
-  "teambit.workspace/variants": {}
+  "teambit.workspace/variants": {
+    "{component},{components/**},{lib/**},{fields/**},{utils/**},{styles/**}": {
+      // uses the custom env
+      "envs/custom-react": {}
+      // uncomment the line below if you remove the custom env and remove the line above
+      // "teambit.react/react": {},
+    }
+  }
 }

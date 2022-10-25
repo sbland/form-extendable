@@ -7,9 +7,9 @@ import {
   IHeadingSelectSearchMulti,
   IObj,
 } from '@form-extendable/lib';
+import { FilterObjectClass } from '@react_db_client/constants.client-types';
 import { parseLabel, parseVal, parseValMultiple } from './utils';
 import { ShowMultiSelection } from './multi-selection';
-import { FilterObjectClass } from '@react_db_client/constants.client-types';
 
 export type SelectValueType = null | string | IObj;
 export type SelectMultiValueType = null | string[] | IObj[];
@@ -39,11 +39,10 @@ type OrIt<T, Z, A, B> = T extends Z ? A : B;
 
 export const searchFnReference =
   (asyncGetDocuments, collection, schema, sortBy) =>
-  async (filters?: FilterObjectClass[]): Promise<IObj[]> => {
-    return asyncGetDocuments(collection, filters || [], schema, sortBy);
-  };
+  async (filters?: FilterObjectClass[]): Promise<IObj[]> =>
+    asyncGetDocuments(collection, filters || [], schema, sortBy);
 
-// TODO: Need to work out how to pass correct
+// TODO: Need to work out how to pass correct props
 export const FieldSelectSearch: React.FC<
   TFieldSelectSearchProps<any> | IFieldSelectSearchMultiProps<any>
 > = <V extends IObj | undefined>({
@@ -64,23 +63,25 @@ export const FieldSelectSearch: React.FC<
   const valueProcessed: Val = useMemo(
     () =>
       multiple
-        ? (parseValMultiple(value, returnFieldOnSelect) as Val)
-        : (parseVal(value, returnFieldOnSelect) as Val),
+        ? (parseValMultiple(value, returnFieldOnSelect) as unknown as Val)
+        : (parseVal(value, returnFieldOnSelect) as unknown as Val),
     [multiple, value]
   );
 
   const handleSelect = useCallback(
     (_, data) => {
-      let newVal: IObj | V = returnFieldOnSelect
+      const newVal: IObj | V = returnFieldOnSelect
         ? data[returnFieldOnSelect]
         : data;
       if (multiple) {
         const newValueArray: string[] | IObj[] = (
           valueProcessed as any[]
         ).concat(data);
-        onChange(newValueArray);
+        // TODO: Fix types
+        onChange(newValueArray as any);
       } else {
-        onChange(newVal);
+        // TODO: Fix types
+        onChange(newVal as any);
       }
     },
     [multiple, onChange, returnFieldOnSelect]
@@ -98,11 +99,10 @@ export const FieldSelectSearch: React.FC<
             const vk = v;
             const selVk = selectedItem;
             return vk === selVk;
-          } else {
-            const vk = v as IObj;
-            const selVk = selectedItem as IObj;
-            return vk.uid === selVk.uid;
           }
+          const vk = v as IObj;
+          const selVk = selectedItem as IObj;
+          return vk.uid === selVk.uid;
         }
       }
     );

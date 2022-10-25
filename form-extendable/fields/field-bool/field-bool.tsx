@@ -14,7 +14,7 @@ export const FieldBool = ({
 }: IFieldComponentProps<boolean> & IHeadingBool) =>
   useToggle ? (
     <ToggleBox
-      stateIn={value}
+      stateIn={value || undefined}
       id={uid}
       text={checkboxContent || ''}
       onChange={(val) => onChange(val)}

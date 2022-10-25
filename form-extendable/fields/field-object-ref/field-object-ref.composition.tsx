@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { CompositionWrapDefault } from '@react_db_client/helpers.composition-wraps';
+import { IObj } from '@form-extendable/lib';
 import { demoResults } from './demo-data';
 import { FieldObjectRef } from './field-object-ref';
-import { IObj } from '@form-extendable/lib';
 
 export const BasicFieldObjectRef = () => {
   const [value, setValue] = useState<IObj | null>(null);
@@ -23,8 +23,7 @@ export const BasicFieldObjectRef = () => {
           labelField="label"
           collection="democollection"
           asyncGetDocuments={async (collection, filters, schema, sortBy) =>
-            demoResults
-          }
+            demoResults}
           allowEmptySearch
         />
       </CompositionWrapDefault>
@@ -51,8 +50,7 @@ export const Multiple = () => {
           required={false}
           labelField="label"
           asyncGetDocuments={async (collection, filters, schema, sortBy) =>
-            demoResults
-          }
+            demoResults}
           allowEmptySearch
           collection="democollection"
         />
@@ -75,8 +73,7 @@ export const MultipleAltLabel = () => {
         required={false}
         labelField="name"
         asyncGetDocuments={async (collection, filters, schema, sortBy) =>
-          demoResults
-        }
+          demoResults}
         allowEmptySearch
         collection="democollection"
       />

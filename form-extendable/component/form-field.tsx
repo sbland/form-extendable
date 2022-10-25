@@ -98,6 +98,7 @@ FormField.propTypes = {
       PropTypes.oneOf(['true', 'false']),
     ]),
   }).isRequired,
+  /* eslint-disable-next-line react/forbid-prop-types */
   value: PropTypes.any,
   onChange: PropTypes.func.isRequired,
   additionalData: PropTypes.shape({}).isRequired,

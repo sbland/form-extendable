@@ -5,9 +5,9 @@ export interface IValidationError {
   fields?: string[];
 }
 
-export const formValidation = (
+export const formValidation = <V = unknown>(
   data: TFormData,
-  headings: THeading[]
+  headings: THeading<V>[]
 ): boolean | IValidationError => {
   const requiredHeadings = headings.filter((h) => h.required);
   const missingFields = requiredHeadings.filter(

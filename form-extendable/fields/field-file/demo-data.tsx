@@ -1,11 +1,11 @@
 import React from 'react';
 import { IPopupProps } from '@form-extendable/lib';
-import { IFieldFileProps } from './field-file';
 import {
   EFileType,
   EFilterType,
   IFile,
 } from '@react_db_client/constants.client-types';
+import { IFieldFileProps } from './field-file';
 
 export const DEMO_FILES_DATA: IFile[] = [
   {

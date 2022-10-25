@@ -14,4 +14,3 @@ export const allowReadOnly =
     ) : (
       <Component {...props} />
     );
-

@@ -54,7 +54,7 @@ export const FieldTextArea: React.FC<TFieldTextAreaProps> = ({
       >
         <textarea
           style={{
-            height: resizing ? 'auto' : textareaHeight + 2 + 'px',
+            height: resizing ? 'auto' : `${textareaHeight + 2}px`,
             // height: textareaHeight + 'px',
             maxHeight: '100%',
             minHeight: '1rem',

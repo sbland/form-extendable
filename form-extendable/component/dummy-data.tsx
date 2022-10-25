@@ -1,4 +1,11 @@
-import { IHeadingCustomType, IObj, THeading } from '@form-extendable/lib';
+import React from 'react';
+import PropTypes from 'prop-types';
+import {
+  IFieldComponentProps,
+  IHeadingCustomType,
+  IObj,
+  THeading,
+} from '@form-extendable/lib';
 import {
   EFileType,
   EFilterType,
@@ -255,3 +262,28 @@ export const demoAdditionalData = {
 };
 
 // type Foo = () =>
+
+export const CustomFieldType: React.FC<
+  IFieldComponentProps<string> & IHeadingCustomType
+> = ({ value, label, onChange }) => (
+  <div>
+    <label htmlFor="customField">{label}</label>
+    <input
+      id="customField"
+      value={value || ''}
+      onChange={(e) => {
+        onChange(e.target.value);
+      }}
+    />
+  </div>
+);
+
+CustomFieldType.propTypes = {
+  value: PropTypes.string,
+  label: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+};
+
+CustomFieldType.defaultProps = {
+  value: null,
+};

@@ -1,11 +1,11 @@
 import React from 'react';
 import { CompositionWrapDefault } from '@react_db_client/helpers.composition-wraps';
+import { EFilterType } from '@react_db_client/constants.client-types';
 import {
   FieldSelectSearch,
   TFieldSelectSearchProps,
 } from './field-select-search';
 import { defaultVal, demoOptions } from './demo-data';
-import { EFilterType } from '@react_db_client/constants.client-types';
 
 const onChange = () => {};
 const searchFn = async () => demoOptions;

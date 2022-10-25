@@ -2,9 +2,9 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { filterTypes } from '@react_db_client/constants.client-types';
 
+import { IFieldComponentProps } from '@form-extendable/lib';
 import { FieldReadOnly } from './field-read-only';
 import * as compositions from './field-read-only.composition';
-import { IFieldComponentProps } from '@form-extendable/lib';
 
 const defaultProps: IFieldComponentProps<string> = {
   uid: 'id',

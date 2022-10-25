@@ -1,3 +1,4 @@
+/* eslint react/prop-types: 0 */
 import React from 'react';
 import { defaultComponentMap } from '@form-extendable/components.component-map';
 import { IPopupProps } from '@form-extendable/lib';
@@ -9,7 +10,7 @@ const errorCallback = () => {};
 
 const fileServerUrl = 'FILE_SERVER_URL';
 const asyncGetFiles = async () => {
-  console.info("Getting files")
+  console.info('Getting files');
   return [];
 };
 
@@ -17,16 +18,17 @@ const SimplePopup: React.FC<IPopupProps> = ({
   isOpen,
   handleClose,
   children,
-}) => {
-  return isOpen ? (
+}) =>
+  isOpen ? (
     <>
-      <button onClick={() => handleClose && handleClose()}>Close</button>
+      <button type="button" onClick={() => handleClose && handleClose()}>
+        Close
+      </button>
       {children}
     </>
   ) : (
     <></>
   );
-};
 
 const componentMap = defaultComponentMap({
   asyncGetFiles,

@@ -1,10 +1,6 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
-
-export const FormStyled = styled.form`
-
-`
-
+export const FormStyled = styled.form``;
 
 /* See below for legacy scss */
 

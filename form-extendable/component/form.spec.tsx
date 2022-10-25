@@ -1,16 +1,16 @@
 import React from 'react';
 import { screen, render, within } from '@testing-library/react';
 import UserEvent from '@testing-library/user-event';
-import {
-  IFieldComponentProps,
-  IHeadingCustomType,
-  IHeadingNumber,
-  TFormData,
-} from '@form-extendable/lib';
+import { IHeadingNumber, TFormData } from '@form-extendable/lib';
 import { EFilterType } from '@react_db_client/constants.client-types';
 import { defaultComponentMap } from '@form-extendable/components.component-map';
+import {
+  editValue as editSelectValue,
+  THeadingTypes as THeadingTypesSelect,
+} from '@form-extendable/fields.field-select-search';
 
 import {
+  CustomFieldType,
   demoCustomTypeHeading,
   demoFormData,
   demoFormDataMin,
@@ -18,10 +18,6 @@ import {
   demoHeadingsDataMap,
 } from './dummy-data';
 import { Form, IFormProps } from './form';
-import {
-  editValue as editSelectValue,
-  THeadingTypes as THeadingTypesSelect,
-} from '@form-extendable/fields.field-select-search';
 import * as compositions from './form.composition';
 
 const onSubmit = jest.fn();
@@ -35,21 +31,6 @@ beforeEach(() => {
 });
 
 const fileServerUrl = 'FILE_SERVER_URL';
-
-const CustomFieldType: React.FC<
-  IFieldComponentProps<string> & IHeadingCustomType
-> = ({ value, label, onChange }) => (
-  <div>
-    <label htmlFor="customField">{label}</label>
-    <input
-      id="customField"
-      value={value || ''}
-      onChange={(e) => {
-        onChange(e.target.value);
-      }}
-    />
-  </div>
-);
 
 const componentMap = {
   [demoCustomTypeHeading.type]: () => CustomFieldType,
@@ -161,15 +142,17 @@ const fillInForm = async (formEl, data: TFormData) => {
       () =>
         fillInField(formEl)([k, v])
   );
-  for (const fn of fns) {
-    await fn();
-  }
+  const result = await fns.reduce((prev, fn) => {
+    const next = () => prev().then(() => fn());
+    return next;
+  });
+  await result();
 };
 
 describe('Form Main Component', () => {
   describe('Compositions', () => {
     Object.entries(compositions).forEach(([name, Composition]) => {
-      test(name, async () => {
+      test(`${name}`, async () => {
         render(<Composition />);
         if (Composition.waitForReady) await Composition.waitForReady();
       });

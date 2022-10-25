@@ -10,7 +10,7 @@ describe('field bool', () => {
   describe('Compositions', () => {
     Object.entries(compositions).forEach(([name, Composition]) => {
       test(name, () => {
-        render(<Composition  />);
+        render(<Composition />);
       });
     });
   });

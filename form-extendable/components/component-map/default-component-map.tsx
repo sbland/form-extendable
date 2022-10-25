@@ -11,15 +11,17 @@ import {
   TComponentMap,
 } from '@form-extendable/lib';
 
-import { searchFnReference } from '@form-extendable/fields.field-select-search';
 import { FieldText } from '@form-extendable/fields.field-text';
 import { FieldTextArea } from '@form-extendable/fields.field-text-area';
 import { FieldBool } from '@form-extendable/fields.field-bool';
 import { FieldDate } from '@form-extendable/fields.field-date';
 import { FieldNumber } from '@form-extendable/fields.field-number';
-import { FieldMultiSelect } from '@form-extendable/fields.field-multi-select';
 import { FieldSelect } from '@form-extendable/fields.field-select';
-import { FieldSelectSearch } from '@form-extendable/fields.field-select-search';
+import { FieldMultiSelect } from '@form-extendable/fields.field-multi-select';
+import {
+  searchFnReference,
+  FieldSelectSearch,
+} from '@form-extendable/fields.field-select-search';
 import { FieldFile } from '@form-extendable/fields.field-file';
 import { FieldReadOnly } from '@form-extendable/fields.field-read-only';
 import { allowReadOnly } from './utils';
@@ -51,94 +53,92 @@ export const defaultComponentMap = ({
   },
   fileServerUrl = 'MISSING_FILE_SERVER_URL',
   PopupPanel = ({ children }) => <>{children}</>,
-}: IDefaultComponentMapProps = {}): TComponentMap => {
-  return {
-    [EFilterType.uid]: () => allowReadOnly(FieldText),
-    [EFilterType.text]: () => allowReadOnly(FieldText),
-    [EFilterType.select]: () => allowReadOnly(FieldSelect),
-    [EFilterType.selectMulti]: () => allowReadOnly(FieldMultiSelect),
-    [EFilterType.file]: () =>
-      allowReadOnly((props) => (
-        <FieldFile
+}: IDefaultComponentMapProps = {}): TComponentMap => ({
+  [EFilterType.uid]: () => allowReadOnly(FieldText),
+  [EFilterType.text]: () => allowReadOnly(FieldText),
+  [EFilterType.select]: () => allowReadOnly(FieldSelect),
+  [EFilterType.selectMulti]: () => allowReadOnly(FieldMultiSelect),
+  [EFilterType.file]: () =>
+    allowReadOnly((props) => (
+      <FieldFile
+        {...props}
+        onChange={(v) => props.onChange(v as IFile | null)}
+        PopupPanel={PopupPanel}
+        fileServerUrl={fileServerUrl}
+        asyncGetFiles={asyncGetFiles}
+        asyncFileUpload={asyncFileUpload}
+      />
+    )),
+  [EFilterType.fileMultiple]: () =>
+    allowReadOnly((props) => (
+      <FieldFile
+        {...props}
+        onChange={(v) => props.onChange(v as IFile[] | null)}
+        PopupPanel={PopupPanel}
+        fileServerUrl={fileServerUrl}
+        asyncGetFiles={asyncGetFiles}
+        asyncFileUpload={asyncFileUpload}
+      />
+    )),
+  [EFilterType.image]: () =>
+    allowReadOnly((props) => (
+      <FieldFile
+        {...props}
+        onChange={(v) => props.onChange(v as IFile | null)}
+        fileServerUrl={fileServerUrl}
+        PopupPanel={PopupPanel}
+        asyncGetFiles={asyncGetFiles}
+        asyncFileUpload={asyncFileUpload}
+      />
+    )),
+  [EFilterType.textLong]: () => allowReadOnly(FieldTextArea),
+  [EFilterType.number]: () => allowReadOnly(FieldNumber),
+  [EFilterType.date]: () => allowReadOnly(FieldDate),
+  [EFilterType.bool]: () => allowReadOnly(FieldBool),
+  [EFilterType.toggle]: () => allowReadOnly(FieldBool),
+  [EFilterType.selectSearch]: () =>
+    allowReadOnly((props) =>
+      props.multiple ? (
+        <FieldSelectSearch {...props} multiple />
+      ) : (
+        <FieldSelectSearch {...props} multiple={false} />
+      )
+    ),
+  [EFilterType.reference]: () =>
+    allowReadOnly((props) =>
+      props.multiple ? (
+        <FieldSelectSearch
           {...props}
-          onChange={(v) => props.onChange(v as IFile | null)}
-          PopupPanel={PopupPanel}
-          fileServerUrl={fileServerUrl}
-          asyncGetFiles={asyncGetFiles}
-          asyncFileUpload={asyncFileUpload}
+          searchFn={searchFnReference(
+            asyncGetFiles,
+            props.collection,
+            '_id',
+            props.labelField
+          )}
+          returnFieldOnSelect="_id"
+          multiple
+          defaultValue={undefined}
         />
-      )),
-    [EFilterType.fileMultiple]: () =>
-      allowReadOnly((props) => (
-        <FieldFile
+      ) : (
+        <FieldSelectSearch
           {...props}
-          onChange={(v) => props.onChange(v as IFile[] | null)}
-          PopupPanel={PopupPanel}
-          fileServerUrl={fileServerUrl}
-          asyncGetFiles={asyncGetFiles}
-          asyncFileUpload={asyncFileUpload}
+          searchFn={searchFnReference(
+            asyncGetFiles,
+            props.collection,
+            '_id',
+            props.labelField
+          )}
+          returnFieldOnSelect="_id"
+          multiple={false}
+          defaultValue={null}
         />
-      )),
-    [EFilterType.image]: () =>
-      allowReadOnly((props) => (
-        <FieldFile
-          {...props}
-          onChange={(v) => props.onChange(v as IFile | null)}
-          fileServerUrl={fileServerUrl}
-          PopupPanel={PopupPanel}
-          asyncGetFiles={asyncGetFiles}
-          asyncFileUpload={asyncFileUpload}
-        />
-      )),
-    [EFilterType.textLong]: () => allowReadOnly(FieldTextArea),
-    [EFilterType.number]: () => allowReadOnly(FieldNumber),
-    [EFilterType.date]: () => allowReadOnly(FieldDate),
-    [EFilterType.bool]: () => allowReadOnly(FieldBool),
-    [EFilterType.toggle]: () => allowReadOnly(FieldBool),
-    [EFilterType.selectSearch]: () =>
-      allowReadOnly((props) =>
-        props.multiple ? (
-          <FieldSelectSearch {...props} multiple={true} />
-        ) : (
-          <FieldSelectSearch {...props} multiple={false} />
-        )
-      ),
-    [EFilterType.reference]: () =>
-      allowReadOnly((props) =>
-        props.multiple ? (
-          <FieldSelectSearch
-            {...props}
-            searchFn={searchFnReference(
-              asyncGetFiles,
-              props.collection,
-              '_id',
-              props.labelField
-            )}
-            returnFieldOnSelect="_id"
-            multiple={true}
-            defaultValue={undefined}
-          />
-        ) : (
-          <FieldSelectSearch
-            {...props}
-            searchFn={searchFnReference(
-              asyncGetFiles,
-              props.collection,
-              '_id',
-              props.labelField
-            )}
-            returnFieldOnSelect="_id"
-            multiple={false}
-            defaultValue={null}
-          />
-        )
-      ),
-    [EFilterType.embedded]: () => allowReadOnly(FieldNotImplemented),
-    [EFilterType.button]: () => allowReadOnly(FieldNotImplemented),
-    [EFilterType.dict]: () => allowReadOnly(FieldNotImplemented),
-    [EFilterType.video]: () => allowReadOnly(FieldNotImplemented),
-  };
-};
+      )
+    ),
+  [EFilterType.embedded]: () => allowReadOnly(FieldNotImplemented),
+  [EFilterType.button]: () => allowReadOnly(FieldNotImplemented),
+  [EFilterType.dict]: () => allowReadOnly(FieldNotImplemented),
+  [EFilterType.video]: () => allowReadOnly(FieldNotImplemented),
+});
 
 export const defaultComponent =
   <T,>() =>

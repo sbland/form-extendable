@@ -13,14 +13,14 @@ export const parseValMultiple = <k>(
           throw Error(
             'Must supply input as object array or a returnFieldOnSelect'
           );
-        if (typeof v === 'string' && returnFieldOnSelect) return v as k;
+        if (typeof v === 'string' && returnFieldOnSelect) return v as unknown as k;
         if (typeof v === 'object' && returnFieldOnSelect)
           return v[returnFieldOnSelect] as k;
         if (typeof v === 'object' && !returnFieldOnSelect) return v as IObj;
       })
     : [val];
   if (returnFieldOnSelect) return out as k[];
-  else return out as IObj[];
+  return out as IObj[];
 };
 
 export const parseVal = <V>(
