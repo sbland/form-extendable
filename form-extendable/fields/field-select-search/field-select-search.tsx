@@ -1,137 +1,67 @@
 import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { SearchAndSelectDropdown } from '@react_db_client/components.search-and-select-dropdown';
+import {
+  IItem,
+  SearchAndSelectDropdown,
+} from '@react_db_client/components.search-and-select-dropdown';
 import {
   IFieldComponentProps,
   IHeadingSelectSearch,
   IHeadingSelectSearchMulti,
   IObj,
 } from '@form-extendable/lib';
-import { FilterObjectClass } from '@react_db_client/constants.client-types';
-import { parseLabel, parseVal, parseValMultiple } from './utils';
-import { ShowMultiSelection } from './multi-selection';
+import { parseVal } from './utils';
 
-export type SelectValueType = null | string | IObj;
-export type SelectMultiValueType = null | string[] | IObj[];
+export type TFieldSelectSearchProps<V extends IObj> = IFieldComponentProps<V> &
+  IHeadingSelectSearch<V>;
 
-export type TFieldSelectSearchProps<V> = IFieldComponentProps<
-  SelectValueType | V
+export type IFieldSelectSearchMultiProps<V extends IObj> = IFieldComponentProps<
+  V[]
 > &
-  IHeadingSelectSearch<IObj & { [k: string]: V }>;
-
-export type IFieldSelectSearchMultiProps<V> = IFieldComponentProps<
-  SelectMultiValueType | V[]
-> &
-  IHeadingSelectSearchMulti<IObj & { [k: string]: V }>;
-
-type ArrElement<ArrType> = ArrType extends readonly (infer ElementType)[]
-  ? ElementType
-  : never;
-
-type ArrType<ArrType> = ArrType extends readonly (infer ElementType)[]
-  ? ArrType
-  : never;
-
-type AsArr<A> = A extends any[] ? A : never;
-
-type Or<T, A, B> = T extends true ? A : B;
-type OrIt<T, Z, A, B> = T extends Z ? A : B;
-
-export const searchFnReference =
-  (asyncGetDocuments, collection, schema, sortBy) =>
-  async (filters?: FilterObjectClass[]): Promise<IObj[]> =>
-    asyncGetDocuments(collection, filters || [], schema, sortBy);
+  IHeadingSelectSearchMulti<V>;
 
 // TODO: Need to work out how to pass correct props
-export const FieldSelectSearch: React.FC<
-  TFieldSelectSearchProps<any> | IFieldSelectSearchMultiProps<any>
-> = <V extends IObj | undefined>({
+export const FieldSelectSearch: React.FC<TFieldSelectSearchProps<any>> = <
+  V extends IObj & IItem
+>({
   uid,
   onChange,
   value,
-  multiple,
   required,
   searchFn,
-  returnFieldOnSelect, // the field in the data to return
   searchFieldTargetField, // the target field that the search string applies to
   labelField, // The field in the returned data to use as the label
   allowEmptySearch,
   className,
-}: TFieldSelectSearchProps<V> | IFieldSelectSearchMultiProps<V>) => {
-  type ValInner = OrIt<typeof returnFieldOnSelect, undefined, IObj[], string[]>;
-  type Val = Or<typeof multiple, ValInner, string>;
-  const valueProcessed: Val = useMemo(
-    () =>
-      multiple
-        ? (parseValMultiple(value, returnFieldOnSelect) as unknown as Val)
-        : (parseVal(value, returnFieldOnSelect) as unknown as Val),
-    [multiple, value]
+}: TFieldSelectSearchProps<V>) => {
+  const valueProcessed: null | V | V[] = useMemo(
+    () => parseVal(value),
+    [value]
   );
 
   const handleSelect = useCallback(
+    // TODO: For some reason cannot use V here
     (_, data) => {
-      const newVal: IObj | V = returnFieldOnSelect
-        ? data[returnFieldOnSelect]
-        : data;
-      if (multiple) {
-        const newValueArray: string[] | IObj[] = (
-          valueProcessed as any[]
-        ).concat(data);
-        // TODO: Fix types
-        onChange(newValueArray as any);
-      } else {
-        // TODO: Fix types
-        onChange(newVal as any);
-      }
+      onChange(data as V);
     },
-    [multiple, onChange, returnFieldOnSelect]
+    [onChange, valueProcessed]
   );
-
-  const clickSelectedItem = useCallback((selectedItem: ArrElement<Val>) => {
-    type ValArrayT = ArrType<typeof valueProcessed>;
-    const newValueArray: ValArrayT = (valueProcessed as any[]).filter(
-      (v: ArrElement<typeof valueProcessed>) => {
-        if (typeof v === 'string') return v === selectedItem;
-        // if (typeof v === 'object' && ! returnFieldOnSelect)  throw Error("Must supply returnFIeldOnSelect ")
-        if (typeof v === 'object') {
-          // if returnFIeldOnSelect then
-          if (returnFieldOnSelect) {
-            const vk = v;
-            const selVk = selectedItem;
-            return vk === selVk;
-          }
-          const vk = v as IObj;
-          const selVk = selectedItem as IObj;
-          return vk.uid === selVk.uid;
-        }
-      }
-    );
-    if (multiple) onChange(newValueArray);
-  }, []);
 
   return (
     <>
-      <SearchAndSelectDropdown<IObj>
+      <SearchAndSelectDropdown
         searchFunction={searchFn}
-        initialValue={multiple ? '' : (valueProcessed as string) || undefined}
         handleSelect={handleSelect}
+        // TODO: Fix initial value
+        // initialValue={valueProcessed}
         searchFieldTargetField={searchFieldTargetField}
         labelField={labelField}
         className={className}
         allowEmptySearch={allowEmptySearch}
         searchFieldPlaceholder={`${value || 'search...'}`}
-        required={required}
+        // required={required}
         id={`${uid}-input`}
       />
-      {multiple && (
-        <ShowMultiSelection<ArrElement<Val>>
-          onSelect={clickSelectedItem}
-          labelField={labelField}
-          ids={valueProcessed as AsArr<Val>}
-          labels={(valueProcessed as AsArr<Val>).map(parseLabel(labelField))}
-          keys={(valueProcessed as AsArr<Val>).map(parseLabel(labelField))}
-        />
-      )}
     </>
   );
 };

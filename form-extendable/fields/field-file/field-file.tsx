@@ -35,6 +35,9 @@ export interface IFieldFileProps<V extends IFile | IFile[]>
   PopupPanel: React.FC<IPopupProps>;
 }
 
+const asArray = (value) =>
+  Array.isArray(value) ? value : [value].filter((v) => v != null);
+
 /**
  * Form component file field
  *
@@ -62,7 +65,7 @@ export const FieldFile: React.FC<IFieldFileProps<IFile | IFile[]>> = ({
   )
     throw Error(`Value must be file type. Got ${value}`);
 
-  const [fileListRaw, setFileList] = useState(value);
+  const [fileListRaw, setFileList] = useState<IFile[]>(asArray(value));
 
   const fileList = React.useMemo(
     () =>
@@ -73,17 +76,13 @@ export const FieldFile: React.FC<IFieldFileProps<IFile | IFile[]>> = ({
   );
   const [showFileSelectionPanel, setShowFileSelectionPanel] = useState(false);
 
-  // useEffect(() => {
-  //   setFileList(
-  //     value && Array.isArray(value) ? value : (value && [value]) || []
-  //   );
-  // }, [value]);
-
   const handleSelected = (fileData: IFile | IFile[] | null) => {
-    const newFileList = multiple
-      ? [...fileList, ...(fileData as IFile[])]
-      : [fileData as IFile];
-    setFileList(newFileList);
+    if (multiple && !Array.isArray(fileData))
+      throw Error('Must return fileData as array if multiple is true');
+    const newFileList: IFile[] = multiple
+      ? ([...fileList, ...(fileData as IFile[])] as IFile[])
+      : ([fileData as IFile] as IFile[]);
+    setFileList(newFileList as IFile[]);
     setShowFileSelectionPanel(false);
     const newData = multiple
       ? [...fileList, ...(fileData as IFile[])]
@@ -92,8 +91,8 @@ export const FieldFile: React.FC<IFieldFileProps<IFile | IFile[]>> = ({
   };
 
   const handleFileDelete = (fuid) => {
-    const newFileList = fileList.filter((f) => f.uid !== fuid);
-    setFileList(newFileList);
+    const newFileList = (fileList as IFile[]).filter((f) => f.uid !== fuid);
+    setFileList(newFileList as IFile[]);
     const newData = multiple ? newFileList : null;
     onChange && onChange(newData);
   };
@@ -101,7 +100,7 @@ export const FieldFile: React.FC<IFieldFileProps<IFile | IFile[]>> = ({
   const filesData: (IItemImage | IItemButton)[] = useMemo(
     () =>
       fileList &&
-      fileList
+      (fileList as IFile[])
         .filter((f) => f)
         .map((file) => ({
           uid: file.uid || file.name,

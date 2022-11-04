@@ -18,3 +18,22 @@ export const BasicFieldText = () => (
     </WrapFieldComponent>
   </CompositionWrapDefault>
 );
+
+export const BasicFieldTextWithLabel = () => (
+  <CompositionWrapDefault height="4rem" width="16rem">
+    <label id="id-label" htmlFor="id-input">
+      Label
+    </label>
+    <WrapFieldComponent>
+      <FieldText
+        uid="id"
+        // id="input-id"
+        label="Field Text"
+        type={EFilterType.text}
+        unit="UNIT"
+        onChange={(v) => alert(`Changed: id, val: ${v}`)}
+        value="hello from FieldText"
+      />
+    </WrapFieldComponent>
+  </CompositionWrapDefault>
+);

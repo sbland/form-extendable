@@ -11,231 +11,117 @@
 {
     "component": {
         "scope": "",
-        "version": "",
+        "version": "0.1.1",
         "mainFile": "index.ts",
-        "rootDir": "form-extendable/component",
-        "config": {
-            "form-extendable/envs/custom-react": {},
-            "teambit.envs/envs": {
-                "env": "form-extendable/envs/custom-react"
-            }
-        }
+        "rootDir": "form-extendable/component"
     },
     "components/component-map": {
         "scope": "",
-        "version": "",
+        "version": "0.1.1",
         "mainFile": "index.ts",
-        "rootDir": "form-extendable/components/component-map",
-        "config": {
-            "form-extendable/envs/custom-react": {},
-            "teambit.envs/envs": {
-                "env": "form-extendable/envs/custom-react"
-            }
-        }
+        "rootDir": "form-extendable/components/component-map"
     },
     "composition-helpers": {
         "scope": "",
-        "version": "",
+        "version": "0.0.2",
         "mainFile": "index.ts",
-        "rootDir": "form-extendable/composition-helpers",
-        "config": {
-            "form-extendable/envs/custom-react": {},
-            "teambit.envs/envs": {
-                "env": "form-extendable/envs/custom-react"
-            }
-        }
+        "rootDir": "form-extendable/composition-helpers"
     },
     "envs/custom-react": {
         "scope": "",
-        "version": "",
+        "version": "0.0.2",
         "mainFile": "index.ts",
-        "rootDir": "form-extendable/envs/custom-react",
-        "config": {
-            "teambit.envs/env": {},
-            "teambit.envs/envs": {
-                "env": "teambit.envs/env"
-            }
-        }
+        "rootDir": "form-extendable/envs/custom-react"
     },
     "fields/field-bool": {
         "scope": "",
-        "version": "",
+        "version": "0.1.1",
         "mainFile": "index.ts",
-        "rootDir": "form-extendable/fields/field-bool",
-        "config": {
-            "form-extendable/envs/custom-react": {},
-            "teambit.envs/envs": {
-                "env": "form-extendable/envs/custom-react"
-            }
-        }
+        "rootDir": "form-extendable/fields/field-bool"
     },
     "fields/field-date": {
         "scope": "",
-        "version": "",
+        "version": "0.1.1",
         "mainFile": "index.ts",
-        "rootDir": "form-extendable/fields/field-date",
-        "config": {
-            "form-extendable/envs/custom-react": {},
-            "teambit.envs/envs": {
-                "env": "form-extendable/envs/custom-react"
-            }
-        }
+        "rootDir": "form-extendable/fields/field-date"
     },
     "fields/field-file": {
         "scope": "",
-        "version": "",
+        "version": "0.1.1",
         "mainFile": "index.ts",
-        "rootDir": "form-extendable/fields/field-file",
-        "config": {
-            "form-extendable/envs/custom-react": {},
-            "teambit.envs/envs": {
-                "env": "form-extendable/envs/custom-react"
-            }
-        }
+        "rootDir": "form-extendable/fields/field-file"
     },
     "fields/field-multi-select": {
         "scope": "",
-        "version": "",
+        "version": "0.1.1",
         "mainFile": "index.ts",
-        "rootDir": "form-extendable/fields/field-multi-select",
-        "config": {
-            "form-extendable/envs/custom-react": {},
-            "teambit.envs/envs": {
-                "env": "form-extendable/envs/custom-react"
-            }
-        }
+        "rootDir": "form-extendable/fields/field-multi-select"
     },
     "fields/field-number": {
         "scope": "",
-        "version": "",
+        "version": "0.1.1",
         "mainFile": "index.ts",
-        "rootDir": "form-extendable/fields/field-number",
-        "config": {
-            "form-extendable/envs/custom-react": {},
-            "teambit.envs/envs": {
-                "env": "form-extendable/envs/custom-react"
-            }
-        }
+        "rootDir": "form-extendable/fields/field-number"
     },
     "fields/field-object-ref": {
         "scope": "",
-        "version": "",
+        "version": "0.1.1",
         "mainFile": "index.ts",
-        "rootDir": "form-extendable/fields/field-object-ref",
-        "config": {
-            "form-extendable/envs/custom-react": {},
-            "teambit.envs/envs": {
-                "env": "form-extendable/envs/custom-react"
-            }
-        }
+        "rootDir": "form-extendable/fields/field-object-ref"
     },
     "fields/field-read-only": {
         "scope": "",
-        "version": "",
+        "version": "0.1.1",
         "mainFile": "index.ts",
-        "rootDir": "form-extendable/fields/field-read-only",
-        "config": {
-            "form-extendable/envs/custom-react": {},
-            "teambit.envs/envs": {
-                "env": "form-extendable/envs/custom-react"
-            }
-        }
+        "rootDir": "form-extendable/fields/field-read-only"
     },
     "fields/field-select": {
         "scope": "",
-        "version": "",
+        "version": "0.1.1",
         "mainFile": "index.ts",
-        "rootDir": "form-extendable/fields/field-select",
-        "config": {
-            "form-extendable/envs/custom-react": {},
-            "teambit.envs/envs": {
-                "env": "form-extendable/envs/custom-react"
-            }
-        }
+        "rootDir": "form-extendable/fields/field-select"
     },
     "fields/field-select-search": {
         "scope": "",
-        "version": "",
+        "version": "0.1.1",
         "mainFile": "index.ts",
-        "rootDir": "form-extendable/fields/field-select-search",
-        "config": {
-            "form-extendable/envs/custom-react": {},
-            "teambit.envs/envs": {
-                "env": "form-extendable/envs/custom-react"
-            }
-        }
+        "rootDir": "form-extendable/fields/field-select-search"
     },
     "fields/field-text": {
         "scope": "",
-        "version": "",
+        "version": "0.1.1",
         "mainFile": "index.ts",
-        "rootDir": "form-extendable/fields/field-text",
-        "config": {
-            "form-extendable/envs/custom-react": {},
-            "teambit.envs/envs": {
-                "env": "form-extendable/envs/custom-react"
-            }
-        }
+        "rootDir": "form-extendable/fields/field-text"
     },
     "fields/field-text-area": {
         "scope": "",
-        "version": "",
+        "version": "0.1.1",
         "mainFile": "index.ts",
-        "rootDir": "form-extendable/fields/field-text-area",
-        "config": {
-            "form-extendable/envs/custom-react": {},
-            "teambit.envs/envs": {
-                "env": "form-extendable/envs/custom-react"
-            }
-        }
+        "rootDir": "form-extendable/fields/field-text-area"
     },
     "generator/typescript": {
         "scope": "",
-        "version": "0.0.1",
+        "version": "0.0.2",
         "mainFile": "index.ts",
-        "rootDir": "form-extendable/generator/typescript",
-        "config": {
-            "form-extendable/envs/custom-react": {},
-            "teambit.envs/envs": {
-                "env": "form-extendable/envs/custom-react"
-            }
-        }
+        "rootDir": "form-extendable/generator/typescript"
     },
     "lib": {
         "scope": "",
-        "version": "",
+        "version": "0.1.0",
         "mainFile": "index.ts",
-        "rootDir": "form-extendable/lib",
-        "config": {
-            "form-extendable/envs/custom-react": {},
-            "teambit.envs/envs": {
-                "env": "form-extendable/envs/custom-react"
-            }
-        }
+        "rootDir": "form-extendable/lib"
     },
     "styles": {
         "scope": "",
-        "version": "",
+        "version": "0.0.2",
         "mainFile": "index.ts",
-        "rootDir": "form-extendable/styles",
-        "config": {
-            "form-extendable/envs/custom-react": {},
-            "teambit.envs/envs": {
-                "env": "form-extendable/envs/custom-react"
-            }
-        }
+        "rootDir": "form-extendable/styles"
     },
     "utils": {
         "scope": "",
-        "version": "",
+        "version": "0.1.0",
         "mainFile": "index.ts",
-        "rootDir": "form-extendable/utils",
-        "config": {
-            "form-extendable/envs/custom-react": {},
-            "teambit.envs/envs": {
-                "env": "form-extendable/envs/custom-react"
-            }
-        }
+        "rootDir": "form-extendable/utils"
     },
     "$schema-version": "15.0.0"
 }

@@ -8,6 +8,7 @@ import {
 } from './field-select-search';
 import * as compositions from './field-select-search.composition';
 import { defaultVal } from './demo-data';
+import { IObj } from '@form-extendable/lib';
 
 // jest.mock('@react_db_client/components.search-and-select-dropdown', () =>
 //   MockReactC('SearchAndSelectDropdown', ['SearchAndSelectDropdown'])
@@ -16,7 +17,7 @@ import { defaultVal } from './demo-data';
 const onChange = jest.fn();
 const searchFn = jest.fn();
 
-const defaultProps: TFieldSelectSearchProps<string> = {
+const defaultProps: TFieldSelectSearchProps<IObj> = {
   type: EFilterType.selectSearch,
   label: 'Select search field',
   uid: 'demoid',

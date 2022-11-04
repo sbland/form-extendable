@@ -6,6 +6,7 @@ import {
   IObj,
   IFieldComponentProps,
   IHeadingReference,
+  IHeadingReferenceMulti,
 } from '@form-extendable/lib';
 import { FilterObjectClass } from '@react_db_client/constants.client-types';
 
@@ -16,42 +17,55 @@ const parseVal = (val: IObj | IObj[] | null): IObj[] => {
   return Array.isArray(val) ? val : [val];
 };
 
-const getSearchFieldPlaceholder = (val, field) => val[0] ? val[0][field] : 'Search...';
+const getSearchFieldPlaceholder = (val, field) =>
+  val[0] ? val[0][field] : 'Search...';
 
 const SelectedItems = ({ items, labelField, handleItemClick }) => (
-    <div className="">
-      {items.map((item) => (
-        <button
-          type="button"
-          className="button-one"
-          onClick={() => handleItemClick(item.uid, item)}
-        >
-          {item[labelField]}
-        </button>
-      ))}
-    </div>
-  );
+  <div className="">
+    {items.map((item) => (
+      <button
+        type="button"
+        className="button-one"
+        onClick={() => handleItemClick(item.uid, item)}
+      >
+        {item[labelField]}
+      </button>
+    ))}
+  </div>
+);
+
+export type TAsyncGetDocuments<V> = (
+  collection: string,
+  filters: FilterObjectClass[],
+  schema: string,
+  sortBy: string
+) => Promise<V[]>;
 
 const searchFn =
-  (asyncGetDocuments, collection, schema, sortBy) =>
-  async (filters?: FilterObjectClass[]): Promise<IObj[]> => asyncGetDocuments(collection, filters || [], schema, sortBy);
+  <V extends IObj>(
+    asyncGetDocuments: TAsyncGetDocuments<V>,
+    collection,
+    schema,
+    sortBy
+  ) =>
+  async (filters?: FilterObjectClass[]): Promise<IObj[]> =>
+    asyncGetDocuments(collection, filters || [], schema, sortBy);
 
-// TODO: Fix types
-export interface IFieldObjectRefAdditionalProps<V = unknown> {
-  asyncGetDocuments: () => Promise<unknown>;
+export interface IFieldObjectRefAdditionalProps<V> {
+  asyncGetDocuments: TAsyncGetDocuments<V>;
 }
 
 export type TFieldObjectRefProps<V extends IObj[] | IObj | null> =
-  IFieldComponentProps<V> &
-    IHeadingReference<IObj> &
-    IFieldObjectRefAdditionalProps;
+  IFieldComponentProps<V | V[]> &
+    (IHeadingReference<IObj> | IHeadingReferenceMulti<IObj>) &
+    IFieldObjectRefAdditionalProps<V>;
 
 /**
  * A form field that deals with object id references
  *
  * @deprecated Use FieldSelectSearch and pass in custom searchFn instead
  */
-export const FieldObjectRef = <V extends IObj[] | IObj | null>({
+export const FieldObjectRef = <V extends IObj>({
   uid,
   unit,
   onChange,
@@ -85,7 +99,7 @@ export const FieldObjectRef = <V extends IObj[] | IObj | null>({
   const handleSelectedClick = useCallback(
     (itemUid) => {
       const newData = valueChecked.filter((v) => v.uid !== itemUid);
-      onChange(newData as V);
+      onChange(newData as V[]);
     },
     [onChange, uid, valueChecked]
   );

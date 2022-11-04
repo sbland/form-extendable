@@ -32,8 +32,6 @@ export const FieldText: React.FC<
         }}
         aria-labelledby={`${uid}-label`}
         value={value || ''}
-        // id={uid}  // disabled as entering 'id' caused autofill issues
-        // name={uid} // disabled as entering 'name' caused autofill issues
         onChange={(e) => onChange(e.target.value)}
         required={required}
         {...additionalProps}
@@ -49,10 +47,12 @@ FieldText.propTypes = {
   value: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   required: PropTypes.bool,
+  disableAutofill: PropTypes.bool,
 };
 
 FieldText.defaultProps = {
   unit: '',
   value: '',
   required: false,
+  disableAutofill: false,
 };

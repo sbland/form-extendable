@@ -83,9 +83,23 @@
    * see https://bit.dev/docs/workspace/variants for more info.
    **/
   "teambit.workspace/variants": {
-    "{component},{components/**},{lib/**},{fields/**},{utils/**},{styles/**}": {
+    "{component},{components/**},{lib},{fields/**},{utils},{styles/**}": {
       // uses the custom env
-      "envs/custom-react": {}
+      "envs/custom-react": {},
+      "teambit.pkg/pkg": {
+        "packageManagerPublishArgs": [
+          "--access public"
+          // "--otp=039502@react_db_client/components.emoji"
+        ],
+        "packageJson": {
+          "name": "@{scope}/{name}",
+          "private": false,
+          "publishConfig": {
+            "scope": "@saminuk",
+            "registry": "https://registry.npmjs.org/"
+          }
+        }
+      }
       // uncomment the line below if you remove the custom env and remove the line above
       // "teambit.react/react": {},
     }

@@ -1,47 +1,36 @@
 import { IObj } from '@form-extendable/lib';
 
-export const parseValMultiple = <k>(
-  val: string | string[] | IObj | IObj[] | k | k[] | null,
-  returnFieldOnSelect: string | undefined
-): IObj[] | k[] => {
+export const parseValMultiple = <V extends IObj>(
+  val: string | string[] | V | V[] | null
+): V[] => {
   if (!val) {
     return [];
   }
   const out = Array.isArray(val)
     ? val.map((v) => {
-        if (typeof v === 'string' && !returnFieldOnSelect)
-          throw Error(
-            'Must supply input as object array or a returnFieldOnSelect'
-          );
-        if (typeof v === 'string' && returnFieldOnSelect) return v as unknown as k;
-        if (typeof v === 'object' && returnFieldOnSelect)
-          return v[returnFieldOnSelect] as k;
-        if (typeof v === 'object' && !returnFieldOnSelect) return v as IObj;
+        if (typeof v === 'string') return { uid: v, label: v }; // We have to use string as both id and label
+        if (typeof v === 'object') return v as V;
       })
     : [val];
-  if (returnFieldOnSelect) return out as k[];
-  return out as IObj[];
+  return out as V[];
 };
 
-export const parseVal = <V>(
-  val: string | string[] | IObj | IObj[] | V | V[] | null,
-  returnFieldOnSelect: string | undefined
-): string => {
+export const parseVal = <V extends IObj>(
+  val: string | string[] | V | V[] | null
+): V | null => {
   if (!val) {
-    return '';
+    return null;
   }
   if (Array.isArray(val))
     throw Error(
       'Multiple values passed to select search without multiple prop set to true'
     );
-  if (typeof val === 'string') return val;
-  if (typeof val === 'object' && returnFieldOnSelect)
-    return val[returnFieldOnSelect]; // TODO: k may not be string here
-  if (typeof val === 'object' && !returnFieldOnSelect)
-    throw Error(
-      'Object passed to select search without returnFieldOnSelect prop'
-    );
-  if (typeof val === 'boolean') return val ? 'true' : 'false';
+  if (typeof val === 'string') return { uid: val, label: val } as V;
+  if (typeof val === 'object') return val;
+  if (typeof val === 'boolean') {
+    const boolVal = val ? 'true' : 'false';
+    return { uid: boolVal, label: boolVal } as V;
+  }
   throw Error(
     `Invalid value type passed to field select search: ${typeof val}`
   );

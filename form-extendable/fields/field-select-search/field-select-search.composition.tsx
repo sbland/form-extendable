@@ -1,6 +1,7 @@
 import React from 'react';
 import { CompositionWrapDefault } from '@react_db_client/helpers.composition-wraps';
 import { EFilterType } from '@react_db_client/constants.client-types';
+import { IObj } from '@form-extendable/lib';
 import {
   FieldSelectSearch,
   TFieldSelectSearchProps,
@@ -10,7 +11,7 @@ import { defaultVal, demoOptions } from './demo-data';
 const onChange = () => {};
 const searchFn = async () => demoOptions;
 
-const defaultProps: TFieldSelectSearchProps = {
+const defaultProps: TFieldSelectSearchProps<IObj> = {
   type: EFilterType.selectSearch,
   label: 'Select search field',
   uid: 'demoid',

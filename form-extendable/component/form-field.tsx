@@ -43,12 +43,12 @@ export const FormField = <V, H extends THeading<V>>(
       // switchF<EFilterType | string, ReturnType<TComponentMapComponent<T, H>>>(
       switchF(
         heading.type,
-        componentMap as Record<
+        componentMap as unknown as Record<
           string | EFilterType,
           () => TFieldReactComponent<V, THeading<V>>
         >,
         defaultComponent
-      ) as TFieldReactComponent<V, H>,
+      ) as unknown as TFieldReactComponent<V, H>,
     [heading.type, componentMap, defaultComponent]
   );
 

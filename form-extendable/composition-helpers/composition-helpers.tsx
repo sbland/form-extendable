@@ -9,7 +9,6 @@ export const WrapFieldComponent: React.FC = ({ children }) => {
   const childrenWithProps = React.Children.map(childrenArray, (child, i) => {
     if (React.isValidElement(child)) {
       return React.cloneElement(child as React.ReactElement<any>, {
-        uid: `uid_${i}`,
         value: state[i],
         onChange: (k, v) =>
           setState((prev) => {

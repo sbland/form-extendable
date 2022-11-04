@@ -1,6 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { filterTypes } from '@react_db_client/constants.client-types';
+import { render } from '@testing-library/react';
 
 import { IFieldComponentProps } from '@form-extendable/lib';
 import { FieldReadOnly } from './field-read-only';
@@ -10,7 +9,7 @@ const defaultProps: IFieldComponentProps<string> = {
   uid: 'id',
   unit: 'unit',
   value: 'a',
-  type: filterTypes.text,
+  label: 'read only',
   onChange: () => null,
 };
 

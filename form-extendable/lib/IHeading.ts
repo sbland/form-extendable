@@ -85,9 +85,7 @@ export interface IHeadingSelectSearch<T extends IObj> extends IHeading<T> {
   multiple?: false;
   allowEmptySearch?: boolean;
   returnFieldOnSelect?: string;
-  searchFn: (
-    filters?: FilterObjectClass[]
-  ) => Promise<T extends IObj ? T[] : never>;
+  searchFn: (filters?: FilterObjectClass[]) => Promise<T[]>;
 }
 
 export interface IHeadingSelectSearchMulti<T extends IObj> extends IHeading<T> {
@@ -97,9 +95,7 @@ export interface IHeadingSelectSearchMulti<T extends IObj> extends IHeading<T> {
   multiple: true;
   allowEmptySearch?: boolean;
   returnFieldOnSelect: string;
-  searchFn: (
-    filters?: FilterObjectClass[]
-  ) => Promise<T extends IObj ? T[] : never[]>;
+  searchFn: (filters?: FilterObjectClass[]) => Promise<T[]>;
 }
 
 export interface IHeadingReference<T extends IObj>
