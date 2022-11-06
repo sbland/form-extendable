@@ -11,19 +11,19 @@
 {
     "component": {
         "scope": "",
-        "version": "0.1.1",
+        "version": "0.1.2",
         "mainFile": "index.ts",
         "rootDir": "form-extendable/component"
     },
     "components/component-map": {
         "scope": "",
-        "version": "0.1.1",
+        "version": "0.1.2",
         "mainFile": "index.ts",
         "rootDir": "form-extendable/components/component-map"
     },
     "composition-helpers": {
         "scope": "",
-        "version": "0.0.2",
+        "version": "0.0.3",
         "mainFile": "index.ts",
         "rootDir": "form-extendable/composition-helpers"
     },
@@ -35,19 +35,19 @@
     },
     "fields/field-bool": {
         "scope": "",
-        "version": "0.1.1",
+        "version": "0.1.2",
         "mainFile": "index.ts",
         "rootDir": "form-extendable/fields/field-bool"
     },
     "fields/field-date": {
         "scope": "",
-        "version": "0.1.1",
+        "version": "0.1.2",
         "mainFile": "index.ts",
         "rootDir": "form-extendable/fields/field-date"
     },
     "fields/field-file": {
         "scope": "",
-        "version": "0.1.1",
+        "version": "0.1.2",
         "mainFile": "index.ts",
         "rootDir": "form-extendable/fields/field-file"
     },
@@ -59,7 +59,7 @@
     },
     "fields/field-number": {
         "scope": "",
-        "version": "0.1.1",
+        "version": "0.1.2",
         "mainFile": "index.ts",
         "rootDir": "form-extendable/fields/field-number"
     },
@@ -71,7 +71,7 @@
     },
     "fields/field-read-only": {
         "scope": "",
-        "version": "0.1.1",
+        "version": "0.1.2",
         "mainFile": "index.ts",
         "rootDir": "form-extendable/fields/field-read-only"
     },
@@ -89,13 +89,13 @@
     },
     "fields/field-text": {
         "scope": "",
-        "version": "0.1.1",
+        "version": "0.1.2",
         "mainFile": "index.ts",
         "rootDir": "form-extendable/fields/field-text"
     },
     "fields/field-text-area": {
         "scope": "",
-        "version": "0.1.1",
+        "version": "0.1.2",
         "mainFile": "index.ts",
         "rootDir": "form-extendable/fields/field-text-area"
     },

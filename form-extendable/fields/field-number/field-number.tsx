@@ -16,6 +16,7 @@ export type TFieldNumberProps = IFieldComponentProps<number> & IHeadingNumber;
 
 export const FieldNumber = ({
   uid,
+  type,
   unit,
   min = -999999999999,
   max = 999999999999,
@@ -24,9 +25,12 @@ export const FieldNumber = ({
   onChange,
   value: valueIn,
   required,
+  ...additionalProps
 }: TFieldNumberProps) => {
   const ref = useRef<HTMLInputElement>(null);
   const value = parseInput(valueIn);
+
+  if (type !== 'number') throw Error('Type must be number');
 
   const onFocus = () => {
     if (value === '' && parseInput(defaultValue) !== '') onChange(defaultValue);
@@ -59,6 +63,7 @@ export const FieldNumber = ({
         required={required}
         aria-labelledby={`${uid}-label`}
         id={`${uid}-input`}
+        {...additionalProps}
       />
       {unit && <span>{unit}</span>}
     </>
