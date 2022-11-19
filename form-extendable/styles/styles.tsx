@@ -1,237 +1,278 @@
 import styled from 'styled-components';
 
-export const FormStyled = styled.form``;
+export interface IFormStyledProps {
+  sectionPadding: string | number;
+  sectionBorder: string;
+  headingHeight: string | number;
+  warningColor: string;
+  lineHeight: string | number;
+  grey30: string;
+  primaryColor: string;
+  mediaMediumWidth: string | number;
+  rowPadding: string | number;
+}
 
-/* See below for legacy scss */
+export const FormStyled = styled.div<IFormStyledProps>`
+  .formSection {
+    /* FORM SECTION */
+    &,
+    .formSection {
+      position: relative;
+      display: flex;
+      overflow: visible;
+      flex-grow: 1;
+      flex-direction: row;
 
-// .form,
-// .form_inputs,
-// .formSection {
-//   /* FORM SECTION */
-//   &.formSection,
-//   .formSection {
-//     position: relative;
-//     display: flex;
-//     overflow: visible;
-//     flex-grow: 1;
+      padding: ${({ sectionPadding }) => sectionPadding};
+      padding-bottom: ${({ sectionPadding }) => sectionPadding};
+      border: ${({ sectionBorder }) => sectionBorder};
+      border-radius: (1rem * 0.3);
 
-//     // Styling
-//     padding: $section-padding;
-//     padding-bottom: $section-padding;
-//     border: $section-border;
-//     border-radius: ($unit * 0.3);
+      margin: 0; // Reset margin
+      margin-top: ${({ sectionPadding }) => sectionPadding};
+      box-shadow: 0px 0px 10px 0 rgba(0, 0, 0, 0.2);
 
-//     margin: 0; // Reset margin
-//     margin-top: $section-padding;
-//     box-shadow: 0px 0px 10px 0 rgba(0, 0, 0, 0.2);
+      &.hasHeading {
+        padding-top: ${({ sectionPadding, headingHeight }) =>
+          `calc(${sectionPadding} + ${headingHeight})`}; // Allows for title
+        margin-top: ${({ sectionPadding, headingHeight }) =>
+          `calc(${sectionPadding} + ${headingHeight})`};
+      }
 
-//     &.hasHeading {
-//       padding-top: $section-padding + $heading-height; // Allows for title
-//       margin-top: $section-padding + $heading-height;
-//     }
-//   }
-//   // Child of vert section
-//   &.vert > .formSection {
-//     &:not(:last-child) {
-//       margin-bottom: $section-padding + $heading-height;
-//     }
-//   }
-//   // Child of horiz section
-//   &.horiz > .formSection {
-//     // border: 3px green solid;
-//     margin-left: $section-padding;
-//     &:last-child {
-//       margin-right: $section-padding;
-//     }
-//   }
-//   // vert section
-//   &.formSection.vert,
-//   .formSection.vert {
-//     flex-direction: column;
-//   }
-//   // horiz section
-//   &.formSection.horiz,
-//   .formSection.horiz {
-//     align-items: stretch;
-//     justify-items: center;
-//     justify-content: space-between;
-//     flex-wrap: wrap;
-//   }
+      /* Child of vert section */
+      &.vert > .formSection {
+        &:not(:last-child) {
+          margin-bottom: ${({ sectionPadding, headingHeight }) =>
+            `calc(${sectionPadding} + ${headingHeight})`};
+        }
+      }
+      &.horiz > .formSection {
+        margin-left: ${({ sectionPadding }) => sectionPadding};
+        &:last-child {
+          margin-right: ${({ sectionPadding }) => sectionPadding};
+        }
+      }
 
-//   /* FORM ROW */
-//   .form_row {
-//     flex-grow: 1;
-//     display: flex;
-//     margin: 0; // Reset margin
-//     padding: 2px;
-//   }
-//   &.vert > .form_row {
-//     align-items: stretch; // Ensures inputs align to bottom of label
-//     flex-direction: column;
+      /* vert section */
+      &.formSection.vert,
+      .formSection.vert {
+        flex-direction: column;
+      }
 
-//     &:not(:first-child) {
-//       margin-top: $section-padding;
-//     }
+      /* horiz section */
+      &.formSection.horiz,
+      .formSection.horiz {
+        align-items: stretch;
+        justify-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+      }
+    }
+  } /* end section */
 
-//     &:not(:last-child) {
-//       margin-bottom: $section-padding;
-//     }
-//   }
-//   &.horiz > .form_row {
-//     flex-direction: column;
-//     margin-right: $section-padding;
-//     justify-content: flex-start;
-//     outline: 1px solid $grey-20;
-//     &:not(:first-child) {
-//       margin-left: $section-padding;
-//     }
-//   }
+  .form_row {
+    flex-grow: 1;
+    display: flex;
+    margin: 0; // Reset margin
+    padding: ${({ rowPadding }) => rowPadding};
+    min-height: ${({ lineHeight, rowPadding }) =>
+      `calc(${lineHeight} + 2 * ${rowPadding})`};
+  }
 
-//   /* FORM LABEL */
-//   .form_label {
-//     margin-right: $unit;
-//     &.required {
-//       color: $warningColour;
-//     }
+  .formSection.vert > .form_row {
+    align-items: stretch; // Ensures inputs align to bottom of label
+    flex-direction: column;
 
-//     &.hasChanged {
-//       position: relative;
-//       &::after {
-//         content: '';
-//         position: absolute;
-//         display: block;
-//         width: 2px;
-//         background: $warningColour;
-//         height: 100%;
-//         z-index: 10;
-//         right: -$unit;
-//         top: 0;
-//       }
-//     }
-//   }
-//   &.vert > .form_row > .form_label {
-//     text-align: left;
-//     width: 30%;
-//     max-width: 200px;
-//     flex-grow: 1;
-//   }
-//   &.horiz > .form_row > .form_label {
-//     text-align: left;
-//     overflow: hidden;
-//     text-overflow: ellipsis;
-//     max-width: fit-content;
-//     width: fit-content;
-//   }
+    &:not(:first-child) {
+      margin-top: ${({ sectionPadding }) => sectionPadding};
+    }
 
-//   /* SECTION HEADING */
+    &:not(:last-child) {
+      margin-bottom: ${({ sectionPadding }) => sectionPadding};
+    }
+  }
+  .formSection.horiz > .form_row {
+    flex-direction: column;
+    margin-right: ${({ sectionPadding }) => sectionPadding};
+    justify-content: flex-start;
+    &:not(:first-child) {
+      margin-left: ${({ sectionPadding }) => sectionPadding};
+    }
+  }
 
-//   .formSection_heading {
-//     position: absolute;
-//     margin: 0;
-//     background: whitesmoke;
-//     top: -$heading-height;
-//     left: $unit;
-//     width: auto;
-//     border-radius: 3px;
-//   }
-//   h1,
-//   h2,
-//   h3,
-//   h4 {
-//     transition: all 0.2s ease-out;
-//   }
+  /* FORM LABEL */
+  .form_label {
+    line-height: ${({ lineHeight }) => lineHeight};
 
-//   /* Uncomment to add heading hover effect
-//   // &:hover {
-//   //   h1,
-//   //   h2,
-//   //   h3,
-//   //   h4 {
-//   //     color: $primaryColour;
-//   //   }
-//   //   & > .formSection_heading {
-//   //     background: white;
-//   //   }
-//   // }
+    &,
+    label,
+    .label_wrap_inner {
+      line-height: ${({ lineHeight }) => lineHeight};
+    }
 
-//   /* INPUTS */
+    &,
+    * {
+      &.required {
+        color: ${({ warningColor }) => warningColor};
+      }
+    }
 
-//   input[type='text'],
-//   input[type='date'],
-//   input[type='number'] {
-//     min-width: 60%;
-//     flex-grow: 1;
-//     outline: 1px $grey-30 solid;
-//     border: 0;
-//     height: $line-height-1;
-//     max-height: $line-height-1;
-//     // padding: 0;
-//     &:focus {
-//       outline: 2px $grey-30 solid;
-//     }
-//   }
+    &.hasChanged {
+      position: relative;
+      &::after {
+        content: '';
+        position: absolute;
+        display: block;
+        width: 2px;
+        background: ${({ warningColor }) => warningColor};
+        height: 100%;
+        z-index: 10;
+        right: -1rem;
+        top: 0;
+      }
+    }
+  }
+  .formSection.vert > .form_row > .form_label {
+    &,
+    * {
+      width: inherit;
+      flex-grow: 1;
+      text-align: left;
+      flex-grow: 1;
+    }
+  }
+  .formSection.horiz > .form_row > .form_label {
+    &,
+    * {
+      text-align: left;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: fit-content;
+      width: fit-content;
+    }
+  }
 
-//   select {
-//     min-width: 60%;
-//     border: 1px $grey-30 solid;
-//     outline: none;
-//   }
+  /* SECTION HEADING */
 
-//   .formFieldFile {
-//     border: 1px $primaryColour solid;
-//     background: $grey-20;
-//   }
+  .formSection_heading {
+    position: absolute;
+    margin: 0;
+    background: whitesmoke;
+    top: -${({ headingHeight }) => headingHeight};
+    left: 1rem;
+    width: auto;
+    border-radius: 3px;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    transition: all 0.2s ease-out;
+  }
 
-//   .formFieldInput {
-//     .vert & {
-//       flex-grow: 1;
-//     }
-//     .horiz & {
-//       flex-grow: 0;
-//     }
-//   }
+  input[type='text'],
+  input[type='date'],
+  input[type='number'] {
+    box-sizing: border-box;
+    min-width: 60%;
+    min-height: ${({ lineHeight }) => lineHeight};
+    height: ${({ lineHeight }) => lineHeight};
+    flex-grow: 1;
+    outline: 1px solid green; // default if not provided below;
+    outline: 1px ${({ grey30 }) => grey30} solid;
+    border: 0;
+    height: ${({ lineHeight }) => lineHeight};
+    max-height: ${({ lineHeight }) => lineHeight};
+    &:focus {
+      outline: 2px ${({ grey30 }) => grey30} solid;
+    }
+  }
 
-//   textarea {
-//     width: 100%;
-//     flex-grow: 1;
-//     padding: 0;
-//     margin: 0;
-//     border: none;
-//     outline: none;
-//     &:focus {
-//       outline: 2px $grey-30 solid;
-//     }
-//   }
+  select {
+    min-width: 60%;
+    border: 1px ${({ grey30 }) => grey30} solid;
+    outline: none;
+  }
 
-//   input[type='checkbox'],
-//   input[type='radio'] {
-//     margin: 0 ($unit * 0.5);
-//   }
+  .formFieldFile {
+    border: 1px ${({ primaryColor }) => primaryColor} solid;
+    background: ${({ grey30 }) => grey30};
+  }
 
-//   .submitBtns {
-//     display: flex;
-//     width: 100%;
-//   }
+  .formFieldInput {
+    .vert & {
+      flex-grow: 1;
+    }
+    .horiz & {
+      flex-grow: 0;
+    }
+  }
 
-//   .formFieldInput {
-//     width: 100%;
-//   }
-// }
+  textarea {
+    width: 100%;
+    flex-grow: 1;
+    padding: 0;
+    margin: 0;
+    border: none;
+    outline: none;
+    min-height: ${({ lineHeight }) => lineHeight};
+    &:focus {
+      outline: 2px ${({ grey30 }) => grey30} solid;
+    }
+  }
 
-// @media (min-width: $mq-medium) {
-//   .formSection {
-//     &.vert > .form_row > .form_label {
-//       text-align: right;
-//     }
-//     &.horiz > .form_row > .form_label {
-//       text-align: left;
-//     }
-//     &.vert > .form_row {
-//       flex-direction: row;
-//     align-items: flex-end; // Ensures inputs align to bottom of label
-//   }
-//     &.horiz > .form_row {
-//       // flex-direction: column;
-//     }
-//   }
-// }
+  input[type='checkbox'],
+  input[type='radio'] {
+    margin: 0 (1rem * 0.5);
+  }
+
+  .submitBtns {
+    display: flex;
+    width: 100%;
+  }
+
+  .formFieldInput {
+    width: 100%;
+  }
+
+  @media (min-width: ${({ mediaMediumWidth }) => mediaMediumWidth}) {
+    .formSection {
+      &.vert > .form_row > .form_label {
+        &,
+        * {
+          text-align: right;
+        }
+      }
+      &.horiz > .form_row > .form_label {
+        &,
+        * {
+          text-align: left;
+        }
+      }
+      &.vert > .form_row {
+        flex-direction: row;
+        align-items: flex-start; // Ensures inputs align to bottom of label
+        .form_label {
+          align-self: flex-start;
+        }
+      }
+      &.horiz > .form_row {
+      }
+    }
+    .formSection.vert > .form_row > .form_label {
+      &,
+      * {
+        width: 30%;
+        max-width: 200px;
+      }
+    }
+    .form_label {
+      margin-right: 1rem;
+      &,
+      label,
+      .label_wrap_inner {
+        height: ${({ lineHeight }) => lineHeight};
+      }
+    }
+  }
+`;

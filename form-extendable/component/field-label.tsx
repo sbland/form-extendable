@@ -19,6 +19,8 @@ export const FieldLabel = ({
   hidden,
 }: IFieldLabelProps) => (
   <div
+    className="label_wrap_inner"
+    data-testid="labelwrap"
     style={{
       overflow: 'hidden',
       width: hidden ? '0' : 'inherit',
@@ -26,17 +28,17 @@ export const FieldLabel = ({
       display: hidden ? 'none' : 'inline',
     }}
   >
+    {required && '*'}
     <label
       className={inputClassName}
       id={`${uid}-label`}
       htmlFor={`${uid}-input`}
     >
-      {required && '*'}
       {label || 'MISSING LABEL'}
       {/* Below is a possible hack to stop chrome autofill */}
       {/* {label.split('').join('\u200b')} */}
-      {hasChanged && '(!)'}
     </label>
+    {hasChanged && '(!)'}
   </div>
 );
 

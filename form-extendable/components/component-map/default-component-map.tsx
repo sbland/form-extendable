@@ -21,6 +21,7 @@ import { FieldMultiSelect } from '@form-extendable/fields.field-multi-select';
 import {
   searchFnReference,
   FieldSelectSearch,
+  FieldSelectSearchMulti,
 } from '@form-extendable/fields.field-select-search';
 import { FieldFile } from '@form-extendable/fields.field-file';
 import { FieldReadOnly } from '@form-extendable/fields.field-read-only';
@@ -34,21 +35,21 @@ export const failAll = Object.values(EFilterType).reduce(
 ) as TComponentMap;
 
 export interface IDefaultComponentMapProps {
-  asyncGetFiles?: (filters?: FilterObjectClass[]) => Promise<any[]>;
+  asyncGetFiles?: (
+    metaData?: any
+  ) => (filters?: FilterObjectClass[]) => Promise<any[]>;
   asyncFileUpload?: (
-    data: File,
-    fileType: EFileType,
-    callback: () => void
-  ) => Promise<void>;
+    metaData?: any
+  ) => (data: File, fileType: EFileType, callback: () => void) => Promise<void>;
   fileServerUrl?: string;
   PopupPanel?: React.FC<IPopupProps>;
 }
 
 export const defaultComponentMap = ({
-  asyncFileUpload = async () => {
+  asyncFileUpload = (metaData: any) => async () => {
     throw Error('Missing asyncFileUpload prop');
   },
-  asyncGetFiles = async () => {
+  asyncGetFiles = (metaData: any) => async () => {
     throw Error('Missing asyncGetFiles prop');
   },
   fileServerUrl = 'MISSING_FILE_SERVER_URL',
@@ -99,7 +100,7 @@ export const defaultComponentMap = ({
   [EFilterType.selectSearch]: () =>
     allowReadOnly((props) =>
       props.multiple ? (
-        <FieldSelectSearch {...props} multiple />
+        <FieldSelectSearchMulti {...props} multiple />
       ) : (
         <FieldSelectSearch {...props} multiple={false} />
       )

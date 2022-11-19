@@ -27,6 +27,12 @@ export const FieldSelect = ({
     (value && options && options.find((o) => o.uid === value)) ||
     (defaultValue && options.find((o) => o.uid === defaultValue));
   const searchFunction = useCallback(async () => options, [options]);
+  const valueIsInvalid = value !== null && selection === undefined;
+
+  const selectionValidated = valueIsInvalid
+    ? 'Invalid Selection'
+    : selection && selection[labelField];
+
   switch (selectType) {
     case 'dropdown':
       return (
@@ -39,9 +45,7 @@ export const FieldSelect = ({
             searchFieldTargetField={labelField}
             labelField={labelField}
             className="formFieldInput"
-            searchFieldPlaceholder={
-              selection ? selection[labelField] : 'search...'
-            }
+            searchFieldPlaceholder={selectionValidated || 'search...'}
             // onChange={(e) => onChange(e.target.value)}
             required={required}
             searchDelay={0}
@@ -65,7 +69,7 @@ export const FieldSelect = ({
           {options.map((opt) => (
             <ToggleBox
               text={opt.label}
-          // TODO: Update toggle box
+              // TODO: Update toggle box
               id={opt.uid as string}
               key={opt.uid}
               onChange={() => {}}

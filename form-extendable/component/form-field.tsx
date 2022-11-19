@@ -9,7 +9,10 @@ import {
   THeading,
   TFieldReactComponent,
 } from '@form-extendable/lib';
-import { defaultComponent } from '@form-extendable/components.component-map';
+import {
+  defaultComponent,
+  defaultComponentMap,
+} from '@form-extendable/components.component-map';
 import { FieldLabel } from './field-label';
 
 export interface IFormFieldProps<V, H extends THeading<V>>
@@ -67,19 +70,21 @@ export const FormField = <V, H extends THeading<V>>(
     <div
       className={rowClassname}
       // TODO: Remove this styling
-      style={{ border: '1px solid red', padding: '1rem' }}
+      // style={{ border: '1px solid red', padding: '1rem' }}
       key={uid}
       data-testid={`${type}-${uid}`}
     >
-      <FieldLabel
-        uid={uid}
-        label={label}
-        inputClassName={labelClassName}
-        hasChanged={hasChanged}
-        required={required}
-        hidden={hideLabel}
-      />
-      {!hideLabel ? <>{': '}</> : <span />}
+      <div className={labelClassName}>
+        <FieldLabel
+          uid={uid}
+          label={label}
+          // inputClassName={labelClassName}
+          hasChanged={hasChanged}
+          required={required}
+          hidden={hideLabel}
+        />
+        {!hideLabel ? <>{': '}</> : <span />}
+      </div>
       <FormComponent {...props} />
     </div>
   );
@@ -107,5 +112,5 @@ FormField.propTypes = {
 
 FormField.defaultProps = {
   value: null,
-  componentMap: {},
+  componentMap: defaultComponentMap(),
 };

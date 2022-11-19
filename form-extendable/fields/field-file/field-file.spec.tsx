@@ -4,7 +4,11 @@ import UserEvent from '@testing-library/user-event';
 import { IFile } from '@react_db_client/constants.client-types';
 import { FieldFile, IFieldFileProps } from './field-file';
 import * as compositions from './field-file.composition';
-import { DEMO_FILES_DATA, dummyProps } from './demo-data';
+import {
+  DEMO_FILES_DATA,
+  DEMO_IMAGE_FILES_DATA,
+  dummyProps,
+} from './demo-data';
 
 const onChange = jest.fn();
 const asyncGetFiles = jest.fn().mockImplementation(async () => DEMO_FILES_DATA);
@@ -27,11 +31,11 @@ describe('field-file', () => {
       <FieldFile
         {...defaultProps}
         onChange={onChange}
-        asyncGetFiles={asyncGetFiles}
-        asyncFileUpload={asyncFileUpload}
+        asyncGetFiles={() => async () => DEMO_IMAGE_FILES_DATA}
+        asyncFileUpload={() => async () => {}}
       />
     );
-    await screen.findAllByText(DEMO_FILES_DATA[0].name);
+    await screen.findAllByAltText(DEMO_IMAGE_FILES_DATA[0].label);
   });
 
   describe('Compositions', () => {
@@ -49,11 +53,11 @@ describe('field-file', () => {
           <FieldFile
             {...defaultProps}
             onChange={onChange}
-            asyncGetFiles={asyncGetFiles}
-            asyncFileUpload={asyncFileUpload}
+            asyncGetFiles={() => asyncGetFiles}
+            asyncFileUpload={() => asyncFileUpload}
           />
         );
-        await screen.findAllByText(DEMO_FILES_DATA[0].name);
+        await screen.findAllByAltText(DEMO_IMAGE_FILES_DATA[0].label);
       });
 
       test('should call onChange with null when we delete the file', async () => {
@@ -61,7 +65,7 @@ describe('field-file', () => {
           name: /Remove/,
         })[0];
         await UserEvent.click(fileDeleteBtn);
-        const newItems = DEMO_FILES_DATA.slice(1);
+        const newItems = DEMO_IMAGE_FILES_DATA.slice(1);
         expect(onChange).toHaveBeenCalledWith(newItems);
       });
     });

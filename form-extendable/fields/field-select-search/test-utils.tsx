@@ -3,7 +3,6 @@ import { within } from '@testing-library/react';
 import UserEvent from '@testing-library/user-event';
 import {
   IHeadingSelect,
-  IHeadingSelectMulti,
   IHeadingSelectSearch,
   IHeadingSelectSearchMulti,
   IObj,
@@ -12,7 +11,6 @@ import { EFilterType } from '@react_db_client/constants.client-types';
 
 export type THeadingTypes =
   | IHeadingSelect
-  | IHeadingSelectMulti
   | IHeadingSelectSearch<IObj>
   | IHeadingSelectSearchMulti<IObj>;
 
@@ -22,37 +20,37 @@ export const editValue = async (
   heading: THeadingTypes
 ) => {
   const selectedArray = Array.isArray(value) ? value : value?.split(',');
+  const fieldInput = within(formEl).getByLabelText(
+    `${heading.required ? '*' : ''}${heading.label}`
+  );
+  await Promise.all(
+    selectedArray.map(async (s) => {
+      await UserEvent.click(fieldInput);
+      await UserEvent.clear(fieldInput);
+      await UserEvent.keyboard(s);
+      await UserEvent.keyboard('{ArrowDown}');
+      await UserEvent.keyboard('{Enter}');
+    })
+  );
+};
+
+export const getDisplayValue = async (
+  formEl: HTMLFormElement,
+  heading: THeadingTypes
+): Promise<string> => {
+  const fieldComponent = within(formEl).getByTestId(
+    `${heading.type}-${heading.uid}`
+  );
   if (
-    heading.type === EFilterType.selectMulti &&
-    (heading.asDropdown === false || heading.selectType === 'showall')
+    heading.type === EFilterType.reference ||
+    heading.type === EFilterType.select ||
+    heading.type === EFilterType.selectSearch
   ) {
-    if (!value) return;
-    const selectedButtonNames = selectedArray.map(
-      (uid) => heading.options.find((o) => o.uid === uid)?.label
-    );
-    await Promise.all(
-      selectedButtonNames.map(async (s) => {
-        const optionButton = within(formEl).getByRole('button', { name: s });
-        await UserEvent.click(optionButton);
-      })
-    );
-  } else if (heading.type === EFilterType.selectMulti && heading.asDropdown) {
-    const dropDownButton = within(formEl).getByLabelText(
-      `${heading.required ? '*' : ''}${heading.label}`
-    );
-    await UserEvent.click(dropDownButton);
+    const selectInputField: HTMLInputElement =
+      within(fieldComponent).getByRole('textbox');
+    return selectInputField.placeholder;
   } else {
-    const fieldInput = within(formEl).getByLabelText(
-      `${heading.required ? '*' : ''}${heading.label}`
-    );
-    await Promise.all(
-      selectedArray.map(async (s) => {
-        await UserEvent.click(fieldInput);
-        await UserEvent.clear(fieldInput);
-        await UserEvent.keyboard(s);
-        await UserEvent.keyboard('{ArrowDown}');
-        await UserEvent.keyboard('{Enter}');
-      })
-    );
+    console.info(heading);
+    throw new Error(`Not Implemented: ${heading.uid}`);
   }
 };

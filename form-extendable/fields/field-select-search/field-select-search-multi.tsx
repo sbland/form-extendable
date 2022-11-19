@@ -1,3 +1,6 @@
+import React from 'react';
+export const FieldSelectSearchMulti = () => <>NOT IMPLEMENTED</>;
+
 // import React, { useCallback, useMemo } from 'react';
 // import PropTypes from 'prop-types';
 // import {

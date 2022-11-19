@@ -19,6 +19,7 @@ export interface IHeading<T = unknown> {
   hasChanged?: boolean;
   readOnly?: boolean;
   defaultValue?: T;
+  group?: number;
 }
 
 export interface IHeadingNumber<T extends number | string = number>
@@ -74,6 +75,7 @@ export interface IHeadingSelectMulti<
 
 export interface IHeadingEmbedded<T = unknown> extends IHeading<T> {
   type: EFilterType.embedded;
+  showTitle: boolean;
   orientation?: 'vert' | 'horiz';
   children: THeading<unknown>[];
 }
@@ -111,10 +113,11 @@ export interface IHeadingFile<T extends IFile | IFile[]> extends IHeading<T> {
   type: EFilterType.file | EFilterType.fileMultiple;
   // collectionId: string;
   // documentId: string;
+  metaData?: any;
   fileType: EFileType;
 }
 
-export interface IHeadingImage<T = unknown> extends IHeading<T> {
+export interface IHeadingImage<T extends  IFile | IFile[]> extends IHeading<T> {
   type: EFilterType.image;
   // collectionId: string;
   // documentId: string;
@@ -161,7 +164,7 @@ export type THeading<T> =
   | IHeadingBool<T extends boolean ? T : never>
   | IHeadingCustomType<T>
   | IHeadingFile<T extends IFile | IFile[] ? T : never>
-  | IHeadingImage<T>
+  | IHeadingImage<T extends  IFile | IFile[] ? T : never>
   | IHeadingSelect<T extends string ? T : never>
   | IHeadingSelectSearch<T extends IObj ? T : never>
   | IHeadingSelectSearchMulti<T extends IObj ? T : never>

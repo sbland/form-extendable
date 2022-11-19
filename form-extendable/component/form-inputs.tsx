@@ -16,6 +16,7 @@ export interface IFormInputsProps {
   onFormInputChange: (uid: string, val: any) => void;
   orientation: 'horiz' | 'vert';
   heading?: string;
+  showTitle?: boolean;
   isSection?: boolean;
   showKey?: boolean;
   additionalData?: TFormData;
@@ -30,6 +31,7 @@ export const FormInputs = ({
   onFormInputChange,
   orientation,
   heading: sectionTitle,
+  showTitle,
   isSection,
   showKey,
   additionalData,
@@ -40,7 +42,7 @@ export const FormInputs = ({
     'form_inputs',
     'formSection',
     `${orientation}`,
-    sectionTitle ? 'hasHeading' : '',
+    sectionTitle && showTitle ? 'hasHeading' : '',
     `formSection_${id}`,
   ]
     .filter((f) => f)
@@ -64,6 +66,7 @@ export const FormInputs = ({
               orientation={(heading as IHeadingEmbedded<unknown>).orientation}
               heading={(heading as IHeadingEmbedded<unknown>).label}
               additionalData={additionalData}
+              showTitle={(heading as IHeadingEmbedded<unknown>).showTitle}
               componentMap={componentMap}
               FormField={FormField}
               id={heading.uid}

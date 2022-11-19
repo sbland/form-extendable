@@ -25,6 +25,7 @@ export const FieldNumber = ({
   onChange,
   value: valueIn,
   required,
+  additionalData,
   ...additionalProps
 }: TFieldNumberProps) => {
   const ref = useRef<HTMLInputElement>(null);

@@ -24,7 +24,8 @@ export const WrapFieldComponent: React.FC = ({ children }) => {
   return (
     <div>
       {childrenWithProps}
-      <div className="">{String(state)}</div>
+      <hr />
+      <div className="">{JSON.stringify(state)}</div>
     </div>
   );
 };

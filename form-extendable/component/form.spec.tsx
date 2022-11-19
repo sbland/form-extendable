@@ -1,13 +1,14 @@
 import React from 'react';
 import { screen, render, within } from '@testing-library/react';
 import UserEvent from '@testing-library/user-event';
-import { IHeadingNumber, TFormData } from '@form-extendable/lib';
+import {
+  IHeadingCustomType,
+  IHeadingNumber,
+  THeading,
+} from '@form-extendable/lib';
 import { EFilterType } from '@react_db_client/constants.client-types';
 import { defaultComponentMap } from '@form-extendable/components.component-map';
-import {
-  editValue as editSelectValue,
-  THeadingTypes as THeadingTypesSelect,
-} from '@form-extendable/fields.field-select-search';
+import { fillInForm, getFieldDisplayValue } from '@form-extendable/testing';
 
 import {
   CustomFieldType,
@@ -23,8 +24,10 @@ import * as compositions from './form.composition';
 const onSubmit = jest.fn();
 const errorCallback = jest.fn();
 // TODO: We shouldn't be calling this on init
-const asyncGetFiles = jest.fn().mockImplementation(async () => []);
-const asyncFileUpload = jest.fn().mockImplementation(async () => {});
+const asyncGetFiles = (metaData) =>
+  jest.fn().mockImplementation(async () => []);
+const asyncFileUpload = (metaData) =>
+  jest.fn().mockImplementation(async () => {});
 
 beforeEach(() => {
   jest.clearAllMocks();
@@ -54,99 +57,29 @@ const renderForm = async (props: IFormProps = defaultProps) => {
   return view;
 };
 
-const fillInField =
-  (formEl): ((args: [k: string, v: any]) => Promise<void>) =>
+const fillInCustomField =
+  (formEl: HTMLFormElement, headingsData: THeading<unknown>[]) =>
   async ([k, v]) => {
     const heading = demoHeadingsData.find((h) => h.uid === k);
     if (!heading) throw Error(`Heading not found for ${k}`);
-    if (!heading.readOnly)
-      try {
-        switch (heading.type) {
-          case EFilterType.number:
-          case EFilterType.date:
-          case EFilterType.textLong:
-          case EFilterType.text: {
-            const fieldInput = within(formEl).getByLabelText(
-              `${heading.required ? '*' : ''}${heading.label}`
-            );
-            await UserEvent.click(fieldInput);
-            await UserEvent.clear(fieldInput);
-            await UserEvent.keyboard(`${v}`);
-            break;
-          }
-          case EFilterType.uid:
-          case EFilterType.button:
-            /* We skip these types */
-            break;
-          case EFilterType.toggle:
-          case EFilterType.bool: {
-            const toggleButton: HTMLInputElement = within(formEl).getByRole(
-              'checkbox',
-              {
-                name: `${heading.required ? '*' : ''}${heading.label}`,
-              }
-            );
-            if ((v && !toggleButton.checked) || (!v && toggleButton.checked))
-              await UserEvent.click(toggleButton);
-            if (!v && !toggleButton.checked) {
-              // Click twice to make sure stored as false not undefined
-              await UserEvent.click(toggleButton);
-              await UserEvent.click(toggleButton);
-            }
-            break;
-          }
-          case EFilterType.reference:
-          case EFilterType.selectMulti:
-          case EFilterType.selectSearch:
-          case EFilterType.select: {
-            await editSelectValue(v, formEl, heading as THeadingTypesSelect);
-            break;
-          }
-          case EFilterType.embedded:
-            // TODO: Implement embedded type
-            break;
-          case EFilterType.dict:
-            // TODO: Implement dict type
-            break;
-          case EFilterType.video:
-            // TODO: Implement video type
-            break;
-          case EFilterType.image:
-          case EFilterType.file:
-          case EFilterType.fileMultiple:
-            // TODO: Implement dict type
-            break;
-          default:
-            if (heading.type === demoCustomTypeHeading.type) {
-              const fieldInput = within(formEl).getByLabelText(
-                `${heading.required ? '*' : ''}${heading.label}`
-              );
-              await UserEvent.click(fieldInput);
-              await UserEvent.clear(fieldInput);
-              await UserEvent.keyboard(`${v}`);
-              break;
-            } else {
-              throw Error(`Heading type "${heading.type}" not implemented`);
-            }
-        }
-      } catch (error) {
-        console.info(`Failed to set value for ${heading.uid}`);
-        console.info(heading);
-        throw error;
-      }
+
+    if (heading.type === demoCustomTypeHeading.type) {
+      const fieldInput = within(formEl).getByLabelText(heading.label);
+      await UserEvent.click(fieldInput);
+      await UserEvent.clear(fieldInput);
+      await UserEvent.keyboard(`${v}`);
+    } else {
+      throw Error(`Heading type "${heading.type}" not implemented`);
+    }
   };
 
-const fillInForm = async (formEl, data: TFormData) => {
-  const fns = Object.entries(data).map(
-    ([k, v]) =>
-      () =>
-        fillInField(formEl)([k, v])
-  );
-  const result = await fns.reduce((prev, fn) => {
-    const next = () => prev().then(() => fn());
-    return next;
-  });
-  await result();
+const getCustomFieldDisplayValue = async (
+  formEl: HTMLFormElement,
+  heading: THeading<any>
+) => {
+  if ((heading as IHeadingCustomType).customType)
+    return demoFormData[heading.uid];
+  throw new Error(`Not a custom type: ${heading.uid}`);
 };
 
 describe('Form Main Component', () => {
@@ -158,7 +91,6 @@ describe('Form Main Component', () => {
       });
     });
   });
-
   describe('Demo Data', () => {
     test('should have all field types in demo headings', () => {
       expect(new Set(demoHeadingsData.map((h) => h.type))).toEqual(
@@ -186,27 +118,97 @@ describe('Form Main Component', () => {
         formEditData: {},
       });
     });
+    test('Should show initial data for each field', async () => {
+      await renderForm({ ...defaultProps, formDataInitial: demoFormData });
+      const headingsFlat = demoHeadingsData.reduce(
+        (acc, h) =>
+          // eslint-disable-next-line testing-library/no-node-access
+          h.type === EFilterType.embedded
+            ? [...acc, ...(h as any).children]
+            : [...acc, h],
+        [] as THeading<any>[]
+      );
+      const formComponent: HTMLFormElement = screen.getByRole('form');
+      // Commented values cannot be edited (yet!)
+      const displayFieldData = {
+        text: demoFormData.text,
+        number: '1',
+        numberCapped: '999999',
+        date: '2019-11-02',
+        // // date: '2019-11-02T12:04:44.626+00:00', //TODO: Check this date input
+        selectreadonly: 'Select read only val 1',
+        bool: false,
+        toggle: true,
+        // button: null,
+        demoField: 'demoField data',
+        reference: 'Example ref obj',
+        image: 'example image label',
+        file: 'example file label',
+        fileMultiple: 'example file 01 label,example file 02 label',
+        select: 'Select Val 1',
+        selectSearch: 'Select Search Val 1',
+        multiSelect: ['Multi Select 1', 'Multi Select 2'],
+        // selectSearchMulti: ['foo'], // TODO: not implemented
+        // multiSelectList: ['foo'],
+        // multiSelectListShowAll: ['foo'],
+        // video: 'example_video.mov',
+
+        longText: demoFormData.longText,
+        // Below field types currently unsupported
+        // dict: { hello: 'world' },
+        // embedded: null,
+        // embeddedb: null,
+        // uid: 'name-1',
+      };
+
+      for (let index = 0; index < headingsFlat.length; index++) {
+        const heading = headingsFlat[index];
+        const expectedDisplayValue = displayFieldData[heading.uid];
+        if (expectedDisplayValue === undefined) {
+          console.warn(`heading not implemented: ${heading.uid}`);
+          continue;
+        } else {
+          const fieldData = demoFormData[heading.uid];
+          const fieldDisplayValue = await getFieldDisplayValue(
+            formComponent,
+            heading,
+            getCustomFieldDisplayValue
+          );
+
+          expect(fieldDisplayValue).toEqual(expectedDisplayValue);
+
+          // const field = within(formComponent).getByLabelText(heading.label);
+          // console.info(
+          //   heading.uid,
+          //   heading.label,
+          //   fieldData,
+          //   fieldDisplayValue
+          // );
+          // TODO: Check value is correct here
+        }
+      }
+    });
     test('Should call errorCallback if submit pressed before form complete', async () => {
       await renderForm();
       const submitBtn = screen.getByRole('button', { name: /Submit/ });
       await UserEvent.click(submitBtn);
       expect(errorCallback).toHaveBeenCalledWith(
-        'Missing the following fields: name'
+        'Missing the following fields: text'
       );
     });
     test('Should call on submit with edit data when clicking the save button', async () => {
       await renderForm();
 
-      // Commented values cannot be edited
+      // Commented values cannot be edited (yet!)
       const demoData = {
-        name: 'Name 2',
+        text: 'Example text',
         number: 1,
         numberCapped: 999999,
         date: '2019-11-02',
         // // date: '2019-11-02T12:04:44.626+00:00', //TODO: Check this date input
         selectreadonly: 'rep1',
-        bool: false,
-        toggle: true,
+        // bool: false,
+        // toggle: true,
         button: null,
         demoField: 'demoField data',
         // reference: 'exampleObj',
@@ -248,7 +250,12 @@ describe('Form Main Component', () => {
         button: undefined,
       };
 
-      await fillInForm(screen.getByRole('form'), demoData);
+      await fillInForm(
+        screen.getByRole('form'),
+        demoHeadingsData as any,
+        demoData,
+        fillInCustomField
+      );
       const submitBtn = screen.getByRole('button', { name: /Submit/ });
       await UserEvent.click(submitBtn);
       expect(onSubmit).toHaveBeenCalledTimes(1);
@@ -257,5 +264,6 @@ describe('Form Main Component', () => {
         formEditData: submitData,
       });
     });
+    test.todo('should call save on debounced change when autosave is on');
   });
 });

@@ -6,7 +6,6 @@ import { Emoji } from '@react_db_client/components.emoji';
 import { defaultComponentMap } from '@form-extendable/components.component-map';
 import { TComponentMap, TFormData, THeading } from '@form-extendable/lib';
 import { formValidation, IValidationError } from '@form-extendable/utils';
-import { FormStyled } from '@form-extendable/styles';
 
 import { FormField as DefaultFormField, IFormFieldProps } from './form-field';
 import { FormInputs } from './form-inputs';
@@ -105,8 +104,8 @@ export const Form = ({
   }, [formData, formEditData, headings, onSubmit, errorCallback]);
 
   return (
-    <FormStyled
-      aria-label="form"
+    <form
+      aria-label="form" // TODO: Get name from props
       onSubmit={(e) => {
         e.preventDefault();
         handleSubmit();
@@ -148,7 +147,7 @@ export const Form = ({
           </div>,
           endButtonRefOverride?.current || endButtonContainerRef
         )}
-    </FormStyled>
+    </form>
   );
 };
 

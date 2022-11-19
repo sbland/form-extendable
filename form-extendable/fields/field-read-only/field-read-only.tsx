@@ -12,6 +12,7 @@ const getSelectValue = (value: string, options: IOpt[]) => {
 };
 
 export const FieldReadOnly = <V, > ({
+  uid,
   unit,
   value,
   type,
@@ -24,7 +25,7 @@ export const FieldReadOnly = <V, > ({
   if (typeof value === 'object') val == 'INVALID';
   return (
     <>
-      <span>{val}</span>
+      <span data-testid={`${uid}_read-only-value`}>{val}</span>
       <span className="unitSpan">{unit && ` ${unit}`}</span>
     </>
   );

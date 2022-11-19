@@ -4,6 +4,7 @@ import {
   IFieldComponentProps,
   IHeadingCustomType,
   IObj,
+  TFormData,
   THeading,
 } from '@form-extendable/lib';
 import {
@@ -25,7 +26,7 @@ export const demoHeadingsData: THeading<any>[] = [
     type: EFilterType.uid,
   },
   {
-    uid: 'name',
+    uid: 'text',
     label: 'Text',
     type: EFilterType.text,
     required: true,
@@ -38,7 +39,7 @@ export const demoHeadingsData: THeading<any>[] = [
   },
   {
     uid: 'longText',
-    label: 'Long Text',
+    label: 'Long Text with a long heading... extra text to check',
     type: EFilterType.textLong,
   },
   {
@@ -102,8 +103,8 @@ export const demoHeadingsData: THeading<any>[] = [
     label: 'Select',
     type: EFilterType.select,
     options: [
-      { uid: 'rep1', label: 'Rep 1' },
-      { uid: 'rep2', label: 'Rep 2' },
+      { uid: 'selectVal1', label: 'Select Val 1' },
+      { uid: 'selectVal2', label: 'Select Val 2' },
     ],
   },
   {
@@ -112,8 +113,8 @@ export const demoHeadingsData: THeading<any>[] = [
     type: EFilterType.select,
     readOnly: true,
     options: [
-      { uid: 'rep1', label: 'Rep 1' },
-      { uid: 'rep2', label: 'Rep 2' },
+      { uid: 'selectReadOnlyVal1', label: 'Select read only val 1' },
+      { uid: 'selectReadOnlyVal2', label: 'Select read only val 2' },
     ],
   },
   {
@@ -122,8 +123,8 @@ export const demoHeadingsData: THeading<any>[] = [
     type: EFilterType.selectSearch,
     searchFieldTargetField: 'label',
     searchFn: async (): Promise<IObj[]> => [
-      { uid: 'rep1', label: 'Rep 1' },
-      { uid: 'rep2', label: 'Rep 2' },
+      { uid: 'selectSearchVal1', label: 'Select Search Val 1' },
+      { uid: 'selectSearchVal2', label: 'Select Search Val 2' },
     ],
   },
   {
@@ -135,8 +136,8 @@ export const demoHeadingsData: THeading<any>[] = [
     searchFieldTargetField: 'label',
     allowEmptySearch: true,
     searchFn: async () => [
-      { uid: 'rep1', label: 'Rep 1' },
-      { uid: 'rep2', label: 'Rep 2' },
+      { uid: 'readOnlyMultiVal1', label: 'Read only Multi select value 1' },
+      { uid: 'readOnlyMultiVal2', label: 'Read only Multi select value 2' },
     ],
   },
   {
@@ -176,6 +177,7 @@ export const demoHeadingsData: THeading<any>[] = [
     uid: 'embedded',
     label: 'Embedded',
     type: EFilterType.embedded,
+    showTitle: true,
     children: [
       { uid: 'embeddedtext', label: 'Embedded Text', type: EFilterType.text },
     ],
@@ -184,6 +186,7 @@ export const demoHeadingsData: THeading<any>[] = [
     uid: 'embeddedb',
     label: 'Embedded B',
     type: EFilterType.embedded,
+    showTitle: true,
     orientation: 'horiz',
     children: [
       { uid: 'embeddedtog1', label: 'Embedded Tog1', type: EFilterType.bool },
@@ -209,35 +212,56 @@ export const demoHeadingsDataMap: { [uid: string]: THeading<unknown> } =
   demoHeadingsData.reduce((acc, h) => ({ ...acc, [h.uid]: h }), {});
 
 export const demoFormDataMin = {
-  name: 'Name 1',
+  text: 'Example text',
 };
 
-export const demoFormData = {
-  name: 'Name 1',
+export const demoFormData: TFormData = {
+  text: 'Example text',
   uid: 'name-1',
   number: 1,
   numberCapped: 999999,
   date: '2019-11-02T12:04:44.626+00:00',
-  selectreadonly: 'rep1',
+  selectreadonly: 'selectReadOnlyVal1',
   bool: false,
   toggle: true,
   button: null,
   demoField: 'demoField data',
-  reference: 'exampleObj',
+  reference: { uid: 'exampleObj', label: 'Example ref obj' },
   dict: { hello: 'world' },
   embedded: null,
   embeddedb: null,
-  image: 'example_file.jpg',
+  image: {
+    uid: 'example_image_file',
+    label: 'example image label',
+    fileType: EFileType.IMAGE,
+    filePath: '',
+    name: 'bit-logo.svg',
+  },
   file: {
     uid: 'example_file',
     label: 'example file label',
     fileType: EFileType.DOCUMENT,
     filePath: 'dir1',
-    name: 'example_file.jpg',
+    name: 'example_file.pdf',
   },
-  fileMultiple: ['example_file.jpg'],
-  select: 'example_item',
-  selectSearch: 'example_item',
+  fileMultiple: [
+    {
+      uid: 'example_file_01',
+      label: 'example file 01 label',
+      fileType: EFileType.DOCUMENT,
+      filePath: 'dir1',
+      name: 'example_file.doc',
+    },
+    {
+      uid: 'example_file_02',
+      label: 'example file 02 label',
+      fileType: EFileType.DOCUMENT,
+      filePath: 'dir1',
+      name: 'example_file.doc',
+    },
+  ],
+  select: 'selectVal1',
+  selectSearch: { uid: 'selectSearchVal1', label: 'Select Search Val 1' },
   multiSelect: ['foo', 'bar'],
   selectSearchMulti: ['foo'],
   multiSelectList: ['foo'],
