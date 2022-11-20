@@ -179,7 +179,7 @@ export const demoHeadingsData: THeading<any>[] = [
     type: EFilterType.embedded,
     showTitle: true,
     children: [
-      { uid: 'embeddedtext', label: 'Embedded Text', type: EFilterType.text },
+      { uid: 'embeddedText', label: 'Embedded Text', type: EFilterType.text },
     ],
   },
   {
@@ -208,6 +208,16 @@ export const demoHeadingsData: THeading<any>[] = [
   demoCustomTypeHeading,
 ];
 
+export const headingsFlat = demoHeadingsData.reduce(
+  (acc, h) =>
+    // eslint-disable-next-line testing-library/no-node-access
+    h.type === EFilterType.embedded
+      ? [...acc, ...(h as any).children]
+      : [...acc, h],
+  [] as THeading<any>[]
+);
+
+
 export const demoHeadingsDataMap: { [uid: string]: THeading<unknown> } =
   demoHeadingsData.reduce((acc, h) => ({ ...acc, [h.uid]: h }), {});
 
@@ -228,8 +238,12 @@ export const demoFormData: TFormData = {
   demoField: 'demoField data',
   reference: { uid: 'exampleObj', label: 'Example ref obj' },
   dict: { hello: 'world' },
-  embedded: null,
-  embeddedb: null,
+  embeddedText: 'Embedded Text',
+  embeddedtog1: true,
+  embeddedtog2: false,
+  embeddedtog3: true,
+  // embedded: null,
+  // embeddedb: null,
   image: {
     uid: 'example_image_file',
     label: 'example image label',

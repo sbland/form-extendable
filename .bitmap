@@ -11,7 +11,7 @@
 {
     "component": {
         "scope": "samnbuk.form-extendable",
-        "version": "0.1.16",
+        "version": "0.1.17",
         "mainFile": "index.ts",
         "rootDir": "form-extendable/component"
     },
@@ -118,8 +118,8 @@
         "rootDir": "form-extendable/styles"
     },
     "testing": {
-        "scope": "",
-        "version": "0.0.4",
+        "scope": "samnbuk.form-extendable",
+        "version": "0.0.5",
         "mainFile": "index.ts",
         "rootDir": "form-extendable/testing"
     },

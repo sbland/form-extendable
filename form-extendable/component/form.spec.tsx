@@ -17,6 +17,7 @@ import {
   demoFormDataMin,
   demoHeadingsData,
   demoHeadingsDataMap,
+  headingsFlat,
 } from './dummy-data';
 import { Form, IFormProps } from './form';
 import * as compositions from './form.composition';
@@ -32,6 +33,7 @@ const asyncFileUpload = (metaData) =>
 beforeEach(() => {
   jest.clearAllMocks();
 });
+
 
 const fileServerUrl = 'FILE_SERVER_URL';
 
@@ -101,7 +103,7 @@ describe('Form Main Component', () => {
     });
     test('should have at least a single example field for each heading', () => {
       expect(new Set(Object.keys(demoFormData))).toEqual(
-        new Set(demoHeadingsData.map((h) => h.uid)).add('demoField')
+        new Set(headingsFlat.map((h) => h.uid)).add('demoField')
       );
     });
   });
@@ -120,14 +122,7 @@ describe('Form Main Component', () => {
     });
     test('Should show initial data for each field', async () => {
       await renderForm({ ...defaultProps, formDataInitial: demoFormData });
-      const headingsFlat = demoHeadingsData.reduce(
-        (acc, h) =>
-          // eslint-disable-next-line testing-library/no-node-access
-          h.type === EFilterType.embedded
-            ? [...acc, ...(h as any).children]
-            : [...acc, h],
-        [] as THeading<any>[]
-      );
+
       const formComponent: HTMLFormElement = screen.getByRole('form');
       // Commented values cannot be edited (yet!)
       const displayFieldData = {
@@ -148,6 +143,7 @@ describe('Form Main Component', () => {
         select: 'Select Val 1',
         selectSearch: 'Select Search Val 1',
         multiSelect: ['Multi Select 1', 'Multi Select 2'],
+        embeddedText: "Embedded Text",
         // selectSearchMulti: ['foo'], // TODO: not implemented
         // multiSelectList: ['foo'],
         // multiSelectListShowAll: ['foo'],
