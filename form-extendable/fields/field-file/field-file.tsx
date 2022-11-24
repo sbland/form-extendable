@@ -109,6 +109,7 @@ export const FieldFile: React.FC<IFieldFileProps<IFile | IFile[]>> = ({
   return (
     <>
       <PopupPanel
+        id={`field-file-popup_${uid}`}
         isOpen={showFileSelectionPanel}
         handleClose={() => setShowFileSelectionPanel(false)}
         title="File Selector"

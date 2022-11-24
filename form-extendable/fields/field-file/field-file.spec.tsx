@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import UserEvent from '@testing-library/user-event';
 import { IFile } from '@react_db_client/constants.client-types';
 import { FieldFile, IFieldFileProps } from './field-file';
@@ -67,6 +67,19 @@ describe('field-file', () => {
         await UserEvent.click(fileDeleteBtn);
         const newItems = DEMO_IMAGE_FILES_DATA.slice(1);
         expect(onChange).toHaveBeenCalledWith(newItems);
+      });
+      test('should be able to select a file from file list', async () => {
+        const addFileButton = screen.getByRole('button', { name: '+' });
+        await UserEvent.click(addFileButton);
+        await screen.findByText('Select File');
+        const demoFile = DEMO_FILES_DATA[0];
+        console.info(demoFile);
+        await screen.findByText(demoFile.name);
+        const demoFileButton = screen
+          .getAllByRole('button')
+          .find((b) => within(b).queryByText(demoFile.name));
+        expect(demoFileButton).toBeInTheDocument();
+        await UserEvent.click(demoFileButton as HTMLButtonElement);
       });
     });
   });
