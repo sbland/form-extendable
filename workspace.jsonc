@@ -46,7 +46,7 @@
     "policy": {
       "dependencies": {
         "@react_db_client/components.emoji": "^0.1.11",
-        "@react_db_client/components.file-manager": "0.2.82",
+        "@react_db_client/components.file-manager": "0.2.83",
         "@react_db_client/components.form.form-components.bubble-selector": "0.2.9",
         "@react_db_client/components.form.form-components.multi-select-dropdown": "0.2.19",
         "@react_db_client/components.form.form-components.toggle-box": "0.2.17",

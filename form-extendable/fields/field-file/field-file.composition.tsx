@@ -7,6 +7,7 @@ import {
   DEMO_FILES_DATA,
   DEMO_FILES_DATA_MANY,
   DEMO_IMAGE_FILES_DATA,
+  DEMO_IMAGE_FILES_MANY,
   dummyProps,
   dummyPropsDocs,
   dummyPropsDocsMany,
@@ -34,7 +35,7 @@ export const BasicFieldFileImagesMany = () => (
 );
 
 BasicFieldFileImagesMany.waitForReady = async () => {
-  await screen.findAllByAltText(DEMO_FILES_DATA_MANY[0].label);
+  await screen.findAllByAltText(DEMO_IMAGE_FILES_MANY[0].label);
 };
 
 export const BasicFieldFileDocs = () => (

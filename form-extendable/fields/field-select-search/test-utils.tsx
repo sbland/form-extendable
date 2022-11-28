@@ -20,15 +20,15 @@ export const editValue = async (
   heading: THeadingTypes
 ) => {
   const selectedArray = Array.isArray(value) ? value : value?.split(',');
-  const fieldInput = within(formEl).getByLabelText(
-    `${heading.required ? '*' : ''}${heading.label}`
-  );
+  const fieldInput = within(formEl).getByLabelText(heading.label);
   await Promise.all(
     selectedArray.map(async (s) => {
       await UserEvent.click(fieldInput);
       await UserEvent.clear(fieldInput);
       await UserEvent.keyboard(s);
       await UserEvent.keyboard('{ArrowDown}');
+      // TODO: Wait for list
+
       await UserEvent.keyboard('{Enter}');
     })
   );

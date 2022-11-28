@@ -7,9 +7,7 @@ export const useDebounce = ({ timeout = 2000, fn, allow }) => {
   /** Ping Test */
   React.useEffect(() => {
     if (callRequested && allow) {
-      console.info('called');
       const handler = setTimeout(() => {
-        console.info('timeout');
         fn(...args);
         setCallRequested(false);
       }, timeout);

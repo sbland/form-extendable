@@ -55,15 +55,31 @@ export const DEMO_FILES_DATA: IFile[] = [
   },
 ];
 
-export const DEMO_FILES_DATA_MANY = Array(100)
-  .fill(0)
-  .map((_, i) => ({
-    uid: `file_${i}`,
-    filePath: '',
-    label: `FileA with a really long name ${i}`,
-    name: 'bit-logo.svg',
-    fileType: EFileType.IMAGE,
-  }));
+export const DEMO_FILES_DATA_MANY = [
+  ...DEMO_FILES_DATA,
+  ...Array(100)
+    .fill(0)
+    .map((_, i) => ({
+      uid: `file_${i}`,
+      filePath: '',
+      label: `FileA with a really long name ${i}`,
+      name: 'bit-logo.svg',
+      fileType: EFileType.IMAGE,
+    })),
+];
+
+export const DEMO_IMAGE_FILES_MANY = [
+  ...DEMO_IMAGE_FILES_DATA,
+  ...Array(100)
+    .fill(0)
+    .map((_, i) => ({
+      uid: `file_${i}`,
+      filePath: '',
+      label: `FileA with a really long name ${i}`,
+      name: `bit-logo_${i}.svg`,
+      fileType: EFileType.IMAGE,
+    })),
+];
 
 export const PopupPanel: React.FC<IPopupProps> = ({
   children,
@@ -76,10 +92,10 @@ export const dummyProps: IFieldFileProps<IFile[] | IFile> = {
   uid: 'uid',
   label: 'File Field',
   type: EFilterType.file,
-  multiple: true,
+  multiple: false,
   onChange,
   fileType: EFileType.IMAGE,
-  value: DEMO_IMAGE_FILES_DATA,
+  value: DEMO_IMAGE_FILES_DATA[0],
   fileServerUrl: 'https://static.bit.dev',
   asyncGetFiles: (metaData) => async () => DEMO_IMAGE_FILES_DATA,
   PopupPanel,
@@ -88,19 +104,21 @@ export const dummyProps: IFieldFileProps<IFile[] | IFile> = {
 
 export const dummyPropsImagesMany: IFieldFileProps<IFile[] | IFile> = {
   ...dummyProps,
-  value: DEMO_FILES_DATA_MANY,
-  asyncGetFiles: (metaData) => async () => DEMO_FILES_DATA_MANY,
+  multiple: true,
+  value: [...DEMO_IMAGE_FILES_MANY].slice(0,50),
+  asyncGetFiles: (metaData) => async () => [...DEMO_IMAGE_FILES_MANY].slice(50,60),
 };
 
 export const dummyPropsDocs: IFieldFileProps<IFile[] | IFile> = {
   ...dummyProps,
   fileType: EFileType.DOCUMENT,
-  value: DEMO_FILES_DATA,
+  value: DEMO_FILES_DATA[0],
   asyncGetFiles: (metaData) => async () => DEMO_FILES_DATA,
 };
 
 export const dummyPropsDocsMany: IFieldFileProps<IFile[] | IFile> = {
   ...dummyPropsDocs,
-  value: DEMO_FILES_DATA_MANY,
-  asyncGetFiles: (metaData) => async () => DEMO_FILES_DATA_MANY,
+  multiple: true,
+  value: [...DEMO_FILES_DATA_MANY].slice(0,50),
+  asyncGetFiles: (metaData) => async () => [...DEMO_FILES_DATA_MANY].slice(50,60),
 };

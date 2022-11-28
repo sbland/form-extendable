@@ -34,7 +34,6 @@ beforeEach(() => {
   jest.clearAllMocks();
 });
 
-
 const fileServerUrl = 'FILE_SERVER_URL';
 
 const componentMap = {
@@ -130,7 +129,7 @@ describe('Form Main Component', () => {
         number: '1',
         numberCapped: '999999',
         date: '2019-11-02',
-        // // date: '2019-11-02T12:04:44.626+00:00', //TODO: Check this date input
+        // date: '2019-11-02T12:04:44.626+00:00', //TODO: Check this date input
         selectreadonly: 'Select read only val 1',
         bool: false,
         toggle: true,
@@ -143,7 +142,7 @@ describe('Form Main Component', () => {
         select: 'Select Val 1',
         selectSearch: 'Select Search Val 1',
         multiSelect: ['Multi Select 1', 'Multi Select 2'],
-        embeddedText: "Embedded Text",
+        embeddedText: 'Embedded Text',
         // selectSearchMulti: ['foo'], // TODO: not implemented
         // multiSelectList: ['foo'],
         // multiSelectListShowAll: ['foo'],
@@ -172,15 +171,6 @@ describe('Form Main Component', () => {
           );
 
           expect(fieldDisplayValue).toEqual(expectedDisplayValue);
-
-          // const field = within(formComponent).getByLabelText(heading.label);
-          // console.info(
-          //   heading.uid,
-          //   heading.label,
-          //   fieldData,
-          //   fieldDisplayValue
-          // );
-          // TODO: Check value is correct here
         }
       }
     });
@@ -207,7 +197,7 @@ describe('Form Main Component', () => {
         // toggle: true,
         button: null,
         demoField: 'demoField data',
-        // reference: 'exampleObj',
+        reference: 'exampleObj',
 
         // image: 'example_file.jpg',
         // file: 'example_file.jpg',

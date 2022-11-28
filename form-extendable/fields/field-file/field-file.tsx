@@ -15,6 +15,7 @@ import {
 } from '@form-extendable/lib';
 import { FileItem } from './file-list';
 import { AddFileButton, AddFileListItem, FileListStyle } from './styles';
+import { Emoji } from '@react_db_client/components.emoji';
 
 export interface IFieldFileProps<V extends IFile | IFile[]>
   extends IFieldComponentProps<V>,
@@ -67,7 +68,7 @@ export const FieldFile: React.FC<IFieldFileProps<IFile | IFile[]>> = ({
       fileListRaw && Array.isArray(fileListRaw)
         ? fileListRaw
         : (fileListRaw && [fileListRaw]) || [],
-    []
+    [fileListRaw]
   );
   const [showFileSelectionPanel, setShowFileSelectionPanel] = useState(false);
 
@@ -103,7 +104,7 @@ export const FieldFile: React.FC<IFieldFileProps<IFile | IFile[]>> = ({
           deleteFile={(fuid: Uid) => handleFileDelete(fuid)}
         />
       )),
-    [fileList]
+    [fileList, fileType, fileServerUrl]
   );
 
   return (
@@ -132,7 +133,7 @@ export const FieldFile: React.FC<IFieldFileProps<IFile | IFile[]>> = ({
                 className="button-one addFileBtn"
                 onClick={() => setShowFileSelectionPanel(true)}
               >
-                +
+                {multiple ? '+' : <Emoji emoj="🔄" label="swap" />}
               </AddFileButton>
             </AddFileListItem>
             {itemsRendered}
@@ -148,21 +149,26 @@ const fileValueShape = {
   name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   uid: PropTypes.string.isRequired,
+  fileType: PropTypes.oneOf(Object.values(EFileType)).isRequired,
 };
+
+const valueValidator = PropTypes.shape(fileValueShape).isRequired;
+
+const valueValidatorFull = PropTypes.oneOfType([
+  valueValidator,
+  PropTypes.arrayOf(valueValidator).isRequired,
+]);
 
 FieldFile.propTypes = {
   uid: PropTypes.string.isRequired,
-  value: PropTypes.oneOfType([
-    PropTypes.shape(fileValueShape),
-    PropTypes.arrayOf(PropTypes.shape(fileValueShape)),
-  ]),
+  value: valueValidatorFull,
   onChange: PropTypes.func.isRequired,
-  fileType: PropTypes.oneOf(['image', 'document', 'data', '*']),
+  fileType: PropTypes.oneOf(Object.values(EFileType)).isRequired,
   multiple: PropTypes.bool,
   fileServerUrl: PropTypes.string.isRequired,
   asyncGetFiles: PropTypes.func.isRequired,
   asyncFileUpload: PropTypes.func.isRequired,
-  PopupPanel: PropTypes.elementType.isRequired,
+  PopupPanel: PropTypes.func.isRequired, // React.FC
 };
 
 FieldFile.defaultProps = {

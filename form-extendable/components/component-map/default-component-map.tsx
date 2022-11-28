@@ -26,6 +26,7 @@ import {
 import { FieldFile } from '@form-extendable/fields.field-file';
 import { FieldReadOnly } from '@form-extendable/fields.field-read-only';
 import { allowReadOnly } from './utils';
+import { AsyncGetDocumentsFn } from '@form-extendable/fields.field-select-search';
 
 const FieldNotImplemented = () => <>NOT IMPLEMENTED</>;
 
@@ -38,6 +39,7 @@ export interface IDefaultComponentMapProps {
   asyncGetFiles?: (
     metaData?: any
   ) => (filters?: FilterObjectClass[]) => Promise<any[]>;
+  asyncGetRefObjs?: AsyncGetDocumentsFn;
   asyncFileUpload?: (
     metaData?: any
   ) => (data: File, fileType: EFileType, callback: () => void) => Promise<void>;
@@ -51,6 +53,9 @@ export const defaultComponentMap = ({
   },
   asyncGetFiles = (metaData: any) => async () => {
     throw Error('Missing asyncGetFiles prop');
+  },
+  asyncGetRefObjs = async () => {
+    throw Error('Missing asyncGetRefObjs prop');
   },
   fileServerUrl = 'MISSING_FILE_SERVER_URL',
   PopupPanel = ({ children }) => <>{children}</>,
@@ -111,7 +116,7 @@ export const defaultComponentMap = ({
         <FieldSelectSearch
           {...props}
           searchFn={searchFnReference(
-            asyncGetFiles,
+            asyncGetRefObjs,
             props.collection,
             '_id',
             props.labelField
@@ -124,7 +129,7 @@ export const defaultComponentMap = ({
         <FieldSelectSearch
           {...props}
           searchFn={searchFnReference(
-            asyncGetFiles,
+            asyncGetRefObjs,
             props.collection,
             '_id',
             props.labelField

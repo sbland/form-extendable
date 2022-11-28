@@ -27,14 +27,10 @@ export const editValue = async (
       })
     );
   } else if (heading.type === EFilterType.selectMulti && heading.asDropdown) {
-    const dropDownButton = within(formEl).getByLabelText(
-      `${heading.required ? '*' : ''}${heading.label}`
-    );
+    const dropDownButton = within(formEl).getByLabelText(heading.label);
     await UserEvent.click(dropDownButton);
   } else {
-    const fieldInput = within(formEl).getByLabelText(
-      `${heading.required ? '*' : ''}${heading.label}`
-    );
+    const fieldInput = within(formEl).getByLabelText(heading.label);
     await Promise.all(
       selectedArray.map(async (s) => {
         await UserEvent.click(fieldInput);
