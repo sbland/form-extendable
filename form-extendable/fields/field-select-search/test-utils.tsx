@@ -1,5 +1,5 @@
 import React from 'react';
-import { within } from '@testing-library/react';
+import { screen, waitFor, within } from '@testing-library/react';
 import UserEvent from '@testing-library/user-event';
 import {
   IHeadingSelect,
@@ -20,16 +20,34 @@ export const editValue = async (
   heading: THeadingTypes
 ) => {
   const selectedArray = Array.isArray(value) ? value : value?.split(',');
-  const fieldInput = within(formEl).getByLabelText(heading.label);
+  const fieldInput: HTMLInputElement = within(formEl).getByLabelText(
+    heading.label
+  );
+  const fieldEl = within(formEl).getByTestId(`${heading.type}-${heading.uid}`);
+
   await Promise.all(
     selectedArray.map(async (s) => {
       await UserEvent.click(fieldInput);
       await UserEvent.clear(fieldInput);
       await UserEvent.keyboard(s);
-      await UserEvent.keyboard('{ArrowDown}');
-      // TODO: Wait for list
+      await waitFor(() => expect(fieldInput.value).toEqual(s));
+      const resultList = await within(fieldEl).findByRole('list');
+      const resultIndexToSelect = within(resultList)
+        .getAllByRole('listitem')
+        .findIndex((l) => l.textContent?.includes(s));
+
+      if (resultIndexToSelect < 0) throw new Error('Search value not found');
+
+      await Promise.all(
+        Array(resultIndexToSelect + 1)
+          .fill(0)
+          .map(async () => {
+            await UserEvent.keyboard('{ArrowDown}');
+          })
+      );
 
       await UserEvent.keyboard('{Enter}');
+      await waitFor(() => expect(fieldInput.placeholder).toEqual(s));
     })
   );
 };

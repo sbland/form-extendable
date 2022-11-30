@@ -17,6 +17,7 @@ import {
   demoFormDataMin,
   demoHeadingsData,
   demoHeadingsDataMap,
+  demoRefObjs,
   headingsFlat,
 } from './dummy-data';
 import { Form, IFormProps } from './form';
@@ -29,6 +30,7 @@ const asyncGetFiles = (metaData) =>
   jest.fn().mockImplementation(async () => []);
 const asyncFileUpload = (metaData) =>
   jest.fn().mockImplementation(async () => {});
+const asyncGetRefObjs = jest.fn().mockImplementation(async () => demoRefObjs);
 
 beforeEach(() => {
   jest.clearAllMocks();
@@ -40,6 +42,7 @@ const componentMap = {
   [demoCustomTypeHeading.type]: () => CustomFieldType,
   ...defaultComponentMap({
     asyncGetFiles,
+    asyncGetRefObjs,
     asyncFileUpload,
     fileServerUrl,
   }),
@@ -197,7 +200,7 @@ describe('Form Main Component', () => {
         // toggle: true,
         button: null,
         demoField: 'demoField data',
-        reference: 'exampleObj',
+        reference: '1',
 
         // image: 'example_file.jpg',
         // file: 'example_file.jpg',
@@ -232,6 +235,7 @@ describe('Form Main Component', () => {
         ...demoData,
         // below fields or modified from raw input above
         numberCapped: (demoHeadingsDataMap.numberCapped as IHeadingNumber).max,
+        reference: demoRefObjs.find((r) => r.label === demoData.reference),
         selectreadonly: undefined,
         button: undefined,
       };

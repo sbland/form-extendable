@@ -39,7 +39,7 @@ export interface IDefaultComponentMapProps {
   asyncGetFiles?: (
     metaData?: any
   ) => (filters?: FilterObjectClass[]) => Promise<any[]>;
-  asyncGetRefObjs?: AsyncGetDocumentsFn;
+  asyncGetRefObjs?: AsyncGetDocumentsFn<any>;
   asyncFileUpload?: (
     metaData?: any
   ) => (data: File, fileType: EFileType, callback: () => void) => Promise<void>;

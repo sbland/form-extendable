@@ -62,13 +62,6 @@ export const demoHeadingsData: THeading<any>[] = [
     defaultValue: 5,
   },
   {
-    uid: 'reference',
-    label: 'Reference',
-    collection: 'democollection',
-    type: EFilterType.reference,
-    searchFieldTargetField: 'label',
-  },
-  {
     uid: 'file',
     label: 'File',
     fileType: EFileType.DOCUMENT,
@@ -97,6 +90,13 @@ export const demoHeadingsData: THeading<any>[] = [
     label: 'Toggle',
     checkboxContent: 'Click Me',
     type: EFilterType.toggle,
+  },
+  {
+    uid: 'reference',
+    label: 'Reference',
+    collection: 'democollection',
+    type: EFilterType.reference,
+    searchFieldTargetField: 'label',
   },
   {
     uid: 'select',
@@ -217,13 +217,18 @@ export const headingsFlat = demoHeadingsData.reduce(
   [] as THeading<any>[]
 );
 
-
 export const demoHeadingsDataMap: { [uid: string]: THeading<unknown> } =
   demoHeadingsData.reduce((acc, h) => ({ ...acc, [h.uid]: h }), {});
 
 export const demoFormDataMin = {
   text: 'Example text',
 };
+
+export const demoRefObjs = [
+  { uid: '1', label: '1' },
+  { uid: '2', label: '2' },
+  { uid: '3', label: '3' },
+];
 
 export const demoFormData: TFormData = {
   text: 'Example text',

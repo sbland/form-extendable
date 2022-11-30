@@ -34,23 +34,22 @@ export const FieldSelectSearch: React.FC<TFieldSelectSearchProps<any>> = <
   allowEmptySearch,
   className,
 }: TFieldSelectSearchProps<V>) => {
-  const valueProcessed: null | V | V[] = useMemo(() => {
-    try {
-      return parseVal(value);
-    } catch (error) {
-      throw new Error(`Failed to parse value for field: ${uid}: ${error}`);
-    }
-  }, [value]);
-
+  // const valueProcessed: null | V | V[] = useMemo(() => {
+  //   try {
+  //     return parseVal(value);
+  //   } catch (error) {
+  //     throw new Error(`Failed to parse value for field: ${uid}: ${error}`);
+  //   }
+  // }, [value]);
+  // console.info(value);
   const handleSelect = useCallback(
-    // TODO: For some reason cannot use V here
     (_, data) => {
       onChange(data as V);
     },
-    [onChange, valueProcessed]
+    [onChange]
   );
 
-  const valueLabel = useMemo(() => {
+  const valuePlaceholder = useMemo(() => {
     return (value && value[labelField]) || 'search...';
   }, [value, labelField]);
 
@@ -65,7 +64,7 @@ export const FieldSelectSearch: React.FC<TFieldSelectSearchProps<any>> = <
         labelField={labelField}
         className={className}
         allowEmptySearch={allowEmptySearch}
-        searchFieldPlaceholder={valueLabel}
+        searchFieldPlaceholder={valuePlaceholder}
         // required={required}
         id={`${uid}-input`}
       />

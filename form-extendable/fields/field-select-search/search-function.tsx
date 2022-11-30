@@ -1,7 +1,7 @@
 import { IObj } from '@form-extendable/lib';
 import { FilterObjectClass } from '@react_db_client/constants.client-types';
 
-export type AsyncGetDocumentsFn = <T>(
+export type AsyncGetDocumentsFn<T extends IObj> = (
   collection: string,
   filters?: FilterObjectClass[],
   schema?: string,
@@ -9,8 +9,8 @@ export type AsyncGetDocumentsFn = <T>(
 ) => Promise<T[]>;
 
 export const searchFnReference =
-  (
-    asyncGetDocuments: AsyncGetDocumentsFn,
+  <T extends IObj>(
+    asyncGetDocuments: AsyncGetDocumentsFn<T>,
     collection: string,
     schema?: string,
     sortBy?: string
