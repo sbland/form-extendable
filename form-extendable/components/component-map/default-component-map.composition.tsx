@@ -1,8 +1,10 @@
 /* eslint react/prop-types: 0 */
 import React from 'react';
 import { EFilterType } from '@react_db_client/constants.client-types';
-import { CompositionWrapDefault } from '@react_db_client/helpers.composition-wraps';
-import { WrapFieldComponent } from '@form-extendable/composition-helpers';
+import {
+  WrapFieldComponent,
+  CompositionWrapDefault,
+} from '@form-extendable/composition-helpers';
 import { switchF } from '@react_db_client/helpers.func-tools';
 import {
   TComponentMap,
@@ -26,8 +28,12 @@ export const ExampleField = () => {
 
   const FormComponent: TFieldReactComponent<
     unknown,
-    THeading<unknown>
-  > = switchF<EFilterType, TFieldReactComponent<unknown, THeading<unknown>>>(
+    THeading<unknown>,
+    any
+  > = switchF<
+    EFilterType,
+    TFieldReactComponent<unknown, THeading<unknown>>
+  >(
     type,
     componentMap as Record<
       EFilterType,
@@ -42,6 +48,7 @@ export const ExampleField = () => {
         <WrapFieldComponent>
           <FormComponent
             uid="id"
+            key={"example field"}
             label="Field Text"
             type={EFilterType.text}
             unit="UNIT"

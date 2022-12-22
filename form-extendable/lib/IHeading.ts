@@ -11,7 +11,7 @@ import { IOpt } from './IOpt';
 /* These are filter types that do not have a type */
 export type GenericFilterTypes = EFilterType.bool | EFilterType.button;
 
-export interface IHeading<T = unknown> {
+export interface IHeading<T, InputType> {
   hideLabel?: boolean;
   label: string;
   required?: boolean;
@@ -20,36 +20,40 @@ export interface IHeading<T = unknown> {
   readOnly?: boolean;
   defaultValue?: T;
   group?: number;
+  inputProps?: Omit<
+    React.HTMLProps<InputType>,
+    'defaultValue' | 'value' | 'onChange' | 'type'
+  >;
 }
 
-export interface IHeadingNumber<T extends number | string = number>
-  extends IHeading<T> {
+export interface IHeadingNumber extends IHeading<number, HTMLInputElement> {
   type: EFilterType.number;
   min?: number;
   max?: number;
   step?: number;
 }
 
-export interface IHeadingDate<T extends Date | number | string>
-  extends IHeading<T> {
+export interface IHeadingDate
+  extends IHeading<Date | number | string, HTMLInputElement> {
   type: EFilterType.date;
   min?: number;
   max?: number;
 }
 
-export interface IHeadingBool<T extends boolean = boolean> extends IHeading<T> {
+export interface IHeadingBool extends IHeading<boolean, HTMLInputElement> {
   type: EFilterType.bool | EFilterType.toggle;
   checkboxContent?: string;
   useToggle?: boolean;
 }
 
-export interface IHeadingSelect<T extends Uid = Uid> extends IHeading<T> {
+export interface IHeadingSelect extends IHeading<Uid, HTMLInputElement> {
   type: EFilterType.select | EFilterType.selectMulti;
   options: {
     uid: Uid;
     label: string;
   }[];
   labelField?: string;
+  multiple?: boolean;
   asDropdown?: boolean;
   selectType?: 'showall' | 'dropdown' | 'toggle';
 }
@@ -60,9 +64,8 @@ export type TMultiSelectValue =
   | (string | number)
   | (string | number)[];
 
-export interface IHeadingSelectMulti<
-  T extends TMultiSelectValue = TMultiSelectValue
-> extends IHeading<T> {
+export interface IHeadingSelectMulti
+  extends IHeading<TMultiSelectValue, HTMLInputElement> {
   type: EFilterType.select | EFilterType.selectMulti;
   options: {
     uid: string;
@@ -73,14 +76,15 @@ export interface IHeadingSelectMulti<
   selectType?: 'showall' | 'hideunselected' | 'dropdown';
 }
 
-export interface IHeadingEmbedded<T = unknown> extends IHeading<T> {
+export interface IHeadingEmbedded extends IHeading<unknown, HTMLInputElement> {
   type: EFilterType.embedded;
   showTitle: boolean;
   orientation?: 'vert' | 'horiz';
   children: THeading<unknown>[];
 }
 
-export interface IHeadingSelectSearch<T extends IObj> extends IHeading<T> {
+export interface IHeadingSelectSearch<T extends IObj>
+  extends IHeading<T, HTMLInputElement> {
   type: EFilterType.selectSearch | EFilterType.reference;
   searchFieldTargetField: string;
   labelField?: string;
@@ -90,7 +94,8 @@ export interface IHeadingSelectSearch<T extends IObj> extends IHeading<T> {
   searchFn: (filters?: FilterObjectClass[]) => Promise<T[]>;
 }
 
-export interface IHeadingSelectSearchMulti<T extends IObj> extends IHeading<T> {
+export interface IHeadingSelectSearchMulti<T extends IObj>
+  extends IHeading<T, HTMLInputElement> {
   type: EFilterType.selectSearch | EFilterType.reference;
   searchFieldTargetField: string;
   labelField?: string;
@@ -109,69 +114,73 @@ export interface IHeadingReferenceMulti<T extends IObj>
   collection: string;
 }
 
-export interface IHeadingFile<T extends IFile | IFile[]> extends IHeading<T> {
+export interface IHeadingFile<T extends IFile | IFile[]>
+  extends IHeading<T, HTMLInputElement> {
   type: EFilterType.file | EFilterType.fileMultiple;
   // collectionId: string;
   // documentId: string;
+  multiple?: boolean;
   metaData?: any;
   fileType: EFileType;
 }
 
-export interface IHeadingImage<T extends  IFile | IFile[]> extends IHeading<T> {
+export interface IHeadingImage<T extends IFile | IFile[]>
+  extends IHeading<T, HTMLInputElement> {
   type: EFilterType.image;
   // collectionId: string;
   // documentId: string;
   fileType: 'image';
 }
 
-export interface IHeadingButton<T = unknown> extends IHeading<T> {
+export interface IHeadingButton extends IHeading<never, HTMLButtonElement> {
   type: EFilterType.button;
   onClick: () => void;
 }
 
-export interface IHeadingTextArea<T extends string = string>
-  extends IHeading<T> {
+export interface IHeadingTextArea
+  extends IHeading<string, HTMLTextAreaElement> {
   type: EFilterType.textLong;
   initHeight?: number;
   scaleToContent?: boolean;
   styleOverrides?: React.CSSProperties;
 }
 
-export interface IHeadingVideo<T = unknown> extends IHeading<T> {
+export interface IHeadingVideo extends IHeading<string, HTMLInputElement> {
   type: EFilterType.video;
   url: string;
 }
+export interface IHeadingText
+  extends Omit<IHeading<string, HTMLInputElement>, 'type'> {
+  type: EFilterType.text | EFilterType.uid;
+}
+
+export interface IHeadingDict
+  extends Omit<IHeading<string, HTMLInputElement>, 'type'> {
+  type: EFilterType.dict;
+}
 
 export interface IHeadingCustomType<T = unknown>
-  extends Omit<IHeading<T>, 'type'> {
+  extends Omit<IHeading<T, HTMLInputElement>, 'type'> {
   type: string;
   customType: true;
 }
 
-/* These are headings that have not additional props */
-export interface IHeadingOther<T = unknown> extends Omit<IHeading<T>, 'type'> {
-  type:
-    | EFilterType.dict
-    | EFilterType.date
-    | EFilterType.uid
-    | EFilterType.text
-    | EFilterType.textLong;
-}
-
 export type THeading<T> =
-  | IHeadingNumber<T extends number ? T : never>
-  | IHeadingDate<T extends Date | string | number ? T : never>
-  | IHeadingBool<T extends boolean ? T : never>
+  | IHeadingNumber
+  | IHeadingTextArea
+  | IHeadingDate
+  | IHeadingBool
   | IHeadingCustomType<T>
   | IHeadingFile<T extends IFile | IFile[] ? T : never>
-  | IHeadingImage<T extends  IFile | IFile[] ? T : never>
-  | IHeadingSelect<T extends string ? T : never>
+  | IHeadingImage<T extends IFile | IFile[] ? T : never>
+  | IHeadingSelect
   | IHeadingSelectSearch<T extends IObj ? T : never>
   | IHeadingSelectSearchMulti<T extends IObj ? T : never>
-  | IHeadingSelectMulti<T extends TMultiSelectValue ? T : never>
-  | IHeadingEmbedded<T>
+  | IHeadingSelectMulti
+  | IHeadingEmbedded
   | IHeadingReference<T extends IObj ? T : never>
   | IHeadingReferenceMulti<T extends IObj ? T : never>
-  | IHeadingButton<T>
-  | IHeadingVideo<T>
-  | IHeadingOther<T>;
+  | IHeadingButton
+  | IHeadingVideo
+  | IHeadingText
+  | IHeadingDict;

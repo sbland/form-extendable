@@ -1,25 +1,6 @@
 import React from 'react';
-import styled, { useTheme } from 'styled-components';
-
-export interface ICheckboxTheme {
-  background: string;
-  colors: {
-    main: string;
-  };
-  typography: {
-    lineHeight: string;
-  };
-}
-
-const defaultTheme: ICheckboxTheme = {
-  background: 'white',
-  colors: {
-    main: 'grey',
-  },
-  typography: {
-    lineHeight: '1.2rem',
-  },
-};
+import styled from 'styled-components';
+import { defaultTheme } from '@form-extendable/styles';
 
 export const CheckMark = styled.span`
   display: inline-block;
@@ -27,9 +8,22 @@ export const CheckMark = styled.span`
   min-height: 25px;
   min-width: 25px;
   width: auto;
-  background-color: ${({ theme }) => theme.background};
-  border: 2px solid ${({ theme }) => theme.colors.main};
+  background-color: ${({ theme }) => theme.formExtendableTheme.background};
+  border: 2px solid ${({ theme }) => theme.formExtendableTheme.colors.main};
+
+  &:focus {
+    ${({ theme }) => theme.formExtendableTheme.button.onFocus}
+  }
+  &:hover {
+    ${({ theme }) => theme.formExtendableTheme.button.onHover}
+  }
 `;
+
+CheckMark.defaultProps = {
+  theme: {
+    formExtendableTheme: defaultTheme,
+  },
+};
 
 // export const CheckBoxContainer = styled(ButtonNoFormat)`
 export const CheckBoxContainer = styled.div`
@@ -37,7 +31,7 @@ export const CheckBoxContainer = styled.div`
   position: relative;
   cursor: pointer;
   user-select: none;
-  min-height: ${({ theme }) => theme.typography.lineHeight};
+  min-height: ${({ theme }) => theme.formExtendableTheme.typography.lineHeight};
 
   input {
     position: absolute;
@@ -68,12 +62,20 @@ export const CheckBoxContainer = styled.div`
   }
 
   input:checked ~ .checkmark {
-    background-color: ${({ theme }) => theme.colors.main};
+    background-color: ${({ theme }) => theme.formExtendableTheme.colors.main};
   }
   input:focus ~ .checkmark {
-    outline: 2px solid ${({ theme }) => theme.colors.main};
+    outline: 2px solid ${({ theme }) => theme.formExtendableTheme.colors.main};
   }
 `;
+
+
+CheckBoxContainer.defaultProps = {
+  theme: {
+    formExtendableTheme: defaultTheme,
+  },
+};
+
 
 export interface ICheckboxProps {
   uid: string;
@@ -91,7 +93,6 @@ export const Checkbox = ({
   inputProps,
 }: ICheckboxProps) => {
   const [checked, setChecked] = React.useState(value);
-  const theme = useTheme();
 
   React.useEffect(() => {
     if (onChange) {
@@ -102,7 +103,6 @@ export const Checkbox = ({
 
   return (
     <CheckBoxContainer
-      theme={theme || defaultTheme}
       onClick={() => setChecked(!checked)}
       data-testid="checkbox-container"
     >
@@ -117,9 +117,7 @@ export const Checkbox = ({
         }}
         {...inputProps}
       />
-      <CheckMark theme={theme || defaultTheme} className="checkmark">
-        {text}
-      </CheckMark>
+      <CheckMark className="checkmark">{text}</CheckMark>
     </CheckBoxContainer>
   );
 };

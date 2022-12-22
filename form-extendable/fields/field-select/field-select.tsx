@@ -8,8 +8,7 @@ import {
 } from '@react_db_client/components.form.form-components.toggle-box';
 import { IFieldComponentProps, IHeadingSelect } from '@form-extendable/lib';
 
-export type TFieldSelectProps = IFieldComponentProps<string> &
-  IHeadingSelect<string>;
+export type TFieldSelectProps = IFieldComponentProps<string> & IHeadingSelect;
 
 export const FieldSelect = ({
   uid,
@@ -22,6 +21,7 @@ export const FieldSelect = ({
   labelField = 'label',
   selectType,
   defaultValue,
+  inputProps,
 }: TFieldSelectProps) => {
   const selection =
     (value && options && options.find((o) => o.uid === value)) ||
@@ -52,6 +52,7 @@ export const FieldSelect = ({
             allowEmptySearch
             aria-labelledby={`${uid}-label`}
             id={`${uid}-input`}
+            {...inputProps}
           />
           {unit && <span>{unit}</span>}
         </>

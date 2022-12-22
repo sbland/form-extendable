@@ -1,7 +1,6 @@
 import React from 'react';
 import { screen } from '@testing-library/react';
-import { CompositionWrapDefault } from '@react_db_client/helpers.composition-wraps';
-import { WrapFieldComponent } from '@form-extendable/composition-helpers';
+import { WrapFieldComponent, CompositionWrapDefault } from '@form-extendable/composition-helpers';
 import { FieldFile } from './field-file';
 import {
   DEMO_FILES_DATA,

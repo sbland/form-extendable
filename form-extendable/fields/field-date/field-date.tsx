@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import { IFieldComponentProps, IHeadingDate } from '@form-extendable/lib';
 
 export const FieldDate: React.FC<
-  IFieldComponentProps<string | number | Date> &
-    IHeadingDate<string | number | Date>
+  IFieldComponentProps<string | number | Date> & IHeadingDate
 > = ({
   uid,
   unit,
@@ -14,6 +13,7 @@ export const FieldDate: React.FC<
   // defaultValue,
   value,
   required,
+  inputProps,
 }) => {
   const parsedDate =
     value instanceof Date
@@ -29,8 +29,10 @@ export const FieldDate: React.FC<
         id={`${uid}-input`}
         value={value ? parsedDate : ''}
         onChange={(e) =>
-          onChange(new Date(e.target.value).toISOString().substr(0, 10))}
+          onChange(new Date(e.target.value).toISOString().substr(0, 10))
+        }
         required={required}
+        {...inputProps}
       />
       {unit && <span>{unit}</span>}
     </>

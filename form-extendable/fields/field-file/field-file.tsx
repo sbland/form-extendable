@@ -133,7 +133,11 @@ export const FieldFile: React.FC<IFieldFileProps<IFile | IFile[]>> = ({
                 className="button-one addFileBtn"
                 onClick={() => setShowFileSelectionPanel(true)}
               >
-                {multiple ? '+' : <Emoji emoj="🔄" label="swap" />}
+                {multiple || !value ? (
+                  <Emoji emoj="➕" label="add" />
+                ) : (
+                  <Emoji emoj="🔄" label="swap" />
+                )}
               </AddFileButton>
             </AddFileListItem>
             {itemsRendered}
@@ -147,8 +151,6 @@ export const FieldFile: React.FC<IFieldFileProps<IFile | IFile[]>> = ({
 const fileValueShape = {
   filePath: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
-  uid: PropTypes.string.isRequired,
   fileType: PropTypes.oneOf(Object.values(EFileType)).isRequired,
 };
 

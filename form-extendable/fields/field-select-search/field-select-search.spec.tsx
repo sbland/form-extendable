@@ -1,14 +1,14 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-
 import { EFilterType } from '@react_db_client/constants.client-types';
+import { IObj } from '@form-extendable/lib';
+import { CompositionWrapDefault } from '@form-extendable/composition-helpers';
 import {
   FieldSelectSearch,
   TFieldSelectSearchProps,
 } from './field-select-search';
 import * as compositions from './field-select-search.composition';
 import { defaultVal } from './demo-data';
-import { IObj } from '@form-extendable/lib';
 
 // jest.mock('@react_db_client/components.search-and-select-dropdown', () =>
 //   MockReactC('SearchAndSelectDropdown', ['SearchAndSelectDropdown'])
@@ -38,7 +38,11 @@ describe('field-select-search', () => {
     searchFn.mockClear();
   });
   test('Renders', () => {
-    render(<FieldSelectSearch {...defaultProps} />);
+    render(
+      <CompositionWrapDefault theme={{}}>
+        <FieldSelectSearch {...defaultProps} />
+      </CompositionWrapDefault>
+    );
   });
 
   describe('Compositions', () => {

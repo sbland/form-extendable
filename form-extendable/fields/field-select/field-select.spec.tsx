@@ -1,7 +1,7 @@
 import React from 'react';
-
 import { render, screen } from '@testing-library/react';
 import { EFilterType } from '@react_db_client/constants.client-types';
+import { CompositionWrapDefault } from '@form-extendable/composition-helpers';
 import { FieldSelect, TFieldSelectProps } from './field-select';
 import * as compositions from './field-select.composition';
 import { defaultVal, demoOptions } from './demo-data';
@@ -23,7 +23,11 @@ describe('Field Select', () => {
     onChange.mockClear();
   });
   test('Renders', () => {
-    render(<FieldSelect {...defaultProps} />);
+    render(
+      <CompositionWrapDefault>
+        <FieldSelect {...defaultProps} />
+      </CompositionWrapDefault>
+    );
   });
 
   describe('Compositions', () => {

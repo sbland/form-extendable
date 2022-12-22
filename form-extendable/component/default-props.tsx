@@ -1,12 +1,15 @@
 /* eslint react/prop-types: 0 */
 import React from 'react';
 import { defaultComponentMap } from '@form-extendable/components.component-map';
-import { IObj, IPopupProps } from '@form-extendable/lib';
+import { IObj, IPopupProps, THeading } from '@form-extendable/lib';
 import { demoHeadingsData, demoRefObjs } from './dummy-data';
 import { IFormProps, IFormSubmit } from './form';
-import { EFileType } from '@react_db_client/constants.client-types';
+import {
+  EFileType,
+  IDocument,
+  TAsyncGetDocuments,
+} from '@react_db_client/constants.client-types';
 import { FormField } from './form-field';
-import { AsyncGetDocumentsFn } from '@form-extendable/fields.field-select-search';
 
 const onSubmit = (submissionData: IFormSubmit) => {};
 const errorCallback = (err: string) => {};
@@ -18,7 +21,9 @@ const asyncGetFiles = (metaData) => async () => {
   return [];
 };
 
-const asyncGetRefObjs: AsyncGetDocumentsFn<IObj> = async (collection) => {
+const asyncGetRefObjs: TAsyncGetDocuments<
+  unknown extends IObj ? unknown : IObj
+> = async (collection): Promise<IObj[]> => {
   console.info('Getting ref objs', collection);
   return demoRefObjs;
 };
@@ -57,7 +62,7 @@ const componentMap = defaultComponentMap({
 
 export const defaultProps: IFormProps = {
   FormField,
-  headings: demoHeadingsData,
+  headings: demoHeadingsData as THeading<unknown>[],
   onSubmit,
   componentMap,
   errorCallback,

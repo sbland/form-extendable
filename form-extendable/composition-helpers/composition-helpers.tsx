@@ -1,5 +1,7 @@
 /* eslint react/prop-types:0 */
 import React from 'react';
+import { CompositionWrapDefault as ReactDbCompositionWrapDefault } from '@react_db_client/helpers.composition-wraps';
+import { defaultTheme, FormThemeProvider } from '@form-extendable/styles';
 
 export const WrapFieldComponent: React.FC = ({ children }) => {
   const childrenArray = Array.isArray(children) ? children : [children];
@@ -30,5 +32,19 @@ export const WrapFieldComponent: React.FC = ({ children }) => {
       <hr />
       <div className="">{JSON.stringify(state)}</div>
     </div>
+  );
+};
+
+export const CompositionWrapDefault = ({ children, ...additionalProps }) => {
+  return (
+    <FormThemeProvider theme={defaultTheme}>
+      <ReactDbCompositionWrapDefault
+        width="20rem"
+        height="20rem"
+        {...additionalProps}
+      >
+        {children}
+      </ReactDbCompositionWrapDefault>
+    </FormThemeProvider>
   );
 };

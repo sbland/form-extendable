@@ -25,13 +25,12 @@ export const FieldNumber = ({
   onChange,
   value: valueIn,
   required,
-  additionalData,
-  ...additionalProps
+  inputProps,
 }: TFieldNumberProps) => {
   const ref = useRef<HTMLInputElement>(null);
   const value = parseInput(valueIn);
 
-  if (type !== 'number') throw Error('Type must be number');
+  if (type !== 'number') throw Error(`Type must be number. Type is ${type}`);
 
   const onFocus = () => {
     if (value === '' && parseInput(defaultValue) !== '') onChange(defaultValue);
@@ -64,7 +63,7 @@ export const FieldNumber = ({
         required={required}
         aria-labelledby={`${uid}-label`}
         id={`${uid}-input`}
-        {...additionalProps}
+        {...inputProps}
       />
       {unit && <span>{unit}</span>}
     </>

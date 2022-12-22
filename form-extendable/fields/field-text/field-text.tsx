@@ -1,20 +1,19 @@
 import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
-import { IFieldComponentProps, IHeadingOther } from '@form-extendable/lib';
+import { IFieldComponentProps } from '@form-extendable/lib';
+import { IHeadingText } from '@form-extendable/lib';
 
 export const FieldText: React.FC<
-  IFieldComponentProps<string> & IHeadingOther<string>
+  IFieldComponentProps<string> & IHeadingText
 > = ({
   uid,
   unit,
   onChange,
-  type,
   value,
   inputTypeOverride,
   required,
   disableAutofill,
-  additionalData,
-  ...additionalProps
+  inputProps,
 }) => {
   const ref = useRef<HTMLInputElement>(null);
   const role = disableAutofill ? 'presentation' : undefined;
@@ -34,7 +33,7 @@ export const FieldText: React.FC<
         value={value || ''}
         onChange={(e) => onChange(e.target.value)}
         required={required}
-        {...additionalProps}
+        {...inputProps}
       />
       {unit ? <span>{unit}</span> : <span></span>}
     </>

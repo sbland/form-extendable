@@ -22,6 +22,7 @@ import {
 } from './dummy-data';
 import { Form, IFormProps } from './form';
 import * as compositions from './form.composition';
+import { CompositionWrapDefault } from '@form-extendable/composition-helpers';
 
 const onSubmit = jest.fn();
 const errorCallback = jest.fn();
@@ -45,26 +46,34 @@ const componentMap = {
     asyncGetRefObjs,
     asyncFileUpload,
     fileServerUrl,
+    PopupPanel: ({children}) => <>{children}</>,
   }),
 };
 
 const defaultProps: IFormProps = {
-  headings: demoHeadingsData,
+  headings: demoHeadingsData as THeading<unknown>[],
   onSubmit,
   componentMap,
   errorCallback,
 };
 
 const renderForm = async (props: IFormProps = defaultProps) => {
-  const view = render(<Form {...props} />);
+  const view = render(
+    <CompositionWrapDefault>
+      <Form {...props} />
+    </CompositionWrapDefault>
+  );
   await screen.findByText('* is required. (!) has been modified.');
   return view;
 };
 
 const fillInCustomField =
-  (formEl: HTMLFormElement, headingsData: THeading<unknown>[]) =>
+  (
+    formEl: HTMLFormElement,
+    headingsData: THeading<unknown>[]
+  ) =>
   async ([k, v]) => {
-    const heading = demoHeadingsData.find((h) => h.uid === k);
+    const heading = headingsData.find((h) => h.uid === k);
     if (!heading) throw Error(`Heading not found for ${k}`);
 
     if (heading.type === demoCustomTypeHeading.type) {
@@ -79,7 +88,7 @@ const fillInCustomField =
 
 const getCustomFieldDisplayValue = async (
   formEl: HTMLFormElement,
-  heading: THeading<any>
+  heading: THeading<unknown>
 ) => {
   if ((heading as IHeadingCustomType).customType)
     return demoFormData[heading.uid];
@@ -91,6 +100,7 @@ describe('Form Main Component', () => {
     Object.entries(compositions).forEach(([name, Composition]) => {
       test(`${name}`, async () => {
         render(<Composition />);
+        // @ts-ignore
         if (Composition.waitForReady) await Composition.waitForReady();
       });
     });
@@ -129,6 +139,7 @@ describe('Form Main Component', () => {
       // Commented values cannot be edited (yet!)
       const displayFieldData = {
         text: demoFormData.text,
+        textarea: demoFormData.textarea,
         number: '1',
         numberCapped: '999999',
         date: '2019-11-02',

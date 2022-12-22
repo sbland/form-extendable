@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { IFieldComponentProps, IHeadingTextArea } from '@form-extendable/lib';
 
-import './style.css';
-
-export type TFieldTextAreaProps = IFieldComponentProps<string> &
-  IHeadingTextArea<string>;
+export type TFieldTextAreaProps = IFieldComponentProps<
+  string,
+  HTMLTextAreaElement
+> &
+  IHeadingTextArea;
 
 export const FieldTextArea: React.FC<TFieldTextAreaProps> = ({
   uid,
@@ -16,6 +17,7 @@ export const FieldTextArea: React.FC<TFieldTextAreaProps> = ({
   initHeight = 10,
   scaleToContent,
   styleOverrides,
+  inputProps,
 }) => {
   const ref = React.useRef<HTMLTextAreaElement>(null);
   const [textareaHeight, setTextareaHeight] = useState(initHeight);
@@ -72,6 +74,7 @@ export const FieldTextArea: React.FC<TFieldTextAreaProps> = ({
           required={required}
           aria-labelledby={`${uid}-label`}
           ref={ref}
+          {...inputProps}
         />
       </div>
       {unit && <span>{unit}</span>}

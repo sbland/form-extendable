@@ -1,5 +1,5 @@
 import React from 'react';
-import { CompositionWrapDefault } from '@react_db_client/helpers.composition-wraps';
+import { CompositionWrapDefault } from '@form-extendable/composition-helpers';
 
 import { EFilterType } from '@react_db_client/constants.client-types';
 import { FieldMultiSelect, TFieldMultiSelect } from './field-multi-select';

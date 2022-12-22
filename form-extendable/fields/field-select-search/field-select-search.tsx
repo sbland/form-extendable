@@ -10,7 +10,6 @@ import {
   IHeadingSelectSearchMulti,
   IObj,
 } from '@form-extendable/lib';
-import { parseVal } from './utils';
 
 export type TFieldSelectSearchProps<V extends IObj> = IFieldComponentProps<V> &
   IHeadingSelectSearch<V>;
@@ -33,15 +32,8 @@ export const FieldSelectSearch: React.FC<TFieldSelectSearchProps<any>> = <
   labelField = 'label', // The field in the returned data to use as the label
   allowEmptySearch,
   className,
+  inputProps,
 }: TFieldSelectSearchProps<V>) => {
-  // const valueProcessed: null | V | V[] = useMemo(() => {
-  //   try {
-  //     return parseVal(value);
-  //   } catch (error) {
-  //     throw new Error(`Failed to parse value for field: ${uid}: ${error}`);
-  //   }
-  // }, [value]);
-  // console.info(value);
   const handleSelect = useCallback(
     (_, data) => {
       onChange(data as V);
@@ -67,6 +59,7 @@ export const FieldSelectSearch: React.FC<TFieldSelectSearchProps<any>> = <
         searchFieldPlaceholder={valuePlaceholder}
         // required={required}
         id={`${uid}-input`}
+        {...inputProps}
       />
     </>
   );

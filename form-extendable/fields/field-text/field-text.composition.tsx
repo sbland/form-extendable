@@ -1,7 +1,6 @@
 import React from 'react';
 import { EFilterType } from '@react_db_client/constants.client-types';
-import { CompositionWrapDefault } from '@react_db_client/helpers.composition-wraps';
-import { WrapFieldComponent } from '@form-extendable/composition-helpers';
+import { WrapFieldComponent, CompositionWrapDefault } from '@form-extendable/composition-helpers';
 import { FieldText } from './field-text';
 
 export const BasicFieldText = () => (

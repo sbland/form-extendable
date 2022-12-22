@@ -20,10 +20,35 @@ export interface IFormFieldProps<V, H extends THeading<V>>
   componentMap: TComponentMap;
 }
 
-export const FormField = <V, H extends THeading<V>>(
+/**
+ *
+ * Form field input props come from ...
+ *  - the field heading meta data
+ *  - The common form props
+ */
+export const FormField = <
+  V,
+  H extends THeading<V>,
+>(
   propsIn: IFormFieldProps<V, H>
 ) => {
   const { heading, value, onChange, additionalData, componentMap } = propsIn;
+
+  const { label, required, type, uid, hasChanged, hideLabel } = heading;
+
+  const FormComponent: TFieldReactComponent<V, H> = useMemo(
+    () =>
+      switchF(
+        heading.type,
+        componentMap as unknown as Record<
+          string | EFilterType,
+          () => TFieldReactComponent<V, H>
+        >,
+        defaultComponent
+      ) as unknown as TFieldReactComponent<V, H>,
+    [heading.type, componentMap, defaultComponent]
+  );
+
   const props: IFieldComponentProps<V> & H = useMemo(() => {
     const fProps: IFieldComponentProps<V> = {
       uid: heading.uid,
@@ -39,21 +64,6 @@ export const FormField = <V, H extends THeading<V>>(
     };
     return mergedProps;
   }, [heading, onChange, value, additionalData]);
-  const { label, required, type, uid, hasChanged, hideLabel } = heading;
-
-  const FormComponent = useMemo(
-    () =>
-      // switchF<EFilterType | string, ReturnType<TComponentMapComponent<T, H>>>(
-      switchF(
-        heading.type,
-        componentMap as unknown as Record<
-          string | EFilterType,
-          () => TFieldReactComponent<V, THeading<V>>
-        >,
-        defaultComponent
-      ) as unknown as TFieldReactComponent<V, H>,
-    [heading.type, componentMap, defaultComponent]
-  );
 
   const labelClassName = [
     'form_label',
@@ -67,25 +77,20 @@ export const FormField = <V, H extends THeading<V>>(
     .join(' ');
 
   return (
-    <div
-      className={rowClassname}
-      // TODO: Remove this styling
-      // style={{ border: '1px solid red', padding: '1rem' }}
-      key={uid}
-      data-testid={`${type}-${uid}`}
-    >
+    <div className={rowClassname} key={uid} data-testid={`${type}-${uid}`}>
       <div className={labelClassName}>
         <FieldLabel
           uid={uid}
           label={label}
-          // inputClassName={labelClassName}
           hasChanged={hasChanged}
           required={required}
           hidden={hideLabel}
         />
         {!hideLabel ? <>{': '}</> : <span />}
       </div>
-      <FormComponent {...props} />
+      <FormComponent
+        {...(props as React.ComponentProps<typeof FormComponent>)}
+      />
     </div>
   );
 };

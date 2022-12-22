@@ -16,9 +16,9 @@ export interface IFormSubmit {
 }
 
 export interface IFormProps {
-  FormField?: React.FC<IFormFieldProps<any, THeading<any>>>;
+  FormField?: React.FC<IFormFieldProps<unknown, THeading<unknown>>>;
   formDataInitial?: TFormData;
-  headings: THeading<any>[];
+  headings: THeading<unknown>[];
   onSubmit: (submissionData: IFormSubmit) => void;
   onChange?: (field: string, value: any, newFormData: TFormData) => void;
   showEndBtns?: boolean;
@@ -91,9 +91,9 @@ export const Form = ({
     [onChange]
   );
 
-  const handleReset = () => {
-    setFormEditData({});
-  };
+  // const handleReset = () => {
+  //   setFormEditData({});
+  // };
 
   const handleSubmit = useCallback(() => {
     const passesFormValidation = formValidation(formData, headings);
@@ -141,9 +141,9 @@ export const Form = ({
             >
               {submitBtnText || <Emoji emoj="💾" label="Submit" />}
             </button>
-            <button type="button" className="button-one" onClick={handleReset}>
-              <Emoji emoj="❌" label="Delete" />
-            </button>
+            {/* <button type="button" className="button-one" onClick={handleReset}>
+              <Emoji emoj="❌" label="Reset" />
+            </button> */}
           </div>,
           endButtonRefOverride?.current || endButtonContainerRef
         )}
@@ -204,5 +204,5 @@ Form.defaultProps = {
   endButtonRefOverride: null,
   errorCallback: alert,
   additionalData: {},
-  componentMap: defaultComponentMap({}),
+  componentMap: defaultComponentMap(),
 };

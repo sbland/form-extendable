@@ -21,7 +21,7 @@ export const FieldMultiSelect = ({
   required,
   asDropdown,
   selectType,
-  ...additionalProps
+  inputProps
 }: TFieldMultiSelect) => {
   const currentSelection: (string | number)[] = React.useMemo(() => {
     if (!value) return [];
@@ -50,7 +50,7 @@ export const FieldMultiSelect = ({
             'aria-labelledby': `${uid}-label`,
           }}
           // required={required} // TODO: Implement required on multi select dropdown
-          {...additionalProps}
+          {...inputProps}
         />
         {unit && <span>{unit}</span>}
       </>
@@ -71,7 +71,7 @@ export const FieldMultiSelect = ({
           activeSelection={v || []}
           updateActiveSelection={(newVal) => onChange(newVal)}
           options={options}
-          {...additionalProps}
+          {...inputProps}
         />
         {unit && <span>{unit}</span>}
       </>
@@ -93,7 +93,7 @@ export const FieldMultiSelect = ({
           updateActiveSelection={(newVal) => onChange(newVal)}
           options={options}
           isSorted
-          {...additionalProps}
+          {...inputProps}
         />
         {unit && <span>{unit}</span>}
       </>

@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {
   IFieldComponentProps,
+  IHeadingButton,
   IHeadingCustomType,
   IObj,
   TFormData,
@@ -10,6 +11,7 @@ import {
 import {
   EFileType,
   EFilterType,
+  IDocument,
 } from '@react_db_client/constants.client-types';
 
 export const demoCustomTypeHeading: IHeadingCustomType = {
@@ -17,6 +19,13 @@ export const demoCustomTypeHeading: IHeadingCustomType = {
   label: 'Custom Field Types',
   type: 'demoFieldType',
   customType: true,
+};
+
+export const buttonHeading: IHeadingButton = {
+  uid: 'button',
+  label: 'Button',
+  type: EFilterType.button,
+  onClick: () => null,
 };
 
 export const demoHeadingsData: THeading<any>[] = [
@@ -32,11 +41,11 @@ export const demoHeadingsData: THeading<any>[] = [
     required: true,
   },
   {
-    uid: 'button',
-    label: 'Button',
-    type: EFilterType.button,
-    onClick: () => null,
+    uid: 'textarea',
+    label: 'Text Area',
+    type: EFilterType.textLong,
   },
+  buttonHeading,
   {
     uid: 'longText',
     label: 'Long Text with a long heading... extra text to check',
@@ -224,7 +233,7 @@ export const demoFormDataMin = {
   text: 'Example text',
 };
 
-export const demoRefObjs = [
+export const demoRefObjs: IObj[] = [
   { uid: '1', label: '1' },
   { uid: '2', label: '2' },
   { uid: '3', label: '3' },
@@ -232,6 +241,10 @@ export const demoRefObjs = [
 
 export const demoFormData: TFormData = {
   text: 'Example text',
+  textarea: `Example text spanning many
+  many
+  many
+  lines. Etc...Etc...Etc...`,
   uid: 'name-1',
   number: 1,
   numberCapped: 999999,

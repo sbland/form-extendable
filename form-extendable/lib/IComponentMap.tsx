@@ -4,49 +4,47 @@ import {
   IHeadingBool,
   IHeadingButton,
   IHeadingDate,
+  IHeadingDict,
+  IHeadingEmbedded,
   IHeadingFile,
   IHeadingNumber,
-  IHeadingOther,
   IHeadingReference,
   IHeadingReferenceMulti,
   IHeadingSelect,
   IHeadingSelectMulti,
   IHeadingSelectSearch,
+  IHeadingText,
   IHeadingTextArea,
+  IHeadingVideo,
   TMultiSelectValue,
 } from './IHeading';
 
 export type TComponentMap = {
-  [EFilterType.uid]: () => TFieldReactComponent<string, IHeadingOther<string>>;
-  [EFilterType.text]: () => TFieldReactComponent<string, IHeadingOther<string>>;
-  [EFilterType.embedded]: () => TFieldReactComponent<null, IHeadingOther<null>>;
-  [EFilterType.button]: () => TFieldReactComponent<null, IHeadingButton<null>>;
-  [EFilterType.dict]: () => TFieldReactComponent<Object, IHeadingOther<Object>>;
-  [EFilterType.video]: () => TFieldReactComponent<
-    string,
-    IHeadingOther<string>
-  >;
+  [EFilterType.uid]: () => TFieldReactComponent<string, IHeadingText>;
+  [EFilterType.text]: () => TFieldReactComponent<string, IHeadingText>;
+  [EFilterType.embedded]: () => TFieldReactComponent<null, IHeadingEmbedded>;
+  [EFilterType.button]: () => TFieldReactComponent<null, IHeadingButton>;
+  [EFilterType.dict]: () => TFieldReactComponent<Object, IHeadingDict>;
+  [EFilterType.video]: () => TFieldReactComponent<string, IHeadingVideo>;
   [EFilterType.textLong]: () => TFieldReactComponent<
     string,
-    IHeadingTextArea<string>
+    IHeadingTextArea,
+    HTMLTextAreaElement
   >;
   // TODO: Select search multi
   [EFilterType.selectSearch]: () => TFieldReactComponent<
     any,
-    IHeadingSelectSearch<any> | IHeadingSelectMulti<any>
+    IHeadingSelectSearch<any> | IHeadingSelectMulti
   >;
   // TODO: Select search multi
   [EFilterType.reference]: () => TFieldReactComponent<
     any,
     IHeadingReference<any> | IHeadingReferenceMulti<any>
   >;
-  [EFilterType.select]: () => TFieldReactComponent<
-    string,
-    IHeadingSelect<string>
-  >;
+  [EFilterType.select]: () => TFieldReactComponent<string, IHeadingSelect>;
   [EFilterType.selectMulti]: () => TFieldReactComponent<
     TMultiSelectValue,
-    IHeadingSelectMulti<TMultiSelectValue>
+    IHeadingSelectMulti
   >;
   [EFilterType.file]: () => TFieldReactComponent<IFile, IHeadingFile<IFile>>;
   [EFilterType.fileMultiple]: () => TFieldReactComponent<
@@ -54,20 +52,11 @@ export type TComponentMap = {
     IHeadingFile<IFile[]>
   >;
   [EFilterType.image]: () => TFieldReactComponent<IFile, IHeadingFile<IFile>>;
-  [EFilterType.number]: () => TFieldReactComponent<
-    number,
-    IHeadingNumber<number>
-  >;
+  [EFilterType.number]: () => TFieldReactComponent<number, IHeadingNumber>;
   [EFilterType.date]: () => TFieldReactComponent<
     Date | number | string,
-    IHeadingDate<Date | number | string>
+    IHeadingDate
   >;
-  [EFilterType.bool]: () => TFieldReactComponent<
-    boolean,
-    IHeadingBool<boolean>
-  >;
-  [EFilterType.toggle]: () => TFieldReactComponent<
-    boolean,
-    IHeadingBool<boolean>
-  >;
+  [EFilterType.bool]: () => TFieldReactComponent<boolean, IHeadingBool>;
+  [EFilterType.toggle]: () => TFieldReactComponent<boolean, IHeadingBool>;
 };

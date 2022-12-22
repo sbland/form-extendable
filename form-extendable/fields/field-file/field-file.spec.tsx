@@ -10,6 +10,7 @@ import {
   dummyProps,
   dummyPropsImagesMany,
 } from './demo-data';
+import { CompositionWrapDefault } from '@form-extendable/composition-helpers';
 
 const onChange = jest.fn();
 const asyncGetFiles = jest
@@ -37,12 +38,14 @@ describe('field-file', () => {
   });
   test('Renders', async () => {
     render(
-      <FieldFile
-        {...defaultProps}
-        onChange={onChange}
-        asyncGetFiles={() => async () => DEMO_IMAGE_FILES_DATA}
-        asyncFileUpload={() => async () => {}}
-      />
+      <CompositionWrapDefault>
+        <FieldFile
+          {...defaultProps}
+          onChange={onChange}
+          asyncGetFiles={() => async () => DEMO_IMAGE_FILES_DATA}
+          asyncFileUpload={() => async () => {}}
+        />
+      </CompositionWrapDefault>
     );
     await screen.findAllByAltText(DEMO_IMAGE_FILES_DATA[0].label);
   });
@@ -59,12 +62,14 @@ describe('field-file', () => {
     describe('Single', () => {
       beforeEach(async () => {
         render(
-          <FieldFile
-            {...defaultProps}
-            onChange={onChange}
-            asyncGetFiles={() => asyncGetFiles}
-            asyncFileUpload={() => asyncFileUpload}
-          />
+          <CompositionWrapDefault>
+            <FieldFile
+              {...defaultProps}
+              onChange={onChange}
+              asyncGetFiles={() => asyncGetFiles}
+              asyncFileUpload={() => asyncFileUpload}
+            />
+          </CompositionWrapDefault>
         );
         await screen.findAllByAltText(DEMO_IMAGE_FILES_DATA[0].label);
       });
@@ -76,12 +81,14 @@ describe('field-file', () => {
     describe('Multiple', () => {
       beforeEach(async () => {
         render(
-          <FieldFile
-            {...defaultPropsMultiple}
-            onChange={onChange}
-            asyncGetFiles={() => asyncGetFiles}
-            asyncFileUpload={() => asyncFileUpload}
-          />
+          <CompositionWrapDefault>
+            <FieldFile
+              {...defaultPropsMultiple}
+              onChange={onChange}
+              asyncGetFiles={() => asyncGetFiles}
+              asyncFileUpload={() => asyncFileUpload}
+            />
+          </CompositionWrapDefault>
         );
         await screen.findAllByAltText(DEMO_IMAGE_FILES_MANY[0].label);
       });
@@ -95,7 +102,7 @@ describe('field-file', () => {
         expect(onChange).toHaveBeenCalledWith(newItems);
       });
       test('should be able to select a file from file list', async () => {
-        const addFileButton = screen.getByRole('button', { name: '+' });
+        const addFileButton = screen.getByRole('button', { name: 'add' });
         await UserEvent.click(addFileButton);
         await screen.findByText('Select File');
         const demoFile = DEMO_IMAGE_FILES_MANY[50];

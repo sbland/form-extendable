@@ -1,3 +1,4 @@
+import { defaultTheme } from '@form-extendable/styles';
 import styled from 'styled-components';
 
 export const FileListStyle = styled.ul`
@@ -16,7 +17,7 @@ export const FileListItemStyle = styled.li`
   position: relative;
   border: 1px solid grey;
   border-radius: 1rem;
-  overflow: hidden;
+  // overflow: hidden;
   margin: 0;
   padding: 0;
   max-height: 10rem;
@@ -92,17 +93,39 @@ export const AddFileListItem = styled(FileListItemStyle)`
 export const AddFileButton = styled.button`
   height: 3rem;
   width: 3rem;
-  font-size: 3rem;
-  line-height: 3rem;
   font-weight: 100;
   background: white;
   border-radius: 4rem;
   cursor: pointer;
   border: none;
-  color: #555;
+  color: ${({ theme }) => theme.formExtendableTheme.colors.text};
   outline: 1px solid #ddd;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  padding: 0;
+
+  span {
+    color: ${({ theme }) => theme.formExtendableTheme.colors.text};
+    display: block;
+    font-size: 3rem;
+    line-height: 3rem;
+    margin-bottom: -2px;
+  }
+
+  ${({ theme }) => theme.formExtendableTheme.button.default}
+
+  &:focus {
+    ${({ theme }) => theme.formExtendableTheme.button.onFocus}
+  }
   &:hover {
-    background: #ddd;
-    outline: none;
+    ${({ theme }) => theme.formExtendableTheme.button.onHover}
   }
 `;
+
+AddFileButton.defaultProps = {
+  theme: {
+    formExtendableTheme: defaultTheme,
+  },
+};

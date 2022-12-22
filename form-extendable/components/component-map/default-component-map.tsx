@@ -3,7 +3,9 @@ import {
   EFileType,
   EFilterType,
   FilterObjectClass,
+  IDocument,
   IFile,
+  TAsyncGetDocuments,
 } from '@react_db_client/constants.client-types';
 import {
   IFieldComponentProps,
@@ -26,7 +28,7 @@ import {
 import { FieldFile } from '@form-extendable/fields.field-file';
 import { FieldReadOnly } from '@form-extendable/fields.field-read-only';
 import { allowReadOnly } from './utils';
-import { AsyncGetDocumentsFn } from '@form-extendable/fields.field-select-search';
+import { IObj } from '@form-extendable/lib';
 
 const FieldNotImplemented = () => <>NOT IMPLEMENTED</>;
 
@@ -36,30 +38,38 @@ export const failAll = Object.values(EFilterType).reduce(
 ) as TComponentMap;
 
 export interface IDefaultComponentMapProps {
-  asyncGetFiles?: (
+  asyncGetFiles: (
     metaData?: any
-  ) => (filters?: FilterObjectClass[]) => Promise<any[]>;
-  asyncGetRefObjs?: AsyncGetDocumentsFn<any>;
-  asyncFileUpload?: (
+  ) => (filters?: FilterObjectClass[]) => Promise<IFile[]>;
+  asyncGetRefObjs: TAsyncGetDocuments<unknown extends IObj ? unknown : IObj>;
+  asyncFileUpload: (
     metaData?: any
   ) => (data: File, fileType: EFileType, callback: () => void) => Promise<void>;
-  fileServerUrl?: string;
-  PopupPanel?: React.FC<IPopupProps>;
+  fileServerUrl: string;
+  PopupPanel: React.FC<IPopupProps>;
 }
 
-export const defaultComponentMap = ({
-  asyncFileUpload = (metaData: any) => async () => {
+const defaultInputs: IDefaultComponentMapProps = {
+  asyncFileUpload: (metaData: any) => async () => {
     throw Error('Missing asyncFileUpload prop');
   },
-  asyncGetFiles = (metaData: any) => async () => {
+  asyncGetFiles: (metaData: any) => async () => {
     throw Error('Missing asyncGetFiles prop');
   },
-  asyncGetRefObjs = async () => {
+  asyncGetRefObjs: async () => {
     throw Error('Missing asyncGetRefObjs prop');
   },
-  fileServerUrl = 'MISSING_FILE_SERVER_URL',
-  PopupPanel = ({ children }) => <>{children}</>,
-}: IDefaultComponentMapProps = {}): TComponentMap => ({
+  fileServerUrl: 'MISSING_FILE_SERVER_URL',
+  PopupPanel: ({ children }) => <>{children}</>,
+};
+
+export const defaultComponentMap = ({
+  asyncFileUpload = defaultInputs.asyncFileUpload,
+  asyncGetFiles = defaultInputs.asyncGetFiles,
+  asyncGetRefObjs = defaultInputs.asyncGetRefObjs,
+  fileServerUrl = defaultInputs.fileServerUrl,
+  PopupPanel = defaultInputs.PopupPanel,
+}: Partial<IDefaultComponentMapProps> = defaultInputs): TComponentMap => ({
   [EFilterType.uid]: () => allowReadOnly(FieldText),
   [EFilterType.text]: () => allowReadOnly(FieldText),
   [EFilterType.select]: () => allowReadOnly(FieldSelect),
@@ -148,5 +158,5 @@ export const defaultComponentMap = ({
 
 export const defaultComponent =
   <T,>() =>
-  (props: IFieldComponentProps<T>) =>
+  (props: IFieldComponentProps<T, any>) =>
     <FieldReadOnly {...props} />;

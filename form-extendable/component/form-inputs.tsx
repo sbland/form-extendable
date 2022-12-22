@@ -10,8 +10,8 @@ import {
 import { FormField as DefaultFormField, IFormFieldProps } from './form-field';
 
 export interface IFormInputsProps {
-  FormField: React.FC<IFormFieldProps<any, THeading<any>>>;
-  headings: THeading<any>[];
+  FormField: React.FC<IFormFieldProps<any, THeading<unknown>>>;
+  headings: THeading<unknown>[];
   formData: TFormData;
   onFormInputChange: (uid: string, val: any) => void;
   orientation: 'horiz' | 'vert';
@@ -60,13 +60,13 @@ export const FormInputs = ({
           return (
             <FormInputs
               key={heading.uid}
-              headings={(heading as IHeadingEmbedded<unknown>).children}
+              headings={(heading as IHeadingEmbedded).children}
               formData={formData}
               onFormInputChange={onFormInputChange}
-              orientation={(heading as IHeadingEmbedded<unknown>).orientation}
-              heading={(heading as IHeadingEmbedded<unknown>).label}
+              orientation={(heading as IHeadingEmbedded).orientation}
+              heading={(heading as IHeadingEmbedded).label}
               additionalData={additionalData}
-              showTitle={(heading as IHeadingEmbedded<unknown>).showTitle}
+              showTitle={(heading as IHeadingEmbedded).showTitle}
               componentMap={componentMap}
               FormField={FormField}
               id={heading.uid}
@@ -74,7 +74,6 @@ export const FormInputs = ({
             />
           );
         }
-        // return <div>{heading.uid}</div>;
         return (
           <FormField
             heading={heading}

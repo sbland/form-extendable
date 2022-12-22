@@ -1,7 +1,7 @@
 
 /* Field type is deprecated */
 // import React, { useState } from 'react';
-// import { CompositionWrapDefault } from '@react_db_client/helpers.composition-wraps';
+// import { CompositionWrapDefault } from '@form-extendable/composition-helpers';
 // import { IObj } from '@form-extendable/lib';
 // import { demoResults } from './demo-data';
 // import { FieldObjectRef } from './field-object-ref';

@@ -32,11 +32,6 @@ export const GlobalStyles = styled.div`
   button {
     cursor: pointer;
   }
-  .button-one {
-    background: rgba(120,200,100,1);
-    color: white;
-    cursor: pointer;
-  }
 
   :focus {
     outline: ${({ theme }) => theme.colors.mainHover} solid 2px;
@@ -80,8 +75,8 @@ export const GlobalStyles = styled.div`
   * {
     font-weight: ${({ theme }) => theme.typography.fontWeightStandard};
     font-family: ${({ theme }) => theme.typography.fontFamily};
-    font-size: ${({ theme }) => theme.typography.fontSize3};
-    line-height: ${({ theme }) => theme.typography.lineHeight};
+    // font-size: ${({ theme }) => theme.typography.fontSize3};
+    // line-height: ${({ theme }) => theme.typography.lineHeight};
   }
 
   b {

@@ -20,9 +20,9 @@ export type GetCustomFieldDisplayValue<T> = (
   customFillInField?: GetCustomFieldDisplayValue<T>
 ) => Promise<any>;
 
-export const getFieldDisplayValue = async <T,>(
+export const getFieldDisplayValue = async <T, H extends THeading<any>>(
   formEl: HTMLFormElement,
-  heading: THeading<T>,
+  heading: H,
   customFillInField?: GetCustomFieldDisplayValue<T>
 ) => {
   const fieldComponent = screen.getByTestId(`${heading.type}-${heading.uid}`);

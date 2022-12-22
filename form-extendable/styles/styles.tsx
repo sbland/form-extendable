@@ -1,18 +1,8 @@
 import styled from 'styled-components';
+import { defaultTheme } from './ThemeProvider';
 
-export interface IFormStyledProps {
-  sectionPadding: string | number;
-  sectionBorder: string;
-  headingHeight: string | number;
-  warningColor: string;
-  lineHeight: string | number;
-  grey30: string;
-  primaryColor: string;
-  mediaMediumWidth: string | number;
-  rowPadding: string | number;
-}
-
-export const FormStyled = styled.div<IFormStyledProps>`
+// TODO: Replace this with theme provider
+export const FormStyled = styled.div`
   .formSection {
     /* FORM SECTION */
     &,
@@ -23,33 +13,36 @@ export const FormStyled = styled.div<IFormStyledProps>`
       flex-grow: 1;
       flex-direction: row;
 
-      padding: ${({ sectionPadding }) => sectionPadding};
-      padding-bottom: ${({ sectionPadding }) => sectionPadding};
-      border: ${({ sectionBorder }) => sectionBorder};
+      padding: ${({ theme }) => theme.formExtendableTheme.section.padding};
+      padding-bottom: ${({ theme }) =>
+        theme.formExtendableTheme.section.padding};
+      border: ${({ theme }) => theme.formExtendableTheme.section.border};
       border-radius: (1rem * 0.3);
 
       margin: 0; // Reset margin
-      margin-top: ${({ sectionPadding }) => sectionPadding};
+      margin-top: ${({ theme }) => theme.formExtendableTheme.section.padding};
       box-shadow: 0px 0px 10px 0 rgba(0, 0, 0, 0.2);
 
       &.hasHeading {
-        padding-top: ${({ sectionPadding, headingHeight }) =>
-          `calc(${sectionPadding} + ${headingHeight})`}; // Allows for title
-        margin-top: ${({ sectionPadding, headingHeight }) =>
-          `calc(${sectionPadding} + ${headingHeight})`};
+        padding-top: ${({ theme }) =>
+          `calc(${theme.formExtendableTheme.section.padding} + ${theme.formExtendableTheme.section.headingHeight})`}; // Allows for title
+        margin-top: ${({ theme }) =>
+          `calc(${theme.formExtendableTheme.section.padding} + ${theme.formExtendableTheme.section.headingHeight})`};
       }
 
       /* Child of vert section */
       &.vert > .formSection {
         &:not(:last-child) {
-          margin-bottom: ${({ sectionPadding, headingHeight }) =>
-            `calc(${sectionPadding} + ${headingHeight})`};
+          margin-bottom: ${({ theme }) =>
+            `calc(${theme.formExtendableTheme.section.padding} + ${theme.formExtendableTheme.section.headingHeight})`};
         }
       }
       &.horiz > .formSection {
-        margin-left: ${({ sectionPadding }) => sectionPadding};
+        margin-left: ${({ theme }) =>
+          theme.formExtendableTheme.section.padding};
         &:last-child {
-          margin-right: ${({ sectionPadding }) => sectionPadding};
+          margin-right: ${({ theme }) =>
+            theme.formExtendableTheme.section.padding};
         }
       }
 
@@ -74,9 +67,9 @@ export const FormStyled = styled.div<IFormStyledProps>`
     flex-grow: 1;
     display: flex;
     margin: 0; // Reset margin
-    padding: ${({ rowPadding }) => rowPadding};
-    min-height: ${({ lineHeight, rowPadding }) =>
-      `calc(${lineHeight} + 2 * ${rowPadding})`};
+    padding: ${({ theme }) => theme.formExtendableTheme.row.padding};
+    min-height: ${({ theme }) =>
+      `calc(${theme.formExtendableTheme.typography.lineHeight} + 2 * ${theme.formExtendableTheme.row.padding})`};
   }
 
   .formSection.vert > .form_row {
@@ -84,36 +77,39 @@ export const FormStyled = styled.div<IFormStyledProps>`
     flex-direction: column;
 
     &:not(:first-child) {
-      margin-top: ${({ sectionPadding }) => sectionPadding};
+      margin-top: ${({ theme }) => theme.formExtendableTheme.section.padding};
     }
 
     &:not(:last-child) {
-      margin-bottom: ${({ sectionPadding }) => sectionPadding};
+      margin-bottom: ${({ theme }) =>
+        theme.formExtendableTheme.section.padding};
     }
   }
   .formSection.horiz > .form_row {
     flex-direction: column;
-    margin-right: ${({ sectionPadding }) => sectionPadding};
+    margin-right: ${({ theme }) => theme.formExtendableTheme.section.padding};
     justify-content: flex-start;
     &:not(:first-child) {
-      margin-left: ${({ sectionPadding }) => sectionPadding};
+      margin-left: ${({ theme }) => theme.formExtendableTheme.section.padding};
     }
   }
 
   /* FORM LABEL */
   .form_label {
-    line-height: ${({ lineHeight }) => lineHeight};
+    line-height: ${({ theme }) =>
+      theme.formExtendableTheme.typography.lineHeight};
 
     &,
     label,
     .label_wrap_inner {
-      line-height: ${({ lineHeight }) => lineHeight};
+      line-height: ${({ theme }) =>
+        theme.formExtendableTheme.typography.lineHeight};
     }
 
     &,
     * {
       &.required {
-        color: ${({ warningColor }) => warningColor};
+        color: ${({ theme }) => theme.formExtendableTheme.colors.warning};
       }
     }
 
@@ -124,7 +120,7 @@ export const FormStyled = styled.div<IFormStyledProps>`
         position: absolute;
         display: block;
         width: 2px;
-        background: ${({ warningColor }) => warningColor};
+        background: ${({ theme }) => theme.formExtendableTheme.colors.warning};
         height: 100%;
         z-index: 10;
         right: -1rem;
@@ -158,7 +154,7 @@ export const FormStyled = styled.div<IFormStyledProps>`
     position: absolute;
     margin: 0;
     background: whitesmoke;
-    top: -${({ headingHeight }) => headingHeight};
+    top: -${({ theme }) => theme.formExtendableTheme.section.headingHeight};
     left: 1rem;
     width: auto;
     border-radius: 3px;
@@ -175,28 +171,27 @@ export const FormStyled = styled.div<IFormStyledProps>`
   input[type='number'] {
     box-sizing: border-box;
     min-width: 60%;
-    min-height: ${({ lineHeight }) => lineHeight};
-    height: ${({ lineHeight }) => lineHeight};
+    min-height: ${({ theme }) =>
+      theme.formExtendableTheme.typography.lineHeight};
+    height: ${({ theme }) => theme.formExtendableTheme.typography.lineHeight};
     flex-grow: 1;
-    outline: 1px solid green; // default if not provided below;
-    outline: 1px ${({ grey30 }) => grey30} solid;
+    outline: ${({ theme }) => theme.formExtendableTheme.input.outline};
     border: 0;
-    height: ${({ lineHeight }) => lineHeight};
-    max-height: ${({ lineHeight }) => lineHeight};
+    height: ${({ theme }) => theme.formExtendableTheme.typography.lineHeight};
+    max-height: ${({ theme }) =>
+      theme.formExtendableTheme.typography.lineHeight};
     &:focus {
-      outline: 2px ${({ grey30 }) => grey30} solid;
+      ${({ theme }) => theme.formExtendableTheme.input.focus}
+    }
+    &:hover {
+      ${({ theme }) => theme.formExtendableTheme.input.hover}
     }
   }
 
   select {
     min-width: 60%;
-    border: 1px ${({ grey30 }) => grey30} solid;
+    border: ${({ theme }) => theme.formExtendableTheme.input.outline};
     outline: none;
-  }
-
-  .formFieldFile {
-    border: 1px ${({ primaryColor }) => primaryColor} solid;
-    background: ${({ grey30 }) => grey30};
   }
 
   .formFieldInput {
@@ -208,17 +203,28 @@ export const FormStyled = styled.div<IFormStyledProps>`
     }
   }
 
+  .inputWrapper {
+    padding: 2px;
+    margin: 0;
+    outline: ${({ theme }) => theme.formExtendableTheme.input.outline};
+
+    &:focus-within {
+      ${({ theme }) => theme.formExtendableTheme.input.focus}
+    }
+    &:hover {
+      ${({ theme }) => theme.formExtendableTheme.input.hover}
+    }
+  }
+
   textarea {
     width: 100%;
     flex-grow: 1;
     padding: 0;
     margin: 0;
     border: none;
-    outline: none;
-    min-height: ${({ lineHeight }) => lineHeight};
-    &:focus {
-      outline: 2px ${({ grey30 }) => grey30} solid;
-    }
+    outline: none; // Managed by wrapper
+    min-height: ${({ theme }) =>
+      theme.formExtendableTheme.typography.lineHeight};
   }
 
   input[type='checkbox'],
@@ -235,7 +241,15 @@ export const FormStyled = styled.div<IFormStyledProps>`
     width: 100%;
   }
 
-  @media (min-width: ${({ mediaMediumWidth }) => mediaMediumWidth}) {
+  .searchFieldWrap {
+    .dropdownBtn {
+      line-height: ${({ theme }) =>
+        theme.formExtendableTheme.typography.lineHeight};
+    }
+  }
+
+  @media (min-width: ${({ theme }) =>
+      theme.formExtendableTheme.media.mediumWidth}) {
     .formSection {
       &.vert > .form_row > .form_label {
         &,
@@ -271,8 +285,15 @@ export const FormStyled = styled.div<IFormStyledProps>`
       &,
       label,
       .label_wrap_inner {
-        height: ${({ lineHeight }) => lineHeight};
+        height: ${({ theme }) =>
+          theme.formExtendableTheme.typography.lineHeight};
       }
     }
   }
 `;
+
+FormStyled.defaultProps = {
+  theme: {
+    formExtendableTheme: defaultTheme,
+  },
+};

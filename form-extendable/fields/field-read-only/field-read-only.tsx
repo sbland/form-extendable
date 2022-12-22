@@ -11,13 +11,13 @@ const getSelectValue = (value: string, options: IOpt[]) => {
   return val ? val.label : null;
 };
 
-export const FieldReadOnly = <V, > ({
+export const FieldReadOnly = <V, H extends THeading<any>>({
   uid,
   unit,
   value,
   type,
   options,
-}: IFieldReadOnlyProps<V> & Partial<THeading<V>>) => {
+}: IFieldReadOnlyProps<V> & Partial<H>) => {
   let val: string | null = typeof value === 'string' ? value : null;
   if (val && type === EFilterType.select)
     val = (options && getSelectValue(val, options)) || '';
