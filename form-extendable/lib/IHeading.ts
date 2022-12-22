@@ -107,10 +107,12 @@ export interface IHeadingSelectSearchMulti<T extends IObj>
 
 export interface IHeadingReference<T extends IObj>
   extends Omit<IHeadingSelectSearch<T>, 'searchFn'> {
+  type: EFilterType.reference;
   collection: string;
 }
 export interface IHeadingReferenceMulti<T extends IObj>
   extends Omit<IHeadingSelectSearchMulti<T>, 'searchFn'> {
+  type: EFilterType.reference;
   collection: string;
 }
 
