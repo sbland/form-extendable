@@ -6,7 +6,7 @@ importers:
     specifiers:
       '@babel/runtime': 7.12.18
       '@react_db_client/components.emoji': '>=0.1.11 <0.2.0'
-      '@react_db_client/components.file-manager': 0.2.100
+      '@react_db_client/components.file-manager': 0.2.102
       '@react_db_client/components.form.form-components.bubble-selector': 0.2.9
       '@react_db_client/components.form.form-components.multi-select-dropdown': 0.2.19
       '@react_db_client/components.form.form-components.toggle-box': 0.2.26
@@ -42,7 +42,7 @@ importers:
     dependencies:
       '@babel/runtime': registry.npmjs.org/@babel/runtime/7.12.18
       '@react_db_client/components.emoji': registry.npmjs.org/@react_db_client/components.emoji/0.1.11_mnjzo2axdlbvokesplzuolben4
-      '@react_db_client/components.file-manager': registry.npmjs.org/@react_db_client/components.file-manager/0.2.100_o25ca7pna6ltcreiuoqvtros6a
+      '@react_db_client/components.file-manager': registry.npmjs.org/@react_db_client/components.file-manager/0.2.102_o25ca7pna6ltcreiuoqvtros6a
       '@react_db_client/components.form.form-components.bubble-selector': registry.npmjs.org/@react_db_client/components.form.form-components.bubble-selector/0.2.9_oxfzelaz5ynxsop2v2nu2h2m64
       '@react_db_client/components.form.form-components.multi-select-dropdown': registry.npmjs.org/@react_db_client/components.form.form-components.multi-select-dropdown/0.2.19_mnjzo2axdlbvokesplzuolben4
       '@react_db_client/components.form.form-components.toggle-box': registry.npmjs.org/@react_db_client/components.form.form-components.toggle-box/0.2.26_mnjzo2axdlbvokesplzuolben4
@@ -700,21 +700,18 @@ packages:
       - react-is
     dev: false
 
-  registry.npmjs.org/@react_db_client/components.file-manager/0.2.100_o25ca7pna6ltcreiuoqvtros6a:
-    resolution: {integrity: sha512-h5nBE/XZJMDlnTrhf1lL5HlrHB/zCOCNbOE/dO3uvI1+Kb8yMseHjSYvLEiIJQ3r/87pEHCWzoRrbLe80eAZyg==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/components.file-manager/-/components.file-manager-0.2.100.tgz}
-    id: registry.npmjs.org/@react_db_client/components.file-manager/0.2.100
+  registry.npmjs.org/@react_db_client/components.file-manager/0.2.102_o25ca7pna6ltcreiuoqvtros6a:
+    resolution: {integrity: sha512-Y/ckSnqZCkgquL8mijazsnokHaMrhOYhK3sLmnUv1E6yB8at9lc1YL7qeJDTwS2F/XcusrW/saZx5LD7AN9kqA==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/components.file-manager/-/components.file-manager-0.2.102.tgz}
+    id: registry.npmjs.org/@react_db_client/components.file-manager/0.2.102
     name: '@react_db_client/components.file-manager'
-    version: 0.2.100
+    version: 0.2.102
     peerDependencies:
       '@testing-library/react': '*'
-      enzyme: '*'
       prop-types: '*'
       react: '*'
       react-dom: '*'
     peerDependenciesMeta:
       '@testing-library/react':
-        optional: true
-      enzyme:
         optional: true
       prop-types:
         optional: true
@@ -733,6 +730,7 @@ packages:
       react-dom: registry.npmjs.org/react-dom/17.0.2_react@17.0.2
     transitivePeerDependencies:
       - '@testing-library/react-hooks'
+      - enzyme
       - enzyme-to-json
       - lodash
       - react-is

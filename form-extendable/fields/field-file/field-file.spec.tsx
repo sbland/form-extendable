@@ -106,7 +106,7 @@ describe('field-file', () => {
         await UserEvent.click(addFileButton);
         await screen.findByText('Select File');
         const demoFile = DEMO_IMAGE_FILES_MANY[50];
-        await screen.findByText(demoFile.label, { exact: false });
+        await screen.findByText(demoFile.name, { exact: false });
         const fileList = within(
           screen.getAllByTestId('styledSelectList')[0] // TODO: Why do we have multiple?!
         ).getByRole('list');
