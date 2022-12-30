@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 
-import { SearchAndSelectDropdown } from '@react_db_client/components.search-and-select-dropdown';
+import { SearchAndSelectDropdown , IItem} from '@react_db_client/components.search-and-select-dropdown';
 import {
   IObj,
   IFieldComponentProps,
@@ -10,7 +10,9 @@ import {
 } from '@form-extendable/lib';
 import { FilterObjectClass } from '@react_db_client/constants.client-types';
 
-const parseVal = (val: IObj | IObj[] | null): IObj[] => {
+export type TItem = IObj & IItem;
+
+const parseVal = (val: TItem | TItem[] | null): TItem[] => {
   if (!val) {
     return [];
   }
@@ -42,22 +44,22 @@ export type TAsyncGetDocuments<V> = (
 ) => Promise<V[]>;
 
 const searchFn =
-  <V extends IObj>(
+  <V extends TItem>(
     asyncGetDocuments: TAsyncGetDocuments<V>,
     collection,
     schema,
     sortBy
   ) =>
-  async (filters?: FilterObjectClass[]): Promise<IObj[]> =>
+  async (filters?: FilterObjectClass[]): Promise<TItem[]> =>
     asyncGetDocuments(collection, filters || [], schema, sortBy);
 
 export interface IFieldObjectRefAdditionalProps<V> {
   asyncGetDocuments: TAsyncGetDocuments<V>;
 }
 
-export type TFieldObjectRefProps<V extends IObj[] | IObj | null> =
+export type TFieldObjectRefProps<V extends TItem[] | TItem | null> =
   IFieldComponentProps<V | V[]> &
-    (IHeadingReference<IObj> | IHeadingReferenceMulti<IObj>) &
+    (IHeadingReference<TItem> | IHeadingReferenceMulti<TItem>) &
     IFieldObjectRefAdditionalProps<V>;
 
 /**
@@ -65,7 +67,7 @@ export type TFieldObjectRefProps<V extends IObj[] | IObj | null> =
  *
  * @deprecated Use FieldSelectSearch and pass in custom searchFn instead
  */
-export const FieldObjectRef = <V extends IObj>({
+export const FieldObjectRef = <V extends TItem>({
   uid,
   unit,
   onChange,
@@ -84,7 +86,7 @@ export const FieldObjectRef = <V extends IObj>({
 
   const handleSelect = useCallback(
     // eslint-disable-next-line no-unused-vars
-    (_, data) => {
+    (data) => {
       const newData = multiple
         ? [...valueChecked, data].filter(
             (v, i, self) => self.findIndex((vv) => vv.uid == v.uid) == i

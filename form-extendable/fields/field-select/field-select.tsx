@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 
-import { SearchAndSelectDropdown } from '@react_db_client/components.search-and-select-dropdown';
+import { IItem, SearchAndSelectDropdown } from '@react_db_client/components.search-and-select-dropdown';
 import {
   ToggleBox,
   ToggleBoxRadioGroup,
@@ -32,6 +32,9 @@ export const FieldSelect = ({
   const selectionValidated = valueIsInvalid
     ? 'Invalid Selection'
     : selection && selection[labelField];
+  const handleSelect = useCallback((data: IItem) => {
+    onChange(data.uid as string);
+  }, [onChange]);
 
   switch (selectType) {
     case 'dropdown':
@@ -39,7 +42,7 @@ export const FieldSelect = ({
         <>
           <SearchAndSelectDropdown
             searchFunction={searchFunction}
-            handleSelect={onChange}
+            handleSelect={handleSelect}
             initialValue={selection}
             allowMultiple={multiple}
             searchFieldTargetField={labelField}

@@ -35,8 +35,8 @@ export const FieldSelectSearch: React.FC<TFieldSelectSearchProps<any>> = <
   inputProps,
 }: TFieldSelectSearchProps<V>) => {
   const handleSelect = useCallback(
-    (_, data) => {
-      onChange(data as V);
+    (data: V) => {
+      onChange(data);
     },
     [onChange]
   );
