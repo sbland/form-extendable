@@ -50,7 +50,6 @@
         "@react_db_client/components.form.form-components.bubble-selector": "0.2.9",
         "@react_db_client/components.form.form-components.multi-select-dropdown": "0.2.19",
         "@react_db_client/components.form.form-components.toggle-box": "0.2.26",
-        "@react_db_client/components.item-list": "^0.2.26",
         "@react_db_client/components.search-and-select-dropdown": "0.2.104",
         "@react_db_client/constants.client-types": "^0.4.1",
         "@react_db_client/constants.style": "^0.4.1",
