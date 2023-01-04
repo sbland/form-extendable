@@ -14,7 +14,7 @@ const parseInput = (value) =>
 
 export type TFieldNumberProps = IFieldComponentProps<number> & IHeadingNumber;
 
-export const FieldNumber = ({
+export const FieldNumber: React.FC<TFieldNumberProps> = ({
   uid,
   type,
   unit,
@@ -26,7 +26,7 @@ export const FieldNumber = ({
   value: valueIn,
   required,
   inputProps,
-}: TFieldNumberProps) => {
+}) => {
   const ref = useRef<HTMLInputElement>(null);
   const value = parseInput(valueIn);
 
@@ -89,5 +89,5 @@ FieldNumber.defaultProps = {
   max: 999999,
   step: 1,
   required: false,
-  defaultValue: null,
+  defaultValue: undefined,
 };

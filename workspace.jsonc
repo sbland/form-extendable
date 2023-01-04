@@ -1,7 +1,7 @@
 /**
  * this is the main configuration file of your bit workspace.
  * for full documentation, please see: https://bit.dev/docs/workspace/workspace-configuration
- **/{
+ **/ {
   "$schema": "https://static.bit.dev/teambit/schemas/schema.json",
   /**
    * main configuration of the Bit workspace.
@@ -30,9 +30,7 @@
     "defaultScope": "samnbuk.form-extendable"
   },
   "teambit.generator/generator": {
-    "aspects": [
-      "form-extendable/generator/typescript"
-    ]
+    "aspects": ["form-extendable/generator/typescript"]
   },
   "form-extendable/generator/typescript": {},
   /**
@@ -46,17 +44,16 @@
     "policy": {
       "dependencies": {
         "@react_db_client/components.emoji": "^0.1.11",
-        "@react_db_client/components.file-manager": "0.2.106",
-        "@react_db_client/components.form.form-components.bubble-selector": "0.2.9",
-        "@react_db_client/components.form.form-components.multi-select-dropdown": "0.2.19",
-        "@react_db_client/components.form.form-components.toggle-box": "0.2.26",
-        "@react_db_client/components.search-and-select-dropdown": "0.2.104",
+        "@react_db_client/components.file-manager": "0.2.114",
+        "@react_db_client/components.form.form-components.bubble-selector": "0.2.11",
+        "@react_db_client/components.form.form-components.multi-select-dropdown": "0.2.20",
+        "@react_db_client/components.form.form-components.toggle-box": "0.2.27",
+        "@react_db_client/components.search-and-select-dropdown": "0.2.107",
         "@react_db_client/constants.client-types": "^0.4.1",
         "@react_db_client/constants.style": "^0.4.1",
         "@react_db_client/helpers.composition-wraps": "^0.1.13",
         "@react_db_client/helpers.func-tools": "^0.1.9",
         "@teambit/eslint-config-bit-react": "~0.0.367",
-        "@testing-library/user-event": "14.4.3",
         "@types/styled-components": "5.1.26",
         "@typescript-eslint/eslint-plugin": "5.40.0",
         "eslint-import-resolver-node": "0.3.6",
@@ -71,6 +68,7 @@
       },
       "peerDependencies": {
         "@testing-library/react": "12.0.0",
+        "@testing-library/user-event": "14.4.3",
         "react": "17.0.2",
         "react-dom": "17.0.2"
       }
@@ -88,9 +86,7 @@
     "{component},{components/**},{lib},{fields/**},{utils},{styles},{composition-helpers},{testing}": {
       "envs/custom-react": {},
       "teambit.pkg/pkg": {
-        "packageManagerPublishArgs": [
-          "--access public"
-        ],
+        "packageManagerPublishArgs": ["--access public"],
         "packageJson": {
           "name": "@{scope}/{name}",
           "private": false,
