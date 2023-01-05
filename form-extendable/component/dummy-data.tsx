@@ -204,6 +204,30 @@ export const demoHeadingsData: THeading<any>[] = [
     ],
   },
   {
+    uid: 'embeddedc',
+    label: 'Embedded C',
+    type: EFilterType.embedded,
+    showTitle: false,
+    orientation: 'horiz',
+    children: [
+      { uid: 'embeddedtog1', label: 'Embedded Tog1', type: EFilterType.bool },
+      { uid: 'embeddedtog2', label: 'Embedded Tog2', type: EFilterType.bool },
+      { uid: 'embeddedtog3', label: 'Embedded Tog3', type: EFilterType.bool },
+    ],
+  },
+  {
+    uid: 'embeddedd',
+    label: 'Embedded d',
+    type: EFilterType.embedded,
+    showTitle: true,
+    orientation: 'vert',
+    children: [
+      { uid: 'embeddedtog1', label: 'Embedded Tog1', type: EFilterType.bool },
+      { uid: 'embeddedtog2', label: 'Embedded Tog2', type: EFilterType.bool },
+      { uid: 'embeddedtog3', label: 'Embedded Tog3', type: EFilterType.bool },
+    ],
+  },
+  {
     uid: 'dict',
     label: 'Dictionary Field',
     type: EFilterType.dict,

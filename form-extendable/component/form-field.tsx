@@ -26,10 +26,7 @@ export interface IFormFieldProps<V, H extends THeading<V>>
  *  - the field heading meta data
  *  - The common form props
  */
-export const FormField = <
-  V,
-  H extends THeading<V>,
->(
+export const FormField = <V, H extends THeading<V>>(
   propsIn: IFormFieldProps<V, H>
 ) => {
   const { heading, value, onChange, additionalData, componentMap } = propsIn;
@@ -69,6 +66,7 @@ export const FormField = <
     'form_label',
     `${required ? 'required' : ''}`,
     `${hasChanged ? 'hasChanged' : ''}`,
+    `${hideLabel ? 'hidden' : ''}`,
   ]
     .filter((f) => f)
     .join(' ');

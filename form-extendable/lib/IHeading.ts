@@ -51,6 +51,7 @@ export interface IHeadingSelect extends IHeading<Uid, HTMLInputElement> {
   options: {
     uid: Uid;
     label: string;
+    description?: string; // TODO Implement this
   }[];
   labelField?: string;
   multiple?: boolean;

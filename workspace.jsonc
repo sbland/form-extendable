@@ -1,7 +1,7 @@
 /**
  * this is the main configuration file of your bit workspace.
  * for full documentation, please see: https://bit.dev/docs/workspace/workspace-configuration
- **/ {
+ **/{
   "$schema": "https://static.bit.dev/teambit/schemas/schema.json",
   /**
    * main configuration of the Bit workspace.
@@ -30,7 +30,9 @@
     "defaultScope": "samnbuk.form-extendable"
   },
   "teambit.generator/generator": {
-    "aspects": ["form-extendable/generator/typescript"]
+    "aspects": [
+      "form-extendable/generator/typescript"
+    ]
   },
   "form-extendable/generator/typescript": {},
   /**
@@ -44,7 +46,7 @@
     "policy": {
       "dependencies": {
         "@react_db_client/components.emoji": "^0.1.11",
-        "@react_db_client/components.file-manager": "0.2.114",
+        "@react_db_client/components.file-manager": "0.2.115",
         "@react_db_client/components.form.form-components.bubble-selector": "0.2.11",
         "@react_db_client/components.form.form-components.multi-select-dropdown": "0.2.20",
         "@react_db_client/components.form.form-components.toggle-box": "0.2.27",
@@ -86,7 +88,9 @@
     "{component},{components/**},{lib},{fields/**},{utils},{styles},{composition-helpers},{testing}": {
       "envs/custom-react": {},
       "teambit.pkg/pkg": {
-        "packageManagerPublishArgs": ["--access public"],
+        "packageManagerPublishArgs": [
+          "--access public"
+        ],
         "packageJson": {
           "name": "@{scope}/{name}",
           "private": false,

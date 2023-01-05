@@ -91,7 +91,7 @@ export const FormInputs = ({
   return (
     <section className={className}>
       {!isSection && showKey && <p>* is required. (!) has been modified.</p>}
-      <h4 className="formSection_heading">{sectionTitle}</h4>
+      {showTitle && <h4 className="formSection_heading">{sectionTitle}</h4>}
       {fields}
     </section>
   );

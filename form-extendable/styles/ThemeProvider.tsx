@@ -21,9 +21,12 @@ export interface IFormTheme extends IReactDbTheme {
     padding: string | number;
     border: string;
     headingHeight: string | number;
+    headingBorder: string;
+    headingBackground: string;
   };
   row: {
     padding: string | number;
+    border: string;
   };
   media: {
     mediumWidth: string | number;
@@ -63,9 +66,7 @@ export const defaultTheme: IFormTheme = {
     onHover: `background: yellow;`,
     onFocus: `background: green;`,
   },
-  ctabutton: {
-
-  },
+  ctabutton: {},
   colors: {
     main: '#DFD324',
     warning: 'orange',
@@ -73,9 +74,11 @@ export const defaultTheme: IFormTheme = {
     text: 'blue',
   },
   section: {
-    padding: '1rem',
+    padding: '1.2rem',
     border: '1px solid green',
-    headingHeight: '1.5rem',
+    headingHeight: '1.1rem',
+    headingBorder: '1px solid green',
+    headingBackground: 'grey',
   },
   input: {
     focus: 'outline: 1px solid red;',
@@ -84,6 +87,7 @@ export const defaultTheme: IFormTheme = {
   },
   row: {
     padding: '0.2rem',
+    border: '1px solid rgba(100,0,0,1)',
   },
   media: {
     mediumWidth: '800px',

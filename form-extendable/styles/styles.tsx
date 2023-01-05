@@ -20,30 +20,31 @@ export const FormStyled = styled.div`
       border-radius: (1rem * 0.3);
 
       margin: 0; // Reset margin
-      margin-top: ${({ theme }) => theme.formExtendableTheme.section.padding};
       box-shadow: 0px 0px 10px 0 rgba(0, 0, 0, 0.2);
 
       &.hasHeading {
         padding-top: ${({ theme }) =>
-          `calc(${theme.formExtendableTheme.section.padding} + ${theme.formExtendableTheme.section.headingHeight})`}; // Allows for title
+          `calc(${theme.formExtendableTheme.section.padding} + 0.5 * ${theme.formExtendableTheme.section.headingHeight})`}; // Allows for title
         margin-top: ${({ theme }) =>
-          `calc(${theme.formExtendableTheme.section.padding} + ${theme.formExtendableTheme.section.headingHeight})`};
+          `calc(0.5 * ${theme.formExtendableTheme.section.headingHeight})`};
       }
 
       /* Child of vert section */
       &.vert > .formSection {
-        &:not(:last-child) {
-          margin-bottom: ${({ theme }) =>
-            `calc(${theme.formExtendableTheme.section.padding} + ${theme.formExtendableTheme.section.headingHeight})`};
-        }
+        margin-right: ${({ theme }) =>
+          theme.formExtendableTheme.section.padding};
+        margin-bottom: ${({ theme }) =>
+          `${theme.formExtendableTheme.section.padding}`};
       }
       &.horiz > .formSection {
+        margin: ${({ theme }) =>
+          `${theme.formExtendableTheme.section.padding}`};
+        margin-right: ${({ theme }) =>
+          theme.formExtendableTheme.section.padding};
         margin-left: ${({ theme }) =>
           theme.formExtendableTheme.section.padding};
-        &:last-child {
-          margin-right: ${({ theme }) =>
-            theme.formExtendableTheme.section.padding};
-        }
+        margin-bottom: ${({ theme }) =>
+          `${theme.formExtendableTheme.section.padding}`};
       }
 
       /* vert section */
@@ -67,18 +68,17 @@ export const FormStyled = styled.div`
     flex-grow: 1;
     display: flex;
     margin: 0; // Reset margin
+    border: ${({ theme }) => theme.formExtendableTheme.row.border};
     padding: ${({ theme }) => theme.formExtendableTheme.row.padding};
     min-height: ${({ theme }) =>
       `calc(${theme.formExtendableTheme.typography.lineHeight} + 2 * ${theme.formExtendableTheme.row.padding})`};
+    flex-direction: column;
+    margin: ${({ theme }) => theme.formExtendableTheme.section.padding};
+    margin-right: ${({ theme }) => theme.formExtendableTheme.section.padding};
   }
 
   .formSection.vert > .form_row {
     align-items: stretch; // Ensures inputs align to bottom of label
-    flex-direction: column;
-
-    &:not(:first-child) {
-      margin-top: ${({ theme }) => theme.formExtendableTheme.section.padding};
-    }
 
     &:not(:last-child) {
       margin-bottom: ${({ theme }) =>
@@ -86,9 +86,11 @@ export const FormStyled = styled.div`
     }
   }
   .formSection.horiz > .form_row {
-    flex-direction: column;
-    margin-right: ${({ theme }) => theme.formExtendableTheme.section.padding};
     justify-content: flex-start;
+    &:not(:last-child) {
+      margin-bottom: ${({ theme }) =>
+        theme.formExtendableTheme.section.padding};
+    }
     &:not(:first-child) {
       margin-left: ${({ theme }) => theme.formExtendableTheme.section.padding};
     }
@@ -138,6 +140,9 @@ export const FormStyled = styled.div`
     }
   }
   .formSection.horiz > .form_row > .form_label {
+    &.hidden {
+      display: none;
+    }
     &,
     * {
       text-align: left;
@@ -153,8 +158,14 @@ export const FormStyled = styled.div`
   .formSection_heading {
     position: absolute;
     margin: 0;
-    background: whitesmoke;
-    top: -${({ theme }) => theme.formExtendableTheme.section.headingHeight};
+    border: ${({ theme }) => theme.formExtendableTheme.section.headingBorder};
+    background: ${({ theme }) =>
+      theme.formExtendableTheme.section.headingBackground};
+
+    top: calc(
+      -0.5 * ${({ theme }) => theme.formExtendableTheme.section.headingHeight}
+    );
+
     left: 1rem;
     width: auto;
     border-radius: 3px;
