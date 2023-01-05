@@ -31,7 +31,8 @@ export const FormField = <V, H extends THeading<V>>(
 ) => {
   const { heading, value, onChange, additionalData, componentMap } = propsIn;
 
-  const { label, required, type, uid, hasChanged, hideLabel } = heading;
+  const { label, required, type, uid, hasChanged, hideLabel, expandInput } =
+    heading;
 
   const FormComponent: TFieldReactComponent<V, H> = useMemo(
     () =>
@@ -76,19 +77,22 @@ export const FormField = <V, H extends THeading<V>>(
 
   return (
     <div className={rowClassname} key={uid} data-testid={`${type}-${uid}`}>
-      <div className={labelClassName}>
+      <div
+        className={labelClassName}
+        style={{ display: hideLabel && expandInput ? 'none' : 'inherit' }}
+      >
         <FieldLabel
           uid={uid}
           label={label}
           hasChanged={hasChanged}
-          required={required}
           hidden={hideLabel}
         />
-        {!hideLabel ? <>{': '}</> : <span />}
       </div>
-      <FormComponent
-        {...(props as React.ComponentProps<typeof FormComponent>)}
-      />
+      <div className="formComponentWrap">
+        <FormComponent
+          {...(props as React.ComponentProps<typeof FormComponent>)}
+        />
+      </div>
     </div>
   );
 };

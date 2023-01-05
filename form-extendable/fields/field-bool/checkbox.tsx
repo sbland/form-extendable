@@ -11,11 +11,13 @@ export const CheckMark = styled.span`
   background-color: ${({ theme }) => theme.formExtendableTheme.background};
   border: 2px solid ${({ theme }) => theme.formExtendableTheme.colors.main};
 
+  ${({ theme }) => theme.formExtendableTheme.checkbox.default}
+
   &:focus {
-    ${({ theme }) => theme.formExtendableTheme.button.onFocus}
+    ${({ theme }) => theme.formExtendableTheme.checkbox.onFocus}
   }
   &:hover {
-    ${({ theme }) => theme.formExtendableTheme.button.onHover}
+    ${({ theme }) => theme.formExtendableTheme.checkbox.onHover}
   }
 `;
 
@@ -69,13 +71,11 @@ export const CheckBoxContainer = styled.div`
   }
 `;
 
-
 CheckBoxContainer.defaultProps = {
   theme: {
     formExtendableTheme: defaultTheme,
   },
 };
-
 
 export interface ICheckboxProps {
   uid: string;

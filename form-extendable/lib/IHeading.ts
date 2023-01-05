@@ -13,6 +13,7 @@ export type GenericFilterTypes = EFilterType.bool | EFilterType.button;
 
 export interface IHeading<T, InputType> {
   hideLabel?: boolean;
+  expandInput?: boolean;
   label: string;
   required?: boolean;
   uid: string;
@@ -24,6 +25,7 @@ export interface IHeading<T, InputType> {
     React.HTMLProps<InputType>,
     'defaultValue' | 'value' | 'onChange' | 'type'
   >;
+  styleOverrides?: React.CSSProperties;
 }
 
 export interface IHeadingNumber extends IHeading<number, HTMLInputElement> {

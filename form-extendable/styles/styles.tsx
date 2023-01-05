@@ -22,7 +22,8 @@ export const FormStyled = styled.div`
       margin: 0; // Reset margin
       box-shadow: 0px 0px 10px 0 rgba(0, 0, 0, 0.2);
 
-      &.hasHeading {
+      &.hasHeading.hasHeading.hasHeading.hasHeading.hasHeading {
+        // We need to make sure these override other styles
         padding-top: ${({ theme }) =>
           `calc(${theme.formExtendableTheme.section.padding} + 0.5 * ${theme.formExtendableTheme.section.headingHeight})`}; // Allows for title
         margin-top: ${({ theme }) =>
@@ -38,12 +39,6 @@ export const FormStyled = styled.div`
       }
       &.horiz > .formSection {
         margin: ${({ theme }) =>
-          `${theme.formExtendableTheme.section.padding}`};
-        margin-right: ${({ theme }) =>
-          theme.formExtendableTheme.section.padding};
-        margin-left: ${({ theme }) =>
-          theme.formExtendableTheme.section.padding};
-        margin-bottom: ${({ theme }) =>
           `${theme.formExtendableTheme.section.padding}`};
       }
 
@@ -67,57 +62,61 @@ export const FormStyled = styled.div`
   .form_row {
     flex-grow: 1;
     display: flex;
-    margin: 0; // Reset margin
     border: ${({ theme }) => theme.formExtendableTheme.row.border};
     padding: ${({ theme }) => theme.formExtendableTheme.row.padding};
     min-height: ${({ theme }) =>
       `calc(${theme.formExtendableTheme.typography.lineHeight} + 2 * ${theme.formExtendableTheme.row.padding})`};
-    flex-direction: column;
     margin: ${({ theme }) => theme.formExtendableTheme.section.padding};
-    margin-right: ${({ theme }) => theme.formExtendableTheme.section.padding};
+    flex-direction: column; // Show labels above inputs when viewing on small screen
   }
 
   .formSection.vert > .form_row {
     align-items: stretch; // Ensures inputs align to bottom of label
-
-    &:not(:last-child) {
-      margin-bottom: ${({ theme }) =>
-        theme.formExtendableTheme.section.padding};
-    }
   }
   .formSection.horiz > .form_row {
     justify-content: flex-start;
-    &:not(:last-child) {
-      margin-bottom: ${({ theme }) =>
-        theme.formExtendableTheme.section.padding};
-    }
-    &:not(:first-child) {
-      margin-left: ${({ theme }) => theme.formExtendableTheme.section.padding};
-    }
   }
 
   /* FORM LABEL */
   .form_label {
     line-height: ${({ theme }) =>
       theme.formExtendableTheme.typography.lineHeight};
+    display: flex;
 
     &,
     label,
     .label_wrap_inner {
       line-height: ${({ theme }) =>
         theme.formExtendableTheme.typography.lineHeight};
+      flex-grow: 1;
+    }
+    & label {
+      &:after {
+        content: ':';
+        display: inline;
+        width: 1rem;
+        height: 1rem;
+      }
     }
 
     &,
     * {
       &.required {
         color: ${({ theme }) => theme.formExtendableTheme.colors.warning};
+        & label {
+          &:before {
+            content: '*';
+            display: inline;
+            width: 1rem;
+            height: 1rem;
+          }
+        }
       }
     }
 
     &.hasChanged {
       position: relative;
-      &::after {
+      &:after {
         content: '';
         position: absolute;
         display: block;
@@ -129,12 +128,12 @@ export const FormStyled = styled.div`
         top: 0;
       }
     }
+    ${({ theme }) => theme.formExtendableTheme.row.labelStyle}
   }
   .formSection.vert > .form_row > .form_label {
     &,
     * {
       width: inherit;
-      flex-grow: 1;
       text-align: left;
       flex-grow: 1;
     }
@@ -148,9 +147,15 @@ export const FormStyled = styled.div`
       text-align: left;
       overflow: hidden;
       text-overflow: ellipsis;
-      max-width: fit-content;
       width: fit-content;
+      height: fit-content;
     }
+  }
+
+  /* FORM COMPONENT */
+
+  .formComponentWrap {
+    flex-grow: 1;
   }
 
   /* SECTION HEADING */
@@ -259,6 +264,36 @@ export const FormStyled = styled.div`
     }
   }
 
+  .toggleBoxRadioGroup_wrap {
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      li {
+        margin-right: ${({ theme }) => theme.formExtendableTheme.row.padding};
+        margin-bottom: ${({ theme }) => theme.formExtendableTheme.row.padding};
+      }
+    }
+  }
+
+  .bubbleSelector {
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      li {
+        margin-right: ${({ theme }) => theme.formExtendableTheme.row.padding};
+        margin-bottom: ${({ theme }) => theme.formExtendableTheme.row.padding};
+      }
+    }
+  }
+
+  /* DESKTOP CSS */
   @media (min-width: ${({ theme }) =>
       theme.formExtendableTheme.media.mediumWidth}) {
     .formSection {
@@ -282,13 +317,17 @@ export const FormStyled = styled.div`
         }
       }
       &.horiz > .form_row {
+        flex-direction: row;
       }
     }
     .formSection.vert > .form_row > .form_label {
       &,
       * {
-        width: 30%;
-        max-width: 200px;
+        width: ${({ theme }) => theme.formExtendableTheme.row.labelTargetWidth};
+        height: fit-content;
+        max-width: ${({ theme }) =>
+          theme.formExtendableTheme.row.labelMaxWidth};
+        // flex-grow: 0;
       }
     }
     .form_label {

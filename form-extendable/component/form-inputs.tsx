@@ -1,6 +1,9 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { filterTypes } from '@react_db_client/constants.client-types';
+import {
+  EFilterType,
+  filterTypes,
+} from '@react_db_client/constants.client-types';
 import {
   IHeadingEmbedded,
   TComponentMap,
@@ -21,6 +24,7 @@ export interface IFormInputsProps {
   showKey?: boolean;
   additionalData?: TFormData;
   componentMap: TComponentMap;
+  styleOverrides?: React.CSSProperties;
   id: string;
 }
 
@@ -36,6 +40,7 @@ export const FormInputs = ({
   showKey,
   additionalData,
   componentMap,
+  styleOverrides = {},
   id,
 }: IFormInputsProps) => {
   const className = [
@@ -56,7 +61,7 @@ export const FormInputs = ({
             ? formData[heading.uid]
             : heading.defaultValue;
 
-        if (heading.type === filterTypes.embedded) {
+        if (heading.type === EFilterType.embedded) {
           return (
             <FormInputs
               key={heading.uid}
@@ -70,6 +75,7 @@ export const FormInputs = ({
               componentMap={componentMap}
               FormField={FormField}
               id={heading.uid}
+              styleOverrides={heading.styleOverrides}
               isSection
             />
           );
@@ -89,7 +95,7 @@ export const FormInputs = ({
   );
 
   return (
-    <section className={className}>
+    <section className={className} style={styleOverrides}>
       {!isSection && showKey && <p>* is required. (!) has been modified.</p>}
       {showTitle && <h4 className="formSection_heading">{sectionTitle}</h4>}
       {fields}

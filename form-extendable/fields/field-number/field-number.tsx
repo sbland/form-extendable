@@ -1,8 +1,8 @@
 import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
+import { IFieldComponentProps, IHeadingNumber } from '@form-extendable/lib';
 
 import './style.css';
-import { IFieldComponentProps, IHeadingNumber } from '@form-extendable/lib';
 
 const parseInput = (value) =>
   value === '' ||

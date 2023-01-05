@@ -27,6 +27,9 @@ export interface IFormTheme extends IReactDbTheme {
   row: {
     padding: string | number;
     border: string;
+    labelStyle: string;
+    labelMaxWidth: string;
+    labelTargetWidth: string;
   };
   media: {
     mediumWidth: string | number;
@@ -35,6 +38,11 @@ export interface IFormTheme extends IReactDbTheme {
     focus: string;
     hover: string;
     outline: string;
+  };
+  checkbox: {
+    default: string;
+    onHover: string;
+    onFocus: string;
   };
 }
 
@@ -85,9 +93,17 @@ export const defaultTheme: IFormTheme = {
     hover: 'outline: 1px solid yellow;',
     outline: '1px dashed grey',
   },
+  checkbox: {
+    default: 'outline: 1px solid red;',
+    onHover: `background: yellow;`,
+    onFocus: `background: green;`,
+  },
   row: {
     padding: '0.2rem',
     border: '1px solid rgba(100,0,0,1)',
+    labelStyle: `outline: 1px solid red; box-sizing: border-box;`,
+    labelMaxWidth: '150px',
+    labelTargetWidth: '30%',
   },
   media: {
     mediumWidth: '800px',

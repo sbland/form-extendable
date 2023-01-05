@@ -1,23 +1,13 @@
-import {
-  GlobalStyles,
-  defaultTheme,
-  CompositionWrapDefault,
-} from '@form-extendable/composition-helpers';
+import { CompositionWrapDefault } from '@form-extendable/composition-helpers';
 import { TComponentMap } from '@form-extendable/lib';
-import { FormStyled } from '@form-extendable/styles';
 import React from 'react';
 import { defaultProps } from './default-props';
-import { demoFormData } from './dummy-data';
+import { demoFormData, demoNestedHeadings } from './dummy-data';
 import { Form } from './form';
 import { FormInputs } from './form-inputs';
 
 const FormStyledExample = ({ children }) => (
-  <CompositionWrapDefault>
-    {children}
-    {/* <GlobalStyles theme={defaultTheme}>
-      <FormStyled>{children}</FormStyled>
-    </GlobalStyles> */}
-  </CompositionWrapDefault>
+  <CompositionWrapDefault>{children}</CompositionWrapDefault>
 );
 
 export const BasicForm = () => {
@@ -34,6 +24,31 @@ export const BasicForm = () => {
       <FormStyledExample>
         <Form
           {...defaultProps}
+          onSubmit={(data) => console.info(data)}
+          orientation={direction}
+        />
+      </FormStyledExample>
+    </div>
+  );
+};
+
+BasicForm.waitForReady = async () => {};
+
+export const BasicFormNested = () => {
+  const [direction, setDirection] = React.useState<'vert' | 'horiz'>('vert');
+  return (
+    <div>
+      <button
+        onClick={() =>
+          setDirection((prev) => (prev === 'vert' ? 'horiz' : 'vert'))
+        }
+      >
+        {direction}
+      </button>
+      <FormStyledExample>
+        <Form
+          {...defaultProps}
+          headings={demoNestedHeadings}
           onSubmit={(data) => console.info(data)}
           orientation={direction}
         />

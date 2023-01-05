@@ -6,18 +6,16 @@ export interface IFieldLabelProps {
   label: string;
   inputClassName?: string;
   hasChanged?: boolean;
-  required?: boolean;
   hidden?: boolean;
 }
 
-export const FieldLabel = ({
+export const FieldLabel: React.FC<IFieldLabelProps> = ({
   uid,
   label,
   inputClassName,
   hasChanged,
-  required,
   hidden,
-}: IFieldLabelProps) => (
+}) => (
   <div
     className="label_wrap_inner"
     data-testid="labelwrap"
@@ -25,10 +23,9 @@ export const FieldLabel = ({
       overflow: 'hidden',
       width: hidden ? '0' : 'inherit',
       height: hidden ? '0' : 'inherit',
-      display: hidden ? 'none' : 'inline',
+      display: hidden ? 'none' : 'inherit',
     }}
   >
-    {required && '*'}
     <label
       className={inputClassName}
       id={`${uid}-label`}
@@ -47,13 +44,11 @@ FieldLabel.propTypes = {
   label: PropTypes.string.isRequired,
   inputClassName: PropTypes.string,
   hasChanged: PropTypes.bool,
-  required: PropTypes.bool,
   hidden: PropTypes.bool,
 };
 
 FieldLabel.defaultProps = {
   inputClassName: '',
   hasChanged: false,
-  required: false,
   hidden: false,
 };

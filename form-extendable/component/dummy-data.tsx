@@ -11,7 +11,6 @@ import {
 import {
   EFileType,
   EFilterType,
-  IDocument,
 } from '@react_db_client/constants.client-types';
 
 export const demoCustomTypeHeading: IHeadingCustomType = {
@@ -27,6 +26,148 @@ export const buttonHeading: IHeadingButton = {
   type: EFilterType.button,
   onClick: () => null,
 };
+
+export const demoNestedHeadings: THeading<unknown>[] = [
+  {
+    uid: 'embeddedb',
+    label: 'Embedded B',
+    type: EFilterType.embedded,
+    showTitle: true,
+    orientation: 'horiz',
+    children: [
+      { uid: 'embeddedtog1', label: 'Embedded Tog1', type: EFilterType.bool },
+      { uid: 'embeddedtog2', label: 'Embedded Tog2', type: EFilterType.bool },
+      { uid: 'embeddedtog3', label: 'Embedded Tog3', type: EFilterType.bool },
+    ],
+  },
+  {
+    uid: 'embeddedc',
+    label: 'Embedded C',
+    type: EFilterType.embedded,
+    showTitle: false,
+    orientation: 'horiz',
+    children: [
+      { uid: 'embeddedtog1', label: 'Embedded Tog1', type: EFilterType.bool },
+      { uid: 'embeddedtog2', label: 'Embedded Tog2', type: EFilterType.bool },
+      { uid: 'embeddedtog3', label: 'Embedded Tog3', type: EFilterType.bool },
+    ],
+  },
+  {
+    uid: 'embeddedd',
+    label: 'Embedded d',
+    type: EFilterType.embedded,
+    showTitle: true,
+    orientation: 'vert',
+    children: [
+      { uid: 'embeddedtog1', label: 'Embedded Tog1', type: EFilterType.bool },
+      {
+        uid: 'multiSelectListShowAll',
+        label: 'Multi Select Show All',
+        type: EFilterType.select,
+        selectType: 'toggle',
+        options: [
+          { uid: 'foo', label: 'Multi Sel All 1' },
+          { uid: 'bar', label: 'Multi Sel All 2' },
+          { uid: 'dee', label: 'Multi Sel All 3' },
+        ],
+      },
+      {
+        uid: 'multiSelectListShowAll',
+        label: 'Multi Select Show All',
+        type: EFilterType.selectMulti,
+        selectType: 'showall',
+        options: [
+          { uid: 'foo', label: 'Multi Sel All 1 longer label' },
+          { uid: 'bar', label: 'Multi Sel All 2' },
+          { uid: 'dee', label: 'Multi Sel All 3' },
+        ],
+      },
+    ],
+  },
+
+  {
+    uid: 'embeddede',
+    label: 'Embedded e out',
+    type: EFilterType.embedded,
+    showTitle: true,
+    orientation: 'horiz',
+    children: [
+      {
+        uid: 'embeddedd',
+        label: 'Embedded d',
+        type: EFilterType.embedded,
+        showTitle: true,
+        orientation: 'vert',
+        children: [
+          {
+            uid: 'embeddedtog1',
+            label: 'Embedded Tog1',
+            type: EFilterType.bool,
+          },
+          {
+            uid: 'multiSelectListShowAll',
+            label: 'Multi Select Show All',
+            type: EFilterType.select,
+            selectType: 'toggle',
+            options: [
+              { uid: 'foo', label: 'Multi Sel All 1' },
+              { uid: 'bar', label: 'Multi Sel All 2' },
+              { uid: 'dee', label: 'Multi Sel All 3' },
+            ],
+          },
+          {
+            uid: 'multiSelectListShowAll',
+            label: 'Multi Select Show All with a really really long label',
+            type: EFilterType.selectMulti,
+            selectType: 'showall',
+            options: [
+              { uid: 'foo', label: 'Multi Sel All 1 longer label' },
+              { uid: 'bar', label: 'Multi Sel All 2' },
+              { uid: 'dee', label: 'Multi Sel All 3' },
+            ],
+          },
+        ],
+      },
+      {
+        uid: 'embeddedd',
+        label: 'Embedded d',
+        type: EFilterType.embedded,
+        showTitle: true,
+        orientation: 'vert',
+        styleOverrides: { background: 'red', maxWidth: '20rem' },
+        children: [
+          {
+            uid: 'embeddedtog1',
+            label: 'Embedded Tog1',
+            type: EFilterType.bool,
+          },
+          {
+            uid: 'multiSelectListShowAll',
+            label: 'Multi Select Show All',
+            type: EFilterType.select,
+            selectType: 'toggle',
+            options: [
+              { uid: 'foo', label: 'Multi Sel All 1' },
+              { uid: 'bar', label: 'Multi Sel All 2' },
+              { uid: 'dee', label: 'Multi Sel All 3' },
+            ],
+          },
+          {
+            uid: 'multiSelectListShowAll',
+            label: 'Multi Select Show All',
+            type: EFilterType.selectMulti,
+            selectType: 'showall',
+            options: [
+              { uid: 'foo', label: 'Multi Sel All 1 longer label' },
+              { uid: 'bar', label: 'Multi Sel All 2' },
+              { uid: 'dee', label: 'Multi Sel All 3' },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+];
 
 export const demoHeadingsData: THeading<any>[] = [
   {
@@ -197,30 +338,7 @@ export const demoHeadingsData: THeading<any>[] = [
     type: EFilterType.embedded,
     showTitle: true,
     orientation: 'horiz',
-    children: [
-      { uid: 'embeddedtog1', label: 'Embedded Tog1', type: EFilterType.bool },
-      { uid: 'embeddedtog2', label: 'Embedded Tog2', type: EFilterType.bool },
-      { uid: 'embeddedtog3', label: 'Embedded Tog3', type: EFilterType.bool },
-    ],
-  },
-  {
-    uid: 'embeddedc',
-    label: 'Embedded C',
-    type: EFilterType.embedded,
-    showTitle: false,
-    orientation: 'horiz',
-    children: [
-      { uid: 'embeddedtog1', label: 'Embedded Tog1', type: EFilterType.bool },
-      { uid: 'embeddedtog2', label: 'Embedded Tog2', type: EFilterType.bool },
-      { uid: 'embeddedtog3', label: 'Embedded Tog3', type: EFilterType.bool },
-    ],
-  },
-  {
-    uid: 'embeddedd',
-    label: 'Embedded d',
-    type: EFilterType.embedded,
-    showTitle: true,
-    orientation: 'vert',
+    styleOverrides: { background: 'red', maxWidth: '30rem' },
     children: [
       { uid: 'embeddedtog1', label: 'Embedded Tog1', type: EFilterType.bool },
       { uid: 'embeddedtog2', label: 'Embedded Tog2', type: EFilterType.bool },
