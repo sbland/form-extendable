@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { FileManager } from '@react_db_client/components.file-manager';
+import { Emoji } from '@react_db_client/components.emoji';
 import {
   EFileType,
   FilterObjectClass,
@@ -15,7 +16,6 @@ import {
 } from '@form-extendable/lib';
 import { FileItem } from './file-list';
 import { AddFileButton, AddFileListItem, FileListStyle } from './styles';
-import { Emoji } from '@react_db_client/components.emoji';
 
 export interface IFieldFileProps
   extends IFieldComponentProps<IFile>,
@@ -42,8 +42,6 @@ const asArray = (value) =>
 export const FieldFile: React.FC<IFieldFileProps> = ({
   uid,
   onChange,
-  // collectionId,
-  // documentId,
   fileType,
   value,
   fileServerUrl,

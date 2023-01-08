@@ -19,6 +19,7 @@ import {
   demoHeadingsData,
   demoHeadingsDataMap,
   demoRefObjs,
+  DEMO_FILES_DATA,
   headingsFlat,
 } from './dummy-data';
 import { Form, IFormProps } from './form';
@@ -26,9 +27,8 @@ import * as compositions from './form.composition';
 
 const onSubmit = jest.fn();
 const errorCallback = jest.fn();
-// TODO: We shouldn't be calling this on init
 const asyncGetFiles = (metaData) =>
-  jest.fn().mockImplementation(async () => []);
+  jest.fn().mockImplementation(async () => DEMO_FILES_DATA);
 const asyncFileUpload = (metaData) =>
   jest.fn().mockImplementation(async () => {});
 const asyncGetRefObjs = jest.fn().mockImplementation(async () => demoRefObjs);
@@ -204,21 +204,22 @@ describe('Form Main Component', () => {
         date: '2019-11-02',
         // // date: '2019-11-02T12:04:44.626+00:00', //TODO: Check this date input
         selectreadonly: 'rep1',
-        // bool: false,
-        // toggle: true,
+        bool: false,
+        toggle: true,
         button: null,
         demoField: 'demoField data',
-        reference: '1',
+        reference: demoRefObjs[0],
 
         // image: 'example_file.jpg',
-        // file: 'example_file.jpg',
+        file: DEMO_FILES_DATA[0],
         // fileMultiple: ['example_file.jpg'],
-        // select: 'example_item',
-        // selectSearch: 'example_item',
-        // multiSelect: ['foo', 'bar'],
-        // selectSearchMulti: ['foo'],
-        // multiSelectList: ['foo'],
-        multiSelectListShowAll: ['foo'],
+        select: 'selectVal1',
+        selectSearch: { uid: 'selectSearchVal1', label: 'Select Search Val 1' },
+        // TODO: These should all have multiple
+        multiSelect: ['foo', 'bar'],
+        // selectSearchMulti: [{ uid: 'readOnlyMultiVal1', label: 'Read only Multi select value 1' }], // NOT IMPLEMENTED
+        multiSelectList: ['foo', 'bar'],
+        multiSelectListShowAll: ['foo', 'bar'],
         // video: 'example_video.mov',
 
         longText: `Long Text spanning multiple lines
@@ -243,7 +244,6 @@ describe('Form Main Component', () => {
         ...demoData,
         // below fields or modified from raw input above
         numberCapped: (demoHeadingsDataMap.numberCapped as IHeadingNumber).max,
-        reference: demoRefObjs.find((r) => r.label === demoData.reference),
         selectreadonly: undefined,
         button: undefined,
       };

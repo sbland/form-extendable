@@ -11,6 +11,7 @@ import {
 import {
   EFileType,
   EFilterType,
+  IFile,
   Uid,
 } from '@react_db_client/constants.client-types';
 
@@ -487,3 +488,27 @@ CustomFieldType.propTypes = {
 CustomFieldType.defaultProps = {
   value: null,
 };
+
+export const DEMO_FILES_DATA: IFile[] = [
+  {
+    uid: 'a',
+    filePath: '',
+    label: 'FileA with a really long name',
+    name: 'bit-logo.svg',
+    fileType: EFileType.IMAGE,
+  },
+  {
+    uid: 'b',
+    filePath: 'extensions-icons',
+    label: 'FileB',
+    name: 'vue_grey.svg',
+    fileType: EFileType.IMAGE,
+  },
+  {
+    uid: 'c',
+    filePath: 'Community/app-components',
+    label: 'FileC',
+    name: 'card.jpg',
+    fileType: EFileType.IMAGE,
+  },
+];

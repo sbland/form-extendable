@@ -3,11 +3,11 @@ import {
   EFileType,
   EFilterType,
   FilterObjectClass,
-  IDocument,
   IFile,
   TAsyncGetDocuments,
 } from '@react_db_client/constants.client-types';
 import {
+  IObj,
   IFieldComponentProps,
   IPopupProps,
   TComponentMap,
@@ -25,10 +25,12 @@ import {
   FieldSelectSearch,
   FieldSelectSearchMulti,
 } from '@form-extendable/fields.field-select-search';
-import { FieldFile, FieldFileMultiple } from '@form-extendable/fields.field-file';
+import {
+  FieldFile,
+  FieldFileMultiple,
+} from '@form-extendable/fields.field-file';
 import { FieldReadOnly } from '@form-extendable/fields.field-read-only';
 import { allowReadOnly } from './utils';
-import { IObj } from '@form-extendable/lib';
 
 const FieldNotImplemented = () => <>NOT IMPLEMENTED</>;
 

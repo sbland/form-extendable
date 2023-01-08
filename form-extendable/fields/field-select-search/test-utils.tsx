@@ -31,14 +31,18 @@ export const editValue = async (
 ) => {
   const targetSelection = asArray(value);
 
-  const fieldInput: HTMLInputElement = within(formEl).getByLabelText(
+  const fieldEl = within(formEl).getByTestId(`${heading.type}-${heading.uid}`);
+  const fieldInput: HTMLInputElement = within(fieldEl).getByLabelText(
     heading.label
   );
-  const fieldEl = within(formEl).getByTestId(`${heading.type}-${heading.uid}`);
 
   await promiseAllInSeries(
     targetSelection.map((s) => async () => {
-      const label = typeof s === 'string' ? s : s.label;
+      const label =
+        typeof s === 'string'
+          ? (heading as IHeadingSelect).options.find((h) => h.uid === s)
+              ?.label || 'MISSING OPTION'
+          : s.label;
       await UserEvent.click(fieldInput);
       await UserEvent.clear(fieldInput);
       await UserEvent.keyboard(label);
@@ -48,7 +52,12 @@ export const editValue = async (
         .getAllByRole('listitem')
         .findIndex((l) => l.textContent?.includes(label)); // TODO: What if multple include label
 
-      if (resultIndexToSelect < 0) throw new Error('Search value not found');
+      if (resultIndexToSelect < 0)
+        throw new Error(
+          `Search value not found using search val: ${label}, heading: ${JSON.stringify(
+            heading
+          )}`
+        );
 
       // TODO:
       await promiseAllInSeries(
@@ -60,7 +69,7 @@ export const editValue = async (
       );
 
       await UserEvent.keyboard('{Enter}');
-      await waitFor(() => expect(fieldInput.placeholder).toEqual(s));
+      await waitFor(() => expect(fieldInput.placeholder).toEqual(label));
     })
   );
 };

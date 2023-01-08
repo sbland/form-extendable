@@ -2,7 +2,7 @@ import React from 'react';
 import { screen } from '@testing-library/react';
 import {
   WrapFieldComponent,
-  CompositionWrapDefault,
+  FieldCompositionWrapDefault,
 } from '@form-extendable/composition-helpers';
 import { FieldFile } from './field-file';
 import {
@@ -18,11 +18,11 @@ import {
 import { FieldFileMultiple } from './field-file-multiple';
 
 export const BasicFieldFileImages = () => (
-  <CompositionWrapDefault height="40rem" width="60rem">
+  <FieldCompositionWrapDefault height="40rem" width="60rem">
     <WrapFieldComponent>
       <FieldFile {...dummyProps} />
     </WrapFieldComponent>
-  </CompositionWrapDefault>
+  </FieldCompositionWrapDefault>
 );
 
 BasicFieldFileImages.waitForReady = async () => {
@@ -30,11 +30,11 @@ BasicFieldFileImages.waitForReady = async () => {
 };
 
 export const BasicFieldFileImagesMany = () => (
-  <CompositionWrapDefault height="40rem" width="60rem">
+  <FieldCompositionWrapDefault height="40rem" width="60rem">
     <WrapFieldComponent>
       <FieldFileMultiple {...dummyPropsImagesMany} />
     </WrapFieldComponent>
-  </CompositionWrapDefault>
+  </FieldCompositionWrapDefault>
 );
 
 BasicFieldFileImagesMany.waitForReady = async () => {
@@ -42,11 +42,11 @@ BasicFieldFileImagesMany.waitForReady = async () => {
 };
 
 export const BasicFieldFileDocs = () => (
-  <CompositionWrapDefault height="40rem" width="60rem">
+  <FieldCompositionWrapDefault height="40rem" width="60rem">
     <WrapFieldComponent>
       <FieldFile {...dummyPropsDocs} />
     </WrapFieldComponent>
-  </CompositionWrapDefault>
+  </FieldCompositionWrapDefault>
 );
 
 BasicFieldFileDocs.waitForReady = async () => {
@@ -54,11 +54,11 @@ BasicFieldFileDocs.waitForReady = async () => {
 };
 
 export const BasicFieldFileDocsmany = () => (
-  <CompositionWrapDefault height="40rem" width="60rem">
+  <FieldCompositionWrapDefault height="40rem" width="60rem">
     <WrapFieldComponent>
       <FieldFileMultiple {...dummyPropsDocsMany} />
     </WrapFieldComponent>
-  </CompositionWrapDefault>
+  </FieldCompositionWrapDefault>
 );
 
 BasicFieldFileDocsmany.waitForReady = async () => {

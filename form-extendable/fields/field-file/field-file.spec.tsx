@@ -1,7 +1,6 @@
 import React from 'react';
 import { render, screen, within } from '@testing-library/react';
 import UserEvent from '@testing-library/user-event';
-import { IFile } from '@react_db_client/constants.client-types';
 import { FieldFile, IFieldFileProps } from './field-file';
 import * as compositions from './field-file.composition';
 import {
@@ -15,6 +14,7 @@ import {
   FieldFileMultiple,
   IFieldFileMultipleProps,
 } from './field-file-multiple';
+import { editValue } from './test-utils';
 
 const onChange = jest.fn();
 const asyncGetFiles = jest
@@ -65,22 +65,15 @@ describe('field-file', () => {
   describe('Unit tests', () => {
     describe('Single', () => {
       beforeEach(async () => {
-        render(
-          <CompositionWrapDefault>
-            <FieldFile
-              {...defaultProps}
-              onChange={onChange}
-              asyncGetFiles={() => asyncGetFiles}
-              asyncFileUpload={() => asyncFileUpload}
-            />
-          </CompositionWrapDefault>
-        );
+        render(<compositions.BasicFieldFileImages />);
         await screen.findAllByAltText(DEMO_IMAGE_FILES_DATA[0].label);
       });
       test.todo('should call onChange with null when we delete the file');
-      test.todo(
-        'should call onChange with new file if we select file form list'
-      );
+      test('should call onChange with new file if we select file form list', async () => {
+        const formEl: HTMLFormElement = screen.getByRole('form');
+        await editValue(DEMO_IMAGE_FILES_DATA[1], formEl, defaultProps);
+        await screen.findAllByAltText(DEMO_IMAGE_FILES_DATA[1].label);
+      });
     });
     describe('Multiple', () => {
       beforeEach(async () => {
