@@ -1,31 +1,33 @@
 import { THeading } from '@form-extendable/lib';
 import { filterTypes, Uid } from '@react_db_client/constants.client-types';
 
-export const injectFileFieldProps = (collection, id) => (param) => {
-  let modifiedParam = { ...param };
-  // If file type we need to add additional properties
-  if (
-    [filterTypes.file, filterTypes.fileMultiple, filterTypes.image].indexOf(
-      param.type
-    ) !== -1
-  ) {
-    // TODO: should throw error if we can't get the uid
-    modifiedParam = {
-      ...modifiedParam,
-      metaData: { collectionId: collection, documentId: id },
-    };
-  }
-  return modifiedParam;
-};
+export const injectFileFieldProps =
+  (collection: string, id: Uid) => (param: THeading<any>) => {
+    let modifiedParam = { ...param };
+    // If file type we need to add additional properties
+    if (
+      [filterTypes.file, filterTypes.fileMultiple, filterTypes.image].indexOf(
+        param.type
+      ) !== -1
+    ) {
+      // TODO: should throw error if we can't get the uid
+      modifiedParam = {
+        ...modifiedParam,
+        metaData: { collectionId: collection, documentId: id },
+      } as THeading<any>;
+    }
+    return modifiedParam;
+  };
 
-export const injectHighlightOverriden = (overridenFields) => (param) => {
-  let modifiedParam = { ...param };
-  // if in overrides we need to highlight
-  if (overridenFields && overridenFields.indexOf(param.uid) !== -1) {
-    modifiedParam = { ...modifiedParam, hasChanged: true };
-  }
-  return modifiedParam;
-};
+export const injectHighlightOverriden =
+  (overridenFields) => (param: THeading<any>) => {
+    let modifiedParam = { ...param };
+    // if in overrides we need to highlight
+    if (overridenFields && overridenFields.indexOf(param.uid) !== -1) {
+      modifiedParam = { ...modifiedParam, hasChanged: true };
+    }
+    return modifiedParam;
+  };
 
 export const reduceGroupFields =
   (groupFieldsOrientation: 'horiz' | 'vert') => (acc, v) => {
