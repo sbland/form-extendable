@@ -251,14 +251,14 @@ export const GenericCatalogue = <ResultType extends IDocument>({
             >
               Duplicate Selected {itemName}
             </button>
-            {/* <AreYouSureBtn
+            <AreYouSureBtn
               onConfirmed={() => {
                 setHandleDelete(true);
               }}
               confirmMessage={`Delete ${itemName}`}
               disabled={selectedUid === null}
               btnText={<Emoji emoj="🗑️" label="Delete" />}
-            /> */}
+            />
           </div>
         </section>
       </div>
