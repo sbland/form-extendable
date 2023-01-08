@@ -4,6 +4,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import { CompositionWrapDefault as ReactDbCompositionWrapDefault } from '@react_db_client/helpers.composition-wraps';
 import { defaultTheme, FormThemeProvider } from '@form-extendable/styles';
 import { Uid } from '@react_db_client/constants.client-types';
+import { PopupProvider } from '@react_db_client/components.popup-panel-v2';
 
 // TODO: Temporarily copied this from /component to avoid circular dependency
 export interface IFormFieldWrapProps {
@@ -111,31 +112,7 @@ export const CompositionWrapDefault = ({ children, ...additionalProps }) => {
   const [theme, setTheme] = React.useState(defaultTheme);
   return (
     <FormThemeProvider theme={theme}>
-      <div>
-        <button onClick={() => setTheme(modTheme)}>Mod Theme</button>
-        <button onClick={() => setTheme(defaultTheme)}>
-          DefaultTheme Theme
-        </button>
-      </div>
-      <ReactDbCompositionWrapDefault
-        width="40rem"
-        height="40rem"
-        {...additionalProps}
-      >
-        {children}
-      </ReactDbCompositionWrapDefault>
-    </FormThemeProvider>
-  );
-};
-
-export const FieldCompositionWrapDefault = ({
-  children,
-  ...additionalProps
-}) => {
-  const [theme, setTheme] = React.useState(defaultTheme);
-  return (
-    <FormThemeProvider theme={theme}>
-      <form aria-label="form">
+      <PopupProvider>
         <div>
           <button onClick={() => setTheme(modTheme)}>Mod Theme</button>
           <button onClick={() => setTheme(defaultTheme)}>
@@ -149,7 +126,35 @@ export const FieldCompositionWrapDefault = ({
         >
           {children}
         </ReactDbCompositionWrapDefault>
-      </form>
+      </PopupProvider>
+    </FormThemeProvider>
+  );
+};
+
+export const FieldCompositionWrapDefault = ({
+  children,
+  ...additionalProps
+}) => {
+  const [theme, setTheme] = React.useState(defaultTheme);
+  return (
+    <FormThemeProvider theme={theme}>
+      <PopupProvider>
+        <form aria-label="form">
+          <div>
+            <button onClick={() => setTheme(modTheme)}>Mod Theme</button>
+            <button onClick={() => setTheme(defaultTheme)}>
+              DefaultTheme Theme
+            </button>
+          </div>
+          <ReactDbCompositionWrapDefault
+            width="40rem"
+            height="40rem"
+            {...additionalProps}
+          >
+            {children}
+          </ReactDbCompositionWrapDefault>
+        </form>
+      </PopupProvider>
     </FormThemeProvider>
   );
 };
