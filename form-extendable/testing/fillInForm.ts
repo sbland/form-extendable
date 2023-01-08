@@ -1,5 +1,5 @@
 import { within } from '@testing-library/react';
-import { EFilterType } from '@react_db_client/constants.client-types';
+import { EFilterType, Uid } from '@react_db_client/constants.client-types';
 import UserEvent from '@testing-library/user-event';
 import { TFormData, THeading } from '@form-extendable/lib';
 import {
@@ -10,17 +10,21 @@ import {
   editValue as editMultiSelectValue,
   THeadingTypes as THeadingTypesMultiSelect,
 } from '@form-extendable/fields.field-multi-select';
+import {
+  editValue as editFileValue,
+  THeadingTypes as THeadingTypesFile,
+} from '@form-extendable/fields.field-file';
 
 export type FillInFieldFn = (
   formEl: HTMLFormElement,
-  headingsData: THeading<unknown>[],
+  headingsData: THeading<any>[],
   customFillInField?: FillInFieldFn
-) => (args: [k: string, v: any]) => Promise<void>;
+) => (args: [k: Uid, v: any]) => Promise<void>;
 
 export const fillInField: FillInFieldFn =
   (
     formEl: HTMLFormElement,
-    headingsData: THeading<unknown>[],
+    headingsData: THeading<any>[],
     customFillInField?: FillInFieldFn
   ) =>
   async ([k, v]) => {
@@ -69,14 +73,19 @@ export const fillInField: FillInFieldFn =
           );
           break;
         case EFilterType.reference:
-        case EFilterType.selectSearch:
+        case EFilterType.selectSearch: {
+          // TODO: Improve search selecting
+          await editSelectValue(v, formEl, heading as THeadingTypesSelect);
+          break;
+        }
         case EFilterType.select: {
           await editSelectValue(v, formEl, heading as THeadingTypesSelect);
           break;
         }
         case EFilterType.embedded:
-          // TODO: Implement embedded type
-          break;
+          throw new Error(
+            'Headings should be flattened before running fillInForm'
+          );
         case EFilterType.dict:
           // TODO: Implement dict type
           break;
@@ -86,7 +95,7 @@ export const fillInField: FillInFieldFn =
         case EFilterType.image:
         case EFilterType.file:
         case EFilterType.fileMultiple:
-          // TODO: Implement dict type
+          await editFileValue(v, formEl, heading as THeadingTypesFile);
           break;
         default:
           if (!customFillInField)
@@ -113,9 +122,9 @@ export const fillInField: FillInFieldFn =
 
 export const fillInForm = async (
   formEl: HTMLFormElement,
-  headings: THeading<unknown>[],
+  headings: THeading<any>[],
   data: TFormData,
-  customFillInField: FillInFieldFn
+  customFillInField?: FillInFieldFn
 ) => {
   const fns = Object.entries(data).map(
     ([k, v]) =>

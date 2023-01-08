@@ -11,6 +11,7 @@ import {
 import {
   EFileType,
   EFilterType,
+  Uid,
 } from '@react_db_client/constants.client-types';
 
 export const demoCustomTypeHeading: IHeadingCustomType = {
@@ -61,7 +62,7 @@ export const demoNestedHeadings: THeading<unknown>[] = [
     children: [
       { uid: 'embeddedtog1', label: 'Embedded Tog1', type: EFilterType.bool },
       {
-        uid: 'multiSelectListShowAll',
+        uid: 'multiSelectListShowAll1',
         label: 'Multi Select Show All',
         type: EFilterType.select,
         selectType: 'toggle',
@@ -72,7 +73,7 @@ export const demoNestedHeadings: THeading<unknown>[] = [
         ],
       },
       {
-        uid: 'multiSelectListShowAll',
+        uid: 'multiSelectListShowAll2',
         label: 'Multi Select Show All',
         type: EFilterType.selectMulti,
         selectType: 'showall',
@@ -93,7 +94,7 @@ export const demoNestedHeadings: THeading<unknown>[] = [
     orientation: 'horiz',
     children: [
       {
-        uid: 'embeddedd',
+        uid: 'embeddede-d',
         label: 'Embedded d',
         type: EFilterType.embedded,
         showTitle: true,
@@ -105,7 +106,7 @@ export const demoNestedHeadings: THeading<unknown>[] = [
             type: EFilterType.bool,
           },
           {
-            uid: 'multiSelectListShowAll',
+            uid: 'multiSelectListShowAll3',
             label: 'Multi Select Show All',
             type: EFilterType.select,
             selectType: 'toggle',
@@ -116,7 +117,7 @@ export const demoNestedHeadings: THeading<unknown>[] = [
             ],
           },
           {
-            uid: 'multiSelectListShowAll',
+            uid: 'multiSelectListShowAll4',
             label: 'Multi Select Show All with a really really long label',
             type: EFilterType.selectMulti,
             selectType: 'showall',
@@ -129,7 +130,7 @@ export const demoNestedHeadings: THeading<unknown>[] = [
         ],
       },
       {
-        uid: 'embeddedd',
+        uid: 'embeddede-f',
         label: 'Embedded d',
         type: EFilterType.embedded,
         showTitle: true,
@@ -142,7 +143,7 @@ export const demoNestedHeadings: THeading<unknown>[] = [
             type: EFilterType.bool,
           },
           {
-            uid: 'multiSelectListShowAll',
+            uid: 'multiSelectListShowAll5',
             label: 'Multi Select Show All',
             type: EFilterType.select,
             selectType: 'toggle',
@@ -153,7 +154,7 @@ export const demoNestedHeadings: THeading<unknown>[] = [
             ],
           },
           {
-            uid: 'multiSelectListShowAll',
+            uid: 'multiSelectListShowAll6',
             label: 'Multi Select Show All',
             type: EFilterType.selectMulti,
             selectType: 'showall',
@@ -220,6 +221,7 @@ export const demoHeadingsData: THeading<any>[] = [
   {
     uid: 'fileMultiple',
     label: 'File Multiple',
+    multiple: true,
     fileType: EFileType.DOCUMENT,
     type: EFilterType.fileMultiple,
   },
@@ -368,7 +370,7 @@ export const headingsFlat = demoHeadingsData.reduce(
   [] as THeading<any>[]
 );
 
-export const demoHeadingsDataMap: { [uid: string]: THeading<unknown> } =
+export const demoHeadingsDataMap: { [uid: Uid]: THeading<unknown> } =
   demoHeadingsData.reduce((acc, h) => ({ ...acc, [h.uid]: h }), {});
 
 export const demoFormDataMin = {

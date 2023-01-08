@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { EFilterType } from '@react_db_client/constants.client-types';
+import { EFilterType, Uid } from '@react_db_client/constants.client-types';
 import { switchF } from '@react_db_client/helpers.func-tools';
 import {
   TComponentMap,
@@ -19,6 +19,45 @@ export interface IFormFieldProps<V, H extends THeading<V>>
   extends IFieldProps<V, H> {
   componentMap: TComponentMap;
 }
+
+export interface IFormFieldWrapProps {
+  rowClassname?: string;
+  children: React.ReactNode;
+  uid: Uid;
+  type: string;
+  labelClassName?: string;
+  hideLabel?: boolean;
+  expandInput?: boolean;
+  label: string;
+  hasChanged?: boolean;
+}
+
+export const FormFieldWrap: React.FC<IFormFieldWrapProps> = ({
+  rowClassname,
+  children,
+  uid,
+  type,
+  labelClassName,
+  hideLabel,
+  expandInput,
+  label,
+  hasChanged,
+}) => (
+  <div className={rowClassname} key={uid} data-testid={`${type}-${uid}`}>
+    <div
+      className={labelClassName}
+      style={{ display: hideLabel && expandInput ? 'none' : 'inherit' }}
+    >
+      <FieldLabel
+        uid={uid}
+        label={label}
+        hasChanged={hasChanged}
+        hidden={hideLabel}
+      />
+    </div>
+    <div className="formComponentWrap">{children}</div>
+  </div>
+);
 
 /**
  *
@@ -76,24 +115,20 @@ export const FormField = <V, H extends THeading<V>>(
     .join(' ');
 
   return (
-    <div className={rowClassname} key={uid} data-testid={`${type}-${uid}`}>
-      <div
-        className={labelClassName}
-        style={{ display: hideLabel && expandInput ? 'none' : 'inherit' }}
-      >
-        <FieldLabel
-          uid={uid}
-          label={label}
-          hasChanged={hasChanged}
-          hidden={hideLabel}
-        />
-      </div>
-      <div className="formComponentWrap">
-        <FormComponent
-          {...(props as React.ComponentProps<typeof FormComponent>)}
-        />
-      </div>
-    </div>
+    <FormFieldWrap
+      rowClassname={rowClassname}
+      uid={uid}
+      type={type}
+      labelClassName={labelClassName}
+      hideLabel={hideLabel}
+      expandInput={expandInput}
+      label={label}
+      hasChanged={hasChanged}
+    >
+      <FormComponent
+        {...(props as React.ComponentProps<typeof FormComponent>)}
+      />
+    </FormFieldWrap>
   );
 };
 

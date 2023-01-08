@@ -156,6 +156,7 @@ export const FormStyled = styled.div`
 
   .formComponentWrap {
     flex-grow: 1;
+    display: flex;
   }
 
   /* SECTION HEADING */
@@ -185,6 +186,7 @@ export const FormStyled = styled.div`
   input[type='text'],
   input[type='date'],
   input[type='number'] {
+    flex-grow: 1;
     box-sizing: border-box;
     min-width: 60%;
     min-height: ${({ theme }) =>
@@ -222,6 +224,7 @@ export const FormStyled = styled.div`
   .inputWrapper {
     padding: 2px;
     margin: 0;
+    flex-grow: 1;
     outline: ${({ theme }) => theme.formExtendableTheme.input.outline};
 
     &:focus-within {

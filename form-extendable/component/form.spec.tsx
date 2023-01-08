@@ -9,6 +9,7 @@ import {
 import { EFilterType } from '@react_db_client/constants.client-types';
 import { defaultComponentMap } from '@form-extendable/components.component-map';
 import { fillInForm, getFieldDisplayValue } from '@form-extendable/testing';
+import { CompositionWrapDefault } from '@form-extendable/composition-helpers';
 
 import {
   CustomFieldType,
@@ -22,7 +23,6 @@ import {
 } from './dummy-data';
 import { Form, IFormProps } from './form';
 import * as compositions from './form.composition';
-import { CompositionWrapDefault } from '@form-extendable/composition-helpers';
 
 const onSubmit = jest.fn();
 const errorCallback = jest.fn();
@@ -46,7 +46,7 @@ const componentMap = {
     asyncGetRefObjs,
     asyncFileUpload,
     fileServerUrl,
-    PopupPanel: ({children}) => <>{children}</>,
+    PopupPanel: ({ children }) => <>{children}</>,
   }),
 };
 
@@ -68,10 +68,7 @@ const renderForm = async (props: IFormProps = defaultProps) => {
 };
 
 const fillInCustomField =
-  (
-    formEl: HTMLFormElement,
-    headingsData: THeading<unknown>[]
-  ) =>
+  (formEl: HTMLFormElement, headingsData: THeading<any>[]) =>
   async ([k, v]) => {
     const heading = headingsData.find((h) => h.uid === k);
     if (!heading) throw Error(`Heading not found for ${k}`);
@@ -263,6 +260,46 @@ describe('Form Main Component', () => {
       expect(onSubmit).toHaveBeenCalledWith({
         formData: submitData,
         formEditData: submitData,
+      });
+    });
+    test('should be able to change multi select multiple times', async () => {
+      await renderForm();
+
+      // Commented values cannot be edited (yet!)
+      const demoData1 = {
+        text: 'Example text',
+        multiSelectListShowAll: ['foo'],
+      };
+
+      await fillInForm(
+        screen.getByRole('form'),
+        demoHeadingsData as any,
+        demoData1,
+        fillInCustomField
+      );
+      const submitBtn = screen.getByRole('button', { name: /Submit/ });
+      await UserEvent.click(submitBtn);
+      expect(onSubmit).toHaveBeenCalledTimes(1);
+      expect(onSubmit).toHaveBeenCalledWith({
+        formData: demoData1,
+        formEditData: demoData1,
+      });
+      const demoData2 = {
+        text: 'Example text',
+        multiSelectListShowAll: ['foo', 'bar'],
+      };
+
+      await fillInForm(
+        screen.getByRole('form'),
+        demoHeadingsData as any,
+        demoData2,
+        fillInCustomField
+      );
+      await UserEvent.click(submitBtn);
+      expect(onSubmit).toHaveBeenCalledTimes(2);
+      expect(onSubmit).toHaveBeenCalledWith({
+        formData: demoData2,
+        formEditData: demoData2,
       });
     });
     test.todo('should call save on debounced change when autosave is on');

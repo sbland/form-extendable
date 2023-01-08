@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Uid } from '@react_db_client/constants.client-types';
 
 export interface IFieldLabelProps {
-  uid: string;
+  uid: Uid;
   label: string;
   inputClassName?: string;
   hasChanged?: boolean;

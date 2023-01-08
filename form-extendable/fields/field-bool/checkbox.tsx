@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { defaultTheme } from '@form-extendable/styles';
+import { Uid } from '@react_db_client/constants.client-types';
 
 export const CheckMark = styled.span`
   display: inline-block;
@@ -78,7 +79,7 @@ CheckBoxContainer.defaultProps = {
 };
 
 export interface ICheckboxProps {
-  uid: string;
+  uid: Uid;
   onChange: (e: { target: { value?: boolean; name: string } }) => void;
   text: string;
   value;
@@ -97,7 +98,7 @@ export const Checkbox = ({
   React.useEffect(() => {
     if (onChange) {
       if (checked !== undefined && checked !== value)
-        onChange({ target: { value: checked, name: uid } });
+        onChange({ target: { value: checked, name: String(uid) } });
     }
   }, [checked, onChange, value, uid]);
 
@@ -107,9 +108,9 @@ export const Checkbox = ({
       data-testid="checkbox-container"
     >
       <input
-        id={uid}
+        id={String(uid)}
         type="checkbox"
-        name={uid}
+        name={String(uid)}
         value={value || ''}
         checked={checked || false}
         onChange={(e) => {

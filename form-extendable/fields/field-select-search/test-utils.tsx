@@ -1,7 +1,8 @@
 import React from 'react';
-import { screen, waitFor, within } from '@testing-library/react';
+import { waitFor, within } from '@testing-library/react';
 import UserEvent from '@testing-library/user-event';
 import {
+  IHeadingReference,
   IHeadingSelect,
   IHeadingSelectSearch,
   IHeadingSelectSearchMulti,
@@ -11,37 +12,49 @@ import { EFilterType } from '@react_db_client/constants.client-types';
 
 export type THeadingTypes =
   | IHeadingSelect
+  | IHeadingReference<IObj>
   | IHeadingSelectSearch<IObj>
   | IHeadingSelectSearchMulti<IObj>;
 
+const asArray = <T,>(v: T | T[]): Array<T> => (Array.isArray(v) ? v : [v]);
+
+const promiseAllInSeries = async (iterable) => {
+  for (const x of iterable) {
+    await x();
+  }
+};
+
 export const editValue = async (
-  value: string | string[],
+  value: string | string[] | IObj | IObj[],
   formEl: HTMLFormElement,
   heading: THeadingTypes
 ) => {
-  const selectedArray = Array.isArray(value) ? value : value?.split(',');
+  const targetSelection = asArray(value);
+
   const fieldInput: HTMLInputElement = within(formEl).getByLabelText(
     heading.label
   );
   const fieldEl = within(formEl).getByTestId(`${heading.type}-${heading.uid}`);
 
-  await Promise.all(
-    selectedArray.map(async (s) => {
+  await promiseAllInSeries(
+    targetSelection.map((s) => async () => {
+      const label = typeof s === 'string' ? s : s.label;
       await UserEvent.click(fieldInput);
       await UserEvent.clear(fieldInput);
-      await UserEvent.keyboard(s);
-      await waitFor(() => expect(fieldInput.value).toEqual(s));
+      await UserEvent.keyboard(label);
+      await waitFor(() => expect(fieldInput.value).toEqual(label));
       const resultList = await within(fieldEl).findByRole('list');
       const resultIndexToSelect = within(resultList)
         .getAllByRole('listitem')
-        .findIndex((l) => l.textContent?.includes(s));
+        .findIndex((l) => l.textContent?.includes(label)); // TODO: What if multple include label
 
       if (resultIndexToSelect < 0) throw new Error('Search value not found');
 
-      await Promise.all(
+      // TODO:
+      await promiseAllInSeries(
         Array(resultIndexToSelect + 1)
           .fill(0)
-          .map(async () => {
+          .map(() => async () => {
             await UserEvent.keyboard('{ArrowDown}');
           })
       );
@@ -69,6 +82,6 @@ export const getDisplayValue = async (
     return selectInputField.placeholder;
   } else {
     console.info(heading);
-    throw new Error(`Not Implemented: ${heading.uid}`);
+    throw new Error(`Not Implemented: ${(heading as any).uid}`);
   }
 };

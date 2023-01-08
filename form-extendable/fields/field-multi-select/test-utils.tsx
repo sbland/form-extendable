@@ -2,28 +2,56 @@ import React from 'react';
 import { screen, within } from '@testing-library/react';
 import UserEvent from '@testing-library/user-event';
 import { IHeadingSelectMulti } from '@form-extendable/lib';
-import { EFilterType } from '@react_db_client/constants.client-types';
+import { EFilterType, Uid } from '@react_db_client/constants.client-types';
 
 export type THeadingTypes = IHeadingSelectMulti;
 
+const promiseAllInSeries = async (iterable) => {
+  for (const x of iterable) {
+    await x();
+  }
+};
+
 export const editValue = async (
-  value: string | string[],
+  value: string | Uid[],
   formEl: HTMLFormElement,
   heading: THeadingTypes
 ) => {
-  const selectedArray = Array.isArray(value) ? value : value?.split(',');
+  const selectionArray = Array.isArray(value) ? value : value?.split(',');
+  const fieldComponent = within(formEl).getByTestId(
+    `${heading.type}-${heading.uid}`
+  );
+
   if (
     heading.type === EFilterType.selectMulti &&
     (heading.asDropdown === false || heading.selectType === 'showall')
   ) {
     if (!value) return;
-    const selectedButtonNames = selectedArray.map(
-      (uid) => heading.options.find((o) => o.uid === uid)?.label
+    const selectedButtonNames: string[] = selectionArray.map(
+      (uid) => heading.options.find((o) => o.uid === uid)?.label as string
     );
-    await Promise.all(
-      selectedButtonNames.map(async (s) => {
-        const optionButton = within(formEl).getByRole('button', { name: s });
-        await UserEvent.click(optionButton);
+    const optionListItems: HTMLButtonElement[] =
+      within(fieldComponent).getAllByRole('listitem');
+    const availableButtonNames = optionListItems.map(
+      (el) => el.textContent || ''
+    );
+    await promiseAllInSeries(
+      availableButtonNames.map((s: string) => async () => {
+        const optionItem = within(fieldComponent)
+          .getAllByRole('listitem')
+          .find((li) => within(li).queryByText(s.trim())) as HTMLElement;
+        const optionButton = within(optionItem).getByRole('button');
+        const isSelected = within(optionItem).queryByTestId(
+          'bubbleSelector-item-selected'
+        )
+          ? true
+          : false;
+
+        const shouldBeSelected =
+          selectedButtonNames.indexOf(optionItem.textContent as string) !== -1;
+        if (isSelected !== shouldBeSelected) {
+          await UserEvent.click(optionButton);
+        }
       })
     );
   } else if (heading.type === EFilterType.selectMulti && heading.asDropdown) {
@@ -31,11 +59,12 @@ export const editValue = async (
     await UserEvent.click(dropDownButton);
   } else {
     const fieldInput = within(formEl).getByLabelText(heading.label);
-    await Promise.all(
-      selectedArray.map(async (s) => {
+
+    await promiseAllInSeries(
+      selectionArray.map((s) => async () => {
         await UserEvent.click(fieldInput);
         await UserEvent.clear(fieldInput);
-        await UserEvent.keyboard(s);
+        await UserEvent.keyboard(String(s));
         await UserEvent.keyboard('{ArrowDown}');
         await UserEvent.keyboard('{Enter}');
       })

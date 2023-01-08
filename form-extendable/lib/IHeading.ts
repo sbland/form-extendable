@@ -16,7 +16,7 @@ export interface IHeading<T, InputType> {
   expandInput?: boolean;
   label: string;
   required?: boolean;
-  uid: string;
+  uid: Uid;
   hasChanged?: boolean;
   readOnly?: boolean;
   defaultValue?: T;
@@ -48,15 +48,16 @@ export interface IHeadingBool extends IHeading<boolean, HTMLInputElement> {
   useToggle?: boolean;
 }
 
+// TODO: Should this have IObj as value?
 export interface IHeadingSelect extends IHeading<Uid, HTMLInputElement> {
-  type: EFilterType.select | EFilterType.selectMulti;
+  type: EFilterType.select;
   options: {
     uid: Uid;
     label: string;
     description?: string; // TODO Implement this
   }[];
+  multiple?: false;
   labelField?: string;
-  multiple?: boolean;
   asDropdown?: boolean;
   selectType?: 'showall' | 'dropdown' | 'toggle';
 }
@@ -69,9 +70,9 @@ export type TMultiSelectValue =
 
 export interface IHeadingSelectMulti
   extends IHeading<TMultiSelectValue, HTMLInputElement> {
-  type: EFilterType.select | EFilterType.selectMulti;
+  type: EFilterType.selectMulti;
   options: {
-    uid: string;
+    uid: Uid;
     label: string;
   }[];
   labelField?: string;
@@ -88,7 +89,7 @@ export interface IHeadingEmbedded extends IHeading<unknown, HTMLInputElement> {
 
 export interface IHeadingSelectSearch<T extends IObj>
   extends IHeading<T, HTMLInputElement> {
-  type: EFilterType.selectSearch | EFilterType.reference;
+  type: EFilterType.selectSearch;
   searchFieldTargetField: string;
   labelField?: string;
   multiple?: false;
@@ -99,7 +100,7 @@ export interface IHeadingSelectSearch<T extends IObj>
 
 export interface IHeadingSelectSearchMulti<T extends IObj>
   extends IHeading<T, HTMLInputElement> {
-  type: EFilterType.selectSearch | EFilterType.reference;
+  type: EFilterType.selectSearch;
   searchFieldTargetField: string;
   labelField?: string;
   multiple: true;
@@ -109,31 +110,47 @@ export interface IHeadingSelectSearchMulti<T extends IObj>
 }
 
 export interface IHeadingReference<T extends IObj>
-  extends Omit<IHeadingSelectSearch<T>, 'searchFn'> {
+  extends Omit<IHeadingSelectSearch<T>, 'searchFn' | 'type'> {
   type: EFilterType.reference;
   collection: string;
 }
 export interface IHeadingReferenceMulti<T extends IObj>
-  extends Omit<IHeadingSelectSearchMulti<T>, 'searchFn'> {
+  extends Omit<IHeadingSelectSearchMulti<T>, 'searchFn' | 'type'> {
   type: EFilterType.reference;
   collection: string;
 }
 
-export interface IHeadingFile<T extends IFile | IFile[]>
-  extends IHeading<T, HTMLInputElement> {
-  type: EFilterType.file | EFilterType.fileMultiple;
+export interface IHeadingFile extends IHeading<IFile, HTMLInputElement> {
+  type: EFilterType.file;
   // collectionId: string;
   // documentId: string;
-  multiple?: boolean;
+  multiple?: false;
+  metaData?: any;
+  fileType: EFileType;
+}
+export interface IHeadingFileMulti extends IHeading<IFile[], HTMLInputElement> {
+  type: EFilterType.fileMultiple;
+  // collectionId: string;
+  // documentId: string;
+  multiple?: true;
   metaData?: any;
   fileType: EFileType;
 }
 
-export interface IHeadingImage<T extends IFile | IFile[]>
-  extends IHeading<T, HTMLInputElement> {
+export interface IHeadingImage extends IHeading<IFile, HTMLInputElement> {
   type: EFilterType.image;
   // collectionId: string;
   // documentId: string;
+  multiple?: false;
+  fileType: 'image';
+}
+
+export interface IHeadingImageMulti
+  extends IHeading<IFile[], HTMLInputElement> {
+  type: EFilterType.image;
+  // collectionId: string;
+  // documentId: string;
+  multiple: true;
   fileType: 'image';
 }
 
@@ -176,8 +193,10 @@ export type THeading<T> =
   | IHeadingDate
   | IHeadingBool
   | IHeadingCustomType<T>
-  | IHeadingFile<T extends IFile | IFile[] ? T : never>
-  | IHeadingImage<T extends IFile | IFile[] ? T : never>
+  | IHeadingFile
+  | IHeadingFileMulti
+  | IHeadingImage
+  | IHeadingImageMulti
   | IHeadingSelect
   | IHeadingSelectSearch<T extends IObj ? T : never>
   | IHeadingSelectSearchMulti<T extends IObj ? T : never>

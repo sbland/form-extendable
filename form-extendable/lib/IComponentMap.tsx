@@ -7,6 +7,7 @@ import {
   IHeadingDict,
   IHeadingEmbedded,
   IHeadingFile,
+  IHeadingFileMulti,
   IHeadingNumber,
   IHeadingReference,
   IHeadingReferenceMulti,
@@ -46,12 +47,12 @@ export type TComponentMap = {
     TMultiSelectValue,
     IHeadingSelectMulti
   >;
-  [EFilterType.file]: () => TFieldReactComponent<IFile, IHeadingFile<IFile>>;
+  [EFilterType.file]: () => TFieldReactComponent<IFile, IHeadingFile>;
   [EFilterType.fileMultiple]: () => TFieldReactComponent<
     IFile[],
-    IHeadingFile<IFile[]>
+    IHeadingFileMulti
   >;
-  [EFilterType.image]: () => TFieldReactComponent<IFile, IHeadingFile<IFile>>;
+  [EFilterType.image]: () => TFieldReactComponent<IFile, IHeadingFile>;
   [EFilterType.number]: () => TFieldReactComponent<number, IHeadingNumber>;
   [EFilterType.date]: () => TFieldReactComponent<
     Date | number | string,

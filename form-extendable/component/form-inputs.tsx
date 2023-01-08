@@ -1,9 +1,6 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import {
-  EFilterType,
-  filterTypes,
-} from '@react_db_client/constants.client-types';
+import { EFilterType, Uid } from '@react_db_client/constants.client-types';
 import {
   IHeadingEmbedded,
   TComponentMap,
@@ -16,16 +13,16 @@ export interface IFormInputsProps {
   FormField: React.FC<IFormFieldProps<any, THeading<unknown>>>;
   headings: THeading<unknown>[];
   formData: TFormData;
-  onFormInputChange: (uid: string, val: any) => void;
+  onFormInputChange: (uid: Uid, val: any) => void;
   orientation: 'horiz' | 'vert';
-  heading?: string;
+  heading?: Uid;
   showTitle?: boolean;
   isSection?: boolean;
   showKey?: boolean;
   additionalData?: TFormData;
   componentMap: TComponentMap;
   styleOverrides?: React.CSSProperties;
-  id: string;
+  id: Uid;
 }
 
 export const FormInputs = ({

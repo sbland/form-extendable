@@ -66,7 +66,7 @@ export const FieldTextArea: React.FC<TFieldTextAreaProps> = ({
           }}
           value={value || ''}
           id={`${uid}-input`}
-          name={uid}
+          name={String(uid)}
           onFocus={() => {
             ref.current?.select();
           }}

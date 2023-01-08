@@ -80,12 +80,8 @@ export const getFieldDisplayValue = async <T, H extends THeading<any>>(
       case EFilterType.image:
       case EFilterType.file:
       case EFilterType.fileMultiple: {
-        return await getFileDisplayValue(
-          formEl,
-          heading as TFileHeadingTypes<T>
-        );
+        return await getFileDisplayValue(formEl, heading as TFileHeadingTypes);
       }
-
       case EFilterType.embedded:
       // TODO: Implement embedded type
       case EFilterType.dict:

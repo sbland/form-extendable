@@ -11,6 +11,10 @@ import {
   dummyPropsImagesMany,
 } from './demo-data';
 import { CompositionWrapDefault } from '@form-extendable/composition-helpers';
+import {
+  FieldFileMultiple,
+  IFieldFileMultipleProps,
+} from './field-file-multiple';
 
 const onChange = jest.fn();
 const asyncGetFiles = jest
@@ -18,13 +22,13 @@ const asyncGetFiles = jest
   .mockImplementation(async () => [...DEMO_IMAGE_FILES_MANY].slice(50, 60));
 const asyncFileUpload = jest.fn().mockImplementation(async () => {});
 
-const defaultProps: IFieldFileProps<IFile[] | IFile> = {
+const defaultProps: IFieldFileProps = {
   ...dummyProps,
   onChange,
   asyncGetFiles,
 };
 
-const defaultPropsMultiple: IFieldFileProps<IFile[] | IFile> = {
+const defaultPropsMultiple: IFieldFileMultipleProps = {
   ...dummyPropsImagesMany,
   onChange,
   asyncGetFiles,
@@ -82,7 +86,7 @@ describe('field-file', () => {
       beforeEach(async () => {
         render(
           <CompositionWrapDefault>
-            <FieldFile
+            <FieldFileMultiple
               {...defaultPropsMultiple}
               onChange={onChange}
               asyncGetFiles={() => asyncGetFiles}

@@ -25,7 +25,7 @@ import {
   FieldSelectSearch,
   FieldSelectSearchMulti,
 } from '@form-extendable/fields.field-select-search';
-import { FieldFile } from '@form-extendable/fields.field-file';
+import { FieldFile, FieldFileMultiple } from '@form-extendable/fields.field-file';
 import { FieldReadOnly } from '@form-extendable/fields.field-read-only';
 import { allowReadOnly } from './utils';
 import { IObj } from '@form-extendable/lib';
@@ -87,7 +87,7 @@ export const defaultComponentMap = ({
     )),
   [EFilterType.fileMultiple]: () =>
     allowReadOnly((props) => (
-      <FieldFile
+      <FieldFileMultiple
         {...props}
         onChange={(v) => props.onChange(v as IFile[] | null)}
         PopupPanel={PopupPanel}

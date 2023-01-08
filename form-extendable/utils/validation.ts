@@ -1,8 +1,9 @@
+import { Uid } from '@react_db_client/constants.client-types';
 import { TFormData, THeading } from '@form-extendable/lib';
 
 export interface IValidationError {
   error: string;
-  fields?: string[];
+  fields?: Uid[];
 }
 
 export const formValidation = <V = unknown>(

@@ -21,7 +21,7 @@ export const FieldMultiSelect = ({
   required,
   asDropdown,
   selectType,
-  inputProps
+  inputProps,
 }: TFieldMultiSelect) => {
   const currentSelection: (string | number)[] = React.useMemo(() => {
     if (!value) return [];
@@ -38,12 +38,16 @@ export const FieldMultiSelect = ({
     return [] as string[];
   }, [value]);
 
+  const onChangeMiddle = (newVal) => {
+    onChange(newVal);
+  };
+
   if (asDropdown && selectType === 'dropdown') {
     return (
       <>
         <MultiSelectDropdown
           activeSelection={currentSelection || []}
-          updateActiveSelection={(newVal) => onChange(newVal)}
+          updateActiveSelection={onChangeMiddle}
           options={options}
           selectButtonProps={{
             id: `${uid}-input`,
@@ -58,7 +62,9 @@ export const FieldMultiSelect = ({
   }
 
   if (selectType === 'showall') {
-    const va = Array.isArray(value) ? value : [value];
+    const va = (Array.isArray(value) ? value : [value]).filter(
+      (vi) => vi !== null
+    );
     const v =
       typeof va[0] === 'object'
         ? (va as unknown as IOpt[]).map(
@@ -69,7 +75,7 @@ export const FieldMultiSelect = ({
       <>
         <BubbleSelector
           activeSelection={v || []}
-          updateActiveSelection={(newVal) => onChange(newVal)}
+          updateActiveSelection={onChangeMiddle}
           options={options}
           {...inputProps}
         />
@@ -90,7 +96,7 @@ export const FieldMultiSelect = ({
       <>
         <BubbleSelector
           activeSelection={v || []}
-          updateActiveSelection={(newVal) => onChange(newVal)}
+          updateActiveSelection={onChangeMiddle}
           options={options}
           isSorted
           {...inputProps}

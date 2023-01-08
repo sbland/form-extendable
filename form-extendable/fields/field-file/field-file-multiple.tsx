@@ -10,16 +10,16 @@ import {
 } from '@react_db_client/constants.client-types';
 import {
   IFieldComponentProps,
-  IHeadingFile,
+  IHeadingFileMulti,
   IPopupProps,
 } from '@form-extendable/lib';
 import { FileItem } from './file-list';
 import { AddFileButton, AddFileListItem, FileListStyle } from './styles';
 import { Emoji } from '@react_db_client/components.emoji';
 
-export interface IFieldFileProps
-  extends IFieldComponentProps<IFile>,
-    IHeadingFile {
+export interface IFieldFileMultipleProps
+  extends IFieldComponentProps<IFile[]>,
+    IHeadingFileMulti {
   fileServerUrl: string;
   asyncGetFiles: (
     metaData?: any
@@ -39,7 +39,7 @@ const asArray = (value) =>
  * Value should be either a single or array of file objects
  *
  */
-export const FieldFile: React.FC<IFieldFileProps> = ({
+export const FieldFileMultiple: React.FC<IFieldFileMultipleProps> = ({
   uid,
   onChange,
   // collectionId,
@@ -72,17 +72,23 @@ export const FieldFile: React.FC<IFieldFileProps> = ({
   const [showFileSelectionPanel, setShowFileSelectionPanel] = useState(false);
 
   const handleSelected = (fileData: IFile | IFile[] | null) => {
-    const newFileList: IFile[] = [fileData as IFile] as IFile[];
+    if (!Array.isArray(fileData))
+      throw Error('Must return fileData as array if multiple is true');
+    const newFileList: IFile[] = [
+      ...fileList,
+      ...(fileData as IFile[]),
+    ] as IFile[];
+
     setFileList(newFileList as IFile[]);
     setShowFileSelectionPanel(false);
-    const newData = fileData as IFile;
+    const newData = [...fileList, ...(fileData as IFile[])];
     onChange && onChange(newData as typeof value);
   };
 
   const handleFileDelete = (fuid) => {
     const newFileList = (fileList as IFile[]).filter((f) => f.uid !== fuid);
     setFileList(newFileList as IFile[]);
-    const newData = null;
+    const newData = newFileList;
     onChange && onChange(newData);
   };
 
@@ -111,6 +117,7 @@ export const FieldFile: React.FC<IFieldFileProps> = ({
         <FileManager
           handleSelect={handleSelected}
           fileType={fileType}
+          allowMultiple
           asyncGetFiles={asyncGetFiles(metaData)}
           fileServerUrl={fileServerUrl}
           asyncFileUpload={asyncFileUpload(metaData)}
@@ -125,7 +132,7 @@ export const FieldFile: React.FC<IFieldFileProps> = ({
                 className="button-one addFileBtn"
                 onClick={() => setShowFileSelectionPanel(true)}
               >
-                <Emoji emoj="🔄" label="swap" />
+                <Emoji emoj="➕" label="add" />
               </AddFileButton>
             </AddFileListItem>
             {itemsRendered}
@@ -149,7 +156,7 @@ const valueValidatorFull = PropTypes.oneOfType([
   PropTypes.arrayOf(valueValidator).isRequired,
 ]);
 
-FieldFile.propTypes = {
+FieldFileMultiple.propTypes = {
   uid: PropTypes.string.isRequired,
   value: valueValidatorFull,
   onChange: PropTypes.func.isRequired,
@@ -161,9 +168,9 @@ FieldFile.propTypes = {
   PopupPanel: PropTypes.func.isRequired, // React.FC
 };
 
-FieldFile.defaultProps = {
-  value: null,
-  multiple: false,
+FieldFileMultiple.defaultProps = {
+  value: [],
+  multiple: true,
   fileType: EFileType.ANY,
   PopupPanel: (({ children, isOpen }) =>
     isOpen ? children : '') as React.FC<IPopupProps>,

@@ -1,19 +1,34 @@
 import React from 'react';
 import { within } from '@testing-library/react';
-import { IHeadingFile, IHeadingImage } from '@form-extendable/lib';
+import {
+  IHeadingFile,
+  IHeadingFileMulti,
+  IHeadingImage,
+  IHeadingImageMulti,
+} from '@form-extendable/lib';
 import {
   EFileType,
   EFilterType,
   IFile,
 } from '@react_db_client/constants.client-types';
 
-export type THeadingTypes<T> =
-  | IHeadingImage<T extends IFile | IFile[] ? T : never>
-  | IHeadingFile<T extends IFile | IFile[] ? T : never>;
+export type THeadingTypes =
+  | IHeadingImage
+  | IHeadingFile
+  | IHeadingImageMulti
+  | IHeadingFileMulti;
+
+export const editValue = async (
+  value: string | string[] | IFile | IFile[],
+  formEl: HTMLFormElement,
+  heading: THeadingTypes
+) => {
+  throw Error('Not Implemented');
+};
 
 export const getDisplayValue = async <T,>(
   formEl: HTMLFormElement,
-  heading: THeadingTypes<T>
+  heading: THeadingTypes
 ): Promise<string> => {
   const fieldComponent = within(formEl).getByTestId(
     `${heading.type}-${heading.uid}`

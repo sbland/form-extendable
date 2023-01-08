@@ -46,11 +46,13 @@
     "policy": {
       "dependencies": {
         "@react_db_client/components.emoji": "^0.1.11",
-        "@react_db_client/components.file-manager": "0.2.115",
-        "@react_db_client/components.form.form-components.bubble-selector": "0.2.11",
+        "@react_db_client/components.file-manager": "0.2.116",
+        "@react_db_client/components.file-uploader": "0.2.69",
+        "@react_db_client/components.form.form-components.bubble-selector": "0.2.12",
         "@react_db_client/components.form.form-components.multi-select-dropdown": "0.2.20",
         "@react_db_client/components.form.form-components.toggle-box": "0.2.27",
-        "@react_db_client/components.search-and-select-dropdown": "0.2.107",
+        "@react_db_client/components.search-and-select": "0.4.15",
+        "@react_db_client/components.search-and-select-dropdown": "0.2.108",
         "@react_db_client/constants.client-types": "^0.4.1",
         "@react_db_client/constants.style": "^0.4.1",
         "@react_db_client/helpers.composition-wraps": "^0.1.13",

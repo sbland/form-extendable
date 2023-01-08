@@ -6,6 +6,7 @@ import {
   IFile,
 } from '@react_db_client/constants.client-types';
 import { IFieldFileProps } from './field-file';
+import { IFieldFileMultipleProps } from './field-file-multiple';
 
 export const DEMO_IMAGE_FILES_DATA: IFile[] = [
   {
@@ -86,9 +87,11 @@ export const PopupPanel: React.FC<IPopupProps> = ({
   isOpen,
   handleClose,
 }) => (isOpen ? <>{children}</> : <></>);
-const onChange: IFieldFileProps<IFile[] | IFile>['onChange'] = () => {};
 
-export const dummyProps: IFieldFileProps<IFile[] | IFile> = {
+const onChange: IFieldFileProps['onChange'] = () => {};
+const onChangeMulti: IFieldFileMultipleProps['onChange'] = () => {};
+
+export const dummyProps: IFieldFileProps = {
   uid: 'uid',
   label: 'File Field',
   type: EFilterType.file,
@@ -102,23 +105,31 @@ export const dummyProps: IFieldFileProps<IFile[] | IFile> = {
   asyncFileUpload: () => async () => {},
 };
 
-export const dummyPropsImagesMany: IFieldFileProps<IFile[] | IFile> = {
+export const dummyPropsImagesMany: IFieldFileMultipleProps = {
   ...dummyProps,
+  onChange: onChangeMulti,
+  type: EFilterType.fileMultiple,
+  defaultValue: [],
   multiple: true,
-  value: [...DEMO_IMAGE_FILES_MANY].slice(0,50),
-  asyncGetFiles: (metaData) => async () => [...DEMO_IMAGE_FILES_MANY].slice(50,60),
+  value: [...DEMO_IMAGE_FILES_MANY].slice(0, 50),
+  asyncGetFiles: (metaData) => async () =>
+    [...DEMO_IMAGE_FILES_MANY].slice(50, 60),
 };
 
-export const dummyPropsDocs: IFieldFileProps<IFile[] | IFile> = {
+export const dummyPropsDocs: IFieldFileProps = {
   ...dummyProps,
   fileType: EFileType.DOCUMENT,
   value: DEMO_FILES_DATA[0],
   asyncGetFiles: (metaData) => async () => DEMO_FILES_DATA,
 };
 
-export const dummyPropsDocsMany: IFieldFileProps<IFile[] | IFile> = {
+export const dummyPropsDocsMany: IFieldFileMultipleProps = {
   ...dummyPropsDocs,
+  onChange: onChangeMulti,
+  type: EFilterType.fileMultiple,
+  defaultValue: [],
   multiple: true,
-  value: [...DEMO_FILES_DATA_MANY].slice(0,50),
-  asyncGetFiles: (metaData) => async () => [...DEMO_FILES_DATA_MANY].slice(50,60),
+  value: [...DEMO_FILES_DATA_MANY].slice(0, 50),
+  asyncGetFiles: (metaData) => async () =>
+    [...DEMO_FILES_DATA_MANY].slice(50, 60),
 };

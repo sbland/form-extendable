@@ -1,6 +1,9 @@
 import React from 'react';
 import { screen } from '@testing-library/react';
-import { WrapFieldComponent, CompositionWrapDefault } from '@form-extendable/composition-helpers';
+import {
+  WrapFieldComponent,
+  CompositionWrapDefault,
+} from '@form-extendable/composition-helpers';
 import { FieldFile } from './field-file';
 import {
   DEMO_FILES_DATA,
@@ -12,6 +15,7 @@ import {
   dummyPropsDocsMany,
   dummyPropsImagesMany,
 } from './demo-data';
+import { FieldFileMultiple } from './field-file-multiple';
 
 export const BasicFieldFileImages = () => (
   <CompositionWrapDefault height="40rem" width="60rem">
@@ -28,7 +32,7 @@ BasicFieldFileImages.waitForReady = async () => {
 export const BasicFieldFileImagesMany = () => (
   <CompositionWrapDefault height="40rem" width="60rem">
     <WrapFieldComponent>
-      <FieldFile {...dummyPropsImagesMany} />
+      <FieldFileMultiple {...dummyPropsImagesMany} />
     </WrapFieldComponent>
   </CompositionWrapDefault>
 );
@@ -52,7 +56,7 @@ BasicFieldFileDocs.waitForReady = async () => {
 export const BasicFieldFileDocsmany = () => (
   <CompositionWrapDefault height="40rem" width="60rem">
     <WrapFieldComponent>
-      <FieldFile {...dummyPropsDocsMany} />
+      <FieldFileMultiple {...dummyPropsDocsMany} />
     </WrapFieldComponent>
   </CompositionWrapDefault>
 );

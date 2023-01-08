@@ -16,7 +16,6 @@ export const FieldSelect = ({
   onChange,
   value,
   options,
-  multiple,
   required,
   labelField = 'label',
   selectType,
@@ -44,7 +43,6 @@ export const FieldSelect = ({
             searchFunction={searchFunction}
             handleSelect={handleSelect}
             initialValue={selection}
-            allowMultiple={multiple}
             searchFieldTargetField={labelField}
             labelField={labelField}
             className="formFieldInput"
