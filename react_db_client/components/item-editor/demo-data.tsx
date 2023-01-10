@@ -1,7 +1,7 @@
 import { THeading } from '@form-extendable/lib';
 import { EFileType, EFilterType } from '@react_db_client/constants.client-types';
 
-export const demoParams: THeading<unknown>[] = [
+export const demoParams: THeading<any>[] = [
   {
     uid: 'choice',
     label: 'Choice',

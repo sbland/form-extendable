@@ -90,7 +90,7 @@ export const getFieldDisplayValue = async <T, H extends THeading<any>>(
       // TODO: Implement video type
       // TODO: Implement dict type
       default:
-        if (!customFillInField || !(heading as IHeadingCustomType).customType)
+        if (!customFillInField || !(heading as IHeadingCustomType<any>).customType)
           throw Error(`Heading type "${heading.type}" not implemented`);
 
         return await customFillInField(formEl, heading);

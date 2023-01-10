@@ -16,9 +16,9 @@ export interface IFormSubmit {
 }
 
 export interface IFormProps {
-  FormField?: React.FC<IFormFieldProps<unknown, THeading<unknown>>>;
+  FormField?: React.FC<IFormFieldProps<any, THeading<any>>>;
   formDataInitial?: TFormData;
-  headings: THeading<unknown>[];
+  headings: THeading<any>[];
   onSubmit: (submissionData: IFormSubmit) => void;
   onChange?: (field: string, value: any, newFormData: TFormData) => void;
   showEndBtns?: boolean;

@@ -8,13 +8,13 @@ importers:
       '@react_db_client/async-hooks.use-async-object-manager': 0.2.26
       '@react_db_client/async-hooks.use-async-request': 0.2.18
       '@react_db_client/components.emoji': '>=0.1.11 <0.2.0'
-      '@react_db_client/components.file-manager': ^0.2.117
-      '@react_db_client/components.file-uploader': ^0.2.70
+      '@react_db_client/components.file-manager': ^0.2.119
+      '@react_db_client/components.file-uploader': ^0.2.72
       '@react_db_client/components.form.form-components.bubble-selector': ^0.2.13
       '@react_db_client/components.form.form-components.multi-select-dropdown': ^0.2.21
       '@react_db_client/components.form.form-components.toggle-box': '>=0.2.27 <0.3.0'
-      '@react_db_client/components.popup-panel-v2': '>=0.0.31 <0.0.32'
-      '@react_db_client/components.search-and-select': ^0.4.16
+      '@react_db_client/components.popup-panel-v2': 0.0.33
+      '@react_db_client/components.search-and-select': ^0.4.18
       '@react_db_client/components.search-and-select-dropdown': '>=0.2.109 <0.3.0'
       '@react_db_client/components.styled-select-list': 0.4.8
       '@react_db_client/constants.client-types': '>=0.4.1 <0.5.0'
@@ -52,13 +52,13 @@ importers:
       '@react_db_client/async-hooks.use-async-object-manager': registry.npmjs.org/@react_db_client/async-hooks.use-async-object-manager/0.2.26_jmydxxkiyxf7moiuu3wgdpfwlu
       '@react_db_client/async-hooks.use-async-request': registry.npmjs.org/@react_db_client/async-hooks.use-async-request/0.2.18_aexnoiof4jgcol666aj3dk3igu
       '@react_db_client/components.emoji': registry.npmjs.org/@react_db_client/components.emoji/0.1.11_bfmod5kfacqat55i4xrdq3b66y
-      '@react_db_client/components.file-manager': registry.npmjs.org/@react_db_client/components.file-manager/0.2.117_inv5ia5nbrwgtnhardgpja4yu4
-      '@react_db_client/components.file-uploader': registry.npmjs.org/@react_db_client/components.file-uploader/0.2.70_lzuwf4e4v2mwdfngqvlrninkqy
+      '@react_db_client/components.file-manager': registry.npmjs.org/@react_db_client/components.file-manager/0.2.119_inv5ia5nbrwgtnhardgpja4yu4
+      '@react_db_client/components.file-uploader': registry.npmjs.org/@react_db_client/components.file-uploader/0.2.72_lzuwf4e4v2mwdfngqvlrninkqy
       '@react_db_client/components.form.form-components.bubble-selector': registry.npmjs.org/@react_db_client/components.form.form-components.bubble-selector/0.2.13_lzuwf4e4v2mwdfngqvlrninkqy
       '@react_db_client/components.form.form-components.multi-select-dropdown': registry.npmjs.org/@react_db_client/components.form.form-components.multi-select-dropdown/0.2.21_lzuwf4e4v2mwdfngqvlrninkqy
       '@react_db_client/components.form.form-components.toggle-box': registry.npmjs.org/@react_db_client/components.form.form-components.toggle-box/0.2.27_bfmod5kfacqat55i4xrdq3b66y
-      '@react_db_client/components.popup-panel-v2': registry.npmjs.org/@react_db_client/components.popup-panel-v2/0.0.31_oy7jj5epytwzlam432visgsniu
-      '@react_db_client/components.search-and-select': registry.npmjs.org/@react_db_client/components.search-and-select/0.4.16_inv5ia5nbrwgtnhardgpja4yu4
+      '@react_db_client/components.popup-panel-v2': registry.npmjs.org/@react_db_client/components.popup-panel-v2/0.0.33_oy7jj5epytwzlam432visgsniu
+      '@react_db_client/components.search-and-select': registry.npmjs.org/@react_db_client/components.search-and-select/0.4.18_inv5ia5nbrwgtnhardgpja4yu4
       '@react_db_client/components.search-and-select-dropdown': registry.npmjs.org/@react_db_client/components.search-and-select-dropdown/0.2.109_lzuwf4e4v2mwdfngqvlrninkqy
       '@react_db_client/components.styled-select-list': registry.npmjs.org/@react_db_client/components.styled-select-list/0.4.8_lzuwf4e4v2mwdfngqvlrninkqy
       '@react_db_client/constants.client-types': registry.npmjs.org/@react_db_client/constants.client-types/0.4.1_sfoxds7t5ydpegc3knd667wn6m
@@ -1051,11 +1051,11 @@ packages:
       - react-is
     dev: false
 
-  registry.npmjs.org/@react_db_client/components.file-manager/0.2.117_inv5ia5nbrwgtnhardgpja4yu4:
-    resolution: {integrity: sha512-gM2OjsWn73M31XM7xNcWCkEJGLNvia1ksMUZSFjHomwPBX9p9wXLwFcB6dDJ85B2t7e9lciD17PPgImelkKsLA==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/components.file-manager/-/components.file-manager-0.2.117.tgz}
-    id: registry.npmjs.org/@react_db_client/components.file-manager/0.2.117
+  registry.npmjs.org/@react_db_client/components.file-manager/0.2.119_inv5ia5nbrwgtnhardgpja4yu4:
+    resolution: {integrity: sha512-ynVcMjxkavh8GxYXlt1hkltvrmrngISX5TJ6HJdFEEPSMrxMWD+OvBEsnlTpgaJKv+kE/3Dnad6dEp57776HsA==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/components.file-manager/-/components.file-manager-0.2.119.tgz}
+    id: registry.npmjs.org/@react_db_client/components.file-manager/0.2.119
     name: '@react_db_client/components.file-manager'
-    version: 0.2.117
+    version: 0.2.119
     peerDependencies:
       '@testing-library/react': '*'
       '@testing-library/user-event': '*'
@@ -1074,8 +1074,8 @@ packages:
       react-dom:
         optional: true
     dependencies:
-      '@react_db_client/components.file-uploader': registry.npmjs.org/@react_db_client/components.file-uploader/0.2.70_lzuwf4e4v2mwdfngqvlrninkqy
-      '@react_db_client/components.search-and-select': registry.npmjs.org/@react_db_client/components.search-and-select/0.4.16_inv5ia5nbrwgtnhardgpja4yu4
+      '@react_db_client/components.file-uploader': registry.npmjs.org/@react_db_client/components.file-uploader/0.2.72_lzuwf4e4v2mwdfngqvlrninkqy
+      '@react_db_client/components.search-and-select': registry.npmjs.org/@react_db_client/components.search-and-select/0.4.18_inv5ia5nbrwgtnhardgpja4yu4
       '@react_db_client/constants.client-types': registry.npmjs.org/@react_db_client/constants.client-types/0.4.1_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react': registry.npmjs.org/@testing-library/react/12.0.0_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/user-event': registry.npmjs.org/@testing-library/user-event/14.4.3_ua4wuun3fnehcjqtqj2e2ldgpe
@@ -1093,11 +1093,11 @@ packages:
       - supports-color
     dev: false
 
-  registry.npmjs.org/@react_db_client/components.file-uploader/0.2.70_lzuwf4e4v2mwdfngqvlrninkqy:
-    resolution: {integrity: sha512-0yCEOPJ0dx5O8zCD+cIKD5Xe/HUCJ+3oQiNjCdYNoaay66KU/SC7xQyLRlsKdCwyxPSSRdfOPZ1lwSpTV0t6cQ==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/components.file-uploader/-/components.file-uploader-0.2.70.tgz}
-    id: registry.npmjs.org/@react_db_client/components.file-uploader/0.2.70
+  registry.npmjs.org/@react_db_client/components.file-uploader/0.2.72_lzuwf4e4v2mwdfngqvlrninkqy:
+    resolution: {integrity: sha512-XqA8p6VJ3pDJ8ajcPL6qUc03iu73MbebiOTK+V79eqR7zgbe7FN9JusNWZgOs2Kh3JTvQiyU7NRCdJEAClhmdQ==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/components.file-uploader/-/components.file-uploader-0.2.72.tgz}
+    id: registry.npmjs.org/@react_db_client/components.file-uploader/0.2.72
     name: '@react_db_client/components.file-uploader'
-    version: 0.2.70
+    version: 0.2.72
     peerDependencies:
       '@testing-library/react': '*'
       '@testing-library/user-event': '*'
@@ -1278,11 +1278,11 @@ packages:
       - react-is
     dev: false
 
-  registry.npmjs.org/@react_db_client/components.popup-panel-v2/0.0.31_oy7jj5epytwzlam432visgsniu:
-    resolution: {integrity: sha512-bUXUTI+huOmGAIxKFWmcDAp479JIASjw0YLW/a+9FyG2qKT0oEPl+PGeJX+VnA26kh/YMUT1zPPRf1Nm3BlfQQ==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/components.popup-panel-v2/-/components.popup-panel-v2-0.0.31.tgz}
-    id: registry.npmjs.org/@react_db_client/components.popup-panel-v2/0.0.31
+  registry.npmjs.org/@react_db_client/components.popup-panel-v2/0.0.33_oy7jj5epytwzlam432visgsniu:
+    resolution: {integrity: sha512-3k8QhSGT4WMI1hyloUBdjQoAN0h6U7fKR6P/joB6eqG+S6KdRb2H/hJEqF4BHKh7KGEdMyT0412O571BkBz2JA==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/components.popup-panel-v2/-/components.popup-panel-v2-0.0.33.tgz}
+    id: registry.npmjs.org/@react_db_client/components.popup-panel-v2/0.0.33
     name: '@react_db_client/components.popup-panel-v2'
-    version: 0.0.31
+    version: 0.0.33
     peerDependencies:
       '@testing-library/react': '*'
       '@testing-library/user-event': '*'
@@ -1351,11 +1351,11 @@ packages:
       - react-is
     dev: false
 
-  registry.npmjs.org/@react_db_client/components.search-and-select/0.4.16_inv5ia5nbrwgtnhardgpja4yu4:
-    resolution: {integrity: sha512-A1D5so/84wl7CH2RNKsqeMHRTL/s7PLgzAuPIGXHD5EmtMa/ZwXZ8Gb9RoyJoQss8J8QrT3saf8GJrSv5BhfjA==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/components.search-and-select/-/components.search-and-select-0.4.16.tgz}
-    id: registry.npmjs.org/@react_db_client/components.search-and-select/0.4.16
+  registry.npmjs.org/@react_db_client/components.search-and-select/0.4.18_inv5ia5nbrwgtnhardgpja4yu4:
+    resolution: {integrity: sha512-pWlh52j12wW8xyPShie2BZYrda9tMaPzJywaIXjGGyHcn+xC8mS87Im/AXhRr9L2D1fFglULhqxE4RXycu/5vA==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/components.search-and-select/-/components.search-and-select-0.4.18.tgz}
+    id: registry.npmjs.org/@react_db_client/components.search-and-select/0.4.18
     name: '@react_db_client/components.search-and-select'
-    version: 0.4.16
+    version: 0.4.18
     peerDependencies:
       '@testing-library/react': '*'
       '@testing-library/react-hooks': '*'

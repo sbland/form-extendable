@@ -139,7 +139,12 @@ export const FieldCompositionWrapDefault = ({
   return (
     <FormThemeProvider theme={theme}>
       <PopupProvider>
-        <form aria-label="form">
+        <form
+          aria-label="form"
+          onSubmit={(e) => {
+            e.preventDefault();
+          }}
+        >
           <div>
             <button onClick={() => setTheme(modTheme)}>Mod Theme</button>
             <button onClick={() => setTheme(defaultTheme)}>

@@ -10,8 +10,8 @@ import {
 import { FormField as DefaultFormField, IFormFieldProps } from './form-field';
 
 export interface IFormInputsProps {
-  FormField: React.FC<IFormFieldProps<any, THeading<unknown>>>;
-  headings: THeading<unknown>[];
+  FormField: React.FC<IFormFieldProps<any, THeading<any>>>;
+  headings: THeading<any>[];
   formData: TFormData;
   onFormInputChange: (uid: Uid, val: any) => void;
   orientation: 'horiz' | 'vert';

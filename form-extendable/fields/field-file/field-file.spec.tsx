@@ -1,59 +1,20 @@
 import React from 'react';
-import { render, screen, within } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import UserEvent from '@testing-library/user-event';
-import { FieldFile, IFieldFileProps } from './field-file';
+import {
+  EFileType,
+  EFilterType,
+} from '@react_db_client/constants.client-types';
 import * as compositions from './field-file.composition';
 import {
   DEMO_IMAGE_FILES_DATA,
   DEMO_IMAGE_FILES_MANY,
   dummyProps,
-  dummyPropsImagesMany,
 } from './demo-data';
-import { CompositionWrapDefault } from '@form-extendable/composition-helpers';
-import {
-  FieldFileMultiple,
-  IFieldFileMultipleProps,
-} from './field-file-multiple';
-import { editValue } from './test-utils';
-
-const onChange = jest.fn();
-const asyncGetFiles = jest
-  .fn()
-  .mockImplementation(async () => [...DEMO_IMAGE_FILES_MANY].slice(50, 60));
-const asyncFileUpload = jest.fn().mockImplementation(async () => {});
-
-const defaultProps: IFieldFileProps = {
-  ...dummyProps,
-  onChange,
-  asyncGetFiles,
-};
-
-const defaultPropsMultiple: IFieldFileMultipleProps = {
-  ...dummyPropsImagesMany,
-  onChange,
-  asyncGetFiles,
-};
+import { editValue, editValueMulti } from './test-utils';
 
 // TODO: Something in Search and select causing act error
 describe('field-file', () => {
-  beforeEach(() => {
-    onChange.mockClear();
-    asyncGetFiles.mockClear();
-  });
-  test('Renders', async () => {
-    render(
-      <CompositionWrapDefault>
-        <FieldFile
-          {...defaultProps}
-          onChange={onChange}
-          asyncGetFiles={() => async () => DEMO_IMAGE_FILES_DATA}
-          asyncFileUpload={() => async () => {}}
-        />
-      </CompositionWrapDefault>
-    );
-    await screen.findAllByAltText(DEMO_IMAGE_FILES_DATA[0].label);
-  });
-
   describe('Compositions', () => {
     Object.entries(compositions).forEach(([name, Composition]) => {
       test(name, async () => {
@@ -71,57 +32,96 @@ describe('field-file', () => {
       test.todo('should call onChange with null when we delete the file');
       test('should call onChange with new file if we select file form list', async () => {
         const formEl: HTMLFormElement = screen.getByRole('form');
-        await editValue(DEMO_IMAGE_FILES_DATA[1], formEl, defaultProps);
+        await editValue(DEMO_IMAGE_FILES_DATA[1], formEl, dummyProps);
         await screen.findAllByAltText(DEMO_IMAGE_FILES_DATA[1].label);
       });
     });
     describe('Multiple', () => {
-      beforeEach(async () => {
-        render(
-          <CompositionWrapDefault>
-            <FieldFileMultiple
-              {...defaultPropsMultiple}
-              onChange={onChange}
-              asyncGetFiles={() => asyncGetFiles}
-              asyncFileUpload={() => asyncFileUpload}
-            />
-          </CompositionWrapDefault>
-        );
-        await screen.findAllByAltText(DEMO_IMAGE_FILES_MANY[0].label);
-      });
+      test('should select multiple files from already uploaded list with pre selection', async () => {
+        render(<compositions.BasicFieldFileImagesMany />);
+        await compositions.BasicFieldFileImagesMany.waitForReady();
 
+        const formEl: HTMLFormElement = screen.getByRole('form');
+
+        const newFiles = [DEMO_IMAGE_FILES_MANY[5], DEMO_IMAGE_FILES_MANY[6]];
+        const newItemsWithData = newFiles.map((f) => ({
+          ...f,
+          data: new File([f.name], f.name, { type: 'image/svg' }),
+        }));
+        const fileHeading = {
+          uid: 'uid',
+          type: EFilterType.fileMultiple,
+          fileType: EFileType.IMAGE,
+        };
+        await editValue(newItemsWithData, formEl, fileHeading as any);
+        const newItems = [
+          ...[...DEMO_IMAGE_FILES_MANY].slice(0, 5),
+          ...newFiles,
+        ];
+        const curState = JSON.parse(
+          screen.getByTestId('curState').textContent || '[]'
+        );
+        expect(curState[0]).toEqual(newItems);
+      });
+      test('should select multiple files from already uploaded list', async () => {
+        render(<compositions.FilesManyForTesting />);
+        await compositions.FilesManyForTesting.waitForReady();
+
+        const formEl: HTMLFormElement = screen.getByRole('form');
+
+        const newFiles = [DEMO_IMAGE_FILES_MANY[0], DEMO_IMAGE_FILES_MANY[1]];
+        const newItemsWithData = newFiles.map((f) => ({
+          ...f,
+          data: new File([f.name], f.name, { type: 'image/svg' }),
+        }));
+
+        const fileHeading = {
+          uid: 'uid',
+          type: EFilterType.fileMultiple,
+          fileType: EFileType.IMAGE,
+        };
+        await editValue(newItemsWithData, formEl, fileHeading as any);
+        const newItems = [...newFiles];
+        const curState = JSON.parse(
+          screen.getByTestId('curState').textContent || '[]'
+        );
+        expect(curState[0]).toEqual(newItems);
+      });
       test('should call onChange with null when we delete the file', async () => {
+        render(<compositions.BasicFieldFileImagesMany />);
+        await compositions.BasicFieldFileImagesMany.waitForReady();
         const fileDeleteBtn = screen.getAllByRole('button', {
           name: /Remove/,
         })[0];
         await UserEvent.click(fileDeleteBtn);
-        const newItems = [...DEMO_IMAGE_FILES_MANY].slice(1, 50);
-        expect(onChange).toHaveBeenCalledWith(newItems);
+        const newItems = [...DEMO_IMAGE_FILES_MANY].slice(1, 5);
+        expect(
+          JSON.parse(screen.getByTestId('curState').textContent || '[]')
+        ).toEqual([newItems]);
       });
-      test('should be able to select a file from file list', async () => {
-        const addFileButton = screen.getByRole('button', { name: 'add' });
-        await UserEvent.click(addFileButton);
-        await screen.findByText('Select File');
-        const demoFile = DEMO_IMAGE_FILES_MANY[50];
-        await screen.findByText(demoFile.name, { exact: false });
-        const fileList = within(
-          screen.getAllByTestId('styledSelectList')[0] // TODO: Why do we have multiple?!
-        ).getByRole('list');
-        const fileItems = within(fileList).getAllByRole('listitem');
-        expect(fileItems.length).toBeGreaterThan(0);
-        const demoFileButton = within(fileItems[0]).getByRole('button');
 
-        expect(demoFileButton).toBeInTheDocument();
-        await UserEvent.click(demoFileButton as HTMLButtonElement);
-        const acceptBtn = await screen.getByRole('button', {
-          name: /Accept Selection/,
-        });
-        await UserEvent.click(acceptBtn);
+      test('should be able to upload multiple files', async () => {
+        render(<compositions.FilesManyForTesting />);
+        await compositions.FilesManyForTesting.waitForReady();
+        const formEl: HTMLFormElement = screen.getByRole('form');
+        const fileHeading = {
+          uid: 'uid',
+          type: EFilterType.fileMultiple,
+          fileType: EFileType.IMAGE,
+        };
+        const newFiles = [DEMO_IMAGE_FILES_MANY[10], DEMO_IMAGE_FILES_MANY[11]];
+        const newItemsWithData = newFiles.map((f) => ({
+          ...f,
+          data: new File([f.name], f.name, { type: 'image/svg' }),
+        }));
 
-        expect(onChange).toHaveBeenCalledWith([
-          ...[...DEMO_IMAGE_FILES_MANY].slice(0, 50),
-          demoFile,
-        ]);
+        await editValue(newItemsWithData, formEl, fileHeading as any);
+        const curState = JSON.parse(
+          screen.getByTestId('curState').textContent || '[]'
+        );
+        expect(curState[0].map((c) => ({ ...c, data: undefined }))).toEqual(
+          newFiles
+        );
       });
     });
   });

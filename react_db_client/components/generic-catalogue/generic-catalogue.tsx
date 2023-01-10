@@ -41,15 +41,15 @@ export interface IGenericCatalogueProps<ResultType extends IDocument> {
   collection: string;
   additionalFilters?: FilterObjectClass[];
   customSort?: (a: ResultType, b: ResultType) => -1 | 0 | 1;
-  resultsHeadings: TResultHeading<unknown>[];
-  editorHeadings: THeading<unknown>[];
+  resultsHeadings: TResultHeading<any>[];
+  editorHeadings: THeading<any>[];
   additionalSaveData?: Partial<ResultType>;
   availableFilters: { [key: string]: FilterOption<any, boolean> };
   ItemEditor: React.FC<IItemEditorProps<ResultType>>;
   errorCallback?: (e: AsyncRequestError | GenericCatalogueError) => void;
   notificationDispatch: (message: string) => void;
   customParsers?: { [k: string]: CustomParser };
-  previewHeadings?: THeading<unknown>[];
+  previewHeadings?: THeading<any>[];
   asyncGetDocument: TAsyncGetDocument<ResultType>;
   asyncPutDocument: TAsyncPutDocument<ResultType>;
   asyncPostDocument: TAsyncPostDocument<ResultType>;

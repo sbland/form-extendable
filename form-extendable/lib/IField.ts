@@ -1,10 +1,7 @@
 import { Uid } from '@react_db_client/constants.client-types';
 import { THeading } from './IHeading';
 
-export interface IFieldProps<
-  V = unknown,
-  H extends THeading<V> = THeading<V>
-> {
+export interface IFieldProps<V, H extends THeading<V> = THeading<V>> {
   heading: H;
   value: V;
   onChange: (v: V | null) => void;
@@ -12,7 +9,7 @@ export interface IFieldProps<
 }
 
 export interface IFieldComponentProps<
-  V = unknown,
+  V,
   T extends HTMLElement = HTMLInputElement
 > {
   uid: Uid;

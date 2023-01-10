@@ -1,18 +1,25 @@
 import React from 'react';
-import { screen, render, within } from '@testing-library/react';
+import {
+  screen,
+  render,
+  within,
+  waitFor,
+  waitForElementToBeRemoved,
+} from '@testing-library/react';
 import UserEvent from '@testing-library/user-event';
 import {
   IHeadingCustomType,
   IHeadingNumber,
   THeading,
 } from '@form-extendable/lib';
-import { EFilterType } from '@react_db_client/constants.client-types';
-import { defaultComponentMap } from '@form-extendable/components.component-map';
+import {
+  EFileType,
+  EFilterType,
+  IFile,
+} from '@react_db_client/constants.client-types';
 import { fillInForm, getFieldDisplayValue } from '@form-extendable/testing';
-import { CompositionWrapDefault } from '@form-extendable/composition-helpers';
 
 import {
-  CustomFieldType,
   demoCustomTypeHeading,
   demoFormData,
   demoFormDataMin,
@@ -22,50 +29,18 @@ import {
   DEMO_FILES_DATA,
   headingsFlat,
 } from './dummy-data';
-import { Form, IFormProps } from './form';
 import * as compositions from './form.composition';
+import { errorCallback, getInitialFormData, onSubmit } from './dummy-api';
 
-const onSubmit = jest.fn();
-const errorCallback = jest.fn();
-const asyncGetFiles = (metaData) =>
-  jest.fn().mockImplementation(async () => DEMO_FILES_DATA);
-const asyncFileUpload = (metaData) =>
-  jest.fn().mockImplementation(async () => {});
-const asyncGetRefObjs = jest.fn().mockImplementation(async () => demoRefObjs);
+jest.mock('./dummy-api', () => ({
+  onSubmit: jest.fn(),
+  errorCallback: jest.fn(),
+  getInitialFormData: jest.fn().mockReturnValue({}),
+}));
 
 beforeEach(() => {
   jest.clearAllMocks();
 });
-
-const fileServerUrl = 'FILE_SERVER_URL';
-
-const componentMap = {
-  [demoCustomTypeHeading.type]: () => CustomFieldType,
-  ...defaultComponentMap({
-    asyncGetFiles,
-    asyncGetRefObjs,
-    asyncFileUpload,
-    fileServerUrl,
-    PopupPanel: ({ children }) => <>{children}</>,
-  }),
-};
-
-const defaultProps: IFormProps = {
-  headings: demoHeadingsData as THeading<unknown>[],
-  onSubmit,
-  componentMap,
-  errorCallback,
-};
-
-const renderForm = async (props: IFormProps = defaultProps) => {
-  const view = render(
-    <CompositionWrapDefault>
-      <Form {...props} />
-    </CompositionWrapDefault>
-  );
-  await screen.findByText('* is required. (!) has been modified.');
-  return view;
-};
 
 const fillInCustomField =
   (formEl: HTMLFormElement, headingsData: THeading<any>[]) =>
@@ -85,11 +60,15 @@ const fillInCustomField =
 
 const getCustomFieldDisplayValue = async (
   formEl: HTMLFormElement,
-  heading: THeading<unknown>
+  heading: THeading<any>
 ) => {
-  if ((heading as IHeadingCustomType).customType)
+  if ((heading as IHeadingCustomType<string>).customType)
     return demoFormData[heading.uid];
   throw new Error(`Not a custom type: ${heading.uid}`);
+};
+
+const setInitialFormData = (formData) => {
+  (getInitialFormData as jest.Mock).mockReturnValue(formData);
 };
 
 describe('Form Main Component', () => {
@@ -118,10 +97,10 @@ describe('Form Main Component', () => {
   });
   describe('Simple form functionality', () => {
     test('Should call on submit when clicking the save button', async () => {
-      await renderForm({
-        ...defaultProps,
-        formDataInitial: demoFormDataMin,
-      });
+      setInitialFormData(demoFormDataMin);
+      render(<compositions.BasicFormComplete />);
+      await compositions.BasicFormComplete.waitForReady();
+
       const submitBtn = screen.getByRole('button', { name: /Submit/ });
       await UserEvent.click(submitBtn);
       expect(onSubmit).toHaveBeenCalledWith({
@@ -130,7 +109,10 @@ describe('Form Main Component', () => {
       });
     });
     test('Should show initial data for each field', async () => {
-      await renderForm({ ...defaultProps, formDataInitial: demoFormData });
+      setInitialFormData(demoFormData);
+      render(<compositions.BasicForm />);
+      await compositions.BasicForm.waitForReady();
+      // await renderForm();
 
       const formComponent: HTMLFormElement = screen.getByRole('form');
       // Commented values cannot be edited (yet!)
@@ -158,7 +140,6 @@ describe('Form Main Component', () => {
         // multiSelectList: ['foo'],
         // multiSelectListShowAll: ['foo'],
         // video: 'example_video.mov',
-
         longText: demoFormData.longText,
         // Below field types currently unsupported
         // dict: { hello: 'world' },
@@ -186,15 +167,20 @@ describe('Form Main Component', () => {
       }
     });
     test('Should call errorCallback if submit pressed before form complete', async () => {
-      await renderForm();
+      setInitialFormData({});
+      render(<compositions.BasicFormComplete />);
+      await compositions.BasicFormComplete.waitForReady();
+
       const submitBtn = screen.getByRole('button', { name: /Submit/ });
       await UserEvent.click(submitBtn);
       expect(errorCallback).toHaveBeenCalledWith(
         'Missing the following fields: text'
       );
     });
-    test('Should call on submit with edit data when clicking the save button', async () => {
-      await renderForm();
+    test('Should call on submit with edit data when clicking the save button after filling in form', async () => {
+      setInitialFormData({});
+      render(<compositions.BasicForm />);
+      await compositions.BasicForm.waitForReady();
 
       // Commented values cannot be edited (yet!)
       const demoData = {
@@ -263,7 +249,9 @@ describe('Form Main Component', () => {
       });
     });
     test('should be able to change multi select multiple times', async () => {
-      await renderForm();
+      setInitialFormData({});
+      render(<compositions.BasicForm />);
+      await compositions.BasicFormComplete.waitForReady();
 
       // Commented values cannot be edited (yet!)
       const demoData1 = {
@@ -291,7 +279,7 @@ describe('Form Main Component', () => {
 
       await fillInForm(
         screen.getByRole('form'),
-        demoHeadingsData as any,
+        demoHeadingsData,
         demoData2,
         fillInCustomField
       );
@@ -302,6 +290,184 @@ describe('Form Main Component', () => {
         formEditData: demoData2,
       });
     });
+    describe('File types', () => {
+      // test.skip('test file type', async () => {
+      //   setInitialFormData({});
+      //   render(<compositions.BasicFormFileTypesOnly />);
+      //   await compositions.BasicFormComplete.waitForReady();
+
+      //   const newFile: IFile = {
+      //     uid: 'new-file.pdf',
+      //     filePath: '',
+      //     label: 'new-file.pdf',
+      //     name: 'new-file.pdf',
+      //     fileType: EFileType.DOCUMENT,
+      //     data: new File(['newfile'], 'new-file.pdf', { type: 'document/pdf' }),
+      //   };
+
+      //   const fileHeading = demoHeadingsData.find(
+      //     (h) => h.type === EFilterType.file
+      //   ) as THeading<any>;
+      //   const fieldComponent = screen.getByTestId(
+      //     `${fileHeading.type}-${fileHeading.uid}`
+      //   );
+      //   const swapFileBtn = within(fieldComponent).getByRole('button');
+      //   await UserEvent.click(swapFileBtn);
+      //   await within(fieldComponent).findByText('Select File');
+
+      //   const selectFileBtn =
+      //     within(fieldComponent).getByLabelText('Select Files');
+      //   await UserEvent.upload(selectFileBtn, newFile.data as File);
+      //   await waitFor(() =>
+      //     expect(
+      //       within(fieldComponent)
+      //         .getAllByRole('listitem')
+      //         .find((el) => within(el).queryByText(newFile.name))
+      //     ).toBeInTheDocument()
+      //   );
+
+      //   const readyFileListItem = within(fieldComponent)
+      //     .getAllByRole('listitem')
+      //     .find((el) => within(el).queryByText(newFile.name));
+
+      //   const uploadBtn = within(fieldComponent).getByRole('button', {
+      //     name: 'Upload',
+      //   });
+      //   await UserEvent.click(uploadBtn);
+      //   await screen.findByText(newFile.name);
+      //   const uploadedListItem = within(fieldComponent)
+      //     .getAllByRole('listitem')
+      //     .find((el) =>
+      //       within(el).queryByText(newFile.name)
+      //     ) as HTMLUListElement;
+
+      //   const uploadedListItemBtn =
+      //     within(uploadedListItem).getByRole('button');
+      //   expect(uploadedListItemBtn).toHaveAttribute('data-isselected', 'false');
+
+      //   // await waitForElementToBeRemoved(readyFileListItem);
+
+      //   // //
+
+      //   //         const existingFilesList = within(fieldComponent)
+      //   //           .getAllByRole('list')
+      //   //           .find((ul) =>
+      //   //             within(ul).queryByText(DEMO_FILES_DATA[0].label)
+      //   //           ) as HTMLUListElement;
+
+      //   //         const itemToSelect =
+      //   //           within(existingFilesList).getAllByRole('button')[0];
+      //   //         await UserEvent.click(itemToSelect);
+      //   //         await within(fieldComponent).findByText(DEMO_FILES_DATA[0].label);
+      // });
+      test('should be able to upload a new file', async () => {
+        setInitialFormData({});
+        render(<compositions.BasicForm />);
+        await compositions.BasicFormComplete.waitForReady();
+
+        const newFile: IFile = {
+          uid: 'new-file.pdf',
+          filePath: '',
+          label: 'new-file.pdf',
+          name: 'new-file.pdf',
+          fileType: EFileType.DOCUMENT,
+          data: new File(['newfile'], 'new-file.pdf', { type: 'document/pdf' }),
+        };
+
+        const demoData1 = {
+          text: 'Example text',
+          file: newFile,
+        };
+
+        await fillInForm(
+          screen.getByRole('form'),
+          demoHeadingsData as any,
+          demoData1,
+          fillInCustomField
+        );
+        const submitBtn = screen.getByRole('button', { name: /Submit/ });
+        await UserEvent.click(submitBtn);
+        expect(onSubmit).toHaveBeenCalledTimes(1);
+        expect(onSubmit).toHaveBeenCalledWith({
+          formData: demoData1,
+          formEditData: demoData1,
+        });
+      });
+      test('should be able to upload multiple files', async () => {
+        setInitialFormData({});
+        render(<compositions.BasicForm />);
+        await compositions.BasicFormComplete.waitForReady();
+        const newFiles: IFile[] = [
+          {
+            uid: 'new-file-a.pdf',
+            filePath: '',
+            label: 'new-file-a.pdf',
+            name: 'new-file-a.pdf',
+            fileType: EFileType.DOCUMENT,
+            data: new File(['newfile'], 'new-file-a.pdf', {
+              type: 'document/pdf',
+            }),
+          },
+          {
+            uid: 'new-file-b.pdf',
+            filePath: '',
+            label: 'new-file-b.pdf',
+            name: 'new-file-b.pdf',
+            fileType: EFileType.DOCUMENT,
+            data: new File(['newfile'], 'new-file-b.pdf', {
+              type: 'document/pdf',
+            }),
+          },
+        ];
+        // Commented values cannot be edited (yet!)
+        const demoData1 = {
+          text: 'Example text',
+          fileMultiple: newFiles,
+        };
+
+        await fillInForm(
+          screen.getByRole('form'),
+          demoHeadingsData as any,
+          demoData1,
+          fillInCustomField
+        );
+        const submitBtn = screen.getByRole('button', { name: /Submit/ });
+        await UserEvent.click(submitBtn);
+        expect(onSubmit).toHaveBeenCalledTimes(1);
+        expect(onSubmit).toHaveBeenCalledWith({
+          formData: demoData1,
+          formEditData: demoData1,
+        });
+      });
+
+      test('should be able to select an existing file', async () => {
+        setInitialFormData({});
+        render(<compositions.BasicForm />);
+        await compositions.BasicFormComplete.waitForReady();
+
+        const demoData1 = {
+          text: 'Example text',
+          file: DEMO_FILES_DATA[0],
+        };
+
+        await fillInForm(
+          screen.getByRole('form'),
+          demoHeadingsData as any,
+          demoData1,
+          fillInCustomField
+        );
+        const submitBtn = screen.getByRole('button', { name: /Submit/ });
+        await UserEvent.click(submitBtn);
+        expect(onSubmit).toHaveBeenCalledTimes(1);
+        expect(onSubmit).toHaveBeenCalledWith({
+          formData: demoData1,
+          formEditData: demoData1,
+        });
+      });
+      test.todo('should be able to swap a file');
+      test.todo('should be able to select multiple files');
+    });
+
     test.todo('should call save on debounced change when autosave is on');
   });
 });

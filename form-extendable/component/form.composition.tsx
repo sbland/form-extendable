@@ -1,8 +1,15 @@
 import { CompositionWrapDefault } from '@form-extendable/composition-helpers';
 import { TComponentMap } from '@form-extendable/lib';
+import { IFile } from '@react_db_client/constants.client-types';
 import React from 'react';
-import { defaultProps } from './default-props';
-import { demoFormData, demoNestedHeadings } from './dummy-data';
+import { defaultProps, getComponentMap } from './default-props';
+import { errorCallback, getInitialFormData, onSubmit } from './dummy-api';
+import {
+  demoFormData,
+  demoNestedHeadings,
+  DEMO_FILES_DATA,
+  fileOnlyHeadings,
+} from './dummy-data';
 import { Form } from './form';
 import { FormInputs } from './form-inputs';
 
@@ -10,8 +17,52 @@ const FormStyledExample = ({ children }) => (
   <CompositionWrapDefault>{children}</CompositionWrapDefault>
 );
 
+// const useGetComponentMap = () => {
+//   const [files, setFiles] = React.useState(DEMO_FILES_DATA);
+
+//   const handleUpload = (data, fileType) => {
+//     const fileMetaData: IFile = {
+//       uid: data.name,
+//       label: data.name,
+//       name: data.name,
+//       filePath: '',
+//       fileType,
+//       data,
+//     };
+//     setFiles((prev) => [...prev, fileMetaData]);
+//   };
+//   const componentMap = getComponentMap(files, handleUpload);
+//   return {
+//     componentMap,
+//   };
+// };
+
+let files = [...DEMO_FILES_DATA];
+
+const asyncGetFiles = async () => files;
+
+const useGetComponentMap = () => {
+  const handleUpload = (data, fileType) => {
+    const fileMetaData: IFile = {
+      uid: data.name,
+      label: data.name,
+      name: data.name,
+      filePath: '',
+      fileType,
+      data,
+    };
+    const newFiles = [...files, fileMetaData];
+    files = newFiles;
+  };
+  const componentMap = getComponentMap(asyncGetFiles, handleUpload);
+  return {
+    componentMap,
+  };
+};
+
 export const BasicForm = () => {
   const [direction, setDirection] = React.useState<'vert' | 'horiz'>('vert');
+  const { componentMap } = useGetComponentMap();
   return (
     <div>
       <button
@@ -24,8 +75,11 @@ export const BasicForm = () => {
       <FormStyledExample>
         <Form
           {...defaultProps}
-          onSubmit={(data) => console.info(data)}
+          onSubmit={onSubmit}
           orientation={direction}
+          componentMap={componentMap}
+          errorCallback={errorCallback}
+          formDataInitial={getInitialFormData()}
         />
       </FormStyledExample>
     </div>
@@ -49,8 +103,9 @@ export const BasicFormNested = () => {
         <Form
           {...defaultProps}
           headings={demoNestedHeadings}
-          onSubmit={(data) => console.info(data)}
+          onSubmit={onSubmit}
           orientation={direction}
+          errorCallback={errorCallback}
         />
       </FormStyledExample>
     </div>
@@ -73,9 +128,10 @@ export const BasicFormComplete = () => {
       <FormStyledExample>
         <Form
           {...defaultProps}
-          formDataInitial={demoFormData}
-          onSubmit={(data) => console.info(data)}
+          formDataInitial={getInitialFormData(demoFormData)}
+          onSubmit={onSubmit}
           orientation={direction}
+          errorCallback={errorCallback}
         />
       </FormStyledExample>
     </div>
@@ -99,25 +155,31 @@ export const BasicFormInputs = () => (
 
 BasicFormInputs.waitForReady = async () => {};
 
-// export const FormWithoutTheme = () => {
-//   const [direction, setDirection] = React.useState<'vert' | 'horiz'>('vert');
-//   return (
-//     <div>
-//       <button
-//         onClick={() =>
-//           setDirection((prev) => (prev === 'vert' ? 'horiz' : 'vert'))
-//         }
-//       >
-//         {direction}
-//       </button>
-//       <Form
-//         {...defaultProps}
-//         formDataInitial={demoFormData}
-//         onSubmit={(data) => console.info(data)}
-//         orientation={direction}
-//       />
-//     </div>
-//   );
-// };
+export const BasicFormFileTypesOnly = () => {
+  const [direction, setDirection] = React.useState<'vert' | 'horiz'>('vert');
+  const { componentMap } = useGetComponentMap();
+  return (
+    <div>
+      <button
+        onClick={() =>
+          setDirection((prev) => (prev === 'vert' ? 'horiz' : 'vert'))
+        }
+      >
+        {direction}
+      </button>
+      <FormStyledExample>
+        <Form
+          {...defaultProps}
+          headings={fileOnlyHeadings}
+          onSubmit={onSubmit}
+          orientation={direction}
+          componentMap={componentMap}
+          errorCallback={errorCallback}
+          formDataInitial={getInitialFormData()}
+        />
+      </FormStyledExample>
+    </div>
+  );
+};
 
-// BasicFormComplete.waitForReady = async () => {};
+BasicForm.waitForReady = async () => {};

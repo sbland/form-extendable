@@ -1,5 +1,5 @@
 import React from 'react';
-import { within } from '@testing-library/react';
+import { screen, waitFor, within } from '@testing-library/react';
 import UserEvent from '@testing-library/user-event';
 import {
   IHeadingFile,
@@ -19,34 +19,28 @@ export type THeadingTypes =
   | IHeadingImageMulti
   | IHeadingFileMulti;
 
-export const editValueMulti = async (
-  value: IFile[],
-  formEl: HTMLFormElement,
-  heading: THeadingTypes
-) => {
-  throw new Error('NOT IMPLEMENTED');
+const promiseAllInSeries = async (iterable) => {
+  for (const x of iterable) {
+    await x();
+  }
 };
 
-export const editValueSingle = async (
+const getFileInUploadedList = async (
   value: IFile,
-  formEl: HTMLFormElement,
-  heading: THeadingTypes
+  heading: THeadingTypes,
+  fieldComponent: HTMLElement
 ) => {
-  const fieldComponent = within(formEl).getByTestId(
-    `${heading.type}-${heading.uid}`
-  );
-
-  const selectFileBtn = within(fieldComponent).getByRole('button', {
-    name: 'swap',
-  });
-  await UserEvent.click(selectFileBtn);
-
-  // 1. check if file already exists
   const searchField = within(fieldComponent).getByPlaceholderText('search...');
   await UserEvent.click(searchField);
   await UserEvent.keyboard(value.label);
-  //
-  const existingFilesList = within(fieldComponent).getAllByRole('list')[0];
+
+  const sasPanels = within(fieldComponent)
+    .getAllByTestId('styledSelectList')
+    .filter(
+      (s) => within(s).queryAllByRole('listitem').length > 0
+    ) as HTMLUListElement[];
+  expect(sasPanels.length).toEqual(1);
+  const existingFilesList = within(sasPanels[0]).getByRole('list');
 
   const displayValue =
     heading.fileType === EFileType.IMAGE ? value.name : value.label;
@@ -60,19 +54,125 @@ export const editValueSingle = async (
         : null
     );
 
-  if (!selectionInExistingList) {
-    throw new Error('NOT IMPLEMENTED');
-    // TODO: Upload file;
-  }
+  return selectionInExistingList;
+};
+
+export const editValueCommon = async (
+  value: IFile,
+  heading: THeadingTypes,
+  fieldComponent: HTMLElement
+) => {
+  const selectionInExistingList = await getFileInUploadedList(
+    value,
+    heading,
+    fieldComponent
+  );
 
   if (!selectionInExistingList) {
-    // If after uploading we cannot find the file then there was an error
-    throw new Error(`Failed to upload file: ${value}`);
+    const selectFilesBtn =
+      within(fieldComponent).getByLabelText('Select Files');
+    if (!value.data)
+      throw Error(`Must supply file data! Fieldid: ${heading.uid}`);
+    await UserEvent.upload(selectFilesBtn, value.data);
+    const uploadBtn = within(fieldComponent).getByRole('button', {
+      name: 'Upload',
+    });
+    await UserEvent.click(uploadBtn);
+
+    const sasPanels = within(fieldComponent)
+      .getAllByTestId('styledSelectList')
+      .filter(
+        (s) => within(s).queryAllByRole('listitem').length > 0
+      ) as HTMLUListElement[];
+
+    expect(sasPanels.length).toEqual(1);
+
+    const loadedFilesList = within(sasPanels[0]).getByRole('list');
+
+    await within(loadedFilesList).findByText(value.name);
+    const newItem = within(loadedFilesList)
+      .getAllByRole('listitem')
+      .find((el) => within(el).queryByText(value.name)) as HTMLUListElement;
+
+    if (!newItem) {
+      // If after uploading we cannot find the file then there was an error
+      throw new Error(`Failed to upload file: ${value}`);
+    }
   }
+};
+
+export const selectInUploadedList = async (value, fieldComponent) => {
+  const sasPanels = within(fieldComponent)
+    .getAllByTestId('styledSelectList')
+    .filter(
+      (s) => within(s).queryAllByRole('listitem').length > 0
+    ) as HTMLUListElement[];
+
+  expect(sasPanels.length).toEqual(1);
+
+  const loadedFilesList = within(sasPanels[0]).getByRole('list');
+
+  await within(loadedFilesList).findByText(value.label);
+  const selectionInExistingList = within(loadedFilesList)
+    .getAllByRole('listitem')
+    .find((el) => within(el).queryByText(value.label)) as HTMLUListElement;
 
   const selectItemBtn = within(selectionInExistingList).getByRole('button');
   await UserEvent.click(selectItemBtn);
-  // TODO: Await complete
+};
+
+export const editValueSingle = async (
+  value: IFile,
+  formEl: HTMLFormElement,
+  heading: THeadingTypes
+) => {
+  const fieldComponent = within(formEl).getByTestId(
+    `${heading.type}-${heading.uid}`
+  );
+
+  const selectFileBtn: HTMLButtonElement = within(fieldComponent).getByRole(
+    'button',
+    {
+      name: 'swap',
+    }
+  );
+  await UserEvent.click(selectFileBtn);
+  await editValueCommon(value, heading, fieldComponent);
+  await selectInUploadedList(value, fieldComponent);
+};
+
+export const editValueMulti = async (
+  value: IFile[],
+  formEl: HTMLFormElement,
+  heading: THeadingTypes
+) => {
+  const fieldComponent = within(formEl).getByTestId(
+    `${heading.type}-${heading.uid}`
+  );
+
+  const selectFileBtn: HTMLButtonElement = within(fieldComponent).getByRole(
+    'button',
+    {
+      name: 'add',
+    }
+  );
+  await UserEvent.click(selectFileBtn);
+  await promiseAllInSeries(
+    value.map((v) => async () => {
+      await editValueCommon(v, heading, fieldComponent);
+    })
+  );
+
+  await promiseAllInSeries(
+    value.map((v) => async () => {
+      await selectInUploadedList(v, fieldComponent);
+    })
+  );
+
+  const acceptSelectionBtn = within(fieldComponent).getByRole('button', {
+    name: /Accept Selection/,
+  });
+  await UserEvent.click(acceptSelectionBtn);
 };
 
 export const editValue = async (

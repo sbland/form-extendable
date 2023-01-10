@@ -26,18 +26,14 @@ const componentMap: TComponentMap = defaultComponentMap();
 export const ExampleField = () => {
   const [type, setType] = React.useState(EFilterType.text);
 
-  const FormComponent: TFieldReactComponent<
-    unknown,
-    THeading<unknown>,
-    any
-  > = switchF<
+  const FormComponent: TFieldReactComponent<any, THeading<any>, any> = switchF<
     EFilterType,
-    TFieldReactComponent<unknown, THeading<unknown>>
+    TFieldReactComponent<any, THeading<any>>
   >(
     type,
     componentMap as Record<
       EFilterType,
-      () => TFieldReactComponent<unknown, THeading<unknown>>
+      () => TFieldReactComponent<any, THeading<any>>
     >,
     defaultComponent
   );
@@ -48,7 +44,7 @@ export const ExampleField = () => {
         <WrapFieldComponent>
           <FormComponent
             uid="id"
-            key={"example field"}
+            key={'example field'}
             label="Field Text"
             type={EFilterType.text}
             unit="UNIT"

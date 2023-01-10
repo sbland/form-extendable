@@ -98,6 +98,8 @@ export const FieldFile: React.FC<IFieldFileProps> = ({
     [fileList, fileType, fileServerUrl]
   );
 
+  const asyncGetFilesSetup = React.useMemo(() => asyncGetFiles(metaData), [asyncGetFiles, metaData])
+
   return (
     <>
       <PopupPanel
@@ -108,8 +110,9 @@ export const FieldFile: React.FC<IFieldFileProps> = ({
       >
         <FileManager
           handleSelect={handleSelected}
+          // handleSelect={() => {}}
           fileType={fileType}
-          asyncGetFiles={asyncGetFiles(metaData)}
+          asyncGetFiles={asyncGetFilesSetup}
           fileServerUrl={fileServerUrl}
           asyncFileUpload={asyncFileUpload(metaData)}
         />

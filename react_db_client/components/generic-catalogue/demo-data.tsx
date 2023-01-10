@@ -1,9 +1,12 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useMemo } from 'react';
-import { EFilterType, IDocument } from '@react_db_client/constants.client-types';
+import {
+  EFilterType,
+  IDocument,
+} from '@react_db_client/constants.client-types';
 import { IHeadingButton, THeading } from '@form-extendable/lib';
 
-export const demoHeadingsDataSimple: THeading<unknown>[] = [
+export const demoHeadingsDataSimple: THeading<any>[] = [
   {
     uid: 'uid',
     label: 'UID',
@@ -54,7 +57,8 @@ export const demoResults: { [k: string]: IDocument & any } = {
     label: 'b',
     natid: '50a',
     name: 'Bar',
-    description: 'A really really really long description that needs to fit into a little box!',
+    description:
+      'A really really really long description that needs to fit into a little box!',
     hiddenDemoNumber: 3,
     hiddenDemo: 'Hide me',
   },
@@ -77,7 +81,7 @@ export const demoResults: { [k: string]: IDocument & any } = {
   },
 };
 
-export const demoHeadingsData: THeading<unknown>[] = [
+export const demoHeadingsData: THeading<any>[] = [
   {
     uid: 'uid',
     label: 'UID',

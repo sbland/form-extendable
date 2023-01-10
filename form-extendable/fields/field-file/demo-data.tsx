@@ -12,21 +12,21 @@ export const DEMO_IMAGE_FILES_DATA: IFile[] = [
   {
     uid: 'a',
     filePath: '',
-    label: 'FileA',
+    label: 'bit-logo.svg',
     name: 'bit-logo.svg',
     fileType: EFileType.IMAGE,
   },
   {
     uid: 'b',
     filePath: 'extensions-icons',
-    label: 'FileB',
+    label: 'vue_grey.svg',
     name: 'vue_grey.svg',
     fileType: EFileType.IMAGE,
   },
   {
     uid: 'c',
     filePath: 'Community/app-components',
-    label: 'FileC',
+    label: 'card.jpg',
     name: 'card.jpg',
     fileType: EFileType.IMAGE,
   },
@@ -61,10 +61,10 @@ export const DEMO_FILES_DATA_MANY = [
   ...Array(100)
     .fill(0)
     .map((_, i) => ({
-      uid: `file_${i}`,
+      uid: `bit-logo_${i}.svg`,
       filePath: '',
-      label: `FileA with a really long name ${i}`,
-      name: 'bit-logo.svg',
+      label: `bit-logo_${i}.svg`,
+      name: `bit-logo_${i}.svg`,
       fileType: EFileType.IMAGE,
     })),
 ];
@@ -74,9 +74,9 @@ export const DEMO_IMAGE_FILES_MANY = [
   ...Array(100)
     .fill(0)
     .map((_, i) => ({
-      uid: `file_${i}`,
+      uid: `bit-logo_${i}.svg`,
       filePath: '',
-      label: `FileA with a really long name ${i}`,
+      label: `bit-logo_${i}.svg`,
       name: `bit-logo_${i}.svg`,
       fileType: EFileType.IMAGE,
     })),
@@ -105,16 +105,16 @@ export const dummyProps: IFieldFileProps = {
   asyncFileUpload: () => async () => {},
 };
 
-export const dummyPropsImagesMany: IFieldFileMultipleProps = {
+export const dummyPropsImagesMany = (count): IFieldFileMultipleProps => ({
   ...dummyProps,
   onChange: onChangeMulti,
   type: EFilterType.fileMultiple,
   defaultValue: [],
   multiple: true,
-  value: [...DEMO_IMAGE_FILES_MANY].slice(0, 50),
+  value: [...DEMO_IMAGE_FILES_MANY].slice(0, count),
   asyncGetFiles: (metaData) => async () =>
-    [...DEMO_IMAGE_FILES_MANY].slice(50, 60),
-};
+    [...DEMO_IMAGE_FILES_MANY].slice(count, count + 5),
+});
 
 export const dummyPropsDocs: IFieldFileProps = {
   ...dummyProps,
@@ -123,13 +123,13 @@ export const dummyPropsDocs: IFieldFileProps = {
   asyncGetFiles: (metaData) => async () => DEMO_FILES_DATA,
 };
 
-export const dummyPropsDocsMany: IFieldFileMultipleProps = {
+export const dummyPropsDocsMany = (count): IFieldFileMultipleProps => ({
   ...dummyPropsDocs,
   onChange: onChangeMulti,
   type: EFilterType.fileMultiple,
   defaultValue: [],
   multiple: true,
-  value: [...DEMO_FILES_DATA_MANY].slice(0, 50),
+  value: [...DEMO_FILES_DATA_MANY].slice(0, count),
   asyncGetFiles: (metaData) => async () =>
-    [...DEMO_FILES_DATA_MANY].slice(50, 60),
-};
+    [...DEMO_FILES_DATA_MANY].slice(count, count + 5),
+});

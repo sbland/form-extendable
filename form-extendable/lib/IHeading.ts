@@ -80,11 +80,11 @@ export interface IHeadingSelectMulti
   selectType?: 'showall' | 'hideunselected' | 'dropdown';
 }
 
-export interface IHeadingEmbedded extends IHeading<unknown, HTMLInputElement> {
+export interface IHeadingEmbedded extends IHeading<null, HTMLInputElement> {
   type: EFilterType.embedded;
   showTitle: boolean;
   orientation?: 'vert' | 'horiz';
-  children: THeading<unknown>[];
+  children: THeading<any>[];
 }
 
 export interface IHeadingSelectSearch<T extends IObj>
@@ -181,7 +181,7 @@ export interface IHeadingDict
   type: EFilterType.dict;
 }
 
-export interface IHeadingCustomType<T = unknown>
+export interface IHeadingCustomType<T>
   extends Omit<IHeading<T, HTMLInputElement>, 'type'> {
   type: string;
   customType: true;

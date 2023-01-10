@@ -4,6 +4,7 @@ import {
   IFieldComponentProps,
   IHeadingButton,
   IHeadingCustomType,
+  IHeadingSelectSearch,
   IObj,
   TFormData,
   THeading,
@@ -15,7 +16,7 @@ import {
   Uid,
 } from '@react_db_client/constants.client-types';
 
-export const demoCustomTypeHeading: IHeadingCustomType = {
+export const demoCustomTypeHeading: IHeadingCustomType<unknown> = {
   uid: 'demoField',
   label: 'Custom Field Types',
   type: 'demoFieldType',
@@ -29,7 +30,7 @@ export const buttonHeading: IHeadingButton = {
   onClick: () => null,
 };
 
-export const demoNestedHeadings: THeading<unknown>[] = [
+export const demoNestedHeadings: THeading<any>[] = [
   {
     uid: 'embeddedb',
     label: 'Embedded B',
@@ -279,7 +280,7 @@ export const demoHeadingsData: THeading<any>[] = [
       { uid: 'selectSearchVal1', label: 'Select Search Val 1' },
       { uid: 'selectSearchVal2', label: 'Select Search Val 2' },
     ],
-  },
+  } as IHeadingSelectSearch<IObj>,
   {
     uid: 'selectSearchMulti',
     label: 'Select Search Multi',
@@ -371,7 +372,7 @@ export const headingsFlat = demoHeadingsData.reduce(
   [] as THeading<any>[]
 );
 
-export const demoHeadingsDataMap: { [uid: Uid]: THeading<unknown> } =
+export const demoHeadingsDataMap: { [uid: Uid]: THeading<any> } =
   demoHeadingsData.reduce((acc, h) => ({ ...acc, [h.uid]: h }), {});
 
 export const demoFormDataMin = {
@@ -465,13 +466,13 @@ export const demoAdditionalData = {
 // type Foo = () =>
 
 export const CustomFieldType: React.FC<
-  IFieldComponentProps<string> & IHeadingCustomType
+  IFieldComponentProps<string> & IHeadingCustomType<any>
 > = ({ value, label, onChange }) => (
   <div>
-    <label htmlFor="customField">{label}</label>
     <input
-      id="customField"
+      id="demoField-input"
       value={value || ''}
+      placeholder={label}
       onChange={(e) => {
         onChange(e.target.value);
       }}
@@ -512,3 +513,10 @@ export const DEMO_FILES_DATA: IFile[] = [
     fileType: EFileType.IMAGE,
   },
 ];
+
+export const fileOnlyHeadings = demoHeadingsData.filter(
+  (h) =>
+    [EFilterType.file, EFilterType.fileMultiple, EFilterType.image].indexOf(
+      h.type as EFilterType
+    ) !== -1
+);
