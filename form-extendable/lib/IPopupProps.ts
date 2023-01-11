@@ -1,7 +1,9 @@
+import { Uid } from '@react_db_client/constants.client-types';
+
 export interface IPopupProps {
-  id: string;
+  id: Uid;
   isOpen?: boolean;
-  handleClose?: () => void;
-  title?: string;
+  onClose: () => void;
+  title: string;
   children: React.ReactNode;
 }

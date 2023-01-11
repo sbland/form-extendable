@@ -1,4 +1,3 @@
-// TODO: The types in this file need checking
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { FileManager } from '@react_db_client/components.file-manager';
@@ -42,8 +41,6 @@ const asArray = (value) =>
 export const FieldFileMultiple: React.FC<IFieldFileMultipleProps> = ({
   uid,
   onChange,
-  // collectionId,
-  // documentId,
   fileType,
   value,
   fileServerUrl,
@@ -111,7 +108,7 @@ export const FieldFileMultiple: React.FC<IFieldFileMultipleProps> = ({
       <PopupPanel
         id={`field-file-popup_${uid}`}
         isOpen={showFileSelectionPanel}
-        handleClose={() => setShowFileSelectionPanel(false)}
+        onClose={() => setShowFileSelectionPanel(false)}
         title="File Selector"
       >
         <FileManager

@@ -17,26 +17,6 @@ const FormStyledExample = ({ children }) => (
   <CompositionWrapDefault>{children}</CompositionWrapDefault>
 );
 
-// const useGetComponentMap = () => {
-//   const [files, setFiles] = React.useState(DEMO_FILES_DATA);
-
-//   const handleUpload = (data, fileType) => {
-//     const fileMetaData: IFile = {
-//       uid: data.name,
-//       label: data.name,
-//       name: data.name,
-//       filePath: '',
-//       fileType,
-//       data,
-//     };
-//     setFiles((prev) => [...prev, fileMetaData]);
-//   };
-//   const componentMap = getComponentMap(files, handleUpload);
-//   return {
-//     componentMap,
-//   };
-// };
-
 let files = [...DEMO_FILES_DATA];
 
 const asyncGetFiles = async () => files;

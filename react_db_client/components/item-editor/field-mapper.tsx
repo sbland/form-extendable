@@ -1,19 +1,27 @@
-import { THeading } from '@form-extendable/lib';
-import { filterTypes, Uid } from '@react_db_client/constants.client-types';
+import { THeading, IHeadingFile } from '@form-extendable/lib';
+import {
+  EFilterType,
+  filterTypes,
+  Uid,
+} from '@react_db_client/constants.client-types';
 
 export const injectFileFieldProps =
   (collection: string, id: Uid) => (param: THeading<any>) => {
     let modifiedParam = { ...param };
     // If file type we need to add additional properties
     if (
-      [filterTypes.file, filterTypes.fileMultiple, filterTypes.image].indexOf(
-        param.type
+      [EFilterType.file, EFilterType.fileMultiple, EFilterType.image].indexOf(
+        param.type as EFilterType
       ) !== -1
     ) {
       // TODO: should throw error if we can't get the uid
       modifiedParam = {
         ...modifiedParam,
-        metaData: { collectionId: collection, documentId: id },
+        metaData: {
+          collectionId: collection,
+          documentId: id,
+          fileType: (modifiedParam as IHeadingFile).fileType,
+        },
       } as THeading<any>;
     }
     return modifiedParam;

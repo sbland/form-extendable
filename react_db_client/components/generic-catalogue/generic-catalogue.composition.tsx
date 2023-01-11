@@ -1,10 +1,7 @@
 import React from 'react';
+import { IPopupProps } from '@form-extendable/lib';
 import { ItemEditor } from '@react_db_client/components.item-editor';
-import {
-  PopupContentWrap,
-  PopupPanel,
-  PopupPanelContext,
-} from '@react_db_client/components.popup-panel-v2';
+import { PopupPanelManagedWithContentWrap } from '@react_db_client/components.popup-panel-v2';
 import { IDocument } from '@react_db_client/constants.client-types';
 import { defaultComponentMap } from '@form-extendable/components.component-map';
 import { CompositionWrapDefault } from '@form-extendable/composition-helpers';
@@ -15,71 +12,27 @@ import {
   demoResults,
 } from './demo-data';
 
-// TODO: Get this from react_db_client
-const ContainerPopupPanel = ({ id, isOpen, handleClose, title, children }) => {
-  const { openPopup, checkIsOpen, closePopup, popupRegister } =
-    React.useContext(PopupPanelContext);
-
-  React.useEffect(() => {
-    if (!popupRegister[id]) return;
-    if (checkIsOpen(id) && !isOpen) {
-      closePopup(id);
-    }
-    if (!checkIsOpen(id) && isOpen) {
-      openPopup(id);
-    }
-  }, [id, isOpen, checkIsOpen, openPopup, closePopup, popupRegister]);
-
-  return (
-    <PopupPanel id={id} onClose={handleClose}>
-      <PopupContentWrap id={id} title={title}>
-        {children}
-      </PopupContentWrap>
-    </PopupPanel>
-  );
-};
-
-// Uses React HOC pattern
-const PopupPanelConnector = (
-  Component,
-  alwaysOpen,
-  closeProp = 'handleClose',
-  propsOverrides = {}
-) => {
-  return (props) => {
-    const propsMerged = { ...props, ...propsOverrides };
-    const { isOpen, title, id } = propsMerged;
-    const handleClose = props[closeProp];
-    return (
-      <ContainerPopupPanel
-        handleClose={handleClose}
-        isOpen={alwaysOpen || isOpen}
-        title={title}
-        id={id}
-      >
-        <Component {...props} />
-      </ContainerPopupPanel>
-    );
-  };
-};
-
-// const ItemEditorPopup = ItemEditor;
-const ItemEditorPopup = PopupPanelConnector(ItemEditor, true, 'onCancel', {
-  title: 'Demo Item Editor',
-});
+const ItemEditorPopup = (
+  props: Omit<
+    React.ComponentProps<typeof PopupPanelManagedWithContentWrap>,
+    'children'
+  > &
+    React.ComponentProps<typeof ItemEditor>
+) => (
+  <PopupPanelManagedWithContentWrap {...props} title="Product Editor">
+    <ItemEditor {...props} />
+  </PopupPanelManagedWithContentWrap>
+);
 
 const asyncGetFiles = () => async () => {
   return [];
 };
 const fileServerUrl = '';
-const Popup = ({ children, isOpen = true || undefined }) => {
-  if (isOpen) return <>{children}</>;
-  return <></>;
-};
+
 const componentMap = defaultComponentMap({
   asyncGetFiles,
   fileServerUrl,
-  PopupPanel: Popup,
+  PopupPanel: PopupPanelManagedWithContentWrap,
 });
 
 const defaultProps: IGenericCatalogueProps<IDocument> = {
@@ -102,7 +55,9 @@ const defaultProps: IGenericCatalogueProps<IDocument> = {
   asyncCopyDocument: async () => {},
   componentMap,
   closePopupOnItemSave: true,
-  // onError: () => {},
+  customParsers: {},
+  customSort: null,
+  errorCallback: () => {},
 };
 
 export const WrappedGenericCatalogue = () => (

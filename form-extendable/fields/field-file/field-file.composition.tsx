@@ -14,7 +14,6 @@ import {
   dummyPropsDocs,
   dummyPropsDocsMany,
   dummyPropsImagesMany,
-  PopupPanel,
 } from './demo-data';
 import { FieldFileMultiple } from './field-file-multiple';
 import {
@@ -22,9 +21,16 @@ import {
   EFilterType,
   IFile,
 } from '@react_db_client/constants.client-types';
+import { PopupPanelManagedWithContentWrap } from '@react_db_client/components.popup-panel-v2';
 
-const useManageDbFiles = (initialFiles) => {
-  const [savedFiles, setSavedFiles] = React.useState(initialFiles);
+let files = [...DEMO_FILES_DATA];
+
+const asyncGetFiles = async () => files;
+
+const useManageDbFiles = (initialFiles: IFile[]) => {
+  React.useEffect(() => {
+    files = initialFiles;
+  });
   const [selection, setSelection] = React.useState<IFile[]>([]);
   const handleFileUpload =
     () => async (data: File, fileType: EFileType, callback: () => void) => {
@@ -36,12 +42,14 @@ const useManageDbFiles = (initialFiles) => {
         fileType,
         data,
       };
-      setSavedFiles((prev) => [...prev, fileMetaData]);
+
+      // setSavedFiles((prev) => [...prev, fileMetaData]);
+      const newFiles: IFile[] = [...files, fileMetaData];
+      files = newFiles;
     };
 
   const handleSelect = (newData) => setSelection(newData);
   return {
-    savedFiles,
     selection,
     handleFileUpload,
     handleSelect,
@@ -49,8 +57,9 @@ const useManageDbFiles = (initialFiles) => {
 };
 
 export const BasicFieldFileImages = () => {
-  const { savedFiles, selection, handleFileUpload, handleSelect } =
-    useManageDbFiles(DEMO_IMAGE_FILES_MANY);
+  const { selection, handleFileUpload, handleSelect } = useManageDbFiles(
+    DEMO_IMAGE_FILES_MANY
+  );
 
   return (
     <>
@@ -60,7 +69,7 @@ export const BasicFieldFileImages = () => {
             {...dummyProps}
             onChange={handleSelect}
             asyncFileUpload={handleFileUpload}
-            asyncGetFiles={() => async () => savedFiles}
+            asyncGetFiles={() => asyncGetFiles}
           />
         </WrapFieldComponent>
       </FieldCompositionWrapDefault>
@@ -74,8 +83,9 @@ BasicFieldFileImages.waitForReady = async () => {
 };
 
 export const BasicFieldFileImagesMany = () => {
-  const { savedFiles, selection, handleFileUpload, handleSelect } =
-    useManageDbFiles(DEMO_IMAGE_FILES_MANY);
+  const { selection, handleFileUpload, handleSelect } = useManageDbFiles(
+    DEMO_IMAGE_FILES_MANY
+  );
 
   return (
     <>
@@ -85,7 +95,7 @@ export const BasicFieldFileImagesMany = () => {
             {...dummyPropsImagesMany(5)}
             onChange={handleSelect}
             asyncFileUpload={handleFileUpload}
-            asyncGetFiles={() => async () => savedFiles}
+            asyncGetFiles={() => asyncGetFiles}
             value={[...DEMO_IMAGE_FILES_MANY].slice(0, 5)}
           />
         </WrapFieldComponent>
@@ -100,7 +110,7 @@ BasicFieldFileImagesMany.waitForReady = async () => {
 };
 
 export const BasicFieldFileDocs = () => {
-  const { savedFiles, selection, handleFileUpload, handleSelect } =
+  const { selection, handleFileUpload, handleSelect } =
     useManageDbFiles(DEMO_FILES_DATA);
 
   return (
@@ -111,7 +121,7 @@ export const BasicFieldFileDocs = () => {
             {...dummyPropsDocs}
             onChange={handleSelect}
             asyncFileUpload={handleFileUpload}
-            asyncGetFiles={() => async () => savedFiles}
+            asyncGetFiles={() => asyncGetFiles}
           />
         </WrapFieldComponent>
       </FieldCompositionWrapDefault>
@@ -125,7 +135,7 @@ BasicFieldFileDocs.waitForReady = async () => {
 };
 
 export const BasicFieldFileDocsmany = () => {
-  const { savedFiles, selection, handleFileUpload, handleSelect } =
+  const { selection, handleFileUpload, handleSelect } =
     useManageDbFiles(DEMO_FILES_DATA_MANY);
 
   return (
@@ -133,10 +143,10 @@ export const BasicFieldFileDocsmany = () => {
       <FieldCompositionWrapDefault height="40rem" width="60rem">
         <WrapFieldComponent>
           <FieldFileMultiple
-            {...dummyPropsDocsMany(50)}
+            {...dummyPropsDocsMany(6)}
             onChange={handleSelect}
             asyncFileUpload={handleFileUpload}
-            asyncGetFiles={() => async () => savedFiles}
+            asyncGetFiles={() => asyncGetFiles}
           />
         </WrapFieldComponent>
       </FieldCompositionWrapDefault>
@@ -150,8 +160,9 @@ BasicFieldFileDocsmany.waitForReady = async () => {
 };
 
 export const FilesManyForTesting = () => {
-  const { savedFiles, selection, handleFileUpload, handleSelect } =
-    useManageDbFiles([...DEMO_IMAGE_FILES_MANY].slice(0, 5));
+  const { selection, handleFileUpload, handleSelect } = useManageDbFiles(
+    [...DEMO_IMAGE_FILES_MANY].slice(0, 5)
+  );
 
   return (
     <>
@@ -163,12 +174,12 @@ export const FilesManyForTesting = () => {
             type={EFilterType.fileMultiple}
             fileType={EFileType.IMAGE}
             fileServerUrl="https://static.bit.dev"
-            PopupPanel={PopupPanel}
+            PopupPanel={PopupPanelManagedWithContentWrap}
             value={selection}
             multiple
             onChange={handleSelect}
             asyncFileUpload={handleFileUpload}
-            asyncGetFiles={() => async () => savedFiles}
+            asyncGetFiles={() => asyncGetFiles}
           />
         </WrapFieldComponent>
       </FieldCompositionWrapDefault>

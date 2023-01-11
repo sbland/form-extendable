@@ -1,8 +1,9 @@
 /* eslint react/prop-types: 0 */
 import React from 'react';
 import { TAsyncGetDocuments } from '@react_db_client/constants.client-types';
+import { PopupPanelManagedWithContentWrap } from '@react_db_client/components.popup-panel-v2';
 import { defaultComponentMap } from '@form-extendable/components.component-map';
-import { IObj, IPopupProps, THeading } from '@form-extendable/lib';
+import { IObj, IPopupProps } from '@form-extendable/lib';
 import {
   CustomFieldType,
   demoCustomTypeHeading,
@@ -22,38 +23,6 @@ const asyncGetRefObjs: TAsyncGetDocuments<
   return demoRefObjs;
 };
 
-// const SimplePopup: React.FC<IPopupProps> = ({
-//   isOpen,
-//   handleClose,
-//   children,
-// }) =>
-//   isOpen ? (
-//     <>
-//       <button type="button" onClick={() => handleClose && handleClose()}>
-//         Close
-//       </button>
-//       {children}
-//     </>
-//   ) : (
-//     <></>
-//   );
-
-const SimplePopup: React.FC<IPopupProps> = ({
-  isOpen,
-  handleClose,
-  children,
-}) =>
-  isOpen ? (
-    <>
-      <button type="button" onClick={() => handleClose && handleClose()}>
-        Close
-      </button>
-      {children}
-    </>
-  ) : (
-    <></>
-  );
-
 export const getComponentMap = (asyncGetFiles, onUpload) => ({
   [demoCustomTypeHeading.type]: () => CustomFieldType,
   ...defaultComponentMap({
@@ -61,7 +30,7 @@ export const getComponentMap = (asyncGetFiles, onUpload) => ({
     asyncGetRefObjs,
     asyncFileUpload: () => async (data, fileType) => onUpload(data, fileType),
     fileServerUrl,
-    PopupPanel: SimplePopup,
+    PopupPanel: PopupPanelManagedWithContentWrap,
   }),
 });
 

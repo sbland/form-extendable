@@ -8,6 +8,7 @@ import {
   THeading,
 } from '@form-extendable/lib';
 import { FormField as DefaultFormField, IFormFieldProps } from './form-field';
+import { FormSection } from '@form-extendable/styles';
 
 export interface IFormInputsProps {
   FormField: React.FC<IFormFieldProps<any, THeading<any>>>;
@@ -92,11 +93,11 @@ export const FormInputs = ({
   );
 
   return (
-    <section className={className} style={styleOverrides}>
+    <FormSection className={className} style={styleOverrides}>
       {!isSection && showKey && <p>* is required. (!) has been modified.</p>}
       {showTitle && <h4 className="formSection_heading">{sectionTitle}</h4>}
       {fields}
-    </section>
+    </FormSection>
   );
 };
 

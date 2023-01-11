@@ -11,37 +11,49 @@
 {
     "component": {
         "scope": "samnbuk.form-extendable",
-        "version": "0.1.78",
+        "version": "0.1.85",
         "mainFile": "index.ts",
         "rootDir": "form-extendable/component"
     },
     "components/are-you-sure-btn": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.2.29",
+        "version": "0.2.32",
         "mainFile": "index.ts",
         "rootDir": "react_db_client/components/are-you-sure-btn"
     },
     "components/component-map": {
         "scope": "samnbuk.form-extendable",
-        "version": "0.1.68",
+        "version": "0.1.75",
         "mainFile": "index.ts",
         "rootDir": "form-extendable/components/component-map"
     },
+    "components/file-manager": {
+        "scope": "samnbuk.react_db_client",
+        "version": "0.2.122",
+        "mainFile": "index.ts",
+        "rootDir": "react_db_client/components/file-manager"
+    },
     "components/generic-catalogue": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.2.201",
+        "version": "0.2.208",
         "mainFile": "index.ts",
         "rootDir": "react_db_client/components/generic-catalogue"
     },
     "components/item-editor": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.2.168",
+        "version": "0.2.175",
         "mainFile": "index.ts",
         "rootDir": "react_db_client/components/item-editor"
     },
+    "components/popup-panel-v2": {
+        "scope": "samnbuk.react_db_client",
+        "version": "0.0.37",
+        "mainFile": "index.ts",
+        "rootDir": "react_db_client/components/popup-panel-v2"
+    },
     "composition-helpers": {
         "scope": "samnbuk.form-extendable",
-        "version": "0.0.27",
+        "version": "0.0.31",
         "mainFile": "index.ts",
         "rootDir": "form-extendable/composition-helpers"
     },
@@ -53,67 +65,67 @@
     },
     "fields/field-bool": {
         "scope": "samnbuk.form-extendable",
-        "version": "0.1.36",
+        "version": "0.1.42",
         "mainFile": "index.ts",
         "rootDir": "form-extendable/fields/field-bool"
     },
     "fields/field-date": {
         "scope": "samnbuk.form-extendable",
-        "version": "0.1.35",
+        "version": "0.1.40",
         "mainFile": "index.ts",
         "rootDir": "form-extendable/fields/field-date"
     },
     "fields/field-file": {
         "scope": "samnbuk.form-extendable",
-        "version": "0.1.57",
+        "version": "0.1.64",
         "mainFile": "index.ts",
         "rootDir": "form-extendable/fields/field-file"
     },
     "fields/field-multi-select": {
         "scope": "samnbuk.form-extendable",
-        "version": "0.1.36",
+        "version": "0.1.42",
         "mainFile": "index.ts",
         "rootDir": "form-extendable/fields/field-multi-select"
     },
     "fields/field-number": {
         "scope": "samnbuk.form-extendable",
-        "version": "0.1.39",
+        "version": "0.1.44",
         "mainFile": "index.ts",
         "rootDir": "form-extendable/fields/field-number"
     },
     "fields/field-object-ref": {
         "scope": "samnbuk.form-extendable",
-        "version": "0.1.31",
+        "version": "0.1.35",
         "mainFile": "index.ts",
         "rootDir": "form-extendable/fields/field-object-ref"
     },
     "fields/field-read-only": {
         "scope": "samnbuk.form-extendable",
-        "version": "0.1.22",
+        "version": "0.1.25",
         "mainFile": "index.ts",
         "rootDir": "form-extendable/fields/field-read-only"
     },
     "fields/field-select": {
         "scope": "samnbuk.form-extendable",
-        "version": "0.1.40",
+        "version": "0.1.46",
         "mainFile": "index.ts",
         "rootDir": "form-extendable/fields/field-select"
     },
     "fields/field-select-search": {
         "scope": "samnbuk.form-extendable",
-        "version": "0.1.44",
+        "version": "0.1.50",
         "mainFile": "index.ts",
         "rootDir": "form-extendable/fields/field-select-search"
     },
     "fields/field-text": {
         "scope": "samnbuk.form-extendable",
-        "version": "0.1.35",
+        "version": "0.1.40",
         "mainFile": "index.ts",
         "rootDir": "form-extendable/fields/field-text"
     },
     "fields/field-text-area": {
         "scope": "samnbuk.form-extendable",
-        "version": "0.1.35",
+        "version": "0.1.40",
         "mainFile": "index.ts",
         "rootDir": "form-extendable/fields/field-text-area"
     },
@@ -125,25 +137,25 @@
     },
     "lib": {
         "scope": "samnbuk.form-extendable",
-        "version": "0.1.19",
+        "version": "0.1.22",
         "mainFile": "index.ts",
         "rootDir": "form-extendable/lib"
     },
     "styles": {
         "scope": "samnbuk.form-extendable",
-        "version": "0.0.23",
+        "version": "0.0.25",
         "mainFile": "index.ts",
         "rootDir": "form-extendable/styles"
     },
     "testing": {
         "scope": "samnbuk.form-extendable",
-        "version": "0.0.62",
+        "version": "0.0.69",
         "mainFile": "index.ts",
         "rootDir": "form-extendable/testing"
     },
     "utils": {
         "scope": "samnbuk.form-extendable",
-        "version": "0.1.23",
+        "version": "0.1.26",
         "mainFile": "index.ts",
         "rootDir": "form-extendable/utils"
     },

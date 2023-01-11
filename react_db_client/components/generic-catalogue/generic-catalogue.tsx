@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 
-import { TComponentMap, THeading } from '@form-extendable/lib';
+import { IPopupProps, TComponentMap, THeading } from '@form-extendable/lib';
 import {
   CustomParser,
   ISearchAndSelectProps,
@@ -40,12 +40,14 @@ export interface IGenericCatalogueProps<ResultType extends IDocument> {
   itemName: string;
   collection: string;
   additionalFilters?: FilterObjectClass[];
-  customSort?: (a: ResultType, b: ResultType) => -1 | 0 | 1;
+  customSort?: null | ((a: ResultType, b: ResultType) => -1 | 0 | 1);
   resultsHeadings: TResultHeading<any>[];
   editorHeadings: THeading<any>[];
   additionalSaveData?: Partial<ResultType>;
   availableFilters: { [key: string]: FilterOption<any, boolean> };
-  ItemEditor: React.FC<IItemEditorProps<ResultType>>;
+  ItemEditor: React.FC<
+    IItemEditorProps<ResultType> & Omit<IPopupProps, 'children'>
+  >;
   errorCallback?: (e: AsyncRequestError | GenericCatalogueError) => void;
   notificationDispatch: (message: string) => void;
   customParsers?: { [k: string]: CustomParser };
@@ -64,7 +66,9 @@ export interface IGenericCatalogueProps<ResultType extends IDocument> {
 /**
  * Generic catalogue wrapper for searching and editing documents from the api
  */
-export const GenericCatalogue = <ResultType extends IDocument>({
+export const GenericCatalogue: React.FC<IGenericCatalogueProps<any>> = <
+  ResultType extends IDocument
+>({
   id,
   itemName,
   collection,
@@ -178,26 +182,31 @@ export const GenericCatalogue = <ResultType extends IDocument>({
     setShowEditor(false);
   }, []);
 
+  const onClose = () => {
+    setShowEditor(false);
+  };
+
   return (
     <>
-      {showEditor && (
-        <ItemEditor
-          id={`item_editor_${id}`}
-          inputUid={selectedUid}
-          isNew={!selectedUid && true}
-          additionalData={additionalSaveData}
-          params={editorHeadings}
-          collection={collection}
-          onSubmitCallback={onSubmitCallback}
-          asyncGetDocument={asyncGetDocument}
-          asyncPutDocument={asyncPutDocument}
-          asyncPostDocument={asyncPostDocument}
-          asyncDeleteDocument={asyncDeleteDocument}
-          componentMap={componentMap}
-          saveErrorCallback={errorCallback}
-          onCancel={handleCloseItemEditor}
-        />
-      )}
+      <ItemEditor
+        id={`item_editor_${id}`}
+        title={`Item Editor: ${itemName}`}
+        inputUid={selectedUid}
+        isNew={!selectedUid && true}
+        additionalData={additionalSaveData}
+        params={editorHeadings}
+        collection={collection}
+        onSubmitCallback={onSubmitCallback}
+        asyncGetDocument={asyncGetDocument}
+        asyncPutDocument={asyncPutDocument}
+        asyncPostDocument={asyncPostDocument}
+        asyncDeleteDocument={asyncDeleteDocument}
+        componentMap={componentMap}
+        saveErrorCallback={errorCallback}
+        onCancel={handleCloseItemEditor}
+        isOpen={showEditor}
+        onClose={onClose}
+      />
       <div
         className={`genericCatalogueFunc_Wrap sectionWrapper genericCatalogue_${id}`}
       >
@@ -271,12 +280,13 @@ GenericCatalogue.propTypes = {
   itemName: PropTypes.string.isRequired,
   collection: PropTypes.string.isRequired,
   additionalFilters: PropTypes.arrayOf(
-    PropTypes.shape({
-      uid: PropTypes.string.isRequired,
-      field: PropTypes.string.isRequired,
-      operator: PropTypes.string,
-      value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    })
+    PropTypes.instanceOf(FilterObjectClass)
+    // PropTypes.shape({
+    //   uid: PropTypes.string.isRequired,
+    //   field: PropTypes.string.isRequired,
+    //   operator: PropTypes.string,
+    //   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    // })
   ),
   customSort: PropTypes.func,
   customParsers: PropTypes.objectOf(PropTypes.func),
@@ -285,16 +295,16 @@ GenericCatalogue.propTypes = {
   previewHeadings: PropTypes.arrayOf(PropTypes.shape({})),
   additionalSaveData: PropTypes.shape({}),
   availableFilters: PropTypes.objectOf(
-    PropTypes.shape({
-      uid: PropTypes.string.isRequired,
-      label: PropTypes.string.isRequired,
-      type: PropTypes.string.isRequired,
-      required: PropTypes.bool,
-      group: PropTypes.number,
-    })
+    PropTypes.instanceOf(FilterOption)
+    // PropTypes.shape({
+    //   uid: PropTypes.string.isRequired,
+    //   label: PropTypes.string.isRequired,
+    //   type: PropTypes.string.isRequired,
+    //   required: PropTypes.bool,
+    //   group: PropTypes.number,
+    // })
   ).isRequired,
   ItemEditor: PropTypes.elementType,
-  PopupPanel: PropTypes.elementType,
   notificationDispatch: PropTypes.func,
   asyncGetDocuments: PropTypes.func.isRequired,
   // asyncDeleteDocuments: PropTypes.func.isRequired,
@@ -305,17 +315,18 @@ GenericCatalogue.propTypes = {
   componentMap: PropTypes.objectOf(PropTypes.elementType).isRequired,
   errorCallback: PropTypes.func,
   closePopupOnItemSave: PropTypes.bool,
+  sasProps: PropTypes.shape({}),
 };
 
 GenericCatalogue.defaultProps = {
   additionalFilters: [],
   additionalSaveData: {},
-  customSort: null,
   previewHeadings: [],
   customParsers: {},
   ItemEditor: ItemEditorDefault,
-  PopupPanel: () => {},
   notificationDispatch: alert,
   errorCallback: () => {},
+  customSort: null,
   closePopupOnItemSave: false,
+  sasProps: {},
 };

@@ -43,7 +43,11 @@ export const AreYouSureBtn = ({
   return (
     <>
       <PopupPanel id={popupId}>
-        <PopupContentWrap id={popupId} title="Are you sure?">
+        <PopupContentWrap
+          handleClose={handleCancel}
+          id={popupId}
+          title="Are you sure?"
+        >
           <div className="areYouSurePanel_wrap">
             <h1>Are You Sure?</h1>
             <div>

@@ -7,6 +7,7 @@ import {
 } from '@react_db_client/constants.client-types';
 import { IFieldFileProps } from './field-file';
 import { IFieldFileMultipleProps } from './field-file-multiple';
+import { PopupPanelManagedWithContentWrap } from '@react_db_client/components.popup-panel-v2';
 
 export const DEMO_IMAGE_FILES_DATA: IFile[] = [
   {
@@ -82,12 +83,6 @@ export const DEMO_IMAGE_FILES_MANY = [
     })),
 ];
 
-export const PopupPanel: React.FC<IPopupProps> = ({
-  children,
-  isOpen,
-  handleClose,
-}) => (isOpen ? <>{children}</> : <></>);
-
 const onChange: IFieldFileProps['onChange'] = () => {};
 const onChangeMulti: IFieldFileMultipleProps['onChange'] = () => {};
 
@@ -101,7 +96,7 @@ export const dummyProps: IFieldFileProps = {
   value: DEMO_IMAGE_FILES_DATA[0],
   fileServerUrl: 'https://static.bit.dev',
   asyncGetFiles: (metaData) => async () => DEMO_IMAGE_FILES_DATA,
-  PopupPanel,
+  PopupPanel: PopupPanelManagedWithContentWrap,
   asyncFileUpload: () => async () => {},
 };
 

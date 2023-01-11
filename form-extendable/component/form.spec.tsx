@@ -112,7 +112,6 @@ describe('Form Main Component', () => {
       setInitialFormData(demoFormData);
       render(<compositions.BasicForm />);
       await compositions.BasicForm.waitForReady();
-      // await renderForm();
 
       const formComponent: HTMLFormElement = screen.getByRole('form');
       // Commented values cannot be edited (yet!)
@@ -291,75 +290,6 @@ describe('Form Main Component', () => {
       });
     });
     describe('File types', () => {
-      // test.skip('test file type', async () => {
-      //   setInitialFormData({});
-      //   render(<compositions.BasicFormFileTypesOnly />);
-      //   await compositions.BasicFormComplete.waitForReady();
-
-      //   const newFile: IFile = {
-      //     uid: 'new-file.pdf',
-      //     filePath: '',
-      //     label: 'new-file.pdf',
-      //     name: 'new-file.pdf',
-      //     fileType: EFileType.DOCUMENT,
-      //     data: new File(['newfile'], 'new-file.pdf', { type: 'document/pdf' }),
-      //   };
-
-      //   const fileHeading = demoHeadingsData.find(
-      //     (h) => h.type === EFilterType.file
-      //   ) as THeading<any>;
-      //   const fieldComponent = screen.getByTestId(
-      //     `${fileHeading.type}-${fileHeading.uid}`
-      //   );
-      //   const swapFileBtn = within(fieldComponent).getByRole('button');
-      //   await UserEvent.click(swapFileBtn);
-      //   await within(fieldComponent).findByText('Select File');
-
-      //   const selectFileBtn =
-      //     within(fieldComponent).getByLabelText('Select Files');
-      //   await UserEvent.upload(selectFileBtn, newFile.data as File);
-      //   await waitFor(() =>
-      //     expect(
-      //       within(fieldComponent)
-      //         .getAllByRole('listitem')
-      //         .find((el) => within(el).queryByText(newFile.name))
-      //     ).toBeInTheDocument()
-      //   );
-
-      //   const readyFileListItem = within(fieldComponent)
-      //     .getAllByRole('listitem')
-      //     .find((el) => within(el).queryByText(newFile.name));
-
-      //   const uploadBtn = within(fieldComponent).getByRole('button', {
-      //     name: 'Upload',
-      //   });
-      //   await UserEvent.click(uploadBtn);
-      //   await screen.findByText(newFile.name);
-      //   const uploadedListItem = within(fieldComponent)
-      //     .getAllByRole('listitem')
-      //     .find((el) =>
-      //       within(el).queryByText(newFile.name)
-      //     ) as HTMLUListElement;
-
-      //   const uploadedListItemBtn =
-      //     within(uploadedListItem).getByRole('button');
-      //   expect(uploadedListItemBtn).toHaveAttribute('data-isselected', 'false');
-
-      //   // await waitForElementToBeRemoved(readyFileListItem);
-
-      //   // //
-
-      //   //         const existingFilesList = within(fieldComponent)
-      //   //           .getAllByRole('list')
-      //   //           .find((ul) =>
-      //   //             within(ul).queryByText(DEMO_FILES_DATA[0].label)
-      //   //           ) as HTMLUListElement;
-
-      //   //         const itemToSelect =
-      //   //           within(existingFilesList).getAllByRole('button')[0];
-      //   //         await UserEvent.click(itemToSelect);
-      //   //         await within(fieldComponent).findByText(DEMO_FILES_DATA[0].label);
-      // });
       test('should be able to upload a new file', async () => {
         setInitialFormData({});
         render(<compositions.BasicForm />);

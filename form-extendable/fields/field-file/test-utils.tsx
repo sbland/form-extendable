@@ -1,5 +1,5 @@
 import React from 'react';
-import { screen, waitFor, within } from '@testing-library/react';
+import { screen, within } from '@testing-library/react';
 import UserEvent from '@testing-library/user-event';
 import {
   IHeadingFile,
@@ -25,99 +25,69 @@ const promiseAllInSeries = async (iterable) => {
   }
 };
 
-const getFileInUploadedList = async (
+const queryFileAlreadyUploaded = async (
   value: IFile,
   heading: THeadingTypes,
-  fieldComponent: HTMLElement
+  fileManager: HTMLElement
 ) => {
-  const searchField = within(fieldComponent).getByPlaceholderText('search...');
+  const searchField = within(fileManager).getByPlaceholderText('search...');
   await UserEvent.click(searchField);
   await UserEvent.keyboard(value.label);
 
-  const sasPanels = within(fieldComponent)
-    .getAllByTestId('styledSelectList')
-    .filter(
-      (s) => within(s).queryAllByRole('listitem').length > 0
-    ) as HTMLUListElement[];
-  expect(sasPanels.length).toEqual(1);
-  const existingFilesList = within(sasPanels[0]).getByRole('list');
+  const sasPanels = within(fileManager).getByTestId(
+    'rdc-sas-file-manager-existing-files'
+  );
+  const existingFilesList = within(sasPanels).getByRole('list');
 
   const displayValue =
     heading.fileType === EFileType.IMAGE ? value.name : value.label;
 
-  // TODO: Handle no elements found
-  const selectionInExistingList = await within(existingFilesList)
-    .findAllByRole('listitem')
-    .then((d) =>
-      d?.length > 0
-        ? d.find((el) => within(el).queryByText(displayValue))
-        : null
-    );
-
-  return selectionInExistingList;
+  return within(existingFilesList).queryByText(displayValue);
 };
 
 export const editValueCommon = async (
   value: IFile,
   heading: THeadingTypes,
-  fieldComponent: HTMLElement
+  fileManager: HTMLElement
 ) => {
-  const selectionInExistingList = await getFileInUploadedList(
+  const selectionInExistingList = await queryFileAlreadyUploaded(
     value,
     heading,
-    fieldComponent
+    fileManager
   );
 
   if (!selectionInExistingList) {
-    const selectFilesBtn =
-      within(fieldComponent).getByLabelText('Select Files');
+    const selectFilesBtn = within(fileManager).getByLabelText('Select Files');
     if (!value.data)
       throw Error(`Must supply file data! Fieldid: ${heading.uid}`);
     await UserEvent.upload(selectFilesBtn, value.data);
-    const uploadBtn = within(fieldComponent).getByRole('button', {
+    const uploadBtn = within(fileManager).getByRole('button', {
       name: 'Upload',
     });
     await UserEvent.click(uploadBtn);
 
-    const sasPanels = within(fieldComponent)
-      .getAllByTestId('styledSelectList')
-      .filter(
-        (s) => within(s).queryAllByRole('listitem').length > 0
-      ) as HTMLUListElement[];
-
-    expect(sasPanels.length).toEqual(1);
-
-    const loadedFilesList = within(sasPanels[0]).getByRole('list');
+    const sasPanels = within(fileManager).getByTestId(
+      'rdc-sas-file-manager-existing-files'
+    );
+    const loadedFilesList = within(sasPanels).getByRole('list');
 
     await within(loadedFilesList).findByText(value.name);
-    const newItem = within(loadedFilesList)
-      .getAllByRole('listitem')
-      .find((el) => within(el).queryByText(value.name)) as HTMLUListElement;
-
-    if (!newItem) {
-      // If after uploading we cannot find the file then there was an error
-      throw new Error(`Failed to upload file: ${value}`);
-    }
   }
 };
 
-export const selectInUploadedList = async (value, fieldComponent) => {
-  const sasPanels = within(fieldComponent)
-    .getAllByTestId('styledSelectList')
-    .filter(
-      (s) => within(s).queryAllByRole('listitem').length > 0
-    ) as HTMLUListElement[];
-
-  expect(sasPanels.length).toEqual(1);
-
-  const loadedFilesList = within(sasPanels[0]).getByRole('list');
+export const selectInUploadedList = async (
+  value: IFile,
+  fileManager: HTMLElement
+) => {
+  const sasPanels = within(fileManager).getByTestId(
+    'rdc-sas-file-manager-existing-files'
+  );
+  const loadedFilesList = within(sasPanels).getByRole('list');
 
   await within(loadedFilesList).findByText(value.label);
-  const selectionInExistingList = within(loadedFilesList)
-    .getAllByRole('listitem')
-    .find((el) => within(el).queryByText(value.label)) as HTMLUListElement;
-
-  const selectItemBtn = within(selectionInExistingList).getByRole('button');
+  const selectItemBtn = within(loadedFilesList).getByRole('button', {
+    name: value.label,
+  });
   await UserEvent.click(selectItemBtn);
 };
 
@@ -137,8 +107,9 @@ export const editValueSingle = async (
     }
   );
   await UserEvent.click(selectFileBtn);
-  await editValueCommon(value, heading, fieldComponent);
-  await selectInUploadedList(value, fieldComponent);
+  const fileManager = await screen.findByTestId('rdc-file-manager');
+  await editValueCommon(value, heading, fileManager);
+  await selectInUploadedList(value, fileManager);
 };
 
 export const editValueMulti = async (
@@ -157,19 +128,20 @@ export const editValueMulti = async (
     }
   );
   await UserEvent.click(selectFileBtn);
+  const fileManager = await screen.findByTestId('rdc-file-manager');
   await promiseAllInSeries(
     value.map((v) => async () => {
-      await editValueCommon(v, heading, fieldComponent);
+      await editValueCommon(v, heading, fileManager);
     })
   );
 
   await promiseAllInSeries(
     value.map((v) => async () => {
-      await selectInUploadedList(v, fieldComponent);
+      await selectInUploadedList(v, fileManager);
     })
   );
 
-  const acceptSelectionBtn = within(fieldComponent).getByRole('button', {
+  const acceptSelectionBtn = within(fileManager).getByRole('button', {
     name: /Accept Selection/,
   });
   await UserEvent.click(acceptSelectionBtn);

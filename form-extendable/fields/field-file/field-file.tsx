@@ -98,14 +98,17 @@ export const FieldFile: React.FC<IFieldFileProps> = ({
     [fileList, fileType, fileServerUrl]
   );
 
-  const asyncGetFilesSetup = React.useMemo(() => asyncGetFiles(metaData), [asyncGetFiles, metaData])
+  const asyncGetFilesSetup = React.useMemo(
+    () => asyncGetFiles(metaData),
+    [asyncGetFiles, metaData]
+  );
 
   return (
     <>
       <PopupPanel
         id={`field-file-popup_${uid}`}
         isOpen={showFileSelectionPanel}
-        handleClose={() => setShowFileSelectionPanel(false)}
+        onClose={() => setShowFileSelectionPanel(false)}
         title="File Selector"
       >
         <FileManager
