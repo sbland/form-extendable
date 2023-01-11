@@ -2,7 +2,9 @@ import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import {
   IItem,
+  ISearchAndSelectDropdownProps,
   SearchAndSelectDropdown,
+  SelectFn,
 } from '@react_db_client/components.search-and-select-dropdown';
 import {
   IFieldComponentProps,
@@ -19,9 +21,11 @@ export type IFieldSelectSearchMultiProps<V extends IObj> = IFieldComponentProps<
 > &
   IHeadingSelectSearchMulti<V>;
 
+export interface ISearchResult extends IObj, IItem {}
+
 // TODO: Need to work out how to pass correct props
 export const FieldSelectSearch: React.FC<TFieldSelectSearchProps<any>> = <
-  V extends IObj & IItem
+  V extends ISearchResult
 >({
   uid,
   onChange,
@@ -34,13 +38,6 @@ export const FieldSelectSearch: React.FC<TFieldSelectSearchProps<any>> = <
   className,
   inputProps,
 }: TFieldSelectSearchProps<V>) => {
-  const handleSelect = useCallback(
-    (data: V) => {
-      onChange(data);
-    },
-    [onChange]
-  );
-
   const valuePlaceholder = useMemo(() => {
     return (value && value[labelField]) || 'search...';
   }, [value, labelField]);
@@ -48,8 +45,9 @@ export const FieldSelectSearch: React.FC<TFieldSelectSearchProps<any>> = <
   return (
     <>
       <SearchAndSelectDropdown
+        // {...props}
         searchFunction={searchFn}
-        handleSelect={handleSelect}
+        handleSelect={onChange as any} // TODO: Fix types
         // TODO: Fix initial value
         // initialValue={valueProcessed}
         searchFieldTargetField={searchFieldTargetField}

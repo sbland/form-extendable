@@ -188,11 +188,11 @@ export interface IHeadingCustomType<T>
 }
 
 export type THeading<T> =
+  | IHeadingCustomType<T>
   | IHeadingNumber
   | IHeadingTextArea
   | IHeadingDate
   | IHeadingBool
-  | IHeadingCustomType<T>
   | IHeadingFile
   | IHeadingFileMulti
   | IHeadingImage
