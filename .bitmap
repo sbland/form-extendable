@@ -9,6 +9,12 @@
  */
 
 {
+    "async-hooks/use-async-object-manager": {
+        "scope": "samnbuk.react_db_client",
+        "version": "0.2.27",
+        "mainFile": "index.ts",
+        "rootDir": "react_db_client/async-hooks/use-async-object-manager"
+    },
     "component": {
         "scope": "samnbuk.form-extendable",
         "version": "0.1.89",
@@ -68,6 +74,12 @@
         "version": "0.0.31",
         "mainFile": "index.ts",
         "rootDir": "form-extendable/composition-helpers"
+    },
+    "constants/client-types": {
+        "scope": "samnbuk.react_db_client",
+        "version": "0.4.1",
+        "mainFile": "index.ts",
+        "rootDir": "react_db_client/constants/client-types"
     },
     "envs/custom-react": {
         "scope": "samnbuk.form-extendable",
