@@ -5,7 +5,7 @@ import { fillInForm } from '@form-extendable/testing';
 import * as compositions from './item-editor.composition';
 import { demoData, demoParams } from './demo-data';
 
-describe('BasicItemEditor', () => {
+describe('Item Editor', () => {
   describe('Compositions', () => {
     Object.entries(compositions)
       .filter(([name, Composition]) => (Composition as any).forTests)
@@ -20,11 +20,14 @@ describe('BasicItemEditor', () => {
   describe('Functional Tests', () => {
     test('should render item editor', async () => {
       render(<compositions.BasicItemEditor />);
+      if (compositions.BasicItemEditor.waitForReady)
+        await compositions.BasicItemEditor.waitForReady();
       await screen.findByTestId('rdc-itemEditor');
     });
     test('should be able to fill in form and submit', async () => {
       render(<compositions.BasicItemEditor />);
-
+      if (compositions.BasicItemEditor.waitForReady)
+        await compositions.BasicItemEditor.waitForReady();
       // Commented values cannot be edited (yet!)
       const newData = {
         text: 'Example text',

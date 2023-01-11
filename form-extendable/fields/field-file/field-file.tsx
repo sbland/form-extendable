@@ -7,7 +7,6 @@ import {
   EFileType,
   FilterObjectClass,
   IFile,
-  Uid,
 } from '@react_db_client/constants.client-types';
 import {
   IFieldComponentProps,
@@ -30,9 +29,6 @@ export interface IFieldFileProps
   PopupPanel: React.FC<IPopupProps>;
 }
 
-const asArray = (value) =>
-  Array.isArray(value) ? value : [value].filter((v) => v != null);
-
 /**
  * Form component file field
  *
@@ -52,51 +48,21 @@ export const FieldFile: React.FC<IFieldFileProps> = ({
   // required,
   PopupPanel,
 }) => {
-  if (
-    value &&
-    (typeof value !== 'object' || (value[0] && typeof value[0] !== 'object'))
-  )
+  if (value && typeof value !== 'object')
     throw Error(`Value must be file type. Got ${value}`);
 
-  const [fileListRaw, setFileList] = useState<IFile[]>(asArray(value));
-
-  const fileList = React.useMemo(
-    () =>
-      fileListRaw && Array.isArray(fileListRaw)
-        ? fileListRaw
-        : (fileListRaw && [fileListRaw]) || [],
-    [fileListRaw]
-  );
   const [showFileSelectionPanel, setShowFileSelectionPanel] = useState(false);
 
   const handleSelected = (fileData: IFile | IFile[] | null) => {
-    const newFileList: IFile[] = [fileData as IFile] as IFile[];
-    setFileList(newFileList as IFile[]);
     setShowFileSelectionPanel(false);
     const newData = fileData as IFile;
     onChange && onChange(newData as typeof value);
   };
 
-  const handleFileDelete = (fuid) => {
-    const newFileList = (fileList as IFile[]).filter((f) => f.uid !== fuid);
-    setFileList(newFileList as IFile[]);
+  const handleFileDelete = () => {
     const newData = null;
     onChange && onChange(newData);
   };
-
-  const itemsRendered = React.useMemo(
-    () =>
-      fileList?.map((f) => (
-        <FileItem
-          key={f.uid}
-          fileData={f}
-          fileType={fileType}
-          fileServerUrl={fileServerUrl}
-          deleteFile={(fuid: Uid) => handleFileDelete(fuid)}
-        />
-      )),
-    [fileList, fileType, fileServerUrl]
-  );
 
   const asyncGetFilesSetup = React.useMemo(
     () => asyncGetFiles(metaData),
@@ -132,7 +98,15 @@ export const FieldFile: React.FC<IFieldFileProps> = ({
                 <Emoji emoj="🔄" label="swap" />
               </AddFileButton>
             </AddFileListItem>
-            {itemsRendered}
+            {value && (
+              <FileItem
+                key={value.uid}
+                fileData={value}
+                fileType={fileType}
+                fileServerUrl={fileServerUrl}
+                deleteFile={() => handleFileDelete()}
+              />
+            )}
           </FileListStyle>
         </div>
       </div>

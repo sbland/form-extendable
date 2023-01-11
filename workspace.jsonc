@@ -49,7 +49,6 @@
         "@react_db_client/async-hooks.use-async-object-manager": "0.2.27",
         "@react_db_client/async-hooks.use-async-request": "0.2.19",
         "@react_db_client/components.emoji": "^0.1.12",
-        "@react_db_client/components.file-uploader": "^0.2.73",
         "@react_db_client/components.form.form-components.bubble-selector": "^0.2.14",
         "@react_db_client/components.form.form-components.multi-select-dropdown": "^0.2.22",
         "@react_db_client/components.form.form-components.toggle-box": "^0.2.28",

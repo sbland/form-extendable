@@ -66,9 +66,7 @@ export interface IGenericCatalogueProps<ResultType extends IDocument> {
 /**
  * Generic catalogue wrapper for searching and editing documents from the api
  */
-export const GenericCatalogue: React.FC<IGenericCatalogueProps<any>> = <
-  ResultType extends IDocument
->({
+export const GenericCatalogue = <ResultType extends IDocument>({
   id,
   itemName,
   collection,

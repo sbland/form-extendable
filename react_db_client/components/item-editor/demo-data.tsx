@@ -73,7 +73,7 @@ export const demoData = {
   description: 'A long description',
   images: [],
   val: 9,
-  documentation: { filePath: 'doc.pdf', name: 'docpdf', label: 'docpdf', uid: 'docpdfid', fileType: EFileType.DOCUMENT },
+  documentation: [{ filePath: 'doc.pdf', name: 'docpdf', label: 'docpdf', uid: 'docpdfid', fileType: EFileType.DOCUMENT }],
   thumbnail: { filePath: 'thumbnail.jpg', name: 'thumbnail', label: 'thumbnail', uid: 'thumbnail', fileType: EFileType.IMAGE },
 };
 

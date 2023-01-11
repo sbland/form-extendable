@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { FileManager } from '@react_db_client/components.file-manager';
+import { Emoji } from '@react_db_client/components.emoji';
 import {
   EFileType,
   FilterObjectClass,
@@ -14,7 +15,6 @@ import {
 } from '@form-extendable/lib';
 import { FileItem } from './file-list';
 import { AddFileButton, AddFileListItem, FileListStyle } from './styles';
-import { Emoji } from '@react_db_client/components.emoji';
 
 export interface IFieldFileMultipleProps
   extends IFieldComponentProps<IFile[]>,
@@ -29,9 +29,6 @@ export interface IFieldFileMultipleProps
   PopupPanel: React.FC<IPopupProps>;
 }
 
-const asArray = (value) =>
-  Array.isArray(value) ? value : [value].filter((v) => v != null);
-
 /**
  * Form component file field
  *
@@ -42,7 +39,7 @@ export const FieldFileMultiple: React.FC<IFieldFileMultipleProps> = ({
   uid,
   onChange,
   fileType,
-  value,
+  value: fileList,
   fileServerUrl,
   asyncGetFiles,
   asyncFileUpload,
@@ -51,42 +48,25 @@ export const FieldFileMultiple: React.FC<IFieldFileMultipleProps> = ({
   // required,
   PopupPanel,
 }) => {
-  if (
-    value &&
-    (typeof value !== 'object' || (value[0] && typeof value[0] !== 'object'))
-  )
-    throw Error(`Value must be file type. Got ${value}`);
+  if (fileList && !Array.isArray(fileList))
+    throw Error(
+      `Value must be an array of file type. Got ${fileList} with type ${typeof fileList}`
+    );
 
-  const [fileListRaw, setFileList] = useState<IFile[]>(asArray(value));
-
-  const fileList = React.useMemo(
-    () =>
-      fileListRaw && Array.isArray(fileListRaw)
-        ? fileListRaw
-        : (fileListRaw && [fileListRaw]) || [],
-    [fileListRaw]
-  );
   const [showFileSelectionPanel, setShowFileSelectionPanel] = useState(false);
 
   const handleSelected = (fileData: IFile | IFile[] | null) => {
     if (!Array.isArray(fileData))
       throw Error('Must return fileData as array if multiple is true');
-    const newFileList: IFile[] = [
-      ...fileList,
-      ...(fileData as IFile[]),
-    ] as IFile[];
 
-    setFileList(newFileList as IFile[]);
     setShowFileSelectionPanel(false);
-    const newData = [...fileList, ...(fileData as IFile[])];
-    onChange && onChange(newData as typeof value);
+    const newData = [...(fileList || []), ...(fileData as IFile[])];
+    onChange && onChange(newData);
   };
 
   const handleFileDelete = (fuid) => {
     const newFileList = (fileList as IFile[]).filter((f) => f.uid !== fuid);
-    setFileList(newFileList as IFile[]);
-    const newData = newFileList;
-    onChange && onChange(newData);
+    onChange && onChange(newFileList);
   };
 
   const itemsRendered = React.useMemo(

@@ -1,9 +1,11 @@
 import React from 'react';
+import { Form, FormField } from '@form-extendable/component';
+import { defaultComponentMap } from '@form-extendable/components.component-map';
+import { defaultTheme, FormThemeProvider } from '@form-extendable/styles';
+import { screen, waitFor } from '@testing-library/react';
 import { ItemEditor } from './item-editor';
 import { demoParams, demoData } from './demo-data';
-import { defaultComponentMap } from '@form-extendable/components.component-map';
-import { Form, FormField } from '@form-extendable/component';
-import { defaultTheme, FormThemeProvider } from '@form-extendable/styles';
+import { EFilterType, ILabelled } from '@react_db_client/constants.client-types';
 
 const asyncGetFiles = () => async () => {
   return [];
@@ -43,6 +45,19 @@ export const BasicItemEditor = () => {
       </FormThemeProvider>
       {data && <p data-testid="submittedData">{JSON.stringify(data || {})}</p>}
     </>
+  );
+};
+
+BasicItemEditor.forTests = true;
+
+BasicItemEditor.waitForReady = async () => {
+  const demoParam = demoParams.find(
+    (p) => p.type === EFilterType.text
+  ) as ILabelled;
+  await waitFor(() =>
+    expect(
+      (screen.getByLabelText(demoParam.label) as HTMLInputElement).value
+    ).toEqual(demoData[demoParam.uid])
   );
 };
 

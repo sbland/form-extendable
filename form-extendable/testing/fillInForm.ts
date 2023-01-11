@@ -18,18 +18,21 @@ import {
 export type FillInFieldFn = (
   formEl: HTMLFormElement,
   headingsData: THeading<any>[],
-  customFillInField?: FillInFieldFn
+  customFillInField?: FillInFieldFn,
+  debug?: boolean
 ) => (args: [k: Uid, v: any]) => Promise<void>;
 
 export const fillInField: FillInFieldFn =
   (
     formEl: HTMLFormElement,
     headingsData: THeading<any>[],
-    customFillInField?: FillInFieldFn
+    customFillInField?: FillInFieldFn,
+    debug: boolean = false
   ) =>
   async ([k, v]) => {
     const heading = headingsData.find((h) => h.uid === k);
     if (!heading) throw Error(`Heading not found for ${k}`);
+    if (debug) console.info('form field heading: ', heading);
     if (heading.readOnly) {
       return;
     }
@@ -95,7 +98,7 @@ export const fillInField: FillInFieldFn =
         case EFilterType.image:
         case EFilterType.file:
         case EFilterType.fileMultiple:
-          await editFileValue(v, formEl, heading as THeadingTypesFile);
+          await editFileValue(v, formEl, heading as THeadingTypesFile, debug);
           break;
         default:
           if (!customFillInField)
@@ -124,13 +127,14 @@ export const fillInForm = async (
   formEl: HTMLFormElement,
   headings: THeading<any>[],
   data: TFormData,
-  customFillInField?: FillInFieldFn
+  customFillInField?: FillInFieldFn,
+  debug: boolean = false
 ) => {
-  const fns = Object.entries(data).map(
-    ([k, v]) =>
-      () =>
-        fillInField(formEl, headings, customFillInField)([k, v])
-  );
+  const fns = Object.entries(data).map(([k, v]) => () => {
+    if (debug)
+      console.log(`Filling in field: ${k} with ${JSON.stringify(v)}`);
+    return fillInField(formEl, headings, customFillInField, debug)([k, v]);
+  });
   const result = await fns.reduce(
     (prev, fn) => {
       const next = () => prev().then(() => fn());

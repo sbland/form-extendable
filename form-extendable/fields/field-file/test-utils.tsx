@@ -48,8 +48,10 @@ const queryFileAlreadyUploaded = async (
 export const editValueCommon = async (
   value: IFile,
   heading: THeadingTypes,
-  fileManager: HTMLElement
+  fileManager: HTMLElement,
+  debug: boolean = false
 ) => {
+  if (debug) console.info('Editing file with value: ', value);
   const selectionInExistingList = await queryFileAlreadyUploaded(
     value,
     heading,
@@ -77,8 +79,10 @@ export const editValueCommon = async (
 
 export const selectInUploadedList = async (
   value: IFile,
-  fileManager: HTMLElement
+  fileManager: HTMLElement,
+  debug: boolean = false
 ) => {
+  if (debug) console.info('Selecting file');
   const sasPanels = within(fileManager).getByTestId(
     'rdc-sas-file-manager-existing-files'
   );
@@ -94,7 +98,8 @@ export const selectInUploadedList = async (
 export const editValueSingle = async (
   value: IFile,
   formEl: HTMLFormElement,
-  heading: THeadingTypes
+  heading: THeadingTypes,
+  debug: boolean = false
 ) => {
   const fieldComponent = within(formEl).getByTestId(
     `${heading.type}-${heading.uid}`
@@ -108,14 +113,15 @@ export const editValueSingle = async (
   );
   await UserEvent.click(selectFileBtn);
   const fileManager = await screen.findByTestId('rdc-file-manager');
-  await editValueCommon(value, heading, fileManager);
+  await editValueCommon(value, heading, fileManager, debug);
   await selectInUploadedList(value, fileManager);
 };
 
 export const editValueMulti = async (
   value: IFile[],
   formEl: HTMLFormElement,
-  heading: THeadingTypes
+  heading: THeadingTypes,
+  debug: boolean = false
 ) => {
   const fieldComponent = within(formEl).getByTestId(
     `${heading.type}-${heading.uid}`
@@ -131,13 +137,14 @@ export const editValueMulti = async (
   const fileManager = await screen.findByTestId('rdc-file-manager');
   await promiseAllInSeries(
     value.map((v) => async () => {
-      await editValueCommon(v, heading, fileManager);
+      await editValueCommon(v, heading, fileManager, debug);
     })
   );
 
+  if (debug) console.info('Selecting files');
   await promiseAllInSeries(
     value.map((v) => async () => {
-      await selectInUploadedList(v, fileManager);
+      await selectInUploadedList(v, fileManager, debug);
     })
   );
 
@@ -150,12 +157,13 @@ export const editValueMulti = async (
 export const editValue = async (
   value: IFile | IFile[],
   formEl: HTMLFormElement,
-  heading: THeadingTypes
+  heading: THeadingTypes,
+  debug: boolean = false
 ) => {
   if (heading.type === EFilterType.fileMultiple || heading.multiple) {
-    return editValueMulti(value as IFile[], formEl, heading);
+    return editValueMulti(value as IFile[], formEl, heading, debug);
   } else {
-    return editValueSingle(value as IFile, formEl, heading);
+    return editValueSingle(value as IFile, formEl, heading, debug);
   }
 };
 
