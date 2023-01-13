@@ -1,9 +1,5 @@
-import { THeading, IHeadingFile } from '@form-extendable/lib';
-import {
-  EFilterType,
-  filterTypes,
-  Uid,
-} from '@react_db_client/constants.client-types';
+import { THeading, IHeadingFile, IHeadingEmbedded } from '@form-extendable/lib';
+import { EFilterType, Uid } from '@react_db_client/constants.client-types';
 
 export const injectFileFieldProps =
   (collection: string, id: Uid) => (param: THeading<any>) => {
@@ -38,7 +34,8 @@ export const injectHighlightOverriden =
   };
 
 export const reduceGroupFields =
-  (groupFieldsOrientation: 'horiz' | 'vert') => (acc, v) => {
+  (groupFieldsOrientation: 'horiz' | 'vert') =>
+  (acc: IHeadingEmbedded[], v: THeading<any>) => {
     const currentSection = acc[acc.length - 1];
     const currentSectionChildCount = currentSection.children.length;
     const currentGroup =
@@ -49,7 +46,8 @@ export const reduceGroupFields =
       acc.push({
         uid: `group-${v.group}`,
         label: '',
-        type: filterTypes.embedded,
+        showTitle: false,
+        type: EFilterType.embedded,
         orientation: groupFieldsOrientation,
         children: [],
       });
@@ -58,14 +56,18 @@ export const reduceGroupFields =
     return acc;
   };
 
-export const groupFields = (fields) => {
+export const groupFields = (
+  fields: THeading<any>[],
+  groupOrientation: 'horiz' | 'vert' = 'horiz'
+) => {
   return fields
-    .reduce(reduceGroupFields, [
+    .reduce(reduceGroupFields(groupOrientation), [
       {
         uid: 'group-0',
         label: '',
-        type: filterTypes.embedded,
+        type: EFilterType.embedded,
         orientation: 'horiz',
+        showTitle: false,
         children: [],
       },
     ])
@@ -98,8 +100,9 @@ export const mapFields = (
       {
         uid: 'group-0',
         label: '',
-        type: filterTypes.embedded,
+        type: EFilterType.embedded,
         orientation: groupFieldsOrientation,
+        showTitle: false,
         children: [],
       },
     ])
