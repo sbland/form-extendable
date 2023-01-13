@@ -41,6 +41,52 @@ export const BasicPopupPanel = () => {
   );
 };
 
+const Counter = ({ id }) => {
+  const renderCounter = React.useRef(0);
+  const { openPopup } = React.useContext(PopupPanelContext);
+  renderCounter.current = renderCounter.current + 1;
+  return (
+    <div>
+      <p data-testid={`counter_${id}`}>{renderCounter.current}</p>
+      <button onClick={() => openPopup(1)}>DummyButton</button>
+    </div>
+  );
+};
+
+const PopupPanelInner = ({ id }) => {
+  const { openPopup } = React.useContext(PopupPanelContext);
+  return (
+    <PopupPanel
+      id={id}
+      deleteRootOnUnmount
+      // onClose={() => setHasClosed(true)}
+    >
+      <PopupContentWrap id={id} title="example popup">
+        <p>Hello I'm open!</p>
+
+        <button onClick={() => openPopup(1)}>DummyButton</button>
+      </PopupContentWrap>
+    </PopupPanel>
+  );
+};
+
+export const BasicPopupPanelExtFuncs = () => {
+  const id = 'popupRootExtFuncs';
+  // const [hasClosed, setHasClosed] = React.useState(false);
+  return (
+    <div style={{ position: 'relative' }}>
+      <PopupProvider>
+        <Counter id="1" />
+        <OpenPopupButton id={id} />
+        {/* <OpenPopupButtonExt id={id} /> */}
+        <PopupPanelInner id={id} />
+        <PopupPanelDebug />
+      </PopupProvider>
+      {/* <p>{hasClosed ? 'Has been closed' : 'Has not been closed'}</p> */}
+    </div>
+  );
+};
+
 export const PopupPanelUnmountOnHide = () => {
   const [isOpen, setIsOpen] = React.useState(false);
   const id = 'popupRootUnMountOnHide';

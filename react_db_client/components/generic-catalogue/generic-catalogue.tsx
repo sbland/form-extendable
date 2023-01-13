@@ -180,10 +180,6 @@ export const GenericCatalogue = <ResultType extends IDocument>({
     setShowEditor(false);
   }, []);
 
-  const onClose = () => {
-    setShowEditor(false);
-  };
-
   return (
     <>
       <ItemEditor
@@ -203,7 +199,7 @@ export const GenericCatalogue = <ResultType extends IDocument>({
         saveErrorCallback={errorCallback}
         onCancel={handleCloseItemEditor}
         isOpen={showEditor}
-        onClose={onClose}
+        onClose={handleCloseItemEditor}
       />
       <div
         className={`genericCatalogueFunc_Wrap sectionWrapper genericCatalogue_${id}`}

@@ -46,6 +46,7 @@
     "policy": {
       "dependencies": {
         "@babel/runtime": "7.20.7",
+        "@react_db_client/async-hooks.use-async-object-manager": "0.2.27",
         "@react_db_client/async-hooks.use-async-request": "0.2.19",
         "@react_db_client/components.emoji": "^0.1.12",
         "@react_db_client/components.form.form-components.bubble-selector": "^0.2.14",

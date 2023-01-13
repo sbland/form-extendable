@@ -3,7 +3,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import UserEvent from '@testing-library/user-event';
 import * as compositions from './popup-panel.composition';
 
-const openPopup = async (id) => {
+const openPopup = async (id: string) => {
   const openPopupBtn = screen.getByRole('button', { name: /Open/ });
   await UserEvent.click(openPopupBtn);
   await screen.findByTestId(`popupPanel_${id}`);
@@ -18,7 +18,7 @@ const closePopup = async (id) => {
     expect(screen.queryByTestId(`${id}_content`)).not.toBeInTheDocument()
   );
 };
-const closePopupWithBackground = async (id) => {
+const closePopupWithBackground = async (id: string) => {
   const closeBtn = await screen.findByRole('button', {
     name: /Close the popup/,
   });
@@ -94,6 +94,34 @@ describe('popup panel', () => {
         await screen.findByText('Has been closed');
         await openPopup(popupId);
         await closePopup(popupId);
+      });
+
+      test.skip('should be able to close and re open a popup using ext functions', async () => {
+        render(<compositions.BasicPopupPanelExtFuncs />);
+        const popupId = 'popupRootExtFuncs';
+        await openPopup(popupId);
+        await screen.findByText("Hello I'm open!");
+        await closePopup(popupId);
+        await openPopup(popupId);
+        await closePopup(popupId);
+      });
+      test.skip('should not rerender all popups if popupRegister changes', async () => {
+        render(<compositions.BasicPopupPanelExtFuncs />);
+        expect(screen.getByTestId('counter_1').textContent).toEqual('1');
+        const popupId = 'popupRootExtFuncs';
+        await openPopup(popupId);
+        await screen.findByText("Hello I'm open!");
+        await closePopup(popupId);
+        await openPopup(popupId);
+        await screen.findByText("Hello I'm open!");
+        await closePopup(popupId);
+        await openPopup(popupId);
+        await screen.findByText("Hello I'm open!");
+        await closePopup(popupId);
+        await openPopup(popupId);
+        await screen.findByText("Hello I'm open!");
+        await closePopup(popupId);
+        expect(screen.getByTestId('counter_1').textContent).toEqual('1');
       });
       test.todo('should not remove root when closing popup');
       test('should be able to close and re open a popup that removes root on unmount', async () => {

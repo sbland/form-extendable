@@ -67,6 +67,7 @@ export const PopupPanelRender = ({
       <PopupPanelContentPanelStyle
         data-testid={'popupPanel_content'}
         isOpen={open || false}
+        onKeyDown={(e) => e.key === 'Escape' && closePopup(id)}
       >
         {(renderWhenClosed || open) && children}
       </PopupPanelContentPanelStyle>
@@ -84,27 +85,26 @@ export function PopupPanel({
   zIndex,
   onClose,
 }: IPopupPanelProps) {
-  const {
-    registerPopup,
-    deregisterPopup,
-    baseZIndex,
-    popupRegister,
-    closePopup,
-  } = React.useContext(PopupPanelContext);
+  const { registerPopup, deregisterPopup, baseZIndex, closePopup } =
+    React.useContext(PopupPanelContext);
 
-  const { open, root, z } = popupRegister[id] || {
-    open: false,
-    root: null,
-    z: null,
-  };
+  const [open, setOpen] = React.useState(false);
+  const [root, setRoot] = React.useState<HTMLElement | null>(null);
+  const [localZ, setLocalZ] = React.useState(-1);
 
   React.useEffect(() => {
+    const setOpenI = (v: boolean, r?: HTMLElement, z?: number) => {
+      setOpen(v);
+      setRoot(r || null);
+      setLocalZ(z || -1);
+    };
     registerPopup({
       id,
       root: popupRoot,
       deleteRootOnUnmount,
       z: zIndex,
       onCloseCallback: onClose,
+      setOpen: setOpenI,
     });
   }, [id, popupRoot, zIndex, onClose, registerPopup]);
 
@@ -123,7 +123,7 @@ export function PopupPanel({
     <PopupPanelRender
       id={id}
       baseZIndex={baseZIndex}
-      z={z}
+      z={localZ}
       open={open}
       closePopup={handleClose}
       renderWhenClosed={renderWhenClosed}

@@ -9,6 +9,7 @@ export interface IPopupElementState {
   deleteRootOnUnmount?: boolean;
   z: number;
   onCloseCallback: () => void;
+  setOpen: (v: boolean, r?: HTMLElement, z?: number) => void;
 }
 
 export interface IRegisterPopupArgs {
@@ -17,7 +18,10 @@ export interface IRegisterPopupArgs {
   deleteRootOnUnmount?: boolean;
   z?: number;
   onCloseCallback?: () => void;
+  setOpen: (v: boolean, r?: HTMLElement, z?: number) => void;
 }
+
+export type PopupRegister = { [id: TPopupId]: IPopupElementState };
 
 export interface IPopupPanelContext {
   popupCount: number;
@@ -27,7 +31,8 @@ export interface IPopupPanelContext {
   checkIsOpen: (id: TPopupId) => boolean;
   openPopup: (id: TPopupId) => void;
   closePopup: (id: TPopupId) => void;
-  popupRegister: { [id: TPopupId]: IPopupElementState };
+  popupRegister: PopupRegister;
+  setPopupRegister: React.Dispatch<React.SetStateAction<PopupRegister>>;
 }
 
 export interface IPopupProviderProps {
@@ -54,18 +59,40 @@ export const defaultState: IPopupPanelContext = {
     throw Error('closePopup is NOT DEFINED');
   },
   popupRegister: {},
+  setPopupRegister: () => {
+    throw Error('setPopupRegister is NOT DEFINED');
+  },
 };
 
 export const PopupPanelContext = React.createContext(defaultState);
 
 const EMPTY_OBJECT = {};
 
+export const openPopupExt = (
+  id: TPopupId,
+  popupCount,
+  popupRegister: PopupRegister,
+  setPopupRegister: React.Dispatch<React.SetStateAction<PopupRegister>>
+) => {
+  // popupCount.current += 1;
+  if (popupRegister[id] !== undefined)
+    setPopupRegister((prev) => ({
+      ...prev,
+      [id]: { ...prev[id], open: true },
+    }));
+  else {
+    throw new Error(
+      `Attempted to open popup that isn't registered! Id is ${id}`
+    );
+  }
+};
+
 export const PopupProvider = ({
   initialState = defaultState,
   children,
 }: IPopupProviderProps) => {
   const popupCount = React.useRef(0);
-  const [popupRegister, setPopupRegister] = React.useState(
+  const popupRegister = React.useRef(
     initialState.popupRegister || EMPTY_OBJECT
   );
 
@@ -76,62 +103,77 @@ export const PopupProvider = ({
       deleteRootOnUnmount,
       z,
       onCloseCallback,
+      setOpen,
     }: IRegisterPopupArgs) => {
       const root = getRoot(popupRoot || String(id), String(id));
-      setPopupRegister((prev) => ({
-        ...prev,
+      popupRegister.current = {
+        ...popupRegister.current,
         [id]: {
           open: false,
           root,
           deleteRootOnUnmount,
           z: z || popupCount?.current,
           onCloseCallback: onCloseCallback || (() => {}),
+          setOpen,
         },
-      }));
+      };
     },
     []
   );
 
   const deregisterPopup = React.useCallback((id: TPopupId) => {
-    setPopupRegister((prev) => {
-      const registerCopy = { ...prev };
-      const { deleteRootOnUnmount, root } = registerCopy[id] || {};
-      if (deleteRootOnUnmount && root) {
-        root.remove();
-      }
-      delete registerCopy[id];
-      return registerCopy;
-    });
+    const registerCopy = { ...popupRegister.current };
+    const { deleteRootOnUnmount, root } = registerCopy[id] || {};
+    if (deleteRootOnUnmount && root) {
+      root.remove();
+    }
+    delete registerCopy[id];
+
+    popupRegister.current = registerCopy;
   }, []);
 
-  const openPopup = (id: TPopupId) => {
-    popupCount.current += 1;
-    if (popupRegister[id] !== undefined)
-      setPopupRegister((prev) => ({
-        ...prev,
-        [id]: { ...prev[id], open: true },
-      }));
-    else {
+  const openPopup = React.useCallback(
+    (id: TPopupId) => {
+      popupCount.current += 1;
+      if (popupRegister.current[id] !== undefined) {
+        popupRegister.current = {
+          ...popupRegister.current,
+          [id]: { ...popupRegister.current[id], open: true },
+        };
+        const { root, setOpen, z } = popupRegister.current[id];
+        setOpen(true, root, z);
+      } else {
+        throw new Error(
+          `Attempted to open popup that isn't registered! Id is ${id}`
+        );
+      }
+    },
+    [popupRegister]
+  );
+
+  const closePopup = React.useCallback((id: TPopupId) => {
+    popupCount.current -= 1;
+    if (popupRegister.current[id] !== undefined) {
+      popupRegister.current = {
+        ...popupRegister.current,
+        [id]: { ...popupRegister.current[id], open: false },
+      };
+      popupRegister.current[id].setOpen(false);
+
+      popupRegister.current[id].onCloseCallback();
+    } else {
       throw new Error(
-        `Attempted to open popup that isn't registered! Id is ${id}`
+        `Attempted to close popup that isn't registered! Id is ${id}`
       );
     }
-  };
+  }, []);
 
-  const closePopup = (id: TPopupId) => {
-    popupCount.current -= 1;
-    if (popupRegister[id] !== undefined) {
-      setPopupRegister((prev) => ({
-        ...prev,
-        [id]: { ...prev[id], open: false },
-      }));
-      popupRegister[id].onCloseCallback();
-    }
-  };
-
-  const checkIsOpen = (id: TPopupId) => {
-    return popupRegister[id]?.open || false;
-  };
+  const checkIsOpen = React.useCallback(
+    (id: TPopupId) => {
+      return popupRegister.current[id]?.open || false;
+    },
+    [popupRegister]
+  );
 
   const mergedValue: IPopupPanelContext = {
     ...defaultState,
@@ -142,7 +184,7 @@ export const PopupProvider = ({
     checkIsOpen,
     registerPopup,
     deregisterPopup,
-    popupRegister,
+    popupRegister: popupRegister.current || {},
   };
 
   return (
