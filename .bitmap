@@ -41,13 +41,13 @@
     },
     "components/generic-catalogue": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.2.216",
+        "version": "0.2.217",
         "mainFile": "index.ts",
         "rootDir": "react_db_client/components/generic-catalogue"
     },
     "components/item-editor": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.2.183",
+        "version": "0.2.184",
         "mainFile": "index.ts",
         "rootDir": "react_db_client/components/item-editor"
     },
@@ -56,6 +56,12 @@
         "version": "0.0.40",
         "mainFile": "index.ts",
         "rootDir": "react_db_client/components/popup-panel-v2"
+    },
+    "components/search-and-select": {
+        "scope": "samnbuk.react_db_client",
+        "version": "0.4.19",
+        "mainFile": "index.ts",
+        "rootDir": "react_db_client/components/search-and-select"
     },
     "components/search-and-select-dropdown": {
         "scope": "samnbuk.react_db_client",
@@ -152,6 +158,12 @@
         "version": "0.0.3",
         "mainFile": "index.ts",
         "rootDir": "form-extendable/generator/typescript"
+    },
+    "helpers/data-processing": {
+        "scope": "samnbuk.react_db_client",
+        "version": "0.2.35",
+        "mainFile": "index.ts",
+        "rootDir": "react_db_client/helpers/data-processing"
     },
     "lib": {
         "scope": "samnbuk.form-extendable",
