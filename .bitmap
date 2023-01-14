@@ -11,7 +11,7 @@
 {
     "component": {
         "scope": "samnbuk.form-extendable",
-        "version": "0.1.92",
+        "version": "0.1.93",
         "mainFile": "index.ts",
         "rootDir": "form-extendable/component"
     },
@@ -23,31 +23,31 @@
     },
     "components/component-map": {
         "scope": "samnbuk.form-extendable",
-        "version": "0.1.82",
+        "version": "0.1.83",
         "mainFile": "index.ts",
         "rootDir": "form-extendable/components/component-map"
     },
     "components/file-manager": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.2.123",
+        "version": "0.2.124",
         "mainFile": "index.ts",
         "rootDir": "react_db_client/components/file-manager"
     },
     "components/file-uploader": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.2.74",
+        "version": "0.2.75",
         "mainFile": "index.ts",
         "rootDir": "react_db_client/components/file-uploader"
     },
     "components/generic-catalogue": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.2.217",
+        "version": "0.2.218",
         "mainFile": "index.ts",
         "rootDir": "react_db_client/components/generic-catalogue"
     },
     "components/item-editor": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.2.184",
+        "version": "0.2.185",
         "mainFile": "index.ts",
         "rootDir": "react_db_client/components/item-editor"
     },
@@ -59,7 +59,7 @@
     },
     "components/search-and-select": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.4.19",
+        "version": "0.4.20",
         "mainFile": "index.ts",
         "rootDir": "react_db_client/components/search-and-select"
     },
@@ -68,6 +68,18 @@
         "version": "0.2.111",
         "mainFile": "index.ts",
         "rootDir": "react_db_client/components/search-and-select-dropdown"
+    },
+    "components/selection-preview": {
+        "scope": "samnbuk.react_db_client",
+        "version": "0.4.6",
+        "mainFile": "index.ts",
+        "rootDir": "react_db_client/components/selection-preview"
+    },
+    "components/styled-select-list": {
+        "scope": "samnbuk.react_db_client",
+        "version": "0.4.10",
+        "mainFile": "index.ts",
+        "rootDir": "react_db_client/components/styled-select-list"
     },
     "composition-helpers": {
         "scope": "samnbuk.form-extendable",
@@ -101,7 +113,7 @@
     },
     "fields/field-file": {
         "scope": "samnbuk.form-extendable",
-        "version": "0.1.71",
+        "version": "0.1.72",
         "mainFile": "index.ts",
         "rootDir": "form-extendable/fields/field-file"
     },
@@ -179,7 +191,7 @@
     },
     "testing": {
         "scope": "samnbuk.form-extendable",
-        "version": "0.0.76",
+        "version": "0.0.77",
         "mainFile": "index.ts",
         "rootDir": "form-extendable/testing"
     },

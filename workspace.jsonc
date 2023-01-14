@@ -52,7 +52,6 @@
         "@react_db_client/components.form.form-components.bubble-selector": "^0.2.14",
         "@react_db_client/components.form.form-components.multi-select-dropdown": "^0.2.22",
         "@react_db_client/components.form.form-components.toggle-box": "^0.2.28",
-        "@react_db_client/components.styled-select-list": "0.4.9",
         "@react_db_client/constants.style": "^0.4.1",
         "@react_db_client/helpers.composition-wraps": "^0.1.13",
         "@react_db_client/helpers.func-tools": "^0.1.9",
