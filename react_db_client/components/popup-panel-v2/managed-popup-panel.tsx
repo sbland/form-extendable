@@ -44,21 +44,21 @@ export interface IPopupPanelManagedWithContentWrapProps
 export const PopupPanelManagedWithContentWrap: React.FC<
   IPopupPanelManagedWithContentWrapProps
 > = ({ id, isOpen, onClose, children, title }) => {
-  const { openPopup, checkIsOpen, closePopup } =
+  const { openPopup, checkIsOpen, closePopup, popupRegister } =
     React.useContext(PopupPanelContext);
 
   React.useEffect(() => {
-    if (checkIsOpen(id) && !isOpen) {
+    if (popupRegister[id]?.open && !isOpen) {
       closePopup(id);
     }
-    if (!checkIsOpen(id) && isOpen) {
+    if (!popupRegister[id]?.open && isOpen) {
       openPopup(id);
     }
   }, [id, isOpen, checkIsOpen, openPopup, closePopup]);
 
   return (
     <PopupPanel id={id} onClose={onClose}>
-      <PopupContentWrap id={id} title={title} handleClose={onClose}>
+      <PopupContentWrap id={id} title={title}>
         {children}
       </PopupContentWrap>
     </PopupPanel>

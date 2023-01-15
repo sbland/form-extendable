@@ -9,13 +9,24 @@ const openPopup = async (id: string) => {
   await screen.findByTestId(`popupPanel_${id}`);
   // await screen.findByText("Hello I'm open!");
 };
-const closePopup = async (id) => {
+const closePopupWithX = async (id) => {
   const closeBtn = await screen.findByRole('button', {
-    name: /Close popup/,
+    name: 'Close popup',
   });
+  expect(screen.getByTestId(`${id}_contentInner`)).toBeInTheDocument();
   await UserEvent.click(closeBtn);
   await waitFor(() =>
-    expect(screen.queryByTestId(`${id}_content`)).not.toBeInTheDocument()
+    expect(screen.queryByTestId(`${id}_contentInner`)).not.toBeInTheDocument()
+  );
+};
+const closePopupWithCustom = async (id, buttonLabel?) => {
+  const closeBtn = await screen.findByRole('button', {
+    name: buttonLabel,
+  });
+  expect(screen.getByTestId(`${id}_contentInner`)).toBeInTheDocument();
+  await UserEvent.click(closeBtn);
+  await waitFor(() =>
+    expect(screen.queryByTestId(`${id}_contentInner`)).not.toBeInTheDocument()
   );
 };
 const closePopupWithBackground = async (id: string) => {
@@ -67,7 +78,7 @@ describe('popup panel', () => {
 
         await openPopup(popupId);
         await screen.findByText("Hello I'm open!");
-        await closePopup(popupId);
+        await closePopupWithX(popupId);
         const unmountBtn = screen.getByRole('button', { name: 'unmount' });
         await UserEvent.click(unmountBtn);
 
@@ -90,39 +101,39 @@ describe('popup panel', () => {
         const popupId = 'popupRoot';
         await openPopup(popupId);
         await screen.findByText("Hello I'm open!");
-        await closePopup(popupId);
+        await closePopupWithX(popupId);
         await screen.findByText('Has been closed');
         await openPopup(popupId);
-        await closePopup(popupId);
+        await closePopupWithX(popupId);
       });
 
-      test.skip('should be able to close and re open a popup using ext functions', async () => {
-        render(<compositions.BasicPopupPanelExtFuncs />);
-        const popupId = 'popupRootExtFuncs';
-        await openPopup(popupId);
-        await screen.findByText("Hello I'm open!");
-        await closePopup(popupId);
-        await openPopup(popupId);
-        await closePopup(popupId);
-      });
-      test.skip('should not rerender all popups if popupRegister changes', async () => {
-        render(<compositions.BasicPopupPanelExtFuncs />);
-        expect(screen.getByTestId('counter_1').textContent).toEqual('1');
-        const popupId = 'popupRootExtFuncs';
-        await openPopup(popupId);
-        await screen.findByText("Hello I'm open!");
-        await closePopup(popupId);
-        await openPopup(popupId);
-        await screen.findByText("Hello I'm open!");
-        await closePopup(popupId);
-        await openPopup(popupId);
-        await screen.findByText("Hello I'm open!");
-        await closePopup(popupId);
-        await openPopup(popupId);
-        await screen.findByText("Hello I'm open!");
-        await closePopup(popupId);
-        expect(screen.getByTestId('counter_1').textContent).toEqual('1');
-      });
+      // test.skip('sho`uld be able to close and re open a popup using ext functions', async () => {
+      //   render(<compositions.BasicPopupPanelExtFuncs />);
+      //   const popupId = 'popupRootExtFuncs';
+      //   await openPopup(popupId);
+      //   await screen.findByText("Hello I'm open!");
+      //   await closePopup(popupId);
+      //   await openPopup(popupId);
+      //   await closePopup(popupId);
+      // });
+      // test.skip('should not rerender all popups if popupRegister changes', async () => {
+      //   render(<compositions.BasicPopupPanelExtFuncs />);
+      //   expect(screen.getByTestId('counter_1').textContent).toEqual('1');
+      //   const popupId = 'popupRootExtFuncs';
+      //   await openPopup(popupId);
+      //   await screen.findByText("Hello I'm open!");
+      //   await closePopup(popupId);
+      //   await openPopup(popupId);
+      //   await screen.findByText("Hello I'm open!");
+      //   await closePopup(popupId);
+      //   await openPopup(popupId);
+      //   await screen.findByText("Hello I'm open!");
+      //   await closePopup(popupId);
+      //   await openPopup(popupId);
+      //   await screen.findByText("Hello I'm open!");
+      //   await closePopup(popupId);
+      //   expect(screen.getByTestId('counter_1').textContent).toEqual('1');
+      // });`
       test.todo('should not remove root when closing popup');
       test('should be able to close and re open a popup that removes root on unmount', async () => {
         render(<compositions.PopupPanelUnmountOnHide />);
@@ -131,36 +142,25 @@ describe('popup panel', () => {
         const popupId = 'popupRootUnMountOnHide';
         await openPopup(popupId);
         await screen.findByText("Hello I'm open!");
-        await closePopup(popupId);
+        await closePopupWithX(popupId);
         const unmountBtn = screen.getByRole('button', { name: 'unmount' });
         await UserEvent.click(unmountBtn);
         await UserEvent.click(mountBtn);
         await openPopup(popupId);
-        await closePopup(popupId);
+        await closePopupWithX(popupId);
       });
       test('should be able to close and re open a managed popup', async () => {
         render(<compositions.BasicPopupPanelManaged />);
         const popupId = 'popupRootManaged';
         await openPopup(popupId);
         await screen.findByText("Hello I'm open!");
-        await closePopup(popupId);
+        await closePopupWithX(popupId);
         await screen.findByText('Has been closed');
         await openPopup(popupId);
-        await closePopup(popupId);
+        await closePopupWithX(popupId);
       });
-      test('should be able to close and re open a managed popup alt', async () => {
-        render(<compositions.BasicPopupPanelManagedB />);
-        const popupId = 'popupRootManaged';
-        await openPopup(popupId);
-        await screen.findByText("Hello I'm open!");
-        await closePopup(popupId);
-        await screen.findByText('Has been closed');
-        await openPopup(popupId);
-        await closePopup(popupId);
-      });
-
-      test('should be able to close and re open a managed popup alt using close back panel', async () => {
-        render(<compositions.BasicPopupPanelManagedB />);
+      test('should be able to close and re open a managed popup with background', async () => {
+        render(<compositions.BasicPopupPanelManaged />);
         const popupId = 'popupRootManaged';
         await openPopup(popupId);
         await screen.findByText("Hello I'm open!");
@@ -169,6 +169,36 @@ describe('popup panel', () => {
         await openPopup(popupId);
         await closePopupWithBackground(popupId);
       });
+      test('should be able to close and re open a managed popup with external isopen prop change', async () => {
+        render(<compositions.BasicPopupPanelManaged />);
+        const popupId = 'popupRootManaged';
+        await openPopup(popupId);
+        await screen.findByText("Hello I'm open!");
+        await closePopupWithCustom(popupId, 'Close Externally Button');
+        await screen.findByText('Has been closed');
+        await openPopup(popupId);
+        await closePopupWithCustom(popupId, 'Close Externally Button');
+      });
+      // test('should be able to close and re open a managed popup alt', async () => {
+      //   render(<compositions.BasicPopupPanelManagedB />);
+      //   const popupId = 'popupRootManaged';
+      //   await openPopup(popupId);
+      //   await screen.findByText("Hello I'm open!");
+      //   await closePopupWithX(popupId);
+      //   await screen.findByText('Has been closed');
+      //   await openPopup(popupId);
+      //   await closePopupWithX(popupId);
+      // });
+      // test('should be able to close and re open a managed popup alt using close back panel', async () => {
+      //   render(<compositions.BasicPopupPanelManagedB />);
+      //   const popupId = 'popupRootManaged';
+      //   await openPopup(popupId);
+      //   await screen.findByText("Hello I'm open!");
+      //   await closePopupWithBackground(popupId);
+      //   await screen.findByText('Has been closed');
+      //   await openPopup(popupId);
+      //   await closePopupWithBackground(popupId);
+      // });
     });
   });
 });

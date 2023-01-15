@@ -2,10 +2,7 @@ import React from 'react';
 import { PopupPanel } from './popup-panel';
 import { PopupPanelContext, PopupProvider } from './popup-panel-provider';
 import { PopupContentWrap } from './popup-panel-content-wrap';
-import {
-  PopupPanelManaged,
-  PopupPanelManagedWithContentWrap,
-} from './managed-popup-panel';
+import { PopupPanelManagedWithContentWrap } from './managed-popup-panel';
 
 const OpenPopupButton = ({ id }) => {
   const { openPopup } = React.useContext(PopupPanelContext);
@@ -18,6 +15,31 @@ const PopupPanelDebug = () => {
   return <>{JSON.stringify(popupRegister)}</>;
 };
 
+const ExampleContent = ({
+  id,
+  manualClose,
+}: {
+  id: string | number;
+  manualClose?: () => void;
+}) => {
+  return (
+    <div
+      style={{
+        position: 'absolute',
+        width: '10rem',
+        height: '10rem',
+        right: '0',
+        background: 'grey',
+      }}
+      data-testid={`${id}_contentInner`}
+    >
+      <p>Hello I'm open!</p>
+      {manualClose && (
+        <button onClick={manualClose}>Close Externally Button</button>
+      )}
+    </div>
+  );
+};
 export const BasicPopupPanel = () => {
   const id = 'popupRoot';
   const [hasClosed, setHasClosed] = React.useState(false);
@@ -31,7 +53,7 @@ export const BasicPopupPanel = () => {
           onClose={() => setHasClosed(true)}
         >
           <PopupContentWrap id={id} title="example popup">
-            Hello I'm open!
+            <ExampleContent id={id} />
           </PopupContentWrap>
         </PopupPanel>
         <PopupPanelDebug />
@@ -53,64 +75,59 @@ const Counter = ({ id }) => {
   );
 };
 
-const PopupPanelInner = ({ id }) => {
-  const { openPopup } = React.useContext(PopupPanelContext);
-  return (
-    <PopupPanel
-      id={id}
-      deleteRootOnUnmount
-      // onClose={() => setHasClosed(true)}
-    >
-      <PopupContentWrap id={id} title="example popup">
-        <p>Hello I'm open!</p>
+// const PopupPanelInner = ({ id }) => {
+//   const { openPopup, closePopup } = React.useContext(PopupPanelContext);
+//   return (
+//     <PopupPanel id={id} deleteRootOnUnmount>
+//       <PopupContentWrap id={id} title="example popup">
+//         <ExampleContent id={id} manualClose={() => closePopup(id)} />
+//         <button onClick={() => openPopup(1)}>DummyButton</button>
+//       </PopupContentWrap>
+//     </PopupPanel>
+//   );
+// };
 
-        <button onClick={() => openPopup(1)}>DummyButton</button>
-      </PopupContentWrap>
-    </PopupPanel>
-  );
-};
-
-export const BasicPopupPanelExtFuncs = () => {
-  const id = 'popupRootExtFuncs';
-  // const [hasClosed, setHasClosed] = React.useState(false);
-  return (
-    <div style={{ position: 'relative' }}>
-      <PopupProvider>
-        <Counter id="1" />
-        <OpenPopupButton id={id} />
-        {/* <OpenPopupButtonExt id={id} /> */}
-        <PopupPanelInner id={id} />
-        <PopupPanelDebug />
-      </PopupProvider>
-      {/* <p>{hasClosed ? 'Has been closed' : 'Has not been closed'}</p> */}
-    </div>
-  );
-};
+// export const BasicPopupPanelExtFuncs = () => {
+//   const id = 'popupRootExtFuncs';
+//   // const [hasClosed, setHasClosed] = React.useState(false);
+//   return (
+//     <div style={{ position: 'relative' }}>
+//       <PopupProvider>
+//         <Counter id="1" />
+//         <OpenPopupButton id={id} />
+//         {/* <OpenPopupButtonExt id={id} /> */}
+//         <PopupPanelInner id={id} />
+//         <PopupPanelDebug />
+//       </PopupProvider>
+//       {/* <p>{hasClosed ? 'Has been closed' : 'Has not been closed'}</p> */}
+//     </div>
+//   );
+// };
 
 export const PopupPanelUnmountOnHide = () => {
   const [isOpen, setIsOpen] = React.useState(false);
   const id = 'popupRootUnMountOnHide';
 
   return (
-    <div className="">
-      <div className="">
-        <button
-          type="button"
-          className={isOpen ? 'button-one' : 'button-two'}
-          onClick={() => setIsOpen((prev) => !prev)}
-        >
-          {isOpen ? 'unmount' : 'mount'}
-        </button>
-        <PopupProvider>
-          <OpenPopupButton id={id} />
-          {isOpen && (
-            <PopupPanel id={id} deleteRootOnUnmount>
-              <PopupContentWrap id={id}>Hello I'm open!</PopupContentWrap>
-            </PopupPanel>
-          )}
-          <PopupPanelDebug />
-        </PopupProvider>
-      </div>
+    <div>
+      <button
+        type="button"
+        className={isOpen ? 'button-one' : 'button-two'}
+        onClick={() => setIsOpen((prev) => !prev)}
+      >
+        {isOpen ? 'unmount' : 'mount'}
+      </button>
+      <PopupProvider>
+        <OpenPopupButton id={id} />
+        {isOpen && (
+          <PopupPanel id={id} deleteRootOnUnmount>
+            <PopupContentWrap id={id}>
+              <ExampleContent id={id} />
+            </PopupContentWrap>
+          </PopupPanel>
+        )}
+        <PopupPanelDebug />
+      </PopupProvider>
     </div>
   );
 };
@@ -132,40 +149,17 @@ export const BasicPopupPanelManaged = () => {
     <div style={{ position: 'relative' }}>
       <PopupProvider>
         <button onClick={handleOpen}>Open</button>
-        <PopupPanelManaged id={id} isOpen={open} onClose={handleClose}>
-          <div
-            style={{
-              position: 'absolute',
-              width: '10rem',
-              height: '10rem',
-              right: '0',
-              background: 'grey',
-            }}
-          >
-            <p>Hello I'm open!</p>
-            <button onClick={handleClose}>Close popup</button>
-          </div>
-        </PopupPanelManaged>
+        <PopupPanelManagedWithContentWrap
+          title="ExampleEditor"
+          id={id}
+          isOpen={open}
+          onClose={handleClose}
+        >
+          <ExampleContent id={id} manualClose={() => setOpen(false)} />
+        </PopupPanelManagedWithContentWrap>
       </PopupProvider>
       <p>{hasClosed ? 'Has been closed' : 'Has not been closed'}</p>
       <p>{open ? 'Is open' : 'Is closed'}</p>
-    </div>
-  );
-};
-
-const Content = ({ foo, handleClose }) => {
-  return (
-    <div
-      style={{
-        position: 'absolute',
-        width: '10rem',
-        height: '10rem',
-        right: '0',
-        background: 'grey',
-      }}
-    >
-      <p>Hello I'm open!</p>
-      <button onClick={handleClose}>Close from the inside</button>
     </div>
   );
 };
@@ -177,8 +171,8 @@ const PopupConnected = (
   > & { foo: string }
 ) => {
   return (
-    <PopupPanelManagedWithContentWrap {...props} title="Product Editor">
-      <Content {...props} handleClose={props.onClose} />
+    <PopupPanelManagedWithContentWrap {...props} title="Example Editor">
+      <ExampleContent {...props} manualClose={props.onClose} />
     </PopupPanelManagedWithContentWrap>
   );
 };

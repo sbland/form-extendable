@@ -170,6 +170,7 @@ export const PopupProvider = ({
 
   const checkIsOpen = React.useCallback(
     (id: TPopupId) => {
+      throw Error('Do not use. Use popupRegister.current instead.');
       return popupRegister.current[id]?.open || false;
     },
     [popupRegister]
