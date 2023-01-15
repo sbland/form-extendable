@@ -1,7 +1,7 @@
 import React, { useCallback, useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 
-import { useAsyncObjectManager } from '@react_db_client/async-hooks.use-async-object-manager';
+import { IUseAsyncObjectManagerArgs, useAsyncObjectManager } from '@react_db_client/async-hooks.use-async-object-manager';
 import { Form, FormField, IFormProps } from '@form-extendable/component';
 import { TComponentMap, THeading } from '@form-extendable/lib';
 
@@ -38,6 +38,7 @@ export interface IItemEditorProps<ResultType extends IDocument> {
   submitBtnText?: string;
   formProps?: Partial<IFormProps>;
   groupFieldsOrientation?: 'horiz' | 'vert';
+  asyncObjectManagerProps?: Partial<IUseAsyncObjectManagerArgs<ResultType>>;
 }
 
 /**
@@ -61,6 +62,7 @@ export const ItemEditor = <ResultType extends IDocument>({
   submitBtnText = 'Save Item',
   formProps = {},
   groupFieldsOrientation = 'vert',
+  asyncObjectManagerProps = {},
 }: IItemEditorProps<ResultType>) => {
   const [overridenFields, setOverridenFields] = useState<string[]>([]);
 
@@ -71,26 +73,22 @@ export const ItemEditor = <ResultType extends IDocument>({
     [onSubmitCallback]
   );
 
-  const {
-    saveData,
-    updateFormData: updateField,
-    data,
-    uid,
-    initialData,
-  } = useAsyncObjectManager({
-    activeUid: inputUid,
-    collection,
-    isNew: !inputUid || isNew,
-    inputAdditionalData: additionalData,
-    onSavedCallback,
-    loadOnInit: true,
-    asyncGetDocument,
-    asyncPutDocument,
-    asyncPostDocument,
-    asyncDeleteDocument,
-    // TODO: We should have all delete error callback
-    saveErrorCallback,
-  });
+  const { saveData, updateField, data, uid, savedData } = useAsyncObjectManager(
+    {
+      activeUid: inputUid,
+      collection,
+      isNew: !inputUid || isNew,
+      inputAdditionalData: additionalData,
+      onSavedCallback,
+      asyncGetDocument,
+      asyncPutDocument,
+      asyncPostDocument,
+      asyncDeleteDocument,
+      // TODO: We should have all delete error callback
+      saveErrorCallback,
+      ...asyncObjectManagerProps,
+    }
+  );
 
   const mappedFields = useMemo(
     () =>
@@ -106,19 +104,20 @@ export const ItemEditor = <ResultType extends IDocument>({
 
   const handleUpdate = useCallback(
     (field, value) => {
-      setOverridenFields((prev) => {
-        const hasChanged =
-          (value && !initialData) ||
-          (value && !initialData[field]) ||
-          (value && initialData && value !== initialData[field]) ||
-          (!value && initialData[field]);
-        const newSet = new Set([...prev, field]);
-        if (!hasChanged) newSet.delete(field);
-        return Array.from(newSet);
-      });
+      if (savedData)
+        setOverridenFields((prev) => {
+          const hasChanged =
+            (value && !savedData) ||
+            (value && !savedData[field]) ||
+            (value && savedData && value !== savedData[field]) ||
+            (!value && savedData[field]);
+          const newSet = new Set([...prev, field]);
+          if (!hasChanged) newSet.delete(field);
+          return Array.from(newSet);
+        });
       updateField(field, value);
     },
-    [initialData, updateField]
+    [savedData, updateField]
   );
 
   const handleOnChange = useCallback(

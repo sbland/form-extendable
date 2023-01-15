@@ -70,11 +70,18 @@ describe('Item Editor', () => {
         // uid: 'name-1',
       };
 
-      const submitData = {
+      const expectedNewDoc = {
         ...demoData,
         ...newData,
         // below fields or modified from raw input above
       };
+
+      const expectedSubmittedDoc = {
+        ...newData,
+        uid: demoData.uid,
+        // below fields or modified from raw input above
+      };
+
 
       await fillInForm(
         screen.getByRole('form'),
@@ -88,7 +95,13 @@ describe('Item Editor', () => {
       const submittedData = await screen
         .findByTestId('submittedData')
         .then((el) => JSON.parse(el.textContent || '{}'));
-      expect(submittedData).toEqual(submitData);
+
+      const updatedData = await screen
+        .findByTestId('data')
+        .then((el) => JSON.parse(el.textContent || '{}'));
+      expect(updatedData).toEqual(expectedNewDoc);
+
+      expect(submittedData).toEqual(expectedSubmittedDoc);
     });
   });
 });

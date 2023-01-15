@@ -1,9 +1,8 @@
 /* eslint-disable import/prefer-default-export */
 /* A react hook async request */
-
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
 import merge from 'lodash/merge';
+import useAsyncRetry from 'react-use/lib/useAsyncRetry';
 import {
   IDocument,
   TAsyncDeleteDocument,
@@ -13,20 +12,16 @@ import {
   Uid,
 } from '@react_db_client/constants.client-types';
 import {
-  useAsyncRequest,
   ICallback,
   AsyncRequestError,
 } from '@react_db_client/async-hooks.use-async-request';
 import { generateUid } from '@react_db_client/helpers.generate-uid';
 import cloneDeep from 'lodash/cloneDeep';
-
-export interface IDeleteResponse {
-  ok?: boolean;
-}
-
-export interface ISaveResponse {
-  ok?: boolean;
-}
+import useAsyncFn from 'react-use/lib/useAsyncFn';
+import {
+  IDeleteResponse,
+  ISaveResponse,
+} from '@react_db_client/constants.client-types';
 
 export interface IUseAsyncObjectManagerArgs<DocType extends IDocument> {
   activeUid?: null | Uid;
@@ -36,9 +31,12 @@ export interface IUseAsyncObjectManagerArgs<DocType extends IDocument> {
   schema?: string | 'all';
   populate?: 'all' | string[];
   loadOnInit?: boolean;
+  autoSave?: boolean;
   reloadOnSave?: boolean;
   onSavedCallback?: (uid: Uid, response: any, combinedData: DocType) => void;
-  saveErrorCallback?: (e: AsyncRequestError) => void /* Returns a AsyncRequestError */;
+  saveErrorCallback?: (
+    e: AsyncRequestError
+  ) => void /* Returns a AsyncRequestError */;
   onDeleteCallback?: ICallback<IDeleteResponse, [string, Uid]>;
   asyncGetDocument: TAsyncGetDocument<DocType>;
   asyncPutDocument: TAsyncPutDocument<DocType>;
@@ -47,64 +45,42 @@ export interface IUseAsyncObjectManagerArgs<DocType extends IDocument> {
 }
 
 export interface IUseAsyncObjectManagerReturn<DocType extends IDocument> {
-  loadedData: null | Partial<DocType>;
+  loadedData?: Partial<DocType>;
   saveData: () => void;
-  updateData: (newData: Partial<DocType>) => void;
-  updateFormData: (field: Uid, value: any, save?: boolean, nested?: boolean) => void;
+  updateData: (newData: Partial<DocType>, save?: boolean) => void;
+  updateField: (
+    field: Uid,
+    value: any,
+    save?: boolean,
+    nested?: string
+  ) => void;
   resetData: () => void;
   reload: () => void;
   deleteObject: () => void;
-  saveResponse: null | ISaveResponse;
+  saveResponse?: ISaveResponse;
   deleteResponse?: null | IDeleteResponse;
   loadingData: boolean;
   savingData: boolean;
   deletingData: boolean;
   data: Partial<DocType>;
-  initialData: Partial<DocType>;
+  savedData?: Partial<DocType>;
   uid: Uid;
   callCount: number;
   hasLoaded: boolean;
+  loadError?: AsyncRequestError;
   unsavedChanges: boolean;
   isNew: boolean;
 }
 
-/**
- * Async React request hook
- *
- * @param {Object} {
- *   - `activeUid` {string} - the active object uid
- *   - `collection` {string} - the collection to load and save to
- *   - `isNew` {bool} - true if the object is new
- *   - `inputAdditionalData` {object} - additional data to be merged with the loaded data
- *   - `schema` {string|Array} - schema override for loading data
- *   - `loadOnInit` {bool} - true if we should load the object on component init
- * }
- * @return {Object} {
- *   - `saveData` {func} - save object function
- *   - `updateData` {func} - update edit data ()
- *   - `updateFormData` = (field, value, save = false) => {...}
- *   - `reload` {func} - reload and reset the object
- *   - `deleteObject` {func} - delete the object
- *   - `saveResponse` {string} - api response to saving the object
- *   - `deleteResponse` {func} - api response to deleting the object
- *   - `loadingData` {bool} - true when loading data
- *   - `savingData` {bool} - true when saving data
- *   - `deletingData` {bool} - true when deleting data
- *   - `data` {any} - the data returned from api and combined with additional data
- *   - `uid` {string} - the active uid
- *   - `callCount` {number} - number of timesi called
- *   - `hasLoaded` {bool} - true if we have loaded data
- * }
- */
 export const useAsyncObjectManager = <DocType extends IDocument>({
   activeUid,
   collection,
   isNew: isNewIn = false,
-  // TODO: Setting below causes it to rerun on render
   inputAdditionalData = null,
   schema = 'all',
   populate = 'all',
   loadOnInit = true,
+  autoSave = false,
   reloadOnSave = false,
   onSavedCallback: onSavedCallbackIn /* Returns a message string */,
   saveErrorCallback /* Returns a AsyncRequestError */,
@@ -114,216 +90,191 @@ export const useAsyncObjectManager = <DocType extends IDocument>({
   asyncPostDocument,
   asyncDeleteDocument,
 }: IUseAsyncObjectManagerArgs<DocType>): IUseAsyncObjectManagerReturn<DocType> => {
-  const [isNew, setIsNew] = useState(!activeUid || isNewIn);
-  const [uid] = useState(isNew || !activeUid ? generateUid(collection) : activeUid);
-  const [editData, setEditData] = useState({});
-  const [editDataKey, setEditDataKey] = useState(0);
-  const [unsavedChanges, setUnsavedChanges] = useState(false); // TODO: Implement this
-  const [resetToData, setResetToData] = useState({});
-  const loadArgs = useMemo<[string, Uid, string, 'all' | string[]]>(
-    () => [collection, uid, schema, populate],
-    [collection, uid, schema, populate]
+  const [isNew, setIsNew] = React.useState(!activeUid || isNewIn);
+  const [uid] = React.useState(
+    isNew || !activeUid ? generateUid(collection, null, null) : activeUid
   );
-
-  const [loadedData, setLoadedData] = useState<null | DocType>(null);
-
-  const loadedDataCallback = useCallback((newLoadedData) => {
-    setLoadedData(newLoadedData);
-    setEditData({});
-    setEditDataKey((prev) => prev + 1);
-  }, []);
-
-  const loadDataErrorCallback = useCallback((err) => {}, []);
-
-  const {
-    call: loadAsync,
-    loading: loadingData,
-    callCount,
-    hasLoaded,
-  } = useAsyncRequest({
-    id: 'loadAsync',
-    args: loadArgs,
-    callFn: asyncGetDocument,
-    callOnInit: loadOnInit && !isNew,
-    callback: loadedDataCallback,
-    errorCallback: loadDataErrorCallback,
+  const [unsavedChanges, setUnsavedChanges] = React.useState(false); // TODO: Implement this
+  const [savingDataState, asyncSaveData] = useAsyncFn(
+    isNew ? asyncPostDocument : asyncPutDocument
+  );
+  const [deletingDataState, asyncDeleteData] = useAsyncFn(asyncDeleteDocument);
+  const [loadedDataState, callLoadData] = useAsyncFn(
+    async () => asyncGetDocument(collection, uid, schema, populate),
+    [collection, uid, schema, populate, asyncGetDocument]
+  );
+  const hasLoaded = React.useRef(false);
+  const hasDeleted = React.useRef(false);
+  const [shouldSave, setShouldSave] = React.useState(false);
+  const [newData, setNewData] = React.useState(loadedDataState.value);
+  const [savedData, setSavedData] = React.useState<
+    Partial<DocType> | undefined
+  >(loadedDataState.value);
+  const [combinedData, setCombinedData] = React.useState<Partial<DocType>>({
+    ...(loadedDataState.value || ({} as Partial<DocType>)),
+    ...inputAdditionalData,
+    uid,
   });
 
-  const combinedData = useMemo(() => {
-    const _combinedData = merge(
-      { ...loadedData },
-      { ...inputAdditionalData },
-      { uid },
-      { ...editData }
-    );
-    return _combinedData;
-  }, [loadedData, inputAdditionalData, uid, editData, editDataKey]);
+  React.useEffect(() => {
+    if (loadOnInit && !hasLoaded.current) {
+      callLoadData();
+    }
+  }, [loadOnInit, callLoadData]);
 
-  /* Handle Saving Data */
-  const onSavedCallback = useCallback(
-    (response) => {
-      setIsNew(false);
-      setUnsavedChanges(false);
-      setResetToData({
-        ...loadedData,
+  React.useEffect(() => {
+    if (savingDataState.error) {
+      if (saveErrorCallback)
+        saveErrorCallback(
+          new AsyncRequestError(
+            savingDataState.error?.message || 'Unknown Async Request Error',
+            savingDataState.error
+          )
+        );
+    }
+  }, [savingDataState, saveErrorCallback]);
+
+  React.useEffect(() => {
+    if (
+      !deletingDataState.loading &&
+      hasDeleted.current &&
+      deletingDataState.value
+    ) {
+      // TODO: Check on delete args
+      if (onDeleteCallback)
+        onDeleteCallback(deletingDataState.value, [collection, uid]);
+    }
+  }, [deletingDataState, onDeleteCallback, collection, uid]);
+
+  React.useEffect(() => {
+    if (
+      loadedDataState.value &&
+      !loadedDataState.loading &&
+      !hasLoaded.current
+    ) {
+      hasLoaded.current = true;
+      setCombinedData({
+        ...(loadedDataState.value || ({} as Partial<DocType>)),
         ...inputAdditionalData,
         uid,
-        ...editData,
       });
-      if (reloadOnSave) {
-        loadAsync(loadArgs, (loadedResponse) => {
-          loadedDataCallback(loadedResponse);
-          if (onSavedCallbackIn) onSavedCallbackIn(uid, response, combinedData);
-        });
-      } else {
-        if (onSavedCallbackIn) onSavedCallbackIn(uid, response, combinedData);
-      }
-    },
-    [
-      uid,
-      combinedData,
-      onSavedCallbackIn,
-      editData,
-      editDataKey,
-      inputAdditionalData,
-      loadedData,
-      reloadOnSave,
-      loadAsync,
-      loadArgs,
-    ]
-  );
-
-  const saveFn = useMemo(
-    () => (isNew ? asyncPostDocument : asyncPutDocument),
-    [asyncPutDocument, asyncPostDocument, isNew]
-  );
-
-  const {
-    response: saveResponse,
-    call: saveAsync,
-    loading: savingData,
-  } = useAsyncRequest({
-    id: 'saveAsync',
-    callFn: saveFn,
-    callOnInit: false,
-    callback: onSavedCallback,
-    errorCallback: saveErrorCallback,
-  });
-
-  /* Handle Deleting Data */
-  const deleteFn = useMemo(
-    () => (isNew ? async () => {} : asyncDeleteDocument),
-    [isNew, asyncDeleteDocument]
-  );
-  const deleteArgs = useMemo<[string, Uid]>(() => [collection, uid], [collection, uid]);
-
-  const {
-    response: deleteResponse,
-    call: deleteAsync,
-    loading: deletingData,
-  } = useAsyncRequest<IDeleteResponse, typeof deleteArgs>({
-    id: 'deleteAsync',
-    args: deleteArgs,
-    callFn: deleteFn,
-    callback: onDeleteCallback,
-    callOnInit: false,
-  });
-
-  // useEffect(() => {
-  //   setResetToData({ ...loadedData, ...inputAdditionalData, uid });
-  //   setEditData({ ...loadedData, ...inputAdditionalData, uid });
-  //   // FIXME: Adding input additional data as as dependency causes a loop
-  // }, [loadedData, inputAdditionalData, uid]);
-
-  useEffect(() => {
-    if (deleteResponse && deleteResponse.ok) {
-      if (onDeleteCallback) onDeleteCallback(deleteResponse, [collection, uid]);
     }
-  }, [deleteResponse, onDeleteCallback, uid]);
+  }, [uid, loadedDataState, inputAdditionalData]);
 
-  /* Handle Update Data */
-  const updateData = useCallback((newData) => {
-    setUnsavedChanges(true);
-    setEditData((prev) => ({ ...prev, ...newData }));
-    setEditDataKey((prev) => prev + 1);
-  }, []);
-
-  const updateFormData = useCallback(
-    (field, value, save = false, nested = false) => {
-      setUnsavedChanges(true);
-      setEditData((prev) => {
-        let dataCopy = cloneDeep(prev);
-        if (nested) {
-          const nestedLayers = nested.split('.');
-          const nestedData = nestedLayers
-            .reverse()
-            .reduce((acc, v) => ({ [v]: acc }), { [field]: value });
-          dataCopy = merge(dataCopy, nestedData);
-        } else {
-          dataCopy = { ...dataCopy, [field]: value };
-        }
-        if (save) {
-          const dataToSave = {
-            ...loadedData,
-            ...inputAdditionalData,
-            uid,
-            ...dataCopy,
-          };
-          saveAsync([collection, uid, dataToSave]);
-        }
-        return dataCopy;
+  React.useEffect(() => {
+    if (shouldSave) {
+      setShouldSave(false);
+      const dataToSave: DocType = {
+        ...inputAdditionalData,
+        ...(newData || ({} as DocType)),
+        uid,
+      };
+      const fullData = { ...combinedData, uid };
+      asyncSaveData(collection, uid, dataToSave).then((response) => {
+        setIsNew(false);
+        setUnsavedChanges(false);
+        setSavedData(combinedData);
+        if (onSavedCallbackIn)
+          onSavedCallbackIn(uid, response, fullData as DocType);
+        if (reloadOnSave) callLoadData();
       });
-      setEditDataKey((prev) => prev + 1);
-    },
-    [collection, uid, inputAdditionalData, loadedData, saveAsync]
-  );
+    }
+    // TODO: Handle saving
+  }, [uid, combinedData, newData, shouldSave, reloadOnSave, loadedDataState]);
 
-  /* UI Calls */
-  const reload = useCallback(() => loadAsync(), [loadAsync]);
-  const deleteObject = useCallback(() => deleteAsync(), [deleteAsync]);
-  const resetData = useCallback(() => {
-    setEditData(resetToData);
-    setEditDataKey((prev) => prev + 1);
-  }, [resetToData]);
-  const saveData = useCallback(() => {
-    saveAsync([collection, uid, combinedData]);
-  }, [collection, uid, combinedData, saveAsync]);
+  const updateField = (field, value, save?: boolean, nested?: string) => {
+    // TODO: Is there a more efficient way to update data here
+    setNewData((prev) => {
+      let dataCopy = cloneDeep(prev);
+      if (nested) {
+        const nestedLayers = nested.split('.');
+        const nestedData = nestedLayers
+          .reverse()
+          .reduce((acc, v) => ({ [v]: acc }), { [field]: value });
+        dataCopy = merge(dataCopy, nestedData);
+      } else {
+        dataCopy = { ...dataCopy, [field]: value };
+      }
+      return dataCopy;
+    });
+    setCombinedData((prev) => {
+      let dataCopy = cloneDeep(prev);
+      if (nested) {
+        const nestedLayers = nested.split('.');
+        const nestedData = nestedLayers
+          .reverse()
+          .reduce((acc, v) => ({ [v]: acc }), { [field]: value });
+        dataCopy = merge(dataCopy, nestedData);
+      } else {
+        dataCopy = { ...dataCopy, [field]: value };
+      }
+      return dataCopy;
+    });
+    if (save || autoSave) setShouldSave(true);
+  };
+
+  const saveData = () => {
+    setShouldSave(true);
+  };
+
+  const updateData = (newData: Partial<DocType>, save) => {
+    // TODO: Is there a more efficient way to update data here
+    setNewData((prev) => {
+      let dataCopy = cloneDeep(prev);
+      dataCopy = { ...dataCopy, ...newData };
+      return dataCopy;
+    });
+    setCombinedData((prev) => {
+      let dataCopy = cloneDeep(prev);
+      dataCopy = { ...dataCopy, ...newData };
+      return dataCopy;
+    });
+    if (save || autoSave) setShouldSave(true);
+  };
+
+  const deleteObject = () => {
+    hasDeleted.current = true;
+    asyncDeleteData(collection, uid);
+  };
+
+  const resetData = () => {
+    throw new Error('Not Implemented');
+  };
+
+  const reload = () => {
+    hasLoaded.current = false;
+    callLoadData();
+  };
+
+  const loadError =
+    loadedDataState.error &&
+    new AsyncRequestError(loadedDataState.error.message, loadedDataState.error);
+
+  const [callCount, setCallCount] = React.useState(0);
+  React.useEffect(() => {
+    if (loadedDataState.loading) setCallCount((prev) => prev + 1);
+  }, [loadedDataState.loading]);
 
   return {
-    loadedData,
+    loadedData: loadedDataState.value,
     saveData,
     updateData,
-    updateFormData,
+    updateField,
     resetData,
     reload,
     deleteObject,
-    saveResponse,
-    deleteResponse,
-    loadingData,
-    savingData,
-    deletingData,
+    saveResponse: savingDataState.value,
+    deleteResponse: deletingDataState.value,
+    loadingData: loadedDataState.loading,
+    savingData: savingDataState.loading,
+    deletingData: deletingDataState.loading,
     data: combinedData,
-    initialData: resetToData,
+    savedData,
     uid,
     callCount,
-    hasLoaded,
+    hasLoaded: !loadedDataState.loading && loadedDataState.value != null, // TODO: Implement this properly
+    loadError,
     unsavedChanges,
     isNew,
   };
-};
-
-useAsyncObjectManager.propTypes = {
-  activeUid: PropTypes.string.isRequired,
-  collection: PropTypes.string.isRequired,
-  isNew: PropTypes.bool.isRequired,
-  inputAdditionalData: PropTypes.Object,
-  schema: PropTypes.arrayOf(PropTypes.string).isRequired,
-  loadOnInit: PropTypes.bool,
-  reloadOnSave: PropTypes.bool,
-  onSavedCallback: PropTypes.func /* Returns a AsyncRequestError */,
-  saveErrorCallback: PropTypes.func.isRequired /* Returns a message string */,
-  asyncGetDocument: PropTypes.func.isRequired,
-  asyncPutDocument: PropTypes.func.isRequired,
-  asyncPostDocument: PropTypes.func.isRequired,
-  asyncDeleteDocument: PropTypes.func.isRequired,
 };

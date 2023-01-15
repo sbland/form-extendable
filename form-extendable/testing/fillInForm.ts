@@ -123,6 +123,12 @@ export const fillInField: FillInFieldFn =
     }
   };
 
+const promiseAllInSeries = async (iterable) => {
+  for (const x of iterable) {
+    await x();
+  }
+};
+
 export const fillInForm = async (
   formEl: HTMLFormElement,
   headings: THeading<any>[],
@@ -131,16 +137,8 @@ export const fillInForm = async (
   debug: boolean = false
 ) => {
   const fns = Object.entries(data).map(([k, v]) => () => {
-    if (debug)
-      console.log(`Filling in field: ${k} with ${JSON.stringify(v)}`);
+    if (debug) console.log(`Filling in field: ${k} with ${JSON.stringify(v)}`);
     return fillInField(formEl, headings, customFillInField, debug)([k, v]);
   });
-  const result = await fns.reduce(
-    (prev, fn) => {
-      const next = () => prev().then(() => fn());
-      return next;
-    },
-    () => Promise.resolve()
-  );
-  await result();
+  await promiseAllInSeries(fns);
 };

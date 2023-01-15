@@ -49,10 +49,14 @@ const defaultProps: IGenericCatalogueProps<IDocument> = {
   notificationDispatch: alert,
   asyncGetDocument: async () => Object.values(demoResults)[0],
   asyncGetDocuments: async () => Object.values(demoResults),
-  asyncPutDocument: async () => console.info('Put doc'),
-  asyncPostDocument: async () => console.info('Post doc'),
-  asyncDeleteDocument: async () => {},
-  asyncCopyDocument: async () => {},
+  asyncPutDocument: async () => {
+    return { ok: true };
+  },
+  asyncPostDocument: async () => {
+    return { ok: true };
+  },
+  asyncDeleteDocument: async () => ({ ok: true }),
+  asyncCopyDocument: async () => ({ ok: true }),
   componentMap,
   closePopupOnItemSave: true,
   customParsers: {},

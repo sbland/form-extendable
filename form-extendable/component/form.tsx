@@ -2,6 +2,7 @@ import React, { useCallback, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import cloneDeep from 'lodash/cloneDeep';
+import { Uid } from '@react_db_client/constants.client-types';
 import { Emoji } from '@react_db_client/components.emoji';
 import { defaultComponentMap } from '@form-extendable/components.component-map';
 import { TComponentMap, TFormData, THeading } from '@form-extendable/lib';
@@ -16,6 +17,7 @@ export interface IFormSubmit {
 }
 
 export interface IFormProps {
+  id?: Uid;
   FormField?: React.FC<IFormFieldProps<any, THeading<any>>>;
   formDataInitial?: TFormData;
   headings: THeading<any>[];
@@ -55,6 +57,7 @@ Useful when using a custom field
  * componentMap - a map of field type against react component
  */
 export const Form = ({
+  id,
   FormField,
   formDataInitial,
   headings,
@@ -116,6 +119,7 @@ export const Form = ({
       className="form sectionWrapper"
     >
       <FormInputs
+        id={id}
         headings={headings}
         formData={formData}
         onFormInputChange={updateFormData}

@@ -61,6 +61,7 @@ export interface IGenericCatalogueProps<ResultType extends IDocument> {
   componentMap: TComponentMap;
   closePopupOnItemSave?: boolean;
   sasProps?: Partial<ISearchAndSelectProps<ResultType>>;
+  itemEditorProps?: Partial<IItemEditorProps<ResultType>>;
 }
 
 /**
@@ -89,7 +90,8 @@ export const GenericCatalogue = <ResultType extends IDocument>({
   asyncCopyDocument,
   componentMap,
   closePopupOnItemSave,
-  sasProps,
+  sasProps = {},
+  itemEditorProps = {},
 }: IGenericCatalogueProps<ResultType>) => {
   const [showEditor, setShowEditor] = useState(false);
   const [selectedUid, setSelectedUid] = useState<Uid | null>(null);
@@ -200,6 +202,7 @@ export const GenericCatalogue = <ResultType extends IDocument>({
         onCancel={handleCloseItemEditor}
         isOpen={showEditor}
         onClose={handleCloseItemEditor}
+        {...itemEditorProps}
       />
       <div
         className={`genericCatalogueFunc_Wrap sectionWrapper genericCatalogue_${id}`}

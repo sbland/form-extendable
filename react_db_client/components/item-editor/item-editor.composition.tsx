@@ -1,17 +1,19 @@
 import React from 'react';
 import { Form, FormField } from '@form-extendable/component';
 import { defaultComponentMap } from '@form-extendable/components.component-map';
+import {
+  EFilterType,
+  ILabelled,
+} from '@react_db_client/constants.client-types';
 import { defaultTheme, FormThemeProvider } from '@form-extendable/styles';
 import { screen, waitFor } from '@testing-library/react';
 import { ItemEditor } from './item-editor';
 import { demoParams, demoData } from './demo-data';
-import { EFilterType, ILabelled } from '@react_db_client/constants.client-types';
 
 const asyncGetFiles = () => async () => {
   return [];
 };
 const fileServerUrl = '';
-const onSubmitCallback = () => {};
 const Popup = ({ children, isOpen = true || undefined }) => {
   if (isOpen) return <>{children}</>;
   return <></>;
@@ -25,6 +27,7 @@ const componentMap = defaultComponentMap({
 
 export const BasicItemEditor = () => {
   const [data, setData] = React.useState(null);
+  const [savedData, setSavedData] = React.useState(null);
   return (
     <>
       <FormThemeProvider theme={defaultTheme}>
@@ -32,18 +35,24 @@ export const BasicItemEditor = () => {
           id="demo-id"
           inputUid={demoData.uid}
           isNew={false}
-          onSubmitCallback={onSubmitCallback}
+          onSubmitCallback={(d) => setData(d)}
           additionalData={{}}
           params={demoParams}
           collection="democollection"
           asyncGetDocument={async () => demoData}
-          asyncPutDocument={async (collection, id, data) => setData(data)}
-          asyncPostDocument={async () => {}}
-          asyncDeleteDocument={async () => {}}
+          asyncPutDocument={async (collection, id, data) => {
+            setSavedData(data);
+            return { ok: true };
+          }}
+          asyncPostDocument={async () => ({ ok: true })}
+          asyncDeleteDocument={async () => ({ ok: true })}
           componentMap={componentMap}
         />
       </FormThemeProvider>
-      {data && <p data-testid="submittedData">{JSON.stringify(data || {})}</p>}
+      {data && <p data-testid="data">{JSON.stringify(data || {})}</p>}
+      {savedData && (
+        <p data-testid="submittedData">{JSON.stringify(savedData || {})}</p>
+      )}
     </>
   );
 };

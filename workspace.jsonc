@@ -46,7 +46,6 @@
     "policy": {
       "dependencies": {
         "@babel/runtime": "7.20.7",
-        "@react_db_client/async-hooks.use-async-object-manager": "0.2.27",
         "@react_db_client/async-hooks.use-async-request": "0.2.19",
         "@react_db_client/components.emoji": "^0.1.12",
         "@react_db_client/components.form.form-components.bubble-selector": "^0.2.14",
@@ -57,6 +56,7 @@
         "@react_db_client/helpers.func-tools": "^0.1.9",
         "@teambit/eslint-config-bit-react": "~0.0.367",
         "@teambit/harmony": "0.4.6",
+        "@testing-library/react-hooks": "8.0.1",
         "@types/jest": "^29.2.5",
         "@types/node": "18.11.18",
         "@types/react": "^18.0.26",
@@ -73,6 +73,7 @@
         "eslint-plugin-react": "7.31.11",
         "lodash": "^4.17.21",
         "prop-types": "^15.8.1",
+        "react-use": "17.4.0",
         "styled-components": "^5.3.6"
       },
       "peerDependencies": {
