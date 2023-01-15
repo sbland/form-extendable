@@ -17,7 +17,7 @@
     },
     "component": {
         "scope": "samnbuk.form-extendable",
-        "version": "0.1.96",
+        "version": "0.1.97",
         "mainFile": "index.ts",
         "rootDir": "form-extendable/component"
     },
@@ -47,13 +47,13 @@
     },
     "components/generic-catalogue": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.2.225",
+        "version": "0.2.226",
         "mainFile": "index.ts",
         "rootDir": "react_db_client/components/generic-catalogue"
     },
     "components/item-editor": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.2.192",
+        "version": "0.2.193",
         "mainFile": "index.ts",
         "rootDir": "react_db_client/components/item-editor"
     },

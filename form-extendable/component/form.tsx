@@ -28,7 +28,7 @@ export interface IFormProps {
   showKey?: boolean;
   orientation?: 'vert' | 'horiz';
   disableAutocomplete?: boolean;
-  endButtonRefOverride?: React.RefObject<HTMLElement>;
+  endButtonRefOverride?: HTMLElement;
   errorCallback?: (err: string) => void;
   additionalData?: TFormData;
   componentMap?: TComponentMap;
@@ -149,7 +149,7 @@ export const Form = ({
               <Emoji emoj="❌" label="Reset" />
             </button> */}
           </div>,
-          endButtonRefOverride?.current || endButtonContainerRef
+          endButtonRefOverride || endButtonContainerRef
         )}
     </form>
   );
