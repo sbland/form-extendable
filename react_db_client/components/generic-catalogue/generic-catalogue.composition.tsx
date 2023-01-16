@@ -19,7 +19,7 @@ const ItemEditorPopup = (
   > &
     React.ComponentProps<typeof ItemEditor>
 ) => (
-  <PopupPanelManagedWithContentWrap {...props} title="Product Editor">
+  <PopupPanelManagedWithContentWrap {...props} title="Example Editor">
     <ItemEditor {...props} />
   </PopupPanelManagedWithContentWrap>
 );
