@@ -1,7 +1,17 @@
 import { THeading } from '@form-extendable/lib';
-import { EFileType, EFilterType } from '@react_db_client/constants.client-types';
+import {
+  EFileType,
+  EFilterType,
+} from '@react_db_client/constants.client-types';
 
 export const demoParams: THeading<any>[] = [
+  {
+    uid: 'text',
+    label: 'Text',
+    type: EFilterType.text,
+    required: true,
+    group: 0,
+  },
   {
     uid: 'choice',
     label: 'Choice',
@@ -11,7 +21,7 @@ export const demoParams: THeading<any>[] = [
       { uid: 'choiceb', label: 'Choice B' },
     ],
     required: true,
-    group: 0,
+    group: 1,
   },
   {
     uid: 'cost',
@@ -19,13 +29,6 @@ export const demoParams: THeading<any>[] = [
     type: EFilterType.number,
     required: true,
     group: 1,
-  },
-  {
-    uid: 'text',
-    label: 'Text',
-    type: EFilterType.text,
-    required: true,
-    group: 2,
   },
   {
     uid: 'description',
@@ -73,8 +76,22 @@ export const demoData = {
   description: 'A long description',
   images: [],
   val: 9,
-  documentation: [{ filePath: 'doc.pdf', name: 'docpdf', label: 'docpdf', uid: 'docpdfid', fileType: EFileType.DOCUMENT }],
-  thumbnail: { filePath: 'thumbnail.jpg', name: 'thumbnail', label: 'thumbnail', uid: 'thumbnail', fileType: EFileType.IMAGE },
+  documentation: [
+    {
+      filePath: 'doc.pdf',
+      name: 'docpdf',
+      label: 'docpdf',
+      uid: 'docpdfid',
+      fileType: EFileType.DOCUMENT,
+    },
+  ],
+  thumbnail: {
+    filePath: 'thumbnail.jpg',
+    name: 'thumbnail',
+    label: 'thumbnail',
+    uid: 'thumbnail',
+    fileType: EFileType.IMAGE,
+  },
 };
 
 // filePath: PropTypes.string.isRequired,

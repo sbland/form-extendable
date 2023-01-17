@@ -162,4 +162,33 @@ export const BasicFormFileTypesOnly = () => {
   );
 };
 
-BasicForm.waitForReady = async () => {};
+BasicForm.BasicFormFileTypesOnly = async () => {};
+
+export const BasicFormAutosave = () => {
+  const [direction, setDirection] = React.useState<'vert' | 'horiz'>('vert');
+  const { componentMap } = useGetComponentMap();
+  return (
+    <div>
+      <button
+        onClick={() =>
+          setDirection((prev) => (prev === 'vert' ? 'horiz' : 'vert'))
+        }
+      >
+        {direction}
+      </button>
+      <FormStyledExample>
+        <Form
+          {...defaultProps}
+          onSubmit={onSubmit}
+          orientation={direction}
+          componentMap={componentMap}
+          errorCallback={errorCallback}
+          formDataInitial={getInitialFormData()}
+          autosave
+        />
+      </FormStyledExample>
+    </div>
+  );
+};
+
+BasicFormAutosave.waitForReady = async () => {};

@@ -213,11 +213,7 @@ export const useAsyncObjectManager = <DocType extends IDocument>({
     if (save || autoSave) setShouldSave(true);
   };
 
-  const saveData = () => {
-    setShouldSave(true);
-  };
-
-  const updateData = (newData: Partial<DocType>, save) => {
+  const updateData = (newData: Partial<DocType>, save?) => {
     // TODO: Is there a more efficient way to update data here
     setNewData((prev) => {
       let dataCopy = cloneDeep(prev);
@@ -230,6 +226,10 @@ export const useAsyncObjectManager = <DocType extends IDocument>({
       return dataCopy;
     });
     if (save || autoSave) setShouldSave(true);
+  };
+
+  const saveData = () => {
+    setShouldSave(true);
   };
 
   const deleteObject = () => {

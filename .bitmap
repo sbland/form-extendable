@@ -9,15 +9,27 @@
  */
 
 {
+    "async-hooks/use-async-auth-hook": {
+        "scope": "samnbuk.react_db_client",
+        "version": "0.0.2",
+        "mainFile": "index.ts",
+        "rootDir": "react_db_client/async-hooks/use-async-auth-hook"
+    },
     "async-hooks/use-async-object-manager": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.2.33",
+        "version": "0.2.34",
         "mainFile": "index.ts",
         "rootDir": "react_db_client/async-hooks/use-async-object-manager"
     },
+    "async-hooks/use-debounce": {
+        "scope": "samnbuk.react_db_client",
+        "version": "0.0.1",
+        "mainFile": "index.ts",
+        "rootDir": "react_db_client/async-hooks/use-debounce"
+    },
     "component": {
         "scope": "samnbuk.form-extendable",
-        "version": "0.1.98",
+        "version": "0.1.104",
         "mainFile": "index.ts",
         "rootDir": "form-extendable/component"
     },
@@ -47,13 +59,13 @@
     },
     "components/generic-catalogue": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.2.227",
+        "version": "0.2.233",
         "mainFile": "index.ts",
         "rootDir": "react_db_client/components/generic-catalogue"
     },
     "components/item-editor": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.2.194",
+        "version": "0.2.200",
         "mainFile": "index.ts",
         "rootDir": "react_db_client/components/item-editor"
     },
@@ -203,7 +215,7 @@
     },
     "utils": {
         "scope": "samnbuk.form-extendable",
-        "version": "0.1.28",
+        "version": "0.1.31",
         "mainFile": "index.ts",
         "rootDir": "form-extendable/utils"
     },

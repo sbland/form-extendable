@@ -62,6 +62,11 @@ const defaultProps: IGenericCatalogueProps<IDocument> = {
   customParsers: {},
   customSort: null,
   errorCallback: () => {},
+  itemEditorProps: {
+    formProps: {
+      autosave: true
+    }
+  }
 };
 
 export const WrappedGenericCatalogue = () => (

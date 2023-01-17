@@ -10,23 +10,21 @@ import {
 import { FormField as DefaultFormField, IFormFieldProps } from './form-field';
 import { FormSection } from '@form-extendable/styles';
 
-export interface IFormInputsProps {
+export interface IFormInputsProps<CompleteFormType> {
   FormField: React.FC<IFormFieldProps<any, THeading<any>>>;
   headings: THeading<any>[];
-  formData: TFormData;
+  formData: CompleteFormType;
   onFormInputChange: (uid: Uid, val: any) => void;
   orientation: 'horiz' | 'vert';
   heading?: Uid;
   showTitle?: boolean;
-  isSection?: boolean;
-  showKey?: boolean;
-  additionalData?: TFormData;
+  additionalData?: Partial<CompleteFormType>;
   componentMap: TComponentMap;
   styleOverrides?: React.CSSProperties;
   id: Uid;
 }
 
-export const FormInputs = ({
+export const FormInputs = <CompleteFormType, >({
   FormField,
   headings,
   formData,
@@ -34,13 +32,11 @@ export const FormInputs = ({
   orientation,
   heading: sectionTitle,
   showTitle,
-  isSection,
-  showKey,
   additionalData,
   componentMap,
   styleOverrides = {},
   id,
-}: IFormInputsProps) => {
+}: IFormInputsProps<CompleteFormType>) => {
   const className = [
     'form_inputs',
     'formSection',
@@ -94,7 +90,6 @@ export const FormInputs = ({
 
   return (
     <FormSection className={className} style={styleOverrides}>
-      {!isSection && showKey && <p>* is required. (!) has been modified.</p>}
       {showTitle && <h4 className="formSection_heading">{sectionTitle}</h4>}
       {fields}
     </FormSection>

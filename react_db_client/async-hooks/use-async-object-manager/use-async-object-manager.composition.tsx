@@ -122,11 +122,8 @@ const defaultArgs: IUseAsyncObjectManagerArgs<IDemoDoc> = {
 
 const useDemoDatabase = () => {
   const [data, setData] = React.useState(cloneDeep(demoDbData));
-  // console.info(data)
   const asyncGetDocument = async (collection, uid) => {
-    console.info("DATA IN CALL", data)
     await sleep(100);
-    // console.info(data[collection][uid]);
     return data[collection][uid];
   };
   const asyncPutDocument = async (collection, uid, objData) => {
@@ -156,8 +153,6 @@ const useDemoDatabase = () => {
     }));
     return { ok: true };
   };
-
-  // console.info(data);
 
   return {
     dbData: data,

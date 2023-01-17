@@ -39,7 +39,7 @@ const componentMap = getComponentMap(
   () => {}
 );
 
-export const defaultProps: IFormProps = {
+export const defaultProps: IFormProps<any> = {
   FormField,
   headings: demoHeadingsData,
   onSubmit,

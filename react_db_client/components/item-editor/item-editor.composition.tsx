@@ -70,6 +70,48 @@ BasicItemEditor.waitForReady = async () => {
   );
 };
 
+export const BasicItemEditorAutosave = () => {
+  const [data, setData] = React.useState(null);
+  const [savedData, setSavedData] = React.useState(null);
+  const [callCount, setCallCount] = React.useState(0);
+  return (
+    <>
+      <FormThemeProvider theme={defaultTheme}>
+        <ItemEditor
+          id="demo-id"
+          inputUid={demoData.uid}
+          isNew={false}
+          // onSubmitCallback={(d) => setData(d)}
+          onSubmitCallback={() => setCallCount((prev) => prev + 1)}
+          additionalData={{}}
+          params={[demoParams[0]]}
+          collection="democollection"
+          asyncGetDocument={async () => demoData}
+          asyncPutDocument={async (collection, id, data) => {
+            // setSavedData(data);
+            return { ok: true };
+          }}
+          asyncPostDocument={async () => ({ ok: true })}
+          asyncDeleteDocument={async () => ({ ok: true })}
+          componentMap={componentMap}
+          formProps={{
+            errorCallback: console.warn,
+            autosave: true,
+            debounceTimeout: 1000,
+          }}
+        />
+      </FormThemeProvider>
+      {data && <p data-testid="data">{JSON.stringify(data || {})}</p>}
+      {savedData && (
+        <p data-testid="submittedData">{JSON.stringify(savedData || {})}</p>
+      )}
+      <p data-testid="callCount">{callCount}</p>
+    </>
+  );
+};
+
+BasicItemEditorAutosave.waitForReady = async () => {};
+
 export const TestForm = () => {
   return (
     <FormThemeProvider theme={defaultTheme}>

@@ -1,3 +1,3 @@
 export type { IValidationError } from './validation';
 export { formValidation } from './validation';
-export { useDebounce } from './useDebounce';
+export { useDebounce } from './use-debounce';

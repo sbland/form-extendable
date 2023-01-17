@@ -1,7 +1,10 @@
 import React, { useCallback, useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 
-import { IUseAsyncObjectManagerArgs, useAsyncObjectManager } from '@react_db_client/async-hooks.use-async-object-manager';
+import {
+  IUseAsyncObjectManagerArgs,
+  useAsyncObjectManager,
+} from '@react_db_client/async-hooks.use-async-object-manager';
 import { Form, FormField, IFormProps } from '@form-extendable/component';
 import { TComponentMap, THeading } from '@form-extendable/lib';
 
@@ -36,7 +39,7 @@ export interface IItemEditorProps<ResultType extends IDocument> {
   saveErrorCallback?: (e: AsyncRequestError) => void;
   onCancel?: () => void;
   submitBtnText?: string;
-  formProps?: Partial<IFormProps>;
+  formProps?: Partial<IFormProps<ResultType>>;
   groupFieldsOrientation?: 'horiz' | 'vert';
   asyncObjectManagerProps?: Partial<IUseAsyncObjectManagerArgs<ResultType>>;
 }
@@ -60,8 +63,8 @@ export const ItemEditor = <ResultType extends IDocument>({
   componentMap,
   saveErrorCallback,
   submitBtnText = 'Save Item',
-  formProps = {},
   groupFieldsOrientation = 'vert',
+  formProps = {},
   asyncObjectManagerProps = {},
 }: IItemEditorProps<ResultType>) => {
   const [overridenFields, setOverridenFields] = useState<string[]>([]);
@@ -120,13 +123,6 @@ export const ItemEditor = <ResultType extends IDocument>({
     [savedData, updateField]
   );
 
-  const handleOnChange = useCallback(
-    (field, value) => {
-      handleUpdate(field, value);
-    },
-    [handleUpdate]
-  );
-
   const classNames = [id].filter((f) => f).join(' ');
 
   return (
@@ -136,12 +132,12 @@ export const ItemEditor = <ResultType extends IDocument>({
           formDataInitial={data}
           headings={mappedFields}
           onSubmit={saveData}
-          onChange={handleOnChange}
+          onChange={handleUpdate}
           showEndBtns
           submitBtnText={submitBtnText}
           componentMap={componentMap}
           FormField={FormField}
-          {...formProps}
+          {...(formProps as Partial<IFormProps<ResultType>>)}
         />
       </div>
     </div>

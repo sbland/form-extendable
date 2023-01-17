@@ -6,8 +6,8 @@ export interface IValidationError {
   fields?: Uid[];
 }
 
-export const formValidation = <V>(
-  data: TFormData,
+export const formValidation = <D, V>(
+  data: D,
   headings: THeading<V>[]
 ): boolean | IValidationError => {
   const requiredHeadings = headings.filter((h) => h.required);

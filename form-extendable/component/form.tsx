@@ -1,28 +1,38 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import cloneDeep from 'lodash/cloneDeep';
-import { Uid } from '@react_db_client/constants.client-types';
+import { IDocument, Uid } from '@react_db_client/constants.client-types';
 import { Emoji } from '@react_db_client/components.emoji';
+// import { useDebounce } from '@react_db_client/async-hooks.use-debounce';
 import { defaultComponentMap } from '@form-extendable/components.component-map';
 import { TComponentMap, TFormData, THeading } from '@form-extendable/lib';
-import { formValidation, IValidationError } from '@form-extendable/utils';
+import {
+  formValidation,
+  IValidationError,
+  useDebounce,
+} from '@form-extendable/utils';
 
 import { FormField as DefaultFormField, IFormFieldProps } from './form-field';
 import { FormInputs } from './form-inputs';
+import { FormStatus, IFormStatusProps } from './form-status';
 
-export interface IFormSubmit {
-  formEditData: TFormData;
-  formData: TFormData;
+export interface IFormSubmit<CompleteFormType> {
+  formEditData: Partial<CompleteFormType>;
+  formData: CompleteFormType;
 }
 
-export interface IFormProps {
+export interface IFormProps<CompleteFormType> {
   id?: Uid;
   FormField?: React.FC<IFormFieldProps<any, THeading<any>>>;
-  formDataInitial?: TFormData;
+  formDataInitial?: Partial<CompleteFormType>;
   headings: THeading<any>[];
-  onSubmit: (submissionData: IFormSubmit) => void;
-  onChange?: (field: string, value: any, newFormData: TFormData) => void;
+  onSubmit: (submissionData: IFormSubmit<CompleteFormType>) => void;
+  onChange?: (
+    field: string,
+    value: any,
+    newFormData: Partial<CompleteFormType>
+  ) => void;
   showEndBtns?: boolean;
   submitBtnText?: React.ReactNode;
   showKey?: boolean;
@@ -30,10 +40,12 @@ export interface IFormProps {
   disableAutocomplete?: boolean;
   endButtonRefOverride?: HTMLElement;
   errorCallback?: (err: string) => void;
-  additionalData?: TFormData;
+  additionalData?: Partial<CompleteFormType>;
   componentMap?: TComponentMap;
+  autosave?: boolean;
+  FormStatusComponent?: React.FC<IFormStatusProps>;
+  debounceTimeout?: number;
 }
-
 /** Generic Form Component that manages updates and layout
  *
  * The Form component handles general form requirements such as storing
@@ -56,74 +68,138 @@ export interface IFormProps {
 Useful when using a custom field
  * componentMap - a map of field type against react component
  */
-export const Form = ({
+export const Form = <CompleteFormType,>({
   id,
-  FormField,
-  formDataInitial,
+  FormField = DefaultFormField,
+  formDataInitial = {},
   headings,
   onSubmit,
-  onChange,
-  showEndBtns,
-  submitBtnText,
-  showKey,
-  orientation,
+  onChange = () => {},
+  showEndBtns = true,
+  submitBtnText = null,
+  showKey = true,
+  orientation = 'vert',
   disableAutocomplete,
   endButtonRefOverride,
-  errorCallback,
-  additionalData,
+  errorCallback = () => {},
+  additionalData = {},
+  autosave = false,
+  debounceTimeout = 400,
+  FormStatusComponent = FormStatus,
   componentMap = defaultComponentMap(),
-}: IFormProps) => {
-  const [formEditData, setFormEditData] = useState({});
+}: IFormProps<CompleteFormType>) => {
+  const [formEditData, setFormEditData] = React.useState<
+    Partial<CompleteFormType>
+  >({});
+  const [submitting, setSubmitting] = React.useState(false);
+  const [formDirty, setFormDirty] = React.useState(false);
+  const [hasLocalChanges, setHasLocalChanges] = React.useState(false);
+  const [lastChangedFieldValue, setlLastChangedFieldValue] =
+    React.useState<[any, any]>();
+  const callSubmitDebounced = useDebounce({
+    fn: async (submitData: IFormSubmit<CompleteFormType>) =>
+      onSubmit(submitData),
+    timeout: debounceTimeout,
+    callback: async () => {
+      setSubmitting(false);
+      setFormDirty(false);
+    },
+  });
   const [endButtonContainerRef, setEndButtonContainerRef] =
-    useState<HTMLElement | null>(null);
-
-  const formData = useMemo<TFormData>(
+    React.useState<HTMLElement | null>(null);
+  const formData = React.useMemo<CompleteFormType>(
     () => ({ ...cloneDeep(formDataInitial), ...formEditData }),
     [formDataInitial, formEditData]
   );
 
-  const updateFormData = useCallback(
+  const updateFormData = React.useCallback(
     (field, value) => {
+      setFormDirty(true);
+      setHasLocalChanges(true);
+      setlLastChangedFieldValue([field, value]);
       setFormEditData((prev) => {
         const newFormData = cloneDeep(prev);
         newFormData[field] = value;
-        if (onChange) onChange(field, value, newFormData);
         return newFormData;
       });
     },
-    [onChange]
+    [onChange, autosave]
   );
 
-  // const handleReset = () => {
-  //   setFormEditData({});
-  // };
+  const handleSubmit = React.useCallback(
+    (debounce = true, throwErrors = true) => {
+      setSubmitting(true);
+      const validationResult = formValidation(formData, headings);
+      if (validationResult === true && debounce)
+        callSubmitDebounced({ formEditData, formData });
+      else if (validationResult === true && !debounce) {
+        onSubmit({ formEditData, formData });
+        setSubmitting(false);
+        setFormDirty(false);
+      } else if (errorCallback && throwErrors) {
+        errorCallback((validationResult as IValidationError).error);
+      } else {
+        // TODO: Handle errors when autosaving
+      }
+    },
+    [
+      formData,
+      formEditData,
+      headings,
+      callSubmitDebounced,
+      onSubmit,
+      errorCallback,
+    ]
+  );
 
-  const handleSubmit = useCallback(() => {
-    const passesFormValidation = formValidation(formData, headings);
-    if (passesFormValidation === true) onSubmit({ formEditData, formData });
-    else if (errorCallback) {
-      errorCallback((passesFormValidation as IValidationError).error);
+  React.useEffect(() => {
+    if (hasLocalChanges) {
+      setHasLocalChanges(false);
+      if (onChange && lastChangedFieldValue) {
+        const [field, value] = lastChangedFieldValue;
+        onChange(field, value, formEditData);
+      }
+      if (autosave) {
+        handleSubmit(true, false);
+      }
     }
-  }, [formData, formEditData, headings, onSubmit, errorCallback]);
+  }, [
+    hasLocalChanges,
+    handleSubmit,
+    autosave,
+    onChange,
+    lastChangedFieldValue,
+  ]);
+
+  const message =
+    (submitting && 'Saving unsaved changes') ||
+    ((hasLocalChanges || formDirty) && 'Unsaved changes!') ||
+    'All changes are saved';
 
   return (
     <form
       aria-label="form" // TODO: Get name from props
       onSubmit={(e) => {
         e.preventDefault();
-        handleSubmit();
+        handleSubmit(false);
       }}
       // Another possible hack to stop autocomplete on chrome
       // autoComplete={disableAutocomplete ? 'chrome-off' : 'on'}
       autoComplete={disableAutocomplete ? 'off' : 'on'}
       className="form sectionWrapper"
+      style={{ flexDirection: 'column' }}
     >
+      {(showKey || FormStatusComponent) && (
+        <section>
+          {showKey && <p>* is required. (!) has been modified.</p>}
+          {FormStatusComponent && <FormStatusComponent message={message} />}
+        </section>
+      )}
       <FormInputs
         id={id}
         headings={headings}
         formData={formData}
         onFormInputChange={updateFormData}
-        showKey={showKey}
         orientation={orientation}
         additionalData={additionalData}
         componentMap={componentMap}
@@ -141,7 +217,7 @@ export const Form = ({
             <button
               type="button"
               className="button-two submitBtn"
-              onClick={handleSubmit}
+              onClick={() => handleSubmit(false)}
             >
               {submitBtnText || <Emoji emoj="💾" label="Submit" />}
             </button>
@@ -155,58 +231,60 @@ export const Form = ({
   );
 };
 
-Form.propTypes = {
-  FormField: PropTypes.elementType,
-  /* Initial form mdata */
-  formDataInitial: PropTypes.objectOf(PropTypes.any),
-  /* Form field headings data */
-  headings: PropTypes.arrayOf(
-    PropTypes.shape({
-      uid: PropTypes.string.isRequired,
-      label: PropTypes.string.isRequired,
-      type: PropTypes.string.isRequired,
-    })
-  ).isRequired,
-  /* Called on form submit */
-  onSubmit: PropTypes.func.isRequired,
-  /* Called when inputs change */
-  onChange: PropTypes.func,
-  /* Show save buttons */
-  showEndBtns: PropTypes.bool,
-  /* Text to display in submit btn */
-  submitBtnText: PropTypes.node,
-  /* Disable autocomplete for the form */
-  disableAutocomplete: PropTypes.bool,
-  /* Show info key */
-  showKey: PropTypes.bool,
-  /* Form orientation (horiz/vert) */
-  orientation: PropTypes.oneOf(['horiz', 'vert']),
-  /* React reference for button container */
-  endButtonRefOverride: PropTypes.oneOfType([
-    // Either a function
-    PropTypes.func,
-    // Or the instance of a DOM native element (see the note about SSR)
-    PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
-  ]), // Should be a react reference
-  /* Callback on error */
-  errorCallback: PropTypes.func,
-  /* Additional data to apply to form on save */
-  additionalData: PropTypes.shape({}),
-  /* Mapping of field type id to React component field component */
-  componentMap: PropTypes.objectOf(PropTypes.elementType),
-};
+// Form.propTypes = {
+//   FormField: PropTypes.elementType,
+//   /* Initial form mdata */
+//   formDataInitial: PropTypes.objectOf(PropTypes.any),
+//   /* Form field headings data */
+//   headings: PropTypes.arrayOf(
+//     PropTypes.shape({
+//       uid: PropTypes.string.isRequired,
+//       label: PropTypes.string.isRequired,
+//       type: PropTypes.string.isRequired,
+//     })
+//   ).isRequired,
+//   /* Called on form submit */
+//   onSubmit: PropTypes.func.isRequired,
+//   /* Called when inputs change */
+//   onChange: PropTypes.func,
+//   /* Show save buttons */
+//   showEndBtns: PropTypes.bool,
+//   /* Text to display in submit btn */
+//   submitBtnText: PropTypes.node,
+//   /* Disable autocomplete for the form */
+//   disableAutocomplete: PropTypes.bool,
+//   /* Show info key */
+//   showKey: PropTypes.bool,
+//   /* Form orientation (horiz/vert) */
+//   orientation: PropTypes.oneOf(['horiz', 'vert']),
+//   /* React reference for button container */
+//   endButtonRefOverride: PropTypes.oneOfType([
+//     // Either a function
+//     PropTypes.func,
+//     // Or the instance of a DOM native element (see the note about SSR)
+//     PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
+//   ]), // Should be a react reference
+//   /* Callback on error */
+//   errorCallback: PropTypes.func,
+//   /* Additional data to apply to form on save */
+//   additionalData: PropTypes.shape({}),
+//   /* Mapping of field type id to React component field component */
+//   componentMap: PropTypes.objectOf(PropTypes.elementType),
+//   FormStatusComponent: PropTypes.elementType,
+// };
 
-Form.defaultProps = {
-  FormField: DefaultFormField,
-  formDataInitial: {},
-  onChange: () => {},
-  showEndBtns: true,
-  submitBtnText: null,
-  showKey: true,
-  orientation: 'vert',
-  disableAutocomplete: false,
-  endButtonRefOverride: null,
-  errorCallback: alert,
-  additionalData: {},
-  componentMap: defaultComponentMap(),
-};
+// Form.defaultProps = {
+//   FormField: DefaultFormField,
+//   formDataInitial: {} as any,
+//   onChange: () => {},
+//   showEndBtns: true,
+//   submitBtnText: null,
+//   showKey: true,
+//   orientation: 'vert',
+//   disableAutocomplete: false,
+//   endButtonRefOverride: null,
+//   errorCallback: alert,
+//   additionalData: {} as any,
+//   componentMap: defaultComponentMap(),
+//   FormStatusComponent: FormStatus,
+// };
