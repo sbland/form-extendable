@@ -9,8 +9,8 @@ export const StyledListStyle = styled.div`
   display: flex;
   flex-direction: column;
   position: relative;
-  width: '100%',
-  overflow: 'auto',
+  width: 100%;
+  overflow: auto;
   padding-bottom: 0.2rem;
 `;
 

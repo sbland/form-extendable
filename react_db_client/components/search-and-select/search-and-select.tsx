@@ -8,7 +8,10 @@ import {
   EFilterType,
   EComparisons,
 } from '@react_db_client/constants.client-types';
-import { StyledSelectList } from '@react_db_client/components.styled-select-list';
+import {
+  StyledSelectList,
+  IStyledSelectListProps,
+} from '@react_db_client/components.styled-select-list';
 import {
   FilterId,
   FilterPanel,
@@ -42,20 +45,19 @@ export interface ISearchAndSelectProps<ResultType extends IDocument>
   searchFieldTargetField?: string;
   acceptSelectionBtnText?: string;
   showRefreshBtn?: boolean;
-  limitResultHeight?: number;
   sortBy?: 'uid' | string;
   reverseSort?: boolean;
   reloadKey?: null | number;
   loadOnInit?: boolean;
   noEmptySearch?: boolean;
   liveUpdate?: boolean;
-  autoWidth?: boolean;
   customParsers?: { [key: string]: CustomParser };
   labelField?: 'label' | string;
   allowSelectionPreview?: boolean;
   autoPreview?: boolean;
   initialSearchValue?: string;
   selectionPreviewProps?: Partial<ISelectionPreviewProps>;
+  styledSelectListProps?: Partial<IStyledSelectListProps<ResultType>>;
 }
 export const EmptyArray = [];
 
@@ -87,20 +89,19 @@ export const SearchAndSelect = <ResultType extends IDocument>({
   searchFieldTargetField,
   acceptSelectionBtnText,
   showRefreshBtn,
-  limitResultHeight,
   sortBy: sortByOverride,
   reverseSort = false,
   reloadKey,
   loadOnInit,
   noEmptySearch,
   liveUpdate,
-  autoWidth, // Auto calc column width
   customParsers,
   labelField = 'label',
   allowSelectionPreview,
   autoPreview,
   initialSearchValue = '',
   selectionPreviewProps = {},
+  styledSelectListProps = {},
   ...inputProps
 }: ISearchAndSelectProps<ResultType>) => {
   const [showPreview, setShowPreview] = useState(autoPreview);
@@ -336,19 +337,18 @@ export const SearchAndSelect = <ResultType extends IDocument>({
                 cursor: loading ? 'progress' : 'default',
               }}
             >
-              <StyledSelectList
+              <StyledSelectList<ResultType>
                 listInput={results || []}
                 headings={headings}
                 handleSelect={
                   loading
-                    ? () => {}
+                    ? ((() => {}) as any)
                     : (uid, data) => handleItemSelect(data, returnFieldOnSelect)
                 }
                 currentSelection={currentSelectionUid}
-                limitHeight={limitResultHeight}
                 selectionField="uid"
-                autoWidth={autoWidth}
-                customParsers={customParsers}
+                customParsers={customParsers || {}}
+                {...styledSelectListProps}
               />
             </div>
             {loading && (
