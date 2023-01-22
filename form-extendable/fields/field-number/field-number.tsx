@@ -12,7 +12,10 @@ const parseInput = (value) =>
     ? ''
     : Number(value);
 
-export type TFieldNumberProps = IFieldComponentProps<number, IHeadingNumber>;
+export type TFieldNumberProps = IFieldComponentProps<
+  number | '',
+  IHeadingNumber
+>;
 
 export const FieldNumber: React.FC<TFieldNumberProps> = ({
   uid,
@@ -21,7 +24,7 @@ export const FieldNumber: React.FC<TFieldNumberProps> = ({
   min = -999999999999,
   max = 999999999999,
   step,
-  defaultValue = 0,
+  defaultValue = '',
   onChange,
   value: valueIn,
   required,
@@ -29,23 +32,49 @@ export const FieldNumber: React.FC<TFieldNumberProps> = ({
 }) => {
   const ref = useRef<HTMLInputElement>(null);
   const value = parseInput(valueIn);
+  const [focused, setFocused] = React.useState(false);
 
   if (type !== 'number') throw Error(`Type must be number. Type is ${type}`);
 
   const onFocus = () => {
-    if (value === '' && parseInput(defaultValue) !== '') onChange(defaultValue);
-    else if (value !== '' && value < min) onChange(min);
-    else if (value !== '' && value > max) onChange(max);
+    setFocused(true);
+    if ((value === '' || value == null) && parseInput(defaultValue) !== '')
+      onChange(defaultValue as '');
+    else if (value === '' || value == null) {
+      // skip
+    } else if (value < min) onChange(min);
+    else if (value > max) onChange(max);
+    else onChange(value);
     ref.current?.select();
   };
 
   const onBlur = () => {
-    if (value === '' && parseInput(defaultValue) !== '') onChange(defaultValue);
-    else if (value !== '' && value < min) onChange(min);
-    else if (value !== '' && value > max) onChange(max);
+    setFocused(false);
+    if ((value === '' || value == null) && parseInput(defaultValue) !== '')
+      onChange(defaultValue as '');
+    else if (value === '' || value == null) {
+      // skip
+    } else if (value < min) onChange(min);
+    else if (value > max) onChange(max);
   };
 
-  const onChangeMiddle = (e) => onChange(parseFloat(e.target.value));
+  function handleClickOutside(event) {
+    if (ref.current && !ref.current.contains(event.target)) {
+      onBlur();
+    }
+  }
+  React.useEffect(() => {
+    if (focused) document.addEventListener('mousedown', handleClickOutside);
+    else document.removeEventListener('mousedown', handleClickOutside);
+    return () => {
+      // Unbind the event listener on clean up
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [focused]);
+
+  const onChangeMiddle = (e) => {
+    onChange(parseFloat(e.target.value));
+  };
 
   return (
     <>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import UserEvent from '@testing-library/user-event';
 import * as compositions from './field-number.composition';
 import { FieldNumber } from './field-number';
@@ -43,22 +43,40 @@ describe('field number', () => {
       );
     });
     describe('Modifying Input', () => {
-      const val = '';
-      const getComponent = () =>
-        render(
-          <FieldNumber {...defaultProps} value={val as unknown as number} />
-        );
       test('should set to empty if value is empty', () => {
-        getComponent();
+        render(<compositions.BasicFieldNumber />);
         const input = screen.getByRole<HTMLInputElement>('spinbutton');
         expect(input.value).toEqual('');
       });
       test('should set to empty if value is empty and defocus', async () => {
-        getComponent();
+        render(<compositions.BasicFieldNumber />);
+        const curState = screen.getByTestId('curState');
+        expect(curState.textContent).toEqual('[""]');
         const input = screen.getByRole<HTMLInputElement>('spinbutton');
+        expect(input.value).toEqual('');
         await UserEvent.click(input);
+        expect(input).toHaveFocus();
         await UserEvent.click(document.body);
         expect(input.value).toEqual('');
+        expect(curState.textContent).toEqual('[""]');
+      });
+      test('should set to empty if value is cleared and defocus', async () => {
+        render(<compositions.BasicFieldNumberWithValue />);
+        const curState = screen.getByTestId('curState');
+        expect(curState.textContent).toEqual('[4]');
+        const input = screen.getByRole<HTMLInputElement>('spinbutton');
+        expect(input.value).toEqual('4');
+        await UserEvent.click(input);
+        expect(input).toHaveFocus();
+        await UserEvent.clear(input);
+        expect(input).toHaveFocus();
+        await UserEvent.keyboard('[Backspace]');
+        expect(input).toHaveFocus();
+        await UserEvent.click(document.body);
+        expect(input).not.toHaveFocus();
+        expect(curState.textContent).toEqual('[3]');
+        await waitFor(() => expect(screen.getByRole<HTMLInputElement>('spinbutton').value).toEqual("3"));
+        expect(screen.getByRole<HTMLInputElement>('spinbutton').value).toEqual("3");
       });
     });
   });

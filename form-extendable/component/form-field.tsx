@@ -92,7 +92,7 @@ export const FormField = <V, H extends THeading<V>>(
       value,
       key: `${heading.uid}-sub`,
       additionalData,
-     ...heading,
+      ...heading,
     };
     return fProps;
   }, [heading, onChange, value, additionalData]);

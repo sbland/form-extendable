@@ -67,11 +67,12 @@ export const WrapFieldComponent: React.FC<IWrapFieldComponentProps> = ({
         return (
           <FormFieldWrap
             uid={childEl.props.uid}
+            key={childEl.props.uid}
             type={childEl.props.type}
             label={childEl.props.label}
           >
             {React.cloneElement(child as React.ReactElement<any>, {
-              key: `${i}_${JSON.stringify(state[i])}`,
+              // key: `${i}_${JSON.stringify(state[i])}`,
               value: state[i],
               onChange: (v) => {
                 if (debug) {

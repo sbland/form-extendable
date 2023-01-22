@@ -26,7 +26,7 @@ export type TFieldComponent = unknown;
 export interface IItemEditorProps<ResultType extends IDocument> {
   id: Uid;
   inputUid?: Uid | null;
-  isNew: boolean;
+  isNew?: boolean;
   onSubmitCallback: (data: ResultType) => void;
   additionalData?: Partial<ResultType>;
   params: THeading<any>[];
@@ -155,7 +155,7 @@ export const ItemEditor = <ResultType extends IDocument>({
         />
         {autosave ||
           (formProps.autosave &&
-            endButtonRefOverride &&
+            endButtonContainerRef &&
             onCancel &&
             ReactDOM.createPortal(
               <div className="submitBtns">

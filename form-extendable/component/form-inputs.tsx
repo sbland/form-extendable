@@ -24,7 +24,7 @@ export interface IFormInputsProps<CompleteFormType> {
   id: Uid;
 }
 
-export const FormInputs = <CompleteFormType, >({
+export const FormInputs = <CompleteFormType,>({
   FormField,
   headings,
   formData,
@@ -47,6 +47,7 @@ export const FormInputs = <CompleteFormType, >({
     .filter((f) => f)
     .join(' ');
 
+  // console.info('FORM DATA', formData?.numberCapped);
   const fields = useMemo(
     () =>
       headings.map((heading) => {
@@ -85,7 +86,14 @@ export const FormInputs = <CompleteFormType, >({
           />
         );
       }),
-    [headings, formData, onFormInputChange, additionalData, componentMap]
+    [
+      headings,
+      formData,
+      onFormInputChange,
+      additionalData,
+      componentMap,
+      FormField,
+    ]
   );
 
   return (
