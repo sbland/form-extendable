@@ -95,9 +95,12 @@ export const useAsyncObjectManager = <DocType extends IDocument>({
     isNew || !activeUid ? generateUid(collection, null, null) : activeUid
   );
   const [unsavedChanges, setUnsavedChanges] = React.useState(false); // TODO: Implement this
-  const [savingDataState, asyncSaveData] = useAsyncFn(
-    isNew ? asyncPostDocument : asyncPutDocument
-  );
+  const [savingDataState, asyncSaveData] = useAsyncFn(asyncPutDocument, [
+    asyncPutDocument,
+  ]);
+  const [savingNewDataState, asyncSaveNewData] = useAsyncFn(asyncPostDocument, [
+    asyncPostDocument,
+  ]);
   const [deletingDataState, asyncDeleteData] = useAsyncFn(asyncDeleteDocument);
   const [loadedDataState, callLoadData] = useAsyncFn(
     async () => asyncGetDocument(collection, uid, schema, populate),
@@ -123,16 +126,17 @@ export const useAsyncObjectManager = <DocType extends IDocument>({
   }, [loadOnInit, callLoadData]);
 
   React.useEffect(() => {
-    if (savingDataState.error) {
+    const error = savingDataState.error || savingNewDataState.error;
+    if (error) {
       if (saveErrorCallback)
         saveErrorCallback(
           new AsyncRequestError(
-            savingDataState.error?.message || 'Unknown Async Request Error',
-            savingDataState.error
+            error?.message || 'Unknown Async Request Error',
+            error
           )
         );
     }
-  }, [savingDataState, saveErrorCallback]);
+  }, [savingDataState, savingNewDataState, saveErrorCallback]);
 
   React.useEffect(() => {
     if (
@@ -170,7 +174,8 @@ export const useAsyncObjectManager = <DocType extends IDocument>({
         uid,
       };
       const fullData = { ...combinedData, uid };
-      asyncSaveData(collection, uid, dataToSave).then((response) => {
+      const postCall = isNew ? asyncSaveNewData : asyncSaveData;
+      postCall(collection, uid, dataToSave).then((response) => {
         setIsNew(false);
         setUnsavedChanges(false);
         setSavedData(combinedData);
@@ -179,8 +184,19 @@ export const useAsyncObjectManager = <DocType extends IDocument>({
         if (reloadOnSave) callLoadData();
       });
     }
-    // TODO: Handle saving
-  }, [uid, combinedData, newData, shouldSave, reloadOnSave, loadedDataState]);
+  }, [
+    uid,
+    collection,
+    combinedData,
+    newData,
+    shouldSave,
+    reloadOnSave,
+    loadedDataState,
+    isNew,
+    asyncSaveData,
+    asyncSaveNewData,
+    inputAdditionalData,
+  ]);
 
   const updateField = (field, value, save?: boolean, nested?: string) => {
     // TODO: Is there a more efficient way to update data here
@@ -263,10 +279,10 @@ export const useAsyncObjectManager = <DocType extends IDocument>({
     resetData,
     reload,
     deleteObject,
-    saveResponse: savingDataState.value,
+    saveResponse: savingDataState.value || savingNewDataState.value,
     deleteResponse: deletingDataState.value,
     loadingData: loadedDataState.loading,
-    savingData: savingDataState.loading,
+    savingData: savingDataState.loading || savingNewDataState.loading,
     deletingData: deletingDataState.loading,
     data: combinedData,
     savedData,

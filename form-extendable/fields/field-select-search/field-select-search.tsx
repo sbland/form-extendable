@@ -1,10 +1,8 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import {
   IItem,
-  ISearchAndSelectDropdownProps,
   SearchAndSelectDropdown,
-  SelectFn,
 } from '@react_db_client/components.search-and-select-dropdown';
 import {
   IFieldComponentProps,
@@ -13,13 +11,10 @@ import {
   IObj,
 } from '@form-extendable/lib';
 
-export type TFieldSelectSearchProps<V extends IObj> = IFieldComponentProps<V> &
-  IHeadingSelectSearch<V>;
-
-export type IFieldSelectSearchMultiProps<V extends IObj> = IFieldComponentProps<
-  V[]
-> &
-  IHeadingSelectSearchMulti<V>;
+export type TFieldSelectSearchProps<V extends IObj> = IFieldComponentProps<
+  V,
+  IHeadingSelectSearch<V extends IObj ? V : never>
+>;
 
 export interface ISearchResult extends IObj, IItem {}
 

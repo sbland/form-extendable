@@ -165,7 +165,7 @@ export const GenericCatalogue = <ResultType extends IDocument>({
       if (customSort) return docs.sort(customSort);
       return docs;
     },
-    [collection, resultsHeadings]
+    [collection, resultsHeadings, asyncGetDocuments, customSort]
   );
 
   const onSubmitCallback = useCallback(
@@ -175,7 +175,7 @@ export const GenericCatalogue = <ResultType extends IDocument>({
       if (closePopupOnItemSave) setShowEditor(false);
       setReloadDataKey((prev) => prev + 1);
     },
-    [itemName]
+    [itemName, notificationDispatch, closePopupOnItemSave]
   );
 
   const handleCloseItemEditor = React.useCallback(() => {
@@ -224,6 +224,7 @@ export const GenericCatalogue = <ResultType extends IDocument>({
             <b>Adjust the filters below to search for {itemName}s</b>
           </p>
           <SearchAndSelect
+            id={id}
             key={reloadDatakey}
             searchFunction={searchFn}
             initialFilters={additionalFilters}

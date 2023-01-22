@@ -1,10 +1,11 @@
 import React, { useCallback, useState, useMemo } from 'react';
-import PropTypes from 'prop-types';
+import ReactDOM from 'react-dom';
 
 import {
   IUseAsyncObjectManagerArgs,
   useAsyncObjectManager,
 } from '@react_db_client/async-hooks.use-async-object-manager';
+import { AsyncRequestError } from '@react_db_client/async-hooks.use-async-request';
 import { Form, FormField, IFormProps } from '@form-extendable/component';
 import { TComponentMap, THeading } from '@form-extendable/lib';
 
@@ -18,7 +19,6 @@ import {
   Uid,
 } from '@react_db_client/constants.client-types';
 import { mapFields } from './field-mapper';
-import { AsyncRequestError } from '@react_db_client/async-hooks.use-async-request';
 
 export interface IParam extends ILabelled {}
 export type TFieldComponent = unknown;
@@ -37,7 +37,9 @@ export interface IItemEditorProps<ResultType extends IDocument> {
   asyncDeleteDocument: TAsyncDeleteDocument;
   componentMap: TComponentMap;
   saveErrorCallback?: (e: AsyncRequestError) => void;
+  endButtonRefOverride?: HTMLElement;
   onCancel?: () => void;
+  autosave?: boolean;
   submitBtnText?: string;
   formProps?: Partial<IFormProps<ResultType>>;
   groupFieldsOrientation?: 'horiz' | 'vert';
@@ -61,14 +63,18 @@ export const ItemEditor = <ResultType extends IDocument>({
   asyncPostDocument,
   asyncDeleteDocument,
   componentMap,
-  saveErrorCallback,
+  saveErrorCallback = () => {},
+  autosave,
   submitBtnText = 'Save Item',
   groupFieldsOrientation = 'vert',
   formProps = {},
   asyncObjectManagerProps = {},
+  onCancel,
+  endButtonRefOverride,
 }: IItemEditorProps<ResultType>) => {
+  const [endButtonContainerRef, setEndButtonContainerRef] =
+    React.useState<HTMLElement | null>(null);
   const [overridenFields, setOverridenFields] = useState<string[]>([]);
-
   const onSavedCallback = React.useCallback(
     (uid: Uid, response: any, data: ResultType) => {
       onSubmitCallback(data);
@@ -133,51 +139,37 @@ export const ItemEditor = <ResultType extends IDocument>({
           headings={mappedFields}
           onSubmit={saveData}
           onChange={handleUpdate}
-          showEndBtns
+          showEndBtns={!autosave}
           submitBtnText={submitBtnText}
           componentMap={componentMap}
           FormField={FormField}
+          endButtonRefOverride={endButtonRefOverride}
+          autosave={autosave}
           {...(formProps as Partial<IFormProps<ResultType>>)}
         />
+
+        <section
+          data-testid="itemEditor-buttonContainerBackup"
+          ref={(ref) => ref && setEndButtonContainerRef(ref)}
+          style={{ width: '100%' }}
+        />
+        {autosave ||
+          (formProps.autosave &&
+            endButtonRefOverride &&
+            onCancel &&
+            ReactDOM.createPortal(
+              <div className="submitBtns">
+                <button
+                  type="button"
+                  className="button-two submitBtn"
+                  onClick={() => onCancel()}
+                >
+                  Close
+                </button>
+              </div>,
+              endButtonRefOverride || endButtonContainerRef
+            ))}
       </div>
     </div>
   );
-};
-
-ItemEditor.propTypes = {
-  id: PropTypes.string.isRequired,
-  inputUid: PropTypes.string,
-  onSubmitCallback: PropTypes.func.isRequired,
-  isNew: PropTypes.bool,
-  additionalData: PropTypes.shape({}),
-  collection: PropTypes.string.isRequired,
-  params: PropTypes.arrayOf(
-    PropTypes.shape({
-      uid: PropTypes.string.isRequired,
-      label: PropTypes.string.isRequired,
-      type: PropTypes.string.isRequired,
-      // type: PropTypes.oneOf(Object.keys(filterTypes)),
-      required: PropTypes.bool,
-      options: PropTypes.arrayOf(
-        PropTypes.shape({
-          uid: PropTypes.string.isRequired,
-          label: PropTypes.string.isRequired,
-        })
-      ),
-    })
-  ).isRequired,
-  asyncGetDocument: PropTypes.func.isRequired, // Async func
-  asyncPutDocument: PropTypes.func.isRequired, // Async func
-  asyncPostDocument: PropTypes.func.isRequired, // Async func
-  asyncDeleteDocument: PropTypes.func.isRequired, // Async func
-  componentMap: PropTypes.objectOf(PropTypes.elementType).isRequired,
-  saveErrorCallback: PropTypes.func,
-};
-
-ItemEditor.defaultProps = {
-  inputUid: null,
-  additionalData: {},
-  isNew: false,
-  componentMap: {} as any,
-  saveErrorCallback: () => {},
 };

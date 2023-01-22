@@ -2,7 +2,7 @@ import React from 'react';
 import { EFilterType } from '@react_db_client/constants.client-types';
 import { IFieldComponentProps, THeading, IOpt } from '@form-extendable/lib';
 
-export interface IFieldReadOnlyProps<V> extends IFieldComponentProps<V> {
+export interface IFieldReadOnlyProps {
   options?: IOpt[];
 }
 
@@ -11,16 +11,16 @@ const getSelectValue = (value: string, options: IOpt[]) => {
   return val ? val.label : null;
 };
 
-export const FieldReadOnly = <V, H extends THeading<any>>({
-  uid,
-  unit,
-  value,
-  type,
-  options,
-}: IFieldReadOnlyProps<V> & Partial<H>) => {
+export const FieldReadOnly = <V, H extends THeading<V>>(
+  props: IFieldComponentProps<V, H>
+) => {
+  const { uid, unit, value, type } = props;
   let val: string | null = typeof value === 'string' ? value : null;
   if (val && type === EFilterType.select)
-    val = (options && getSelectValue(val, options)) || '';
+    val =
+      ((props as IFieldReadOnlyProps).options &&
+        getSelectValue(val, (props as IFieldReadOnlyProps).options || [])) ||
+      '';
   if (type === EFilterType.bool) val = value ? 'Yes' : 'no';
   if (typeof value === 'object') val == 'INVALID';
   return (

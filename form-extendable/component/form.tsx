@@ -1,12 +1,10 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import cloneDeep from 'lodash/cloneDeep';
-import { IDocument, Uid } from '@react_db_client/constants.client-types';
+import { Uid } from '@react_db_client/constants.client-types';
 import { Emoji } from '@react_db_client/components.emoji';
-// import { useDebounce } from '@react_db_client/async-hooks.use-debounce';
 import { defaultComponentMap } from '@form-extendable/components.component-map';
-import { TComponentMap, TFormData, THeading } from '@form-extendable/lib';
+import { TComponentMap, THeading } from '@form-extendable/lib';
 import {
   formValidation,
   IValidationError,

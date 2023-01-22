@@ -1,5 +1,5 @@
 import React from 'react';
-import { filterTypes } from '@react_db_client/constants.client-types';
+import { EFilterType } from '@react_db_client/constants.client-types';
 import { FieldReadOnly } from './field-read-only';
 
 export const BasicFieldReadOnly = () => (
@@ -9,7 +9,7 @@ export const BasicFieldReadOnly = () => (
     onChange={() => {}}
     value="hello from FieldReadOnly"
     unit="TEXT"
-    type={filterTypes.text}
+    type={EFilterType.text}
     options={[]}
   />
 );

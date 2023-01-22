@@ -11,8 +11,8 @@ import {
   IFieldComponentProps,
   IPopupProps,
   TComponentMap,
+  THeading,
 } from '@form-extendable/lib';
-
 import { FieldText } from '@form-extendable/fields.field-text';
 import { FieldTextArea } from '@form-extendable/fields.field-text-area';
 import { FieldBool } from '@form-extendable/fields.field-bool';
@@ -159,6 +159,6 @@ export const defaultComponentMap = ({
 });
 
 export const defaultComponent =
-  <T,>() =>
-  (props: IFieldComponentProps<T, any>) =>
+  <V, H extends THeading<V>>() =>
+  (props: IFieldComponentProps<V, H>) =>
     <FieldReadOnly {...props} />;

@@ -2,7 +2,10 @@ import { Uid } from '@react_db_client/constants.client-types';
 import React, { ReactNode } from 'react';
 import ReactDOM from 'react-dom';
 
-import { PopupPanelContext } from './popup-panel-provider';
+import {
+  EPopupRegisterAction,
+  PopupPanelContext,
+} from './popup-panel-provider';
 import {
   PopupPanelClosePanelStyle,
   PopupPanelContentPanelStyle,
@@ -85,38 +88,52 @@ export function PopupPanel({
   zIndex,
   onClose,
 }: IPopupPanelProps) {
-  const { registerPopup, deregisterPopup, baseZIndex, closePopup } =
-    React.useContext(PopupPanelContext);
+  const { dispatchPopupRegister, state } = React.useContext(PopupPanelContext);
+  const { popupRegister, baseZIndex } = state;
 
   const [open, setOpen] = React.useState(false);
   const [root, setRoot] = React.useState<HTMLElement | null>(null);
   const [localZ, setLocalZ] = React.useState(-1);
 
   React.useEffect(() => {
-    const setOpenI = (v: boolean, r?: HTMLElement, z?: number) => {
-      setOpen(v);
-      setRoot(r || null);
-      setLocalZ(z || -1);
-    };
-    registerPopup({
-      id,
-      root: popupRoot,
-      deleteRootOnUnmount,
-      z: zIndex,
-      onCloseCallback: onClose,
-      setOpen: setOpenI,
+    dispatchPopupRegister({
+      type: EPopupRegisterAction.REGISTER_POPUP,
+      args: {
+        id,
+        root: popupRoot,
+        deleteRootOnUnmount,
+        z: zIndex,
+      },
     });
-  }, [id, popupRoot, zIndex, onClose, registerPopup]);
+  }, [id, popupRoot, zIndex, dispatchPopupRegister, deleteRootOnUnmount]);
+
+  React.useEffect(() => {
+    if (popupRegister[id]?.open && !open) {
+      setRoot(popupRegister[id].root || null);
+      setLocalZ(popupRegister[id].z || -1);
+      setOpen(true);
+    }
+    if (!popupRegister[id]?.open && open) {
+      if (onClose) onClose();
+      setOpen(false);
+    }
+  }, [id, open, popupRegister, dispatchPopupRegister, onClose]);
 
   React.useEffect(() => {
     return function cleanup() {
-      deregisterPopup(id);
+      dispatchPopupRegister({
+        type: EPopupRegisterAction.DEREGISTER_POPUP,
+        args: id,
+      });
     };
-  }, []);
+  }, [dispatchPopupRegister]);
 
   const handleClose = React.useCallback(() => {
-    closePopup(id);
-  }, [id, closePopup]);
+    dispatchPopupRegister({
+      type: EPopupRegisterAction.CLOSE_POPUP,
+      args: id,
+    });
+  }, [id, dispatchPopupRegister]);
 
   if (!root) return <></>;
   return (

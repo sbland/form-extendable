@@ -17,8 +17,7 @@ import { FileItem } from './file-list';
 import { AddFileButton, AddFileListItem, FileListStyle } from './styles';
 
 export interface IFieldFileMultipleProps
-  extends IFieldComponentProps<IFile[]>,
-    IHeadingFileMulti {
+  extends IFieldComponentProps<IFile[], IHeadingFileMulti> {
   fileServerUrl: string;
   asyncGetFiles: (
     metaData?: any

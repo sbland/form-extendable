@@ -4,9 +4,8 @@ import { IFieldComponentProps, IHeadingTextArea } from '@form-extendable/lib';
 
 export type TFieldTextAreaProps = IFieldComponentProps<
   string,
-  HTMLTextAreaElement
-> &
-  IHeadingTextArea;
+  IHeadingTextArea
+>;
 
 export const FieldTextArea: React.FC<TFieldTextAreaProps> = ({
   uid,

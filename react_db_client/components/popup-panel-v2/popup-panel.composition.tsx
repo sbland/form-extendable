@@ -1,16 +1,30 @@
 import React from 'react';
 import { PopupPanel } from './popup-panel';
-import { PopupPanelContext, PopupProvider } from './popup-panel-provider';
+import {
+  EPopupRegisterAction,
+  PopupPanelContext,
+  PopupProvider,
+} from './popup-panel-provider';
 import { PopupContentWrap } from './popup-panel-content-wrap';
 import { PopupPanelManagedWithContentWrap } from './managed-popup-panel';
 
 const OpenPopupButton = ({ id }) => {
   const { openPopup } = React.useContext(PopupPanelContext);
-  return <button onClick={() => openPopup(id)}>Open</button>;
+  return (
+    <button
+      onClick={() => {
+        openPopup(id);
+      }}
+    >
+      Open
+    </button>
+  );
 };
 
 const PopupPanelDebug = () => {
-  const { popupRegister } = React.useContext(PopupPanelContext);
+  const {
+    state: { popupRegister },
+  } = React.useContext(PopupPanelContext);
 
   return <>{JSON.stringify(popupRegister)}</>;
 };
@@ -65,12 +79,24 @@ export const BasicPopupPanel = () => {
 
 const Counter = ({ id }) => {
   const renderCounter = React.useRef(0);
-  const { openPopup } = React.useContext(PopupPanelContext);
+  const {
+    state: { popupRegister },
+    dispatchPopupRegister,
+  } = React.useContext(PopupPanelContext);
   renderCounter.current = renderCounter.current + 1;
   return (
     <div>
       <p data-testid={`counter_${id}`}>{renderCounter.current}</p>
-      <button onClick={() => openPopup(1)}>DummyButton</button>
+      <button
+        onClick={() => {
+          dispatchPopupRegister({
+            type: EPopupRegisterAction.OPEN_POPUP,
+            args: 1,
+          });
+        }}
+      >
+        DummyButton
+      </button>
     </div>
   );
 };

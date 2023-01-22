@@ -20,6 +20,7 @@ export interface IHeading<T, InputType> {
   hasChanged?: boolean;
   readOnly?: boolean;
   defaultValue?: T;
+  unit?: React.ReactNode;
   group?: number;
   inputProps?: Omit<
     React.HTMLProps<InputType>,

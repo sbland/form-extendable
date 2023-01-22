@@ -9,8 +9,10 @@ import {
   TMultiSelectValue,
 } from '@form-extendable/lib';
 
-export type TFieldMultiSelect = IFieldComponentProps<TMultiSelectValue> &
-  IHeadingSelectMulti;
+export type TFieldMultiSelect = IFieldComponentProps<
+  TMultiSelectValue,
+  IHeadingSelectMulti
+>;
 
 export const FieldMultiSelect = ({
   uid,

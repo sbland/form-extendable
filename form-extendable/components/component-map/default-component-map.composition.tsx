@@ -26,7 +26,7 @@ const componentMap: TComponentMap = defaultComponentMap();
 export const ExampleField = () => {
   const [type, setType] = React.useState(EFilterType.text);
 
-  const FormComponent: TFieldReactComponent<any, THeading<any>, any> = switchF<
+  const FormComponent: TFieldReactComponent<any, THeading<any>> = switchF<
     EFilterType,
     TFieldReactComponent<any, THeading<any>>
   >(

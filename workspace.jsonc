@@ -110,7 +110,22 @@
         }
       }
     },
-    "{samnbuk.react_db_client/**}": {
+    // "{samnbuk.react_db_client/**},{react_db_client/async-hooks/**},{@samnbuk/react_db_client}": {
+    //   "teambit.pkg/pkg": {
+    //     "packageManagerPublishArgs": [
+    //       "--access public"
+    //     ],
+    //     "packageJson": {
+    //       "name": "@{scope}/{name}",
+    //       "private": false,
+    //       "publishConfig": {
+    //         "scope": "@saminuk",
+    //         "registry": "https://registry.npmjs.org/"
+    //       }
+    //     }
+    //   }
+    // },
+    "{samnbuk.react_db_client/**},{react_db_client/async-hooks/**},{react_db_client/**}": {
       "teambit.pkg/pkg": {
         "packageManagerPublishArgs": [
           "--access public"

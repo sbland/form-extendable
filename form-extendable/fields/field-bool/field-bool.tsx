@@ -11,7 +11,7 @@ export const FieldBool = ({
   value,
   useToggle,
   checkboxContent,
-}: IFieldComponentProps<boolean> & IHeadingBool) =>
+}: IFieldComponentProps<boolean, IHeadingBool>) =>
   useToggle ? (
     <ToggleBox
       stateIn={value || undefined}

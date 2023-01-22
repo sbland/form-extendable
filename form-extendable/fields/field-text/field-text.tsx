@@ -4,7 +4,7 @@ import { IFieldComponentProps } from '@form-extendable/lib';
 import { IHeadingText } from '@form-extendable/lib';
 
 export const FieldText: React.FC<
-  IFieldComponentProps<string> & IHeadingText
+  IFieldComponentProps<string, IHeadingText>
 > = ({
   uid,
   unit,

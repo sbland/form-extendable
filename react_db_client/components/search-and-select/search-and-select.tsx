@@ -7,6 +7,7 @@ import {
   FilterOption,
   EFilterType,
   EComparisons,
+  Uid,
 } from '@react_db_client/constants.client-types';
 import {
   StyledSelectList,
@@ -26,8 +27,8 @@ import { useSelectionManager } from './useSelectionManager';
 import { SearchAndSelectStyles } from './styles';
 import { CustomParser, IHeading, TSearchAndSelectSearchFunction } from './lib';
 
-export interface ISearchAndSelectProps<ResultType extends IDocument>
-  extends React.HTMLProps<HTMLInputElement> {
+export interface ISearchAndSelectProps<ResultType extends IDocument> {
+  id: Uid;
   initialFilters?: FilterObjectClass[];
   availableFilters: { [key: string]: FilterOption };
   searchFunction: TSearchAndSelectSearchFunction<ResultType>;
@@ -58,6 +59,7 @@ export interface ISearchAndSelectProps<ResultType extends IDocument>
   initialSearchValue?: string;
   selectionPreviewProps?: Partial<ISelectionPreviewProps>;
   styledSelectListProps?: Partial<IStyledSelectListProps<ResultType>>;
+  searchInputProps?: Partial<React.HTMLProps<HTMLInputElement>>;
 }
 export const EmptyArray = [];
 
@@ -102,7 +104,7 @@ export const SearchAndSelect = <ResultType extends IDocument>({
   initialSearchValue = '',
   selectionPreviewProps = {},
   styledSelectListProps = {},
-  ...inputProps
+  searchInputProps = {},
 }: ISearchAndSelectProps<ResultType>) => {
   const [showPreview, setShowPreview] = useState(autoPreview);
   const [shouldReload, setShouldReload] = useState(loadOnInit);
@@ -292,6 +294,7 @@ export const SearchAndSelect = <ResultType extends IDocument>({
             >
               <label>Search: </label>
               <input
+                id={String(id)}
                 className="searchField"
                 style={{ flexGrow: 1 }}
                 aria-label="search"
@@ -299,7 +302,7 @@ export const SearchAndSelect = <ResultType extends IDocument>({
                 placeholder="search..."
                 value={searchValue}
                 onChange={handleSearchFieldInput}
-                {...inputProps}
+                {...searchInputProps}
               />
             </div>
           )}
@@ -417,7 +420,6 @@ export const SearchAndSelect = <ResultType extends IDocument>({
 
 SearchAndSelect.propTypes = {
   searchFunction: PropTypes.func.isRequired,
-  initialFilters: PropTypes.arrayOf(PropTypes.instanceOf(FilterObjectClass)),
   availableFilters: PropTypes.objectOf(
     PropTypes.shape({
       uid: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,

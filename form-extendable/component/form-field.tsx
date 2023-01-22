@@ -86,20 +86,15 @@ export const FormField = <V, H extends THeading<V>>(
     [heading.type, componentMap, defaultComponent]
   );
 
-  const props: IFieldComponentProps<V> & H = useMemo(() => {
-    const fProps: IFieldComponentProps<V> = {
-      uid: heading.uid,
-      label: heading.label,
+  const props: IFieldComponentProps<V, H> = useMemo(() => {
+    const fProps: IFieldComponentProps<V, H> = {
       onChange,
       value,
       key: `${heading.uid}-sub`,
       additionalData,
+     ...heading,
     };
-    const mergedProps: IFieldComponentProps<V> & H = {
-      ...fProps,
-      ...heading,
-    };
-    return mergedProps;
+    return fProps;
   }, [heading, onChange, value, additionalData]);
 
   const labelClassName = [
@@ -137,7 +132,6 @@ FormField.propTypes = {
     uid: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
-    unit: PropTypes.string,
     required: PropTypes.bool,
     hasChanged: PropTypes.bool,
     readOnly: PropTypes.oneOfType([

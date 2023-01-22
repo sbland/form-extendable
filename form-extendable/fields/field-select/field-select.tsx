@@ -1,14 +1,17 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
-
-import { IItem, SearchAndSelectDropdown } from '@react_db_client/components.search-and-select-dropdown';
+import {
+  IItem,
+  SearchAndSelectDropdown,
+} from '@react_db_client/components.search-and-select-dropdown';
 import {
   ToggleBox,
   ToggleBoxRadioGroup,
 } from '@react_db_client/components.form.form-components.toggle-box';
 import { IFieldComponentProps, IHeadingSelect } from '@form-extendable/lib';
+import { Uid } from '@react_db_client/constants.client-types';
 
-export type TFieldSelectProps = IFieldComponentProps<string> & IHeadingSelect;
+export type TFieldSelectProps = IFieldComponentProps<Uid, IHeadingSelect>;
 
 export const FieldSelect = ({
   uid,
@@ -31,9 +34,12 @@ export const FieldSelect = ({
   const selectionValidated = valueIsInvalid
     ? 'Invalid Selection'
     : selection && selection[labelField];
-  const handleSelect = useCallback((data: IItem) => {
-    onChange(data.uid as string);
-  }, [onChange]);
+  const handleSelect = useCallback(
+    (data: IItem) => {
+      onChange(data.uid as string);
+    },
+    [onChange]
+  );
 
   switch (selectType) {
     case 'dropdown':
@@ -42,7 +48,7 @@ export const FieldSelect = ({
           <SearchAndSelectDropdown
             searchFunction={searchFunction}
             handleSelect={handleSelect}
-            initialValue={selection}
+            initialValue={String(selection)}
             searchFieldTargetField={labelField}
             labelField={labelField}
             className="formFieldInput"

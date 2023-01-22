@@ -12,7 +12,7 @@ const parseInput = (value) =>
     ? ''
     : Number(value);
 
-export type TFieldNumberProps = IFieldComponentProps<number> & IHeadingNumber;
+export type TFieldNumberProps = IFieldComponentProps<number, IHeadingNumber>;
 
 export const FieldNumber: React.FC<TFieldNumberProps> = ({
   uid,

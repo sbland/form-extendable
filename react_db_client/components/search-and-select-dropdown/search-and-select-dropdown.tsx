@@ -80,7 +80,7 @@ export const SearchAndSelectDropdown = <Item extends IItem>(
     ...additionalProps
   } = props;
   if (allowMultiple) throw Error('Multiple Selection Is Not Implemented');
-  const [searchValue, setSearchValue] = useState<string | null>(null);
+  const [searchValue, setSearchValue] = useState<string | number | null>(null);
   const [isFocused, setIsFocused] = useState(false);
   const [loading, setLoading] = useState(false);
   const [showResults, setShowResults] = useState(false);

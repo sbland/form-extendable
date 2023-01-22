@@ -466,7 +466,7 @@ export const demoAdditionalData = {
 // type Foo = () =>
 
 export const CustomFieldType: React.FC<
-  IFieldComponentProps<string> & IHeadingCustomType<any>
+  IFieldComponentProps<string, IHeadingCustomType<any>>
 > = ({ value, label, onChange }) => (
   <div>
     <input

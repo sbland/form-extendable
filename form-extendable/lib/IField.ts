@@ -1,4 +1,3 @@
-import { Uid } from '@react_db_client/constants.client-types';
 import { THeading } from './IHeading';
 
 export interface IFieldProps<V, H extends THeading<V> = THeading<V>> {
@@ -8,30 +7,18 @@ export interface IFieldProps<V, H extends THeading<V> = THeading<V>> {
   additionalData: any;
 }
 
-export interface IFieldComponentProps<
-  V,
-  T extends HTMLElement = HTMLInputElement
-> {
-  uid: Uid;
-  unit?: string;
+export interface IFieldComponentPropsBase<V> {
   key?: string;
   value: V | null;
   onChange: (v: V | null) => void;
   additionalData?: any;
   inputTypeOverride?: '';
-  required?: boolean;
   disableAutofill?: boolean;
-  defaultValue?: V;
-  label: string;
   className?: string;
-  inputProps?: Omit<
-    React.HTMLProps<T>,
-    'defaultValue' | 'value' | 'onChange' | 'type'
-  >;
 }
 
-export type TFieldReactComponent<
-  V,
-  H extends THeading<V>,
-  T extends HTMLElement = HTMLInputElement
-> = React.FC<IFieldComponentProps<V, T> & H>;
+export type IFieldComponentProps <V, H extends THeading<V>> = IFieldComponentPropsBase<V> & H;
+
+export type TFieldReactComponent<V, H extends THeading<V>> = React.FC<
+  IFieldComponentProps<V, H>
+>;

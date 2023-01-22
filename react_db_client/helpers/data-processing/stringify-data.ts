@@ -1,6 +1,5 @@
 import {
   EFilterType,
-  filterTypes,
   ILabelled,
   Uid,
 } from '@react_db_client/constants.client-types';
@@ -84,10 +83,10 @@ export const sanitizeCellData = <T>(
           : getDefaultValue(columnData),
       number: () => sanitizeNumber(cellData, columnData),
       string: () =>
-        columnData.type === filterTypes.number
+        columnData.type === EFilterType.number
           ? sanitizeNumber(cellData, columnData)
           : cellData,
-      undefined: () => (columnData.type === filterTypes.number ? 0 : ''),
+      undefined: () => (columnData.type === EFilterType.number ? 0 : ''),
     },
     () => cellData
   );

@@ -5,6 +5,7 @@ import {
   PopupPanel,
   PopupContentWrap,
 } from '@react_db_client/components.popup-panel-v2';
+import { EPopupRegisterAction } from '@react_db_client/components.popup-panel-v2';
 
 const popupId = 'areYouSureBtn_popupPanel';
 
@@ -25,18 +26,27 @@ export const AreYouSureBtn = ({
   disabled,
   notes,
 }: IAreYouSureProps) => {
-  const { openPopup, closePopup } = React.useContext(PopupPanelContext);
+  const { dispatchPopupRegister } = React.useContext(PopupPanelContext);
 
   const handleFirstClick = () => {
-    openPopup(popupId);
+    dispatchPopupRegister({
+      type: EPopupRegisterAction.OPEN_POPUP,
+      args: popupId,
+    });
   };
 
   const handleCancel = () => {
-    closePopup(popupId);
+    dispatchPopupRegister({
+      type: EPopupRegisterAction.CLOSE_POPUP,
+      args: popupId,
+    });
   };
 
   const handleAccept = () => {
-    closePopup(popupId);
+    dispatchPopupRegister({
+      type: EPopupRegisterAction.CLOSE_POPUP,
+      args: popupId,
+    });
     onConfirmed();
   };
 

@@ -1,4 +1,8 @@
-import { EFilterType, IFile } from '@react_db_client/constants.client-types';
+import {
+  EFilterType,
+  IFile,
+  Uid,
+} from '@react_db_client/constants.client-types';
 import { TFieldReactComponent } from './IField';
 import {
   IHeadingBool,
@@ -27,11 +31,7 @@ export type TComponentMap = {
   [EFilterType.button]: () => TFieldReactComponent<null, IHeadingButton>;
   [EFilterType.dict]: () => TFieldReactComponent<Object, IHeadingDict>;
   [EFilterType.video]: () => TFieldReactComponent<string, IHeadingVideo>;
-  [EFilterType.textLong]: () => TFieldReactComponent<
-    string,
-    IHeadingTextArea,
-    HTMLTextAreaElement
-  >;
+  [EFilterType.textLong]: () => TFieldReactComponent<string, IHeadingTextArea>;
   // TODO: Select search multi
   [EFilterType.selectSearch]: () => TFieldReactComponent<
     any,
@@ -42,7 +42,7 @@ export type TComponentMap = {
     any,
     IHeadingReference<any> | IHeadingReferenceMulti<any>
   >;
-  [EFilterType.select]: () => TFieldReactComponent<string, IHeadingSelect>;
+  [EFilterType.select]: () => TFieldReactComponent<Uid, IHeadingSelect>;
   [EFilterType.selectMulti]: () => TFieldReactComponent<
     TMultiSelectValue,
     IHeadingSelectMulti

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { IFieldComponentProps, IHeadingTextArea } from '@form-extendable/lib';
 import { EFilterType } from '@react_db_client/constants.client-types';
 import { FieldTextArea } from './field-text-area';
@@ -9,7 +9,7 @@ import { defaultVal } from './demo-data';
 
 const onChange = jest.fn();
 
-const defaultProps: IFieldComponentProps<string> & IHeadingTextArea = {
+const defaultProps: IFieldComponentProps<string, IHeadingTextArea> = {
   uid: 'uid',
   unit: 'unit',
   value: defaultVal,

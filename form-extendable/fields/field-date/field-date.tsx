@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { IFieldComponentProps, IHeadingDate } from '@form-extendable/lib';
 
 export const FieldDate: React.FC<
-  IFieldComponentProps<string | number | Date> & IHeadingDate
+  IFieldComponentProps<string | number | Date, IHeadingDate>
 > = ({
   uid,
   unit,

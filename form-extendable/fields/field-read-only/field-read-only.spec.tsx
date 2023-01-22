@@ -1,12 +1,14 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 
-import { IFieldComponentProps } from '@form-extendable/lib';
-import { FieldReadOnly } from './field-read-only';
+import { IFieldComponentProps, IHeadingText } from '@form-extendable/lib';
+import { FieldReadOnly, IFieldReadOnlyProps } from './field-read-only';
 import * as compositions from './field-read-only.composition';
+import { EFilterType } from '@react_db_client/constants.client-types';
 
-const defaultProps: IFieldComponentProps<string> = {
+const defaultProps: IFieldComponentProps<string, IHeadingText> = {
   uid: 'id',
+  type: EFilterType.text,
   unit: 'unit',
   value: 'a',
   label: 'read only',
