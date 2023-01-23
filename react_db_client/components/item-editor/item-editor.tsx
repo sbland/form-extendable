@@ -75,6 +75,8 @@ export const ItemEditor = <ResultType extends IDocument>({
   const [endButtonContainerRef, setEndButtonContainerRef] =
     React.useState<HTMLElement | null>(null);
   const [overridenFields, setOverridenFields] = useState<string[]>([]);
+
+  // TODO: on saved callback is calling even if the save failed!!
   const onSavedCallback = React.useCallback(
     (uid: Uid, response: any, data: ResultType) => {
       onSubmitCallback(data);
@@ -139,7 +141,7 @@ export const ItemEditor = <ResultType extends IDocument>({
           headings={mappedFields}
           onSubmit={saveData}
           onChange={handleUpdate}
-          showEndBtns={!autosave}
+          showEndBtns={!(autosave || formProps.autosave)}
           submitBtnText={submitBtnText}
           componentMap={componentMap}
           FormField={FormField}
@@ -153,22 +155,21 @@ export const ItemEditor = <ResultType extends IDocument>({
           ref={(ref) => ref && setEndButtonContainerRef(ref)}
           style={{ width: '100%' }}
         />
-        {autosave ||
-          (formProps.autosave &&
-            endButtonContainerRef &&
-            onCancel &&
-            ReactDOM.createPortal(
-              <div className="submitBtns">
-                <button
-                  type="button"
-                  className="button-two submitBtn"
-                  onClick={() => onCancel()}
-                >
-                  Close
-                </button>
-              </div>,
-              endButtonRefOverride || endButtonContainerRef
-            ))}
+        {(autosave || formProps.autosave) &&
+          endButtonContainerRef &&
+          onCancel &&
+          ReactDOM.createPortal(
+            <div className="submitBtns">
+              <button
+                type="button"
+                className="button-two submitBtn"
+                onClick={() => onCancel()}
+              >
+                Close
+              </button>
+            </div>,
+            endButtonRefOverride || endButtonContainerRef
+          )}
       </div>
     </div>
   );

@@ -1,8 +1,13 @@
-/* eslint-disable import/prefer-default-export */
-/* A react hook async request */
+/* A react hook for syncing server/client state for a single document.
+
+This was created as a prototype and needs a lot of refactoring!
+
+*/
 import React from 'react';
 import merge from 'lodash/merge';
-import useAsyncRetry from 'react-use/lib/useAsyncRetry';
+import cloneDeep from 'lodash/cloneDeep';
+import useAsyncFn from 'react-use/lib/useAsyncFn';
+import useAsyncFnReset from './use-async-fn-reset';
 import {
   IDocument,
   TAsyncDeleteDocument,
@@ -10,18 +15,14 @@ import {
   TAsyncPostDocument,
   TAsyncPutDocument,
   Uid,
+  IDeleteResponse,
+  ISaveResponse,
 } from '@react_db_client/constants.client-types';
 import {
   ICallback,
   AsyncRequestError,
 } from '@react_db_client/async-hooks.use-async-request';
 import { generateUid } from '@react_db_client/helpers.generate-uid';
-import cloneDeep from 'lodash/cloneDeep';
-import useAsyncFn from 'react-use/lib/useAsyncFn';
-import {
-  IDeleteResponse,
-  ISaveResponse,
-} from '@react_db_client/constants.client-types';
 
 export interface IUseAsyncObjectManagerArgs<DocType extends IDocument> {
   activeUid?: null | Uid;
@@ -68,6 +69,7 @@ export interface IUseAsyncObjectManagerReturn<DocType extends IDocument> {
   callCount: number;
   hasLoaded: boolean;
   loadError?: AsyncRequestError;
+  saveError?: AsyncRequestError;
   unsavedChanges: boolean;
   isNew: boolean;
 }
@@ -95,13 +97,15 @@ export const useAsyncObjectManager = <DocType extends IDocument>({
     isNew || !activeUid ? generateUid(collection, null, null) : activeUid
   );
   const [unsavedChanges, setUnsavedChanges] = React.useState(false); // TODO: Implement this
-  const [savingDataState, asyncSaveData] = useAsyncFn(asyncPutDocument, [
+  // TODO: Might need to replace with useAsyncFnReset
+  const [savingDataState, asyncSaveData, asyncSaveDataReset] = useAsyncFnReset(
     asyncPutDocument,
-  ]);
-  const [savingNewDataState, asyncSaveNewData] = useAsyncFn(asyncPostDocument, [
-    asyncPostDocument,
-  ]);
-  const [deletingDataState, asyncDeleteData] = useAsyncFn(asyncDeleteDocument);
+    [asyncPutDocument]
+  );
+  const [savingNewDataState, asyncSaveNewData, asyncSaveNewDataReset] =
+    useAsyncFnReset(asyncPostDocument, [asyncPostDocument]);
+  const [deletingDataState, asyncDeleteData, asyncDeleteDataReset] =
+    useAsyncFnReset(asyncDeleteDocument);
   const [loadedDataState, callLoadData] = useAsyncFn(
     async () => asyncGetDocument(collection, uid, schema, populate),
     [collection, uid, schema, populate, asyncGetDocument]
@@ -110,6 +114,7 @@ export const useAsyncObjectManager = <DocType extends IDocument>({
   const hasDeleted = React.useRef(false);
   const [shouldSave, setShouldSave] = React.useState(false);
   const [newData, setNewData] = React.useState(loadedDataState.value);
+  const [receivedResponse, setReceivedResponse] = React.useState(false);
   const [savedData, setSavedData] = React.useState<
     Partial<DocType> | undefined
   >(loadedDataState.value);
@@ -127,7 +132,8 @@ export const useAsyncObjectManager = <DocType extends IDocument>({
 
   React.useEffect(() => {
     const error = savingDataState.error || savingNewDataState.error;
-    if (error) {
+    if (receivedResponse && error) {
+      setReceivedResponse(false);
       if (saveErrorCallback)
         saveErrorCallback(
           new AsyncRequestError(
@@ -136,7 +142,12 @@ export const useAsyncObjectManager = <DocType extends IDocument>({
           )
         );
     }
-  }, [savingDataState, savingNewDataState, saveErrorCallback]);
+  }, [
+    savingDataState,
+    savingNewDataState,
+    receivedResponse,
+    saveErrorCallback,
+  ]);
 
   React.useEffect(() => {
     if (
@@ -166,6 +177,28 @@ export const useAsyncObjectManager = <DocType extends IDocument>({
   }, [uid, loadedDataState, inputAdditionalData]);
 
   React.useEffect(() => {
+    const error = savingDataState.error || savingNewDataState.error;
+    const value = savingDataState.value || savingNewDataState.value;
+    if (receivedResponse && !error && value) {
+      const fullData = { ...combinedData, uid };
+      setReceivedResponse(false);
+      setIsNew(false);
+      setUnsavedChanges(false);
+      setSavedData(combinedData);
+      if (onSavedCallbackIn) onSavedCallbackIn(uid, value, fullData as DocType);
+      if (reloadOnSave) callLoadData();
+    }
+  }, [
+    receivedResponse,
+    savingDataState,
+    savingNewDataState,
+    combinedData,
+    uid,
+    onSavedCallbackIn,
+    reloadOnSave,
+  ]);
+
+  React.useEffect(() => {
     if (shouldSave) {
       setShouldSave(false);
       const dataToSave: DocType = {
@@ -173,28 +206,23 @@ export const useAsyncObjectManager = <DocType extends IDocument>({
         ...(newData || ({} as DocType)),
         uid,
       };
-      const fullData = { ...combinedData, uid };
+      asyncSaveDataReset();
+      asyncSaveNewDataReset();
       const postCall = isNew ? asyncSaveNewData : asyncSaveData;
-      postCall(collection, uid, dataToSave).then((response) => {
-        setIsNew(false);
-        setUnsavedChanges(false);
-        setSavedData(combinedData);
-        if (onSavedCallbackIn)
-          onSavedCallbackIn(uid, response, fullData as DocType);
-        if (reloadOnSave) callLoadData();
+      postCall(collection, uid, dataToSave).finally(() => {
+        setReceivedResponse(true);
       });
     }
   }, [
     uid,
     collection,
-    combinedData,
     newData,
     shouldSave,
-    reloadOnSave,
-    loadedDataState,
     isNew,
     asyncSaveData,
     asyncSaveNewData,
+    asyncSaveDataReset,
+    asyncSaveNewDataReset,
     inputAdditionalData,
   ]);
 
@@ -266,6 +294,10 @@ export const useAsyncObjectManager = <DocType extends IDocument>({
     loadedDataState.error &&
     new AsyncRequestError(loadedDataState.error.message, loadedDataState.error);
 
+  const saveError =
+    savingDataState.error &&
+    new AsyncRequestError(savingDataState.error.message, savingDataState.error);
+
   const [callCount, setCallCount] = React.useState(0);
   React.useEffect(() => {
     if (loadedDataState.loading) setCallCount((prev) => prev + 1);
@@ -290,6 +322,7 @@ export const useAsyncObjectManager = <DocType extends IDocument>({
     callCount,
     hasLoaded: !loadedDataState.loading && loadedDataState.value != null, // TODO: Implement this properly
     loadError,
+    saveError,
     unsavedChanges,
     isNew,
   };

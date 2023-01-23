@@ -11,17 +11,21 @@ import {
   EFilterType,
   IFile,
 } from '@react_db_client/constants.client-types';
-import { fillInForm, getFieldDisplayValue } from '@form-extendable/testing';
+import {
+  fillInForm,
+  flattenHeadings,
+  getFieldDisplayValue,
+} from '@form-extendable/testing';
 
 import {
   demoCustomTypeHeading,
   demoFormData,
-  demoFormDataMin,
   demoHeadingsData,
   demoHeadingsDataMap,
   demoRefObjs,
   DEMO_FILES_DATA,
   headingsFlat,
+  MIN_FORM_DATA,
 } from './dummy-data';
 import * as compositions from './form.composition';
 import { errorCallback, getInitialFormData, onSubmit } from './dummy-api';
@@ -75,7 +79,7 @@ describe('Form Main Component', () => {
       });
     });
   });
-  describe('Demo Data', () => {
+  describe('Validate Demo Data', () => {
     test('should have all field types in demo headings', () => {
       expect(new Set(demoHeadingsData.map((h) => h.type))).toEqual(
         new Set<string | EFilterType>(Object.values(EFilterType)).add(
@@ -92,14 +96,14 @@ describe('Form Main Component', () => {
   describe('Simple form functionality', () => {
     describe('Filling In Form', () => {
       test('Should call on submit when clicking the save button', async () => {
-        setInitialFormData(demoFormDataMin);
+        setInitialFormData(MIN_FORM_DATA);
         render(<compositions.BasicFormComplete />);
         await compositions.BasicFormComplete.waitForReady();
 
         const submitBtn = screen.getByRole('button', { name: /Submit/ });
         await UserEvent.click(submitBtn);
         expect(onSubmit).toHaveBeenCalledWith({
-          formData: demoFormDataMin,
+          formData: MIN_FORM_DATA,
           formEditData: {},
         });
       });
@@ -168,7 +172,7 @@ describe('Form Main Component', () => {
         const submitBtn = screen.getByRole('button', { name: /Submit/ });
         await UserEvent.click(submitBtn);
         expect(errorCallback).toHaveBeenCalledWith(
-          'Missing the following fields: text'
+          'Missing the following fields: text, embeddedText'
         );
       });
       test('Should call on submit with edit data when clicking the save button after filling in form', async () => {
@@ -178,6 +182,7 @@ describe('Form Main Component', () => {
 
         // Commented values cannot be edited (yet!)
         const demoData = {
+          ...MIN_FORM_DATA,
           text: 'Example text',
           number: 1,
           numberCapped: 999999,
@@ -253,7 +258,7 @@ describe('Form Main Component', () => {
 
         // Commented values cannot be edited (yet!)
         const demoData1 = {
-          text: 'Example text',
+          ...MIN_FORM_DATA,
           multiSelectListShowAll: ['foo'],
         };
 
@@ -271,7 +276,7 @@ describe('Form Main Component', () => {
           formEditData: demoData1,
         });
         const demoData2 = {
-          text: 'Example text',
+          ...MIN_FORM_DATA,
           multiSelectListShowAll: ['foo', 'bar'],
         };
 
@@ -290,9 +295,8 @@ describe('Form Main Component', () => {
       });
     });
     describe('Autosaving form', () => {
-      // TODO: Implement these tests!
       test('should call save on debounced change when autosave is on', async () => {
-        setInitialFormData(demoFormDataMin);
+        setInitialFormData(MIN_FORM_DATA);
         render(<compositions.BasicFormAutosave />);
         await compositions.BasicFormAutosave.waitForReady();
 
@@ -301,7 +305,7 @@ describe('Form Main Component', () => {
         await fillInForm(
           screen.getByRole('form'),
           demoHeadingsData,
-          { text: 'hello' },
+          editData,
           fillInCustomField
         );
         await screen.findByText('Saving unsaved changes');
@@ -309,11 +313,11 @@ describe('Form Main Component', () => {
         await waitFor(() => expect(onSubmit).toHaveBeenCalledTimes(1));
         expect(onSubmit).toHaveBeenCalledTimes(1);
         expect(onSubmit).toHaveBeenCalledWith({
-          formData: { ...demoFormDataMin, ...editData },
+          formData: { ...MIN_FORM_DATA, ...editData },
           formEditData: editData,
         });
       });
-      test('should autosave until min input has been provided', async () => {
+      test('should not autosave until min input has been provided', async () => {
         setInitialFormData({});
         render(<compositions.BasicFormAutosave />);
         await compositions.BasicFormAutosave.waitForReady();
@@ -322,23 +326,22 @@ describe('Form Main Component', () => {
 
         await fillInForm(
           screen.getByRole('form'),
-          demoHeadingsData,
+          flattenHeadings(demoHeadingsData),
+          // NOTE: Missing required field "text"
           { textarea: 'hello' },
           fillInCustomField
         );
-
         expect(onSubmit).not.toHaveBeenCalled();
 
         await fillInForm(
           screen.getByRole('form'),
-          demoHeadingsData,
-          { text: 'hello' },
+          flattenHeadings(demoHeadingsData),
+          MIN_FORM_DATA,
           fillInCustomField
         );
 
         await screen.findByText('Saving unsaved changes');
         await screen.findByText('All changes are saved');
-        // await waitFor(() => expect(onSubmit).toHaveBeenCalledTimes(1));
 
         expect(onSubmit).toHaveBeenCalledTimes(1);
       });
@@ -359,7 +362,7 @@ describe('Form Main Component', () => {
         };
 
         const demoData1 = {
-          text: 'Example text',
+          ...MIN_FORM_DATA,
           file: newFile,
         };
 
@@ -405,7 +408,7 @@ describe('Form Main Component', () => {
         ];
         // Commented values cannot be edited (yet!)
         const demoData1 = {
-          text: 'Example text',
+          ...MIN_FORM_DATA,
           fileMultiple: newFiles,
         };
 
@@ -430,7 +433,7 @@ describe('Form Main Component', () => {
         await compositions.BasicFormComplete.waitForReady();
 
         const demoData1 = {
-          text: 'Example text',
+          ...MIN_FORM_DATA,
           file: DEMO_FILES_DATA[0],
         };
 

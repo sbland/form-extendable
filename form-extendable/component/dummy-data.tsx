@@ -333,7 +333,12 @@ export const demoHeadingsData: THeading<any>[] = [
     type: EFilterType.embedded,
     showTitle: true,
     children: [
-      { uid: 'embeddedText', label: 'Embedded Text', type: EFilterType.text },
+      {
+        uid: 'embeddedText',
+        label: 'Embedded Text',
+        type: EFilterType.text,
+        required: true,
+      },
     ],
   },
   {
@@ -344,7 +349,11 @@ export const demoHeadingsData: THeading<any>[] = [
     orientation: 'horiz',
     styleOverrides: { background: 'red', maxWidth: '30rem' },
     children: [
-      { uid: 'embeddedtog1', label: 'Embedded Tog1', type: EFilterType.bool },
+      {
+        uid: 'embeddedtog1',
+        label: 'Embedded Tog1',
+        type: EFilterType.bool,
+      },
       { uid: 'embeddedtog2', label: 'Embedded Tog2', type: EFilterType.bool },
       { uid: 'embeddedtog3', label: 'Embedded Tog3', type: EFilterType.bool },
     ],
@@ -374,10 +383,6 @@ export const headingsFlat = demoHeadingsData.reduce(
 
 export const demoHeadingsDataMap: { [uid: Uid]: THeading<any> } =
   demoHeadingsData.reduce((acc, h) => ({ ...acc, [h.uid]: h }), {});
-
-export const demoFormDataMin = {
-  text: 'Example text',
-};
 
 export const demoRefObjs: IObj[] = [
   { uid: '1', label: '1' },
@@ -520,3 +525,8 @@ export const fileOnlyHeadings = demoHeadingsData.filter(
       h.type as EFilterType
     ) !== -1
 );
+
+export const MIN_FORM_DATA = {
+  text: 'Min text input',
+  embeddedText: 'Min embedded text input',
+};

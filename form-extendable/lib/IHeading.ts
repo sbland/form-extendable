@@ -16,6 +16,7 @@ export interface IHeading<T, InputType> {
   expandInput?: boolean;
   label: string;
   required?: boolean;
+  unique?: boolean;
   uid: Uid;
   hasChanged?: boolean;
   readOnly?: boolean;

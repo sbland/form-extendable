@@ -14,6 +14,7 @@ import {
 import { FormField as DefaultFormField, IFormFieldProps } from './form-field';
 import { FormInputs } from './form-inputs';
 import { FormStatus, IFormStatusProps } from './form-status';
+import { flattenHeadings } from '@form-extendable/testing';
 
 export interface IFormSubmit<CompleteFormType> {
   formEditData: Partial<CompleteFormType>;
@@ -110,7 +111,6 @@ export const Form = <CompleteFormType,>({
     [formDataInitial, formEditData]
   );
 
-
   const updateFormData = React.useCallback(
     (field, value) => {
       setFormDirty(true);
@@ -125,10 +125,16 @@ export const Form = <CompleteFormType,>({
     [onChange, autosave]
   );
 
+  const flattenedHeadings = React.useMemo(
+    () => flattenHeadings(headings),
+    [headings]
+  );
+
   const handleSubmit = React.useCallback(
     (debounce = true, throwErrors = true) => {
       setSubmitting(true);
-      const validationResult = formValidation(formData, headings);
+      // TODO: We may want to validate after debounce!
+      const validationResult = formValidation(formData, flattenedHeadings);
       if (validationResult === true && debounce)
         callSubmitDebounced({ formEditData, formData });
       else if (validationResult === true && !debounce) {
@@ -144,7 +150,7 @@ export const Form = <CompleteFormType,>({
     [
       formData,
       formEditData,
-      headings,
+      flattenedHeadings,
       callSubmitDebounced,
       onSubmit,
       errorCallback,

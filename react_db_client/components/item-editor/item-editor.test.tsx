@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import UserEvent from '@testing-library/user-event';
 import { fillInForm } from '@form-extendable/testing';
 import * as compositions from './item-editor.composition';
@@ -28,7 +28,6 @@ describe('Item Editor', () => {
       render(<compositions.BasicItemEditor />);
       if (compositions.BasicItemEditor.waitForReady)
         await compositions.BasicItemEditor.waitForReady();
-      // Commented values cannot be edited (yet!)
       const newData = {
         text: 'Example text',
         // number: 1,
@@ -82,26 +81,60 @@ describe('Item Editor', () => {
         // below fields or modified from raw input above
       };
 
-
       await fillInForm(
         screen.getByRole('form'),
         demoParams as any,
         newData
         // fillInCustomField
       );
-      // TODO: Handle act errors!
       const submitBtn = screen.getByRole('button', { name: /Save Item/ });
       await UserEvent.click(submitBtn);
-      const submittedData = await screen
-        .findByTestId('submittedData')
+      const savedData = await screen
+        .findByTestId('savedData')
         .then((el) => JSON.parse(el.textContent || '{}'));
 
-      const updatedData = await screen
-        .findByTestId('data')
+      const submitCallbackData = await screen
+        .findByTestId('submittedCallbackData')
         .then((el) => JSON.parse(el.textContent || '{}'));
-      expect(updatedData).toEqual(expectedNewDoc);
+      expect(submitCallbackData).toEqual(expectedNewDoc);
 
-      expect(submittedData).toEqual(expectedSubmittedDoc);
+      expect(savedData).toEqual(expectedSubmittedDoc);
+    });
+    test('should catch errors in saving', async () => {
+      const validData = { text: 'ok' };
+      const inValidData = { text: 'ERROR' };
+      render(<compositions.BasicItemEditor />);
+      if (compositions.BasicItemEditor.waitForReady)
+        await compositions.BasicItemEditor.waitForReady();
+
+      await fillInForm(
+        screen.getByRole('form'),
+        demoParams as any,
+        inValidData
+      );
+      const submitBtn = screen.getByRole('button', { name: /Save Item/ });
+      await UserEvent.click(submitBtn);
+      await waitFor(() =>
+        expect(screen.getByTestId('error').textContent).toEqual(
+          'Error: You asked for an error?!'
+        )
+      );
+
+      await fillInForm(screen.getByRole('form'), demoParams as any, validData);
+      await UserEvent.click(submitBtn);
+      await screen.findByTestId('submittedCallbackData');
+      expect(screen.queryByTestId('error')).not.toBeInTheDocument();
+      // Check multiple errors still caught
+      await fillInForm(
+        screen.getByRole('form'),
+        demoParams as any,
+        inValidData
+      );
+      await UserEvent.click(submitBtn);
+      await screen.findByTestId('error');
+      expect(
+        screen.queryByTestId('submittedCallbackData')
+      ).not.toBeInTheDocument();
     });
   });
 });

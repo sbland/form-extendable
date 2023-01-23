@@ -86,9 +86,10 @@ export const selectInUploadedList = async (
   const sasPanels = within(fileManager).getByTestId(
     'rdc-sas-file-manager-existing-files'
   );
-  const loadedFilesList = within(sasPanels).getByRole('list');
+  await within(sasPanels).findByText(value.label);
 
-  await within(loadedFilesList).findByText(value.label);
+  await within(within(sasPanels).getByRole('list')).findByText(value.label);
+  const loadedFilesList = within(sasPanels).getByRole('list');
   const selectItemBtn = within(loadedFilesList).getByRole('button', {
     name: value.label,
   });

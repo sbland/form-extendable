@@ -20,6 +20,7 @@ import {
 } from './use-async-object-manager';
 import cloneDeep from 'lodash/cloneDeep';
 import { JSONStringifySorted } from './test-utils';
+import { Uid } from '@react_db_client/constants.client-types';
 
 const sleep = (delay) =>
   new Promise((res: (value?: any) => void) => {
@@ -30,6 +31,7 @@ const sleep = (delay) =>
 
 interface IVizProps
   extends IUseAsyncObjectManagerReturn<IDemoDoc>,
+    IUseHandleCallbacksReturn,
     ReturnType<typeof useDemoDatabase> {}
 
 const Viz = ({
@@ -53,6 +55,10 @@ const Viz = ({
   asyncPutDocument,
   asyncPostDocument,
   asyncDeleteDocument,
+  saveError,
+  onSavedCallbackResponse,
+  saveErrorCallbackResponse,
+  onDeleteCallbackResponse,
 }: IVizProps) => (
   <div>
     {uid}
@@ -86,7 +92,6 @@ const Viz = ({
     <div>
       <h1>Db data</h1>
       <p data-testid="dbData">{JSON.stringify(dbData)}</p>
-      {/* <p data-testid="dbData">{JSONStringifySorted(dbData)}</p> */}
     </div>
     <div>
       <h1>Db overrides</h1>
@@ -104,6 +109,33 @@ const Viz = ({
         />
       </p>
     </div>
+    <div>
+      <h1>Responses</h1>
+      <div>
+        <p data-testid="saveResponse">
+          {saveResponse?.ok || JSON.stringify(saveResponse)}
+        </p>
+        <p data-testid="saveError">{saveError && saveError.message}</p>
+      </div>
+    </div>
+    <div>
+      <h1>Callbacks</h1>
+      {onSavedCallbackResponse && (
+        <p data-testid="onSavedCallbackResponse">
+          {JSON.stringify(onSavedCallbackResponse)}
+        </p>
+      )}
+      {saveErrorCallbackResponse && (
+        <p data-testid="saveErrorCallbackResponse">
+          {saveErrorCallbackResponse.message || 'UNKNOWN ERROR'}
+        </p>
+      )}
+      {onDeleteCallbackResponse && (
+        <p data-testid="onDeleteCallbackResponse">
+          {JSON.stringify(onDeleteCallbackResponse)}
+        </p>
+      )}
+    </div>
   </div>
 );
 
@@ -114,6 +146,7 @@ const defaultArgs: IUseAsyncObjectManagerArgs<IDemoDoc> = {
   inputAdditionalData,
   schema: 'all',
   loadOnInit: false,
+
   asyncGetDocument: async () => ({} as any),
   asyncPutDocument: async () => ({ ok: true }),
   asyncPostDocument: async () => ({ ok: true }),
@@ -128,6 +161,9 @@ const useDemoDatabase = () => {
   };
   const asyncPutDocument = async (collection, uid, objData) => {
     await sleep(100);
+    if (objData.goodbye === 'ERROR') {
+      throw new Error('You asked for an error?');
+    }
     setData((prev) => ({
       ...prev,
       [collection]: {
@@ -163,40 +199,81 @@ const useDemoDatabase = () => {
   };
 };
 
+interface IUseHandleCallbacksReturn {
+  onSavedCallbackResponse: Uid;
+  saveErrorCallbackResponse;
+  onDeleteCallbackResponse;
+}
+const useHandleCallbacks = () => {
+  const [onSavedCallbackResponse, setonSavedCallbackResponse] =
+    React.useState<any>(null);
+  const [saveErrorCallbackResponse, setsaveErrorCallbackResponse] =
+    React.useState(null);
+  const [onDeleteCallbackResponse, setonDeleteCallbackResponse] =
+    React.useState(null);
+
+  const onSavedCallback = (uid: Uid, response: any, combinedData: any) => {
+    setsaveErrorCallbackResponse(null);
+    setonSavedCallbackResponse([uid, response, combinedData]);
+  };
+  const saveErrorCallback = (e) => {
+    setonSavedCallbackResponse(null)
+    setsaveErrorCallbackResponse(e);
+  };
+  const onDeleteCallback = (e) => {
+    setonDeleteCallbackResponse(e);
+  };
+
+  return {
+    onSavedCallback,
+    saveErrorCallback,
+    onDeleteCallback,
+    onSavedCallbackResponse,
+    saveErrorCallbackResponse,
+    onDeleteCallbackResponse,
+  };
+};
+
 export const AsyncTest = () => {
+  const handleCallbacks = useHandleCallbacks();
   const database = useDemoDatabase();
   const asyncOut = useAsyncObjectManager({
     ...defaultArgs,
     ...database,
+    ...handleCallbacks,
   });
 
-  return <Viz {...asyncOut} {...database} />;
+  return <Viz {...asyncOut} {...database} {...handleCallbacks} />;
 };
 
 AsyncTest.waitForReady = async () => {};
 
 export const AsyncTestNewObject = () => {
+  const handleCallbacks = useHandleCallbacks();
   const database = useDemoDatabase();
   const asyncOut = useAsyncObjectManager({
     ...defaultArgs,
     inputAdditionalData,
     activeUid: undefined,
     ...database,
+    ...handleCallbacks,
   });
 
-  return <Viz {...asyncOut} {...database} />;
+  return <Viz {...asyncOut} {...database} {...handleCallbacks} />;
 };
 
 AsyncTestNewObject.waitForReady = async () => {};
 
 export const AsyncTestLoadOnInit = () => {
+  const handleCallbacks = useHandleCallbacks();
   const database = useDemoDatabase();
   const asyncOut = useAsyncObjectManager({
     ...defaultArgs,
     ...database,
     loadOnInit: true,
+    ...handleCallbacks,
   });
-  return <Viz {...asyncOut} {...database} />;
+  return <Viz {...asyncOut} {...database} {...handleCallbacks} />;
 };
 
 AsyncTestLoadOnInit.waitForReady = async () => {

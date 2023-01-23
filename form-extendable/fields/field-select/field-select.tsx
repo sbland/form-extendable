@@ -27,7 +27,9 @@ export const FieldSelect = ({
 }: TFieldSelectProps) => {
   const selection =
     (value && options && options.find((o) => o.uid === value)) ||
-    (defaultValue && options.find((o) => o.uid === defaultValue));
+    (defaultValue && options.find((o) => o.uid === defaultValue)) ||
+    '';
+
   const searchFunction = useCallback(async () => options, [options]);
   const valueIsInvalid = value !== null && selection === undefined;
 
@@ -48,7 +50,8 @@ export const FieldSelect = ({
           <SearchAndSelectDropdown
             searchFunction={searchFunction}
             handleSelect={handleSelect}
-            initialValue={String(selection)}
+            initialValue={selection}
+            // initialValue={String(selection)}
             searchFieldTargetField={labelField}
             labelField={labelField}
             className="formFieldInput"

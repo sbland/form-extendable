@@ -1,6 +1,7 @@
 import React from 'react';
 import { screen, render, waitFor } from '@testing-library/react';
 import UserEvent from '@testing-library/user-event';
+import cloneDeep from 'lodash/cloneDeep';
 import * as compositions from './use-async-object-manager.composition';
 import { demoDbData, demoLoadedData, inputAdditionalData } from './demo-data';
 import { JSONStringifySorted } from './test-utils';
@@ -110,6 +111,77 @@ describe('Use async request hook', () => {
     });
   });
   describe('Updating doc', () => {
+    test('should call save callback on successful submit', async () => {
+      render(<compositions.AsyncTest />);
+      await compositions.AsyncTest.waitForReady();
+      const loadBtn = screen.getByRole('button', { name: /Reload data/ });
+      await UserEvent.click(loadBtn);
+      await screen.findByText('Loaded data');
+      const formInputEl = screen.getByLabelText('Goodbye Input');
+      await UserEvent.clear(formInputEl);
+      const newVal = 'New Value';
+      await UserEvent.type(formInputEl, newVal);
+      const newData = {
+        ...demoLoadedData,
+        ...inputAdditionalData,
+        goodbye: newVal,
+      };
+      const saveBtn = screen.getByRole('button', { name: /Save/ });
+      await UserEvent.click(saveBtn);
+      const savedCallbackResponse = await screen.findByTestId(
+        'onSavedCallbackResponse'
+      );
+      expect(JSON.parse(savedCallbackResponse.textContent || '{}')).toEqual([
+        demoLoadedData.uid,
+        { ok: true },
+        newData,
+      ]);
+    });
+    test('should not call save callback on failed submit', async () => {
+      const okVal = 'OK';
+      const invalidVal = 'ERROR';
+
+      render(<compositions.AsyncTest />);
+      await compositions.AsyncTest.waitForReady();
+      const loadBtn = screen.getByRole('button', { name: /Reload data/ });
+      await UserEvent.click(loadBtn);
+      await screen.findByText('Loaded data');
+      const saveBtn = screen.getByRole('button', { name: /Save/ });
+
+      const formInputEl = screen.getByLabelText('Goodbye Input');
+      await UserEvent.clear(formInputEl);
+      await UserEvent.type(formInputEl, invalidVal);
+      await UserEvent.click(saveBtn);
+
+      const errorCallbackResponse = await screen.findByTestId(
+        'saveErrorCallbackResponse'
+      );
+      expect(errorCallbackResponse.textContent).toEqual(
+        'You asked for an error?'
+      );
+
+      expect(
+        screen.queryByTestId('onSavedCallbackResponse')
+      ).not.toBeInTheDocument();
+
+      await UserEvent.clear(formInputEl);
+      await UserEvent.type(formInputEl, okVal);
+      await UserEvent.click(saveBtn);
+      await screen.findByTestId('onSavedCallbackResponse');
+      expect(
+        screen.queryByText('You asked for an error?')
+      ).not.toBeInTheDocument();
+
+      await UserEvent.clear(formInputEl);
+      await UserEvent.type(formInputEl, invalidVal);
+      await UserEvent.click(saveBtn);
+      await screen.findByText('You asked for an error?');
+
+      expect(
+        screen.queryByTestId('onSavedCallbackResponse')
+      ).not.toBeInTheDocument();
+    });
+
     test('should change local data when editing input', async () => {
       render(<compositions.AsyncTest />);
       await compositions.AsyncTest.waitForReady();
@@ -159,5 +231,34 @@ describe('Use async request hook', () => {
       expect(dbData).toEqual(JSON.stringify(expectedDbData));
     });
     test.todo('should be able to update an array value');
+    test('should handle errors when saving', async () => {
+      render(<compositions.AsyncTestLoadOnInit />);
+      await compositions.AsyncTestLoadOnInit.waitForReady();
+      const formInputEl = screen.getByLabelText('Goodbye Input');
+      await UserEvent.clear(formInputEl);
+      const newVal = 'ERROR'; // The mock post function will pick this up and throw an error
+      await UserEvent.type(formInputEl, newVal);
+      const newData = {
+        ...demoLoadedData,
+        ...inputAdditionalData,
+        goodbye: newVal,
+      };
+      await screen.findAllByText(JSONStringifySorted(newData));
+      const saveBtn = screen.getByRole('button', { name: /Save/ });
+      await UserEvent.click(saveBtn);
+      const expectedDbData = cloneDeep(demoDbData);
+      expectedDbData.demoCollection.abc = {
+        ...expectedDbData.demoCollection.abc,
+        ...inputAdditionalData,
+        goodbye: newVal,
+      };
+      await waitFor(() =>
+        expect(screen.getByTestId('saveError').textContent).toEqual(
+          'You asked for an error?'
+        )
+      );
+      const dbData = screen.getByTestId('dbData').textContent;
+      expect(dbData).toEqual(JSON.stringify(demoDbData));
+    });
   });
 });

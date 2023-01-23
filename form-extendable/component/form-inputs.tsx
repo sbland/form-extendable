@@ -4,7 +4,6 @@ import { EFilterType, Uid } from '@react_db_client/constants.client-types';
 import {
   IHeadingEmbedded,
   TComponentMap,
-  TFormData,
   THeading,
 } from '@form-extendable/lib';
 import { FormField as DefaultFormField, IFormFieldProps } from './form-field';

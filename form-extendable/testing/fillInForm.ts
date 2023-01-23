@@ -14,6 +14,7 @@ import {
   editValue as editFileValue,
   THeadingTypes as THeadingTypesFile,
 } from '@form-extendable/fields.field-file';
+import { flattenHeadings } from './flattenHeadings';
 
 export type FillInFieldFn = (
   formEl: HTMLFormElement,
@@ -31,7 +32,10 @@ export const fillInField: FillInFieldFn =
   ) =>
   async ([k, v]) => {
     const heading = headingsData.find((h) => h.uid === k);
-    if (!heading) throw Error(`Heading not found for ${k}`);
+    if (!heading) {
+      console.info(headingsData)
+      throw Error(`Heading not found for ${k}`);
+    }
     if (debug) console.info('form field heading: ', heading);
     if (heading.readOnly) {
       return;
@@ -117,7 +121,7 @@ export const fillInField: FillInFieldFn =
         // }
       }
     } catch (error) {
-      console.info(`Failed to set value for ${heading.uid}`);
+      console.info(`Failed to set value for ${heading.uid}. ${error.message}`);
       console.info(heading);
       throw error;
     }
@@ -136,9 +140,15 @@ export const fillInForm = async (
   customFillInField?: FillInFieldFn,
   debug: boolean = false
 ) => {
+  const flattenedHeadings = flattenHeadings(headings);
   const fns = Object.entries(data).map(([k, v]) => () => {
     if (debug) console.log(`Filling in field: ${k} with ${JSON.stringify(v)}`);
-    return fillInField(formEl, headings, customFillInField, debug)([k, v]);
+    return fillInField(
+      formEl,
+      flattenedHeadings,
+      customFillInField,
+      debug
+    )([k, v]);
   });
   await promiseAllInSeries(fns);
 };

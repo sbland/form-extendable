@@ -26,8 +26,13 @@ const componentMap = defaultComponentMap({
 });
 
 export const BasicItemEditor = () => {
-  const [data, setData] = React.useState(null);
-  const [savedData, setSavedData] = React.useState(null);
+  const [submittedCallbackData, setSubmittedCallbackData] = React.useState<
+    typeof demoData | null
+  >(null);
+  const [savedData, setSavedData] = React.useState<typeof demoData | null>(
+    null
+  );
+  const [error, setError] = React.useState<null | Error>(null);
   return (
     <>
       <FormThemeProvider theme={defaultTheme}>
@@ -35,13 +40,22 @@ export const BasicItemEditor = () => {
           id="demo-id"
           inputUid={demoData.uid}
           isNew={false}
-          onSubmitCallback={(d) => setData(d)}
+          onSubmitCallback={(d) => setSubmittedCallbackData(d)}
           additionalData={{}}
           params={demoParams}
           collection="democollection"
+          saveErrorCallback={(e) => {
+            setError(e);
+          }}
           asyncGetDocument={async () => demoData}
-          asyncPutDocument={async (collection, id, data) => {
-            setSavedData(data);
+          asyncPutDocument={async (collection, id, d) => {
+            setError(null);
+            setSubmittedCallbackData(null);
+            setSavedData(null);
+            if (d.text === 'ERROR') {
+              throw new Error('You asked for an error?!');
+            }
+            setSavedData(d as typeof demoData);
             return { ok: true };
           }}
           asyncPostDocument={async () => ({ ok: true })}
@@ -49,10 +63,15 @@ export const BasicItemEditor = () => {
           componentMap={componentMap}
         />
       </FormThemeProvider>
-      {data && <p data-testid="data">{JSON.stringify(data || {})}</p>}
-      {savedData && (
-        <p data-testid="submittedData">{JSON.stringify(savedData || {})}</p>
+      {submittedCallbackData && (
+        <p data-testid="submittedCallbackData">
+          {JSON.stringify(submittedCallbackData || {})}
+        </p>
       )}
+      {savedData && (
+        <p data-testid="savedData">{JSON.stringify(savedData || {})}</p>
+      )}
+      {error && <p data-testid="error">{String(error) || 'No error'}</p>}
     </>
   );
 };
@@ -71,9 +90,14 @@ BasicItemEditor.waitForReady = async () => {
 };
 
 export const BasicItemEditorAutosave = () => {
-  const [data, setData] = React.useState(null);
-  const [savedData, setSavedData] = React.useState(null);
+  const [submittedCallbackData, setSubmittedCallbackData] = React.useState<
+    typeof demoData | null
+  >(null);
+  const [savedData, setSavedData] = React.useState<typeof demoData | null>(
+    null
+  );
   const [callCount, setCallCount] = React.useState(0);
+  const [error, setError] = React.useState<null | Error>(null);
   return (
     <>
       <FormThemeProvider theme={defaultTheme}>
@@ -81,16 +105,25 @@ export const BasicItemEditorAutosave = () => {
           id="demo-id"
           inputUid={demoData.uid}
           isNew={false}
-          // onSubmitCallback={(d) => setData(d)}
-          onSubmitCallback={() => setCallCount((prev) => prev + 1)}
+          onSubmitCallback={(d) => {
+            setSubmittedCallbackData(d);
+            setCallCount((prev) => prev + 1);
+          }}
+          saveErrorCallback={(e) => setError(e)}
           additionalData={{}}
+          onCancel={() => {}}
           params={[demoParams[0]]}
           collection="democollection"
           asyncGetDocument={async () => demoData}
           asyncPutDocument={async (collection, id, data) => {
-            // setSavedData(data);
+            setError(null);
+            setSubmittedCallbackData(null);
+            setSavedData(null);
+            if (!data.label) throw new Error('Must have label!');
+            setSavedData(data as typeof demoData);
             return { ok: true };
           }}
+          autosave
           asyncPostDocument={async () => ({ ok: true })}
           asyncDeleteDocument={async () => ({ ok: true })}
           componentMap={componentMap}
@@ -101,11 +134,16 @@ export const BasicItemEditorAutosave = () => {
           }}
         />
       </FormThemeProvider>
-      {data && <p data-testid="data">{JSON.stringify(data || {})}</p>}
+      {submittedCallbackData && (
+        <p data-testid="submittedCallbackData">
+          {JSON.stringify(submittedCallbackData || {})}
+        </p>
+      )}
       {savedData && (
-        <p data-testid="submittedData">{JSON.stringify(savedData || {})}</p>
+        <p data-testid="savedData">{JSON.stringify(savedData || {})}</p>
       )}
       <p data-testid="callCount">{callCount}</p>
+      <p data-testid="error">{String(error) || 'No error'}</p>
     </>
   );
 };
