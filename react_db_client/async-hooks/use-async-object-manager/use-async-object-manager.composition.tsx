@@ -6,12 +6,7 @@
 import React from 'react';
 import { screen } from '@testing-library/react';
 
-import {
-  demoDbData,
-  demoLoadedData,
-  IDemoDoc,
-  inputAdditionalData,
-} from './demo-data';
+import { demoDbData, demoLoadedData, IDemoDoc, inputAdditionalData } from './demo-data';
 
 import {
   IUseAsyncObjectManagerArgs,
@@ -112,18 +107,14 @@ const Viz = ({
     <div>
       <h1>Responses</h1>
       <div>
-        <p data-testid="saveResponse">
-          {saveResponse?.ok || JSON.stringify(saveResponse)}
-        </p>
+        <p data-testid="saveResponse">{saveResponse?.ok || JSON.stringify(saveResponse)}</p>
         <p data-testid="saveError">{saveError && saveError.message}</p>
       </div>
     </div>
     <div>
       <h1>Callbacks</h1>
       {onSavedCallbackResponse && (
-        <p data-testid="onSavedCallbackResponse">
-          {JSON.stringify(onSavedCallbackResponse)}
-        </p>
+        <p data-testid="onSavedCallbackResponse">{JSON.stringify(onSavedCallbackResponse)}</p>
       )}
       {saveErrorCallbackResponse && (
         <p data-testid="saveErrorCallbackResponse">
@@ -131,9 +122,7 @@ const Viz = ({
         </p>
       )}
       {onDeleteCallbackResponse && (
-        <p data-testid="onDeleteCallbackResponse">
-          {JSON.stringify(onDeleteCallbackResponse)}
-        </p>
+        <p data-testid="onDeleteCallbackResponse">{JSON.stringify(onDeleteCallbackResponse)}</p>
       )}
     </div>
   </div>
@@ -148,9 +137,9 @@ const defaultArgs: IUseAsyncObjectManagerArgs<IDemoDoc> = {
   loadOnInit: false,
 
   asyncGetDocument: async () => ({} as any),
-  asyncPutDocument: async () => ({ ok: true }),
-  asyncPostDocument: async () => ({ ok: true }),
-  asyncDeleteDocument: async () => ({ ok: true }),
+  asyncPutDocument: async () => ({ ok: true } as any),
+  asyncPostDocument: async () => ({ ok: true } as any),
+  asyncDeleteDocument: async () => ({ ok: true } as any),
 };
 
 const useDemoDatabase = () => {
@@ -205,19 +194,16 @@ interface IUseHandleCallbacksReturn {
   onDeleteCallbackResponse;
 }
 const useHandleCallbacks = () => {
-  const [onSavedCallbackResponse, setonSavedCallbackResponse] =
-    React.useState<any>(null);
-  const [saveErrorCallbackResponse, setsaveErrorCallbackResponse] =
-    React.useState(null);
-  const [onDeleteCallbackResponse, setonDeleteCallbackResponse] =
-    React.useState(null);
+  const [onSavedCallbackResponse, setonSavedCallbackResponse] = React.useState<any>(null);
+  const [saveErrorCallbackResponse, setsaveErrorCallbackResponse] = React.useState(null);
+  const [onDeleteCallbackResponse, setonDeleteCallbackResponse] = React.useState(null);
 
   const onSavedCallback = (uid: Uid, response: any, combinedData: any) => {
     setsaveErrorCallbackResponse(null);
     setonSavedCallbackResponse([uid, response, combinedData]);
   };
   const saveErrorCallback = (e) => {
-    setonSavedCallbackResponse(null)
+    setonSavedCallbackResponse(null);
     setsaveErrorCallbackResponse(e);
   };
   const onDeleteCallback = (e) => {
