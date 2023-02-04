@@ -26,7 +26,7 @@ const openExistingItemEditor = async (searchResult: HTMLElement) => {
   return itemEditor;
 };
 
-describe('CertificateCatalogue', () => {
+describe('Generic Catalogue', () => {
   describe('Compositions', () => {
     Object.entries(compositions)
       .filter(([name, Composition]) => (Composition as any).forTests)

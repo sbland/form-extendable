@@ -33,7 +33,7 @@ export const fillInField: FillInFieldFn =
   async ([k, v]) => {
     const heading = headingsData.find((h) => h.uid === k);
     if (!heading) {
-      console.info(headingsData)
+      console.info(headingsData);
       throw Error(`Heading not found for ${k}`);
     }
     if (debug) console.info('form field heading: ', heading);
@@ -121,7 +121,12 @@ export const fillInField: FillInFieldFn =
         // }
       }
     } catch (error) {
-      console.info(`Failed to set value for ${heading.uid}. ${error.message}`);
+      console.info(
+        `Failed to set value for ${heading.uid}.`,
+        'Using value:',
+        v,
+        error.message
+      );
       console.info(heading);
       throw error;
     }

@@ -197,6 +197,7 @@ export const Form = <CompleteFormType,>({
       {(showKey || FormStatusComponent) && (
         <section>
           {showKey && <p>* is required. (!) has been modified.</p>}
+          {/* TODO: Move status to end button portal */}
           {FormStatusComponent && <FormStatusComponent message={message} />}
         </section>
       )}
