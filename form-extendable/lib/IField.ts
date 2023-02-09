@@ -5,6 +5,7 @@ export interface IFieldProps<V, H extends THeading<V> = THeading<V>> {
   value: V;
   onChange: (v: V | null) => void;
   additionalData: any;
+  disableAutoFill?: boolean;
 }
 
 export interface IFieldComponentPropsBase<V> {
@@ -13,8 +14,8 @@ export interface IFieldComponentPropsBase<V> {
   onChange: (v: V | null) => void;
   additionalData?: any;
   inputTypeOverride?: '';
-  disableAutofill?: boolean;
   className?: string;
+  disableAutoFill?: boolean;
 }
 
 export type IFieldComponentProps <V, H extends THeading<V>> = IFieldComponentPropsBase<V> & H;

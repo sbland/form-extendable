@@ -28,6 +28,7 @@ export const FieldNumber: React.FC<TFieldNumberProps> = ({
   onChange,
   value: valueIn,
   required,
+  disableAutoFill,
   inputProps,
 }) => {
   const ref = useRef<HTMLInputElement>(null);
@@ -92,6 +93,7 @@ export const FieldNumber: React.FC<TFieldNumberProps> = ({
         required={required}
         aria-labelledby={`${uid}-label`}
         id={`${uid}-input`}
+        autoComplete={disableAutoFill ? 'off' : undefined}
         {...inputProps}
       />
       {unit && <span>{unit}</span>}

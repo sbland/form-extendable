@@ -21,6 +21,7 @@ export interface IFormInputsProps<CompleteFormType> {
   componentMap: TComponentMap;
   styleOverrides?: React.CSSProperties;
   id: Uid;
+  disableAutoFill?: boolean;
 }
 
 export const FormInputs = <CompleteFormType,>({
@@ -35,6 +36,7 @@ export const FormInputs = <CompleteFormType,>({
   componentMap,
   styleOverrides = {},
   id,
+  disableAutoFill,
 }: IFormInputsProps<CompleteFormType>) => {
   const className = [
     'form_inputs',
@@ -71,6 +73,7 @@ export const FormInputs = <CompleteFormType,>({
               id={heading.uid}
               styleOverrides={heading.styleOverrides}
               isSection
+              disableAutoFill={disableAutoFill}
             />
           );
         }
@@ -82,6 +85,7 @@ export const FormInputs = <CompleteFormType,>({
             key={heading.uid}
             additionalData={additionalData}
             componentMap={componentMap}
+            disableAutoFill={disableAutoFill}
           />
         );
       }),

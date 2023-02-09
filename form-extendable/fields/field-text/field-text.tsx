@@ -12,11 +12,11 @@ export const FieldText: React.FC<
   value,
   inputTypeOverride,
   required,
-  disableAutofill,
+  disableAutoFill,
   inputProps,
 }) => {
   const ref = useRef<HTMLInputElement>(null);
-  const role = disableAutofill ? 'presentation' : undefined;
+  const role = disableAutoFill ? 'presentation' : undefined;
   return (
     <>
       <input
@@ -33,6 +33,7 @@ export const FieldText: React.FC<
         value={value || ''}
         onChange={(e) => onChange(e.target.value)}
         required={required}
+        autoComplete={disableAutoFill ? "off" : undefined}
         {...inputProps}
       />
       {unit ? <span>{unit}</span> : <span></span>}
@@ -46,12 +47,12 @@ FieldText.propTypes = {
   value: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   required: PropTypes.bool,
-  disableAutofill: PropTypes.bool,
+  disableAutoFill: PropTypes.bool,
 };
 
 FieldText.defaultProps = {
   unit: '',
   value: '',
   required: false,
-  disableAutofill: false,
+  disableAutoFill: false,
 };

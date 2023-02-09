@@ -68,7 +68,7 @@ export const FormFieldWrap: React.FC<IFormFieldWrapProps> = ({
 export const FormField = <V, H extends THeading<V>>(
   propsIn: IFormFieldProps<V, H>
 ) => {
-  const { heading, value, onChange, additionalData, componentMap } = propsIn;
+  const { heading, value, onChange, additionalData, componentMap, disableAutoFill } = propsIn;
 
   const { label, required, type, uid, hasChanged, hideLabel, expandInput } =
     heading;
@@ -92,6 +92,7 @@ export const FormField = <V, H extends THeading<V>>(
       value,
       key: `${heading.uid}-sub`,
       additionalData,
+      disableAutoFill,
       ...heading,
     };
     return fProps;
