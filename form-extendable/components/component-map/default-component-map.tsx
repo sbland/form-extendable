@@ -156,6 +156,7 @@ export const defaultComponentMap = ({
   [EFilterType.button]: () => allowReadOnly(FieldNotImplemented),
   [EFilterType.dict]: () => allowReadOnly(FieldNotImplemented),
   [EFilterType.video]: () => allowReadOnly(FieldNotImplemented),
+  [EFilterType.table]: () => allowReadOnly(FieldNotImplemented),
 });
 
 export const defaultComponent =

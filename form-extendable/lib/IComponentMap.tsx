@@ -18,6 +18,7 @@ import {
   IHeadingSelect,
   IHeadingSelectMulti,
   IHeadingSelectSearch,
+  IHeadingTable,
   IHeadingText,
   IHeadingTextArea,
   IHeadingVideo,
@@ -53,11 +54,12 @@ export type TComponentMap = {
     IHeadingFileMulti
   >;
   [EFilterType.image]: () => TFieldReactComponent<IFile, IHeadingFile>;
-  [EFilterType.number]: () => TFieldReactComponent<number, IHeadingNumber>;
+  [EFilterType.number]: () => TFieldReactComponent<number | '', IHeadingNumber>;
   [EFilterType.date]: () => TFieldReactComponent<
     Date | number | string,
     IHeadingDate
   >;
   [EFilterType.bool]: () => TFieldReactComponent<boolean, IHeadingBool>;
   [EFilterType.toggle]: () => TFieldReactComponent<boolean, IHeadingBool>;
+  [EFilterType.table]: () => TFieldReactComponent<Array<Array<any>>, IHeadingTable>
 };

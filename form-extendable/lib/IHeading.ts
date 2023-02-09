@@ -30,7 +30,8 @@ export interface IHeading<T, InputType> {
   styleOverrides?: React.CSSProperties;
 }
 
-export interface IHeadingNumber extends IHeading<number, HTMLInputElement> {
+export interface IHeadingNumber
+  extends IHeading<number | '', HTMLInputElement> {
   type: EFilterType.number;
   min?: number;
   max?: number;
@@ -183,6 +184,12 @@ export interface IHeadingDict
   type: EFilterType.dict;
 }
 
+export interface IHeadingTable
+  extends Omit<IHeading<string, HTMLInputElement>, 'type'> {
+  type: EFilterType.table;
+  headings: THeading<any>[];
+}
+
 export interface IHeadingCustomType<T>
   extends Omit<IHeading<T, HTMLInputElement>, 'type'> {
   type: string;
@@ -209,4 +216,5 @@ export type THeading<T> =
   | IHeadingButton
   | IHeadingVideo
   | IHeadingText
-  | IHeadingDict;
+  | IHeadingDict
+  | IHeadingTable;

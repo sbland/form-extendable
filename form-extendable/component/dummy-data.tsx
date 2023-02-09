@@ -369,6 +369,24 @@ export const demoHeadingsData: THeading<any>[] = [
     url: 'video_url',
     type: EFilterType.video,
   },
+  {
+    uid: 'table',
+    label: 'Table Field',
+    type: EFilterType.table,
+    headings: [
+      {
+        uid: 'uid',
+        label: 'UID',
+        type: EFilterType.uid,
+      },
+      {
+        uid: 'text',
+        label: 'Text',
+        type: EFilterType.text,
+        required: true,
+      },
+    ],
+  },
   demoCustomTypeHeading,
 ];
 
@@ -462,6 +480,10 @@ export const demoFormData: TFormData = {
   8
   9
   `,
+  table: [
+    ['foo', 'Foo'],
+    ['bar', 'Bar'],
+  ],
 };
 
 export const demoAdditionalData = {
