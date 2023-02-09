@@ -188,6 +188,8 @@ export const demoHeadingsData: THeading<any>[] = [
     uid: 'textarea',
     label: 'Text Area',
     type: EFilterType.textLong,
+    initHeight: 100,
+    initWidth: 100,
   },
   buttonHeading,
   {

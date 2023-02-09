@@ -14,6 +14,7 @@ export const FieldTextArea: React.FC<TFieldTextAreaProps> = ({
   value,
   required,
   initHeight = 10,
+  initWidth = 30,
   scaleToContent,
   styleOverrides,
   inputProps,
@@ -56,9 +57,11 @@ export const FieldTextArea: React.FC<TFieldTextAreaProps> = ({
         <textarea
           style={{
             height: resizing ? 'auto' : `${textareaHeight + 2}px`,
+            minWidth: `${initWidth}px`,
             // height: textareaHeight + 'px',
             maxHeight: '100%',
             minHeight: '1rem',
+            width: '100%',
             maxWidth: '100%',
             // minWidth: '100%',
             ...styleOverrides,
@@ -88,6 +91,7 @@ FieldTextArea.propTypes = {
   onChange: PropTypes.func.isRequired,
   required: PropTypes.bool,
   initHeight: PropTypes.number,
+  initWidth: PropTypes.number,
   scaleToContent: PropTypes.bool,
   styleOverrides: PropTypes.shape({}),
 };
@@ -97,6 +101,7 @@ FieldTextArea.defaultProps = {
   value: '',
   required: false,
   initHeight: 10,
+  initWidth: 30,
   scaleToContent: true,
   styleOverrides: {},
 };

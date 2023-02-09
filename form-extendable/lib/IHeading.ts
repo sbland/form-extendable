@@ -166,6 +166,7 @@ export interface IHeadingTextArea
   extends IHeading<string, HTMLTextAreaElement> {
   type: EFilterType.textLong;
   initHeight?: number;
+  initWidth?: number;
   scaleToContent?: boolean;
   styleOverrides?: React.CSSProperties;
 }
