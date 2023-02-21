@@ -20,6 +20,7 @@ import { FieldDate } from '@form-extendable/fields.field-date';
 import { FieldNumber } from '@form-extendable/fields.field-number';
 import { FieldSelect } from '@form-extendable/fields.field-select';
 import { FieldMultiSelect } from '@form-extendable/fields.field-multi-select';
+import { FieldDict } from '@form-extendable/fields.field-dict';
 import {
   searchFnReference,
   FieldSelectSearch,
@@ -152,9 +153,9 @@ export const defaultComponentMap = ({
         />
       )
     ),
+  [EFilterType.dict]: () => allowReadOnly(FieldDict),
   [EFilterType.embedded]: () => allowReadOnly(FieldNotImplemented),
   [EFilterType.button]: () => allowReadOnly(FieldNotImplemented),
-  [EFilterType.dict]: () => allowReadOnly(FieldNotImplemented),
   [EFilterType.video]: () => allowReadOnly(FieldNotImplemented),
   [EFilterType.table]: () => allowReadOnly(FieldNotImplemented),
 });
