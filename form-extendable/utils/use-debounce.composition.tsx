@@ -70,10 +70,37 @@ export const ExampleUseDebounceHookUsage = () => {
         callCount: <span>{state}</span>
       </p>
       <p data-testid="hasBeenCalled">
-        callCount: <span>{called ? 'Called' : 'Not Called'}</span>
+        called: <span>{called ? 'Called' : 'Not Called'}</span>
       </p>
     </div>
   );
 };
 
 ExampleUseDebounceHookUsage.waitForReady = async () => {};
+
+export const ExampleUseDebounceHookUsageCatchError = () => {
+  const [error, setError] = React.useState<null | Error>(null);
+  const [called, setCalled] = React.useState(false);
+  const exampleFn = async (a: number) => {
+    setCalled(true);
+    throw new Error('Example error');
+  };
+  const call = useDebounce({
+    fn: exampleFn,
+    timeout: 100,
+    errorCallback: (e) => setError(e),
+  });
+  return (
+    <div>
+      <button onClick={() => call(1)}>Click</button>
+      <p data-testid="hasBeenCalled">
+        called: <span>{called ? 'Has Called' : 'Not Called'}</span>
+      </p>
+      <p data-testid="errorMessage">
+        error: <span>{String(error)}</span>
+      </p>
+    </div>
+  );
+};
+
+ExampleUseDebounceHookUsageCatchError.waitForReady = async () => {};

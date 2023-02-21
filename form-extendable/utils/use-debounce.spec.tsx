@@ -40,6 +40,15 @@ describe('useDebounce Hook', () => {
         'callCount: 1'
       );
     });
-    //
+    test('should catch errors', async () => {
+      render(<compositions.ExampleUseDebounceHookUsageCatchError />);
+      const button = screen.getByRole('button');
+      expect(screen.getByTestId('errorMessage').textContent).toEqual('error: null');
+      await UserEvent.click(button);
+      await screen.findByText('Has Called');
+      expect(screen.getByTestId('errorMessage').textContent).toEqual(
+        'error: Error: Example error'
+      );
+    });
   });
 });

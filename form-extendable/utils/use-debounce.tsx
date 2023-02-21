@@ -5,6 +5,7 @@ export interface IUseDebounceArgs<Fn extends (...args: any) => Promise<void>> {
   fn: Fn;
   allow?: boolean;
   callback?: Fn;
+  errorCallback?: (e: Error) => void;
 }
 
 export interface IUseDebounceReturn {}
@@ -14,6 +15,7 @@ export const useDebounce = <Fn extends (...args: any) => any>({
   fn,
   allow = true,
   callback,
+  errorCallback,
 }: IUseDebounceArgs<Fn>): Fn => {
   const [callRequested, setCallRequested] = React.useState(false);
   const [args, setArgs] = React.useState<Parameters<Fn>>();
@@ -22,7 +24,11 @@ export const useDebounce = <Fn extends (...args: any) => any>({
   React.useEffect(() => {
     if (callRequested && allow && args) {
       const handler = setTimeout(async () => {
-        await fn(...(args as Array<any>));
+        try {
+          await fn(...(args as Array<any>));
+        } catch (error) {
+          if (errorCallback) errorCallback(error);
+        }
         if (callback) callback(...(args as Array<any>));
         setCallRequested(false);
       }, timeout);

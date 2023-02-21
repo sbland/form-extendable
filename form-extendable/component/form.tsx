@@ -38,7 +38,7 @@ export interface IFormProps<CompleteFormType> {
   orientation?: 'vert' | 'horiz';
   disableAutocomplete?: boolean;
   endButtonRefOverride?: HTMLElement;
-  errorCallback?: (err: string) => void;
+  errorCallback?: (err: string | Error) => void;
   additionalData?: Partial<CompleteFormType>;
   componentMap?: TComponentMap;
   autosave?: boolean;
@@ -95,6 +95,7 @@ export const Form = <CompleteFormType,>({
   const [hasLocalChanges, setHasLocalChanges] = React.useState(false);
   const [lastChangedFieldValue, setlLastChangedFieldValue] =
     React.useState<[any, any]>();
+
   const callSubmitDebounced = useDebounce({
     fn: async (submitData: IFormSubmit<CompleteFormType>) =>
       onSubmit(submitData),
@@ -103,6 +104,7 @@ export const Form = <CompleteFormType,>({
       setSubmitting(false);
       setFormDirty(false);
     },
+    errorCallback,
   });
   const [endButtonContainerRef, setEndButtonContainerRef] =
     React.useState<HTMLElement | null>(null);
