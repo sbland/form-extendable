@@ -50,6 +50,7 @@ export interface IGenericCatalogueProps<ResultType extends IDocument> {
   >;
   errorCallback?: (e: AsyncRequestError | GenericCatalogueError) => void;
   notificationDispatch: (message: string) => void;
+  onItemSelect?: (item?: ResultType|null) => void;
   customParsers?: { [k: string]: CustomParser };
   previewHeadings?: THeading<any>[];
   asyncGetDocument: TAsyncGetDocument<ResultType>;
@@ -80,6 +81,7 @@ export const GenericCatalogue = <ResultType extends IDocument>({
   ItemEditor,
   errorCallback,
   notificationDispatch,
+  onItemSelect,
   customParsers,
   previewHeadings,
   asyncGetDocument,
@@ -116,6 +118,7 @@ export const GenericCatalogue = <ResultType extends IDocument>({
   }, [handleDelete, selectedUid, errorCallback, collection, itemName]);
 
   const handleSasSelect = useCallback((data?: ResultType | null) => {
+    if(onItemSelect) onItemSelect(data);
     if (data) setSelectedUid(data.uid);
     else setSelectedUid(null);
   }, []);
