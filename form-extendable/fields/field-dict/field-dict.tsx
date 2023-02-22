@@ -4,7 +4,7 @@ import { IFieldComponentProps, IHeadingDict } from '@form-extendable/lib';
 
 export const FieldDict: React.FC<
   IFieldComponentProps<string | object, IHeadingDict>
-> = ({ uid, unit, onChange, value = {}, required }) => {
+> = ({ uid, unit, onChange, value = {}, required, defaultValue={} }) => {
   const handleOnChange = React.useCallback(
     ({
       updated_src,
@@ -23,7 +23,7 @@ export const FieldDict: React.FC<
       {/* @ts-ignore */}
       <ReactJSON
         // @ts-ignore
-        src={value || {}}
+        src={value || defaultValue}
         onEdit={handleOnChange}
         onAdd={handleOnChange}
         onDelete={handleOnChange}
