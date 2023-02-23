@@ -17,7 +17,7 @@
     },
     "async-hooks/use-async-object-manager": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.2.50",
+        "version": "0.2.53",
         "mainFile": "index.ts",
         "rootDir": "react_db_client/async-hooks/use-async-object-manager"
     },
@@ -29,7 +29,7 @@
     },
     "component": {
         "scope": "samnbuk.form-extendable",
-        "version": "0.1.133",
+        "version": "0.1.134",
         "mainFile": "index.ts",
         "rootDir": "form-extendable/component"
     },
@@ -41,7 +41,7 @@
     },
     "components/component-map": {
         "scope": "samnbuk.form-extendable",
-        "version": "0.1.112",
+        "version": "0.1.113",
         "mainFile": "index.ts",
         "rootDir": "form-extendable/components/component-map"
     },
@@ -59,13 +59,13 @@
     },
     "components/generic-catalogue": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.2.270",
+        "version": "0.2.274",
         "mainFile": "index.ts",
         "rootDir": "react_db_client/components/generic-catalogue"
     },
     "components/item-editor": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.2.236",
+        "version": "0.2.240",
         "mainFile": "index.ts",
         "rootDir": "react_db_client/components/item-editor"
     },
@@ -131,7 +131,7 @@
     },
     "fields/field-dict": {
         "scope": "samnbuk.form-extendable",
-        "version": "0.0.1",
+        "version": "0.0.2",
         "mainFile": "index.ts",
         "rootDir": "form-extendable/fields/field-dict"
     },

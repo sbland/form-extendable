@@ -50,15 +50,15 @@ export interface IGenericCatalogueProps<ResultType extends IDocument> {
   >;
   errorCallback?: (e: AsyncRequestError | GenericCatalogueError) => void;
   notificationDispatch: (message: string) => void;
-  onItemSelect?: (item?: ResultType|null) => void;
+  onItemSelect?: (item?: ResultType | null) => void;
   customParsers?: { [k: string]: CustomParser };
   previewHeadings?: THeading<any>[];
   asyncGetDocument: TAsyncGetDocument<ResultType>;
   asyncPutDocument: TAsyncPutDocument<ResultType>;
   asyncPostDocument: TAsyncPostDocument<ResultType>;
   asyncGetDocuments: TAsyncGetDocuments<ResultType>;
-  asyncDeleteDocument: TAsyncDeleteDocument;
-  asyncCopyDocument: TAsyncCopyDocument<ResultType>;
+  asyncDeleteDocument?: TAsyncDeleteDocument;
+  asyncCopyDocument?: TAsyncCopyDocument<ResultType>;
   componentMap: TComponentMap;
   closePopupOnItemSave?: boolean;
   sasProps?: Partial<ISearchAndSelectProps<ResultType>>;
@@ -102,7 +102,7 @@ export const GenericCatalogue = <ResultType extends IDocument>({
 
   /* Handle Delete */
   useEffect(() => {
-    if (handleDelete && selectedUid) {
+    if (handleDelete && selectedUid && asyncDeleteDocument) {
       setHandleDelete(false);
       asyncDeleteDocument(collection, selectedUid)
         .then(() => {
@@ -115,10 +115,10 @@ export const GenericCatalogue = <ResultType extends IDocument>({
             );
         });
     }
-  }, [handleDelete, selectedUid, errorCallback, collection, itemName]);
+  }, [asyncDeleteDocument, handleDelete, selectedUid, errorCallback, collection, itemName]);
 
   const handleSasSelect = useCallback((data?: ResultType | null) => {
-    if(onItemSelect) onItemSelect(data);
+    if (onItemSelect) onItemSelect(data);
     if (data) setSelectedUid(data.uid);
     else setSelectedUid(null);
   }, []);
@@ -253,22 +253,26 @@ export const GenericCatalogue = <ResultType extends IDocument>({
             >
               Edit Selected {itemName}
             </button>
-            <button
-              type="button"
-              className="button-one genericCatalogue_duplicateSelectedBtn"
-              onClick={() => handleDuplicate(selectedUid)}
-              disabled={selectedUid === null}
-            >
-              Duplicate Selected {itemName}
-            </button>
-            <AreYouSureBtn
-              onConfirmed={() => {
-                setHandleDelete(true);
-              }}
-              confirmMessage={`Delete ${itemName}`}
-              disabled={selectedUid === null}
-              btnText={<Emoji emoj="🗑️" label="Delete" />}
-            />
+            {asyncCopyDocument && (
+              <button
+                type="button"
+                className="button-one genericCatalogue_duplicateSelectedBtn"
+                onClick={() => handleDuplicate(selectedUid)}
+                disabled={selectedUid === null}
+              >
+                Duplicate Selected {itemName}
+              </button>
+            )}
+            {asyncDeleteDocument && (
+              <AreYouSureBtn
+                onConfirmed={() => {
+                  setHandleDelete(true);
+                }}
+                confirmMessage={`Delete ${itemName}`}
+                disabled={selectedUid === null}
+                btnText={<Emoji emoj="🗑️" label="Delete" />}
+              />
+            )}
           </div>
         </section>
       </div>

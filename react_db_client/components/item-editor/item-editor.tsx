@@ -34,7 +34,7 @@ export interface IItemEditorProps<ResultType extends IDocument> {
   asyncGetDocument: TAsyncGetDocument<ResultType>;
   asyncPutDocument: TAsyncPutDocument<ResultType>;
   asyncPostDocument: TAsyncPostDocument<ResultType>;
-  asyncDeleteDocument: TAsyncDeleteDocument;
+  asyncDeleteDocument?: TAsyncDeleteDocument;
   componentMap: TComponentMap;
   saveErrorCallback?: (e: AsyncRequestError) => void;
   endButtonRefOverride?: HTMLElement;
