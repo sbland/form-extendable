@@ -1,0 +1,36 @@
+---
+description: 'A UseAsyncRequest component.'
+labels: ['async', 'hook']
+---
+
+import { useAsyncRequest } from './use-async-request';
+
+## React Component for rendering text
+
+A basic div that renders some text
+
+### Component usage
+```js
+<UseAsyncRequest text="hello from UseAsyncRequest" />
+```
+
+### Using props to customize the text
+
+Modify the text to see it change live:
+```js
+import { useAsyncRequest } from './use-async-request';
+
+const {
+    loading,
+    response,
+    error,
+    reload,
+} = useAsyncRequest({
+    args: [],
+    callOnInit: false,
+    callFn: async() => alert("called"),
+});
+
+<h1>Output </h1>
+<button onClick={reload}>Call</button>
+```
