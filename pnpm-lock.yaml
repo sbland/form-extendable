@@ -5,7 +5,6 @@ importers:
   .:
     specifiers:
       '@babel/runtime': 7.12.18
-      '@react_db_client/async-hooks.use-async-request': 0.2.20
       '@react_db_client/components.column-manager': 0.4.14
       '@react_db_client/components.custom-select-dropdown': 0.2.35
       '@react_db_client/components.emoji': 0.1.13
@@ -51,7 +50,6 @@ importers:
       styled-components: '>=5.3.6 <6.0.0'
     dependencies:
       '@babel/runtime': registry.npmjs.org/@babel/runtime/7.12.18
-      '@react_db_client/async-hooks.use-async-request': registry.npmjs.org/@react_db_client/async-hooks.use-async-request/0.2.20_osydrgcfn5si6emeaujjbu3iru
       '@react_db_client/components.column-manager': registry.npmjs.org/@react_db_client/components.column-manager/0.4.14_g5ht5d3fmg4uxklxgd4kzxq3sy
       '@react_db_client/components.custom-select-dropdown': registry.npmjs.org/@react_db_client/components.custom-select-dropdown/0.2.35_xeb6c7uvfpfdvw4pqwy3bhlxym
       '@react_db_client/components.emoji': registry.npmjs.org/@react_db_client/components.emoji/0.1.13_ffy3bvkuhiwnciom6ihgqtkp3i
@@ -166,10 +164,16 @@ importers:
   react_db_client/async-hooks/use-async-object-manager:
     specifiers: {}
 
+  react_db_client/async-hooks/use-async-request:
+    specifiers: {}
+
   react_db_client/async-hooks/use-debounce:
     specifiers: {}
 
   react_db_client/components/are-you-sure-btn:
+    specifiers: {}
+
+  react_db_client/components/emoji:
     specifiers: {}
 
   react_db_client/components/file-manager:
@@ -904,41 +908,6 @@ packages:
       picocolors: registry.npmjs.org/picocolors/1.0.0
       tiny-glob: registry.npmjs.org/tiny-glob/0.2.9
       tslib: registry.npmjs.org/tslib/2.4.0
-    dev: false
-
-  registry.npmjs.org/@react_db_client/async-hooks.use-async-request/0.2.20_osydrgcfn5si6emeaujjbu3iru:
-    resolution: {integrity: sha512-6gQ/j5FNOrakrMGDji7gOJhJlyVGoa5NfS8NU+7/hlOCGgVHCeur9K2ThW7ouSMspZzRDrScerSu8KZQRfC97g==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/async-hooks.use-async-request/-/async-hooks.use-async-request-0.2.20.tgz}
-    id: registry.npmjs.org/@react_db_client/async-hooks.use-async-request/0.2.20
-    name: '@react_db_client/async-hooks.use-async-request'
-    version: 0.2.20
-    peerDependencies:
-      '@testing-library/react': '*'
-      '@testing-library/react-hooks': '*'
-      '@testing-library/user-event': '*'
-      prop-types: '*'
-      react: '*'
-      react-dom: '*'
-    peerDependenciesMeta:
-      '@testing-library/react':
-        optional: true
-      '@testing-library/react-hooks':
-        optional: true
-      '@testing-library/user-event':
-        optional: true
-      prop-types:
-        optional: true
-      react:
-        optional: true
-      react-dom:
-        optional: true
-    dependencies:
-      '@testing-library/react': registry.npmjs.org/@testing-library/react/12.1.5_sfoxds7t5ydpegc3knd667wn6m
-      '@testing-library/react-hooks': registry.npmjs.org/@testing-library/react-hooks/8.0.1_hiunvzosbwliizyirxfy6hjyim
-      '@testing-library/user-event': registry.npmjs.org/@testing-library/user-event/14.4.3_ua4wuun3fnehcjqtqj2e2ldgpe
-      core-js: registry.npmjs.org/core-js/3.27.1
-      prop-types: registry.npmjs.org/prop-types/15.8.1
-      react: registry.npmjs.org/react/17.0.2
-      react-dom: registry.npmjs.org/react-dom/17.0.2_react@17.0.2
     dev: false
 
   registry.npmjs.org/@react_db_client/components.column-manager/0.4.14_g5ht5d3fmg4uxklxgd4kzxq3sy:

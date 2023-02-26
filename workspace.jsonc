@@ -46,7 +46,6 @@
     "policy": {
       "dependencies": {
         "@babel/runtime": "7.20.7",
-        "@react_db_client/components.emoji": "0.1.13",
         "@react_db_client/components.form.form-components.bubble-selector": "0.2.15",
         "@react_db_client/components.form.form-components.multi-select-dropdown": "0.2.23",
         "@react_db_client/components.form.form-components.toggle-box": "0.2.29",
