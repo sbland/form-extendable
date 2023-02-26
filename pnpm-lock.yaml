@@ -6,14 +6,14 @@ importers:
     specifiers:
       '@babel/runtime': 7.12.18
       '@react_db_client/async-hooks.use-async-request': 0.2.20
-      '@react_db_client/components.column-manager': 0.4.12
+      '@react_db_client/components.column-manager': 0.4.14
       '@react_db_client/components.custom-select-dropdown': 0.2.35
       '@react_db_client/components.emoji': 0.1.13
-      '@react_db_client/components.filter-manager': 0.2.66
+      '@react_db_client/components.filter-manager': 0.2.68
       '@react_db_client/components.form.form-components.bubble-selector': 0.2.15
       '@react_db_client/components.form.form-components.multi-select-dropdown': 0.2.23
       '@react_db_client/components.form.form-components.toggle-box': 0.2.29
-      '@react_db_client/constants.demo-data': 0.4.3
+      '@react_db_client/constants.demo-data': 0.4.5
       '@react_db_client/constants.style': 0.4.1
       '@react_db_client/helpers.composition-wraps': 0.1.13
       '@react_db_client/helpers.func-tools': 0.1.9
@@ -52,10 +52,10 @@ importers:
     dependencies:
       '@babel/runtime': registry.npmjs.org/@babel/runtime/7.12.18
       '@react_db_client/async-hooks.use-async-request': registry.npmjs.org/@react_db_client/async-hooks.use-async-request/0.2.20_osydrgcfn5si6emeaujjbu3iru
-      '@react_db_client/components.column-manager': registry.npmjs.org/@react_db_client/components.column-manager/0.4.12_g5ht5d3fmg4uxklxgd4kzxq3sy
+      '@react_db_client/components.column-manager': registry.npmjs.org/@react_db_client/components.column-manager/0.4.14_g5ht5d3fmg4uxklxgd4kzxq3sy
       '@react_db_client/components.custom-select-dropdown': registry.npmjs.org/@react_db_client/components.custom-select-dropdown/0.2.35_xeb6c7uvfpfdvw4pqwy3bhlxym
       '@react_db_client/components.emoji': registry.npmjs.org/@react_db_client/components.emoji/0.1.13_ffy3bvkuhiwnciom6ihgqtkp3i
-      '@react_db_client/components.filter-manager': registry.npmjs.org/@react_db_client/components.filter-manager/0.2.66_prnmxsaeh25mtzfwxc3kqksypq
+      '@react_db_client/components.filter-manager': registry.npmjs.org/@react_db_client/components.filter-manager/0.2.68_prnmxsaeh25mtzfwxc3kqksypq
       '@react_db_client/components.form.form-components.bubble-selector': registry.npmjs.org/@react_db_client/components.form.form-components.bubble-selector/0.2.15_xeb6c7uvfpfdvw4pqwy3bhlxym
       '@react_db_client/components.form.form-components.multi-select-dropdown': registry.npmjs.org/@react_db_client/components.form.form-components.multi-select-dropdown/0.2.23_xeb6c7uvfpfdvw4pqwy3bhlxym
       '@react_db_client/components.form.form-components.toggle-box': registry.npmjs.org/@react_db_client/components.form.form-components.toggle-box/0.2.29_ffy3bvkuhiwnciom6ihgqtkp3i
@@ -88,7 +88,7 @@ importers:
       react-use: registry.npmjs.org/react-use/17.4.0_sfoxds7t5ydpegc3knd667wn6m
       styled-components: registry.npmjs.org/styled-components/5.3.6_d5kzqcx725xkmyluugjzy5jwom
     devDependencies:
-      '@react_db_client/constants.demo-data': registry.npmjs.org/@react_db_client/constants.demo-data/0.4.3_sfoxds7t5ydpegc3knd667wn6m
+      '@react_db_client/constants.demo-data': registry.npmjs.org/@react_db_client/constants.demo-data/0.4.5_sfoxds7t5ydpegc3knd667wn6m
       '@samnbuk/react_db_client.react-extended': 0.0.4_sfoxds7t5ydpegc3knd667wn6m
       '@types/jest': registry.npmjs.org/@types/jest/26.0.20
       '@types/node': registry.npmjs.org/@types/node/12.20.4
@@ -941,11 +941,11 @@ packages:
       react-dom: registry.npmjs.org/react-dom/17.0.2_react@17.0.2
     dev: false
 
-  registry.npmjs.org/@react_db_client/components.column-manager/0.4.12_g5ht5d3fmg4uxklxgd4kzxq3sy:
-    resolution: {integrity: sha512-iASCn96IuTQ1nvzvj2tTmD/0pw+FyqSBPcu+197wK1ewJjme58YQp2pBL23eKgOccQObtcUMj3/D7gLXDE3ieQ==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/components.column-manager/-/components.column-manager-0.4.12.tgz}
-    id: registry.npmjs.org/@react_db_client/components.column-manager/0.4.12
+  registry.npmjs.org/@react_db_client/components.column-manager/0.4.14_g5ht5d3fmg4uxklxgd4kzxq3sy:
+    resolution: {integrity: sha512-YAYqI/T1pJBwJrW/7fDwMIZ2m40IBB5SSE1A3RNyaEtOQxrTluKruEapTs316sn3ODsoMI6wUf9IrGt1gQ+r1g==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/components.column-manager/-/components.column-manager-0.4.14.tgz}
+    id: registry.npmjs.org/@react_db_client/components.column-manager/0.4.14
     name: '@react_db_client/components.column-manager'
-    version: 0.4.12
+    version: 0.4.14
     peerDependencies:
       '@testing-library/react': '*'
       '@testing-library/react-hooks': '*'
@@ -967,7 +967,7 @@ packages:
       react-dom:
         optional: true
     dependencies:
-      '@react_db_client/constants.client-types': registry.npmjs.org/@react_db_client/constants.client-types/0.4.5_sfoxds7t5ydpegc3knd667wn6m
+      '@react_db_client/constants.client-types': registry.npmjs.org/@react_db_client/constants.client-types/0.4.7_sfoxds7t5ydpegc3knd667wn6m
       '@react_db_client/helpers.composition-wraps': registry.npmjs.org/@react_db_client/helpers.composition-wraps/0.1.13_d5kzqcx725xkmyluugjzy5jwom
       '@samnbuk/react_db_client.testing.enzyme-setup': 0.1.2
       '@testing-library/react': registry.npmjs.org/@testing-library/react/12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -1081,11 +1081,11 @@ packages:
       - react-is
     dev: false
 
-  registry.npmjs.org/@react_db_client/components.filter-manager/0.2.66_prnmxsaeh25mtzfwxc3kqksypq:
-    resolution: {integrity: sha512-b+aICUb6hwnmZfko7t+sBV6daoBHO6eUG1TqsW/yjL20lkLX9OxkIjdGu3P+Q/Y9eJ1Gxk8vi8dQxVxKm4QqpA==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/components.filter-manager/-/components.filter-manager-0.2.66.tgz}
-    id: registry.npmjs.org/@react_db_client/components.filter-manager/0.2.66
+  registry.npmjs.org/@react_db_client/components.filter-manager/0.2.68_prnmxsaeh25mtzfwxc3kqksypq:
+    resolution: {integrity: sha512-NmBJLumMIyoAQa+X0+CgTES2ftbgBshLw7IQek8mhkewgMcZeUPyV+U3tK0EjZk5fXRSrzVulIxIbnaYXpGiQw==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/components.filter-manager/-/components.filter-manager-0.2.68.tgz}
+    id: registry.npmjs.org/@react_db_client/components.filter-manager/0.2.68
     name: '@react_db_client/components.filter-manager'
-    version: 0.2.66
+    version: 0.2.68
     peerDependencies:
       '@testing-library/react': '*'
       '@testing-library/user-event': '*'
@@ -1107,8 +1107,8 @@ packages:
       react-dom:
         optional: true
     dependencies:
-      '@react_db_client/components.form.form-components.toggle-box': registry.npmjs.org/@react_db_client/components.form.form-components.toggle-box/0.2.31_ffy3bvkuhiwnciom6ihgqtkp3i
-      '@react_db_client/constants.client-types': registry.npmjs.org/@react_db_client/constants.client-types/0.4.5_sfoxds7t5ydpegc3knd667wn6m
+      '@react_db_client/components.form.form-components.toggle-box': registry.npmjs.org/@react_db_client/components.form.form-components.toggle-box/0.2.33_ffy3bvkuhiwnciom6ihgqtkp3i
+      '@react_db_client/constants.client-types': registry.npmjs.org/@react_db_client/constants.client-types/0.4.7_sfoxds7t5ydpegc3knd667wn6m
       '@react_db_client/helpers.func-tools': registry.npmjs.org/@react_db_client/helpers.func-tools/0.1.9_sfoxds7t5ydpegc3knd667wn6m
       '@react_db_client/hooks.use-auto-hide-panel-hook': registry.npmjs.org/@react_db_client/hooks.use-auto-hide-panel-hook/0.2.3_hzvbofeflkfkchybs6ixku6zqq
       '@testing-library/react': registry.npmjs.org/@testing-library/react/12.1.5_sfoxds7t5ydpegc3knd667wn6m
@@ -1224,11 +1224,11 @@ packages:
       - react-is
     dev: false
 
-  registry.npmjs.org/@react_db_client/components.form.form-components.toggle-box/0.2.31_ffy3bvkuhiwnciom6ihgqtkp3i:
-    resolution: {integrity: sha512-Dy2PEZvGhiPesUf6o/X8tQgc3gqRUrszZBSF0oFpwFa69F1Eoj+ln485hl1vRW/WJ84hGLEQHbtjSVlZ8TuzBg==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/components.form.form-components.toggle-box/-/components.form.form-components.toggle-box-0.2.31.tgz}
-    id: registry.npmjs.org/@react_db_client/components.form.form-components.toggle-box/0.2.31
+  registry.npmjs.org/@react_db_client/components.form.form-components.toggle-box/0.2.33_ffy3bvkuhiwnciom6ihgqtkp3i:
+    resolution: {integrity: sha512-XpsmZV+MrgpcvqLaHQULqXSTzuhNo4EoBEZTiTS+cU6SnAMXYk2TSQ75OpjF+rgOSVW+meGu2Kywud2j0HVxvw==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/components.form.form-components.toggle-box/-/components.form.form-components.toggle-box-0.2.33.tgz}
+    id: registry.npmjs.org/@react_db_client/components.form.form-components.toggle-box/0.2.33
     name: '@react_db_client/components.form.form-components.toggle-box'
-    version: 0.2.31
+    version: 0.2.33
     peerDependencies:
       '@testing-library/react': '*'
       prop-types: '*'
@@ -1245,7 +1245,7 @@ packages:
         optional: true
     dependencies:
       '@react_db_client/components.emoji': registry.npmjs.org/@react_db_client/components.emoji/0.1.14_ffy3bvkuhiwnciom6ihgqtkp3i
-      '@react_db_client/constants.client-types': registry.npmjs.org/@react_db_client/constants.client-types/0.4.5_sfoxds7t5ydpegc3knd667wn6m
+      '@react_db_client/constants.client-types': registry.npmjs.org/@react_db_client/constants.client-types/0.4.7_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react': registry.npmjs.org/@testing-library/react/12.1.5_sfoxds7t5ydpegc3knd667wn6m
       core-js: registry.npmjs.org/core-js/3.27.1
       prop-types: registry.npmjs.org/prop-types/15.8.1
@@ -1274,11 +1274,11 @@ packages:
       react-dom: registry.npmjs.org/react-dom/17.0.2_react@17.0.2
     dev: false
 
-  registry.npmjs.org/@react_db_client/constants.client-types/0.4.5_sfoxds7t5ydpegc3knd667wn6m:
-    resolution: {integrity: sha512-qH/szFCIPuy08cvDqDJyOwSqCqVKt7Ty04mevzg4+amkXnWP8lWz1w7hq/+P7EQ+X81s1llt3v7Ennfef/UXVg==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/constants.client-types/-/constants.client-types-0.4.5.tgz}
-    id: registry.npmjs.org/@react_db_client/constants.client-types/0.4.5
+  registry.npmjs.org/@react_db_client/constants.client-types/0.4.7_sfoxds7t5ydpegc3knd667wn6m:
+    resolution: {integrity: sha512-GX9/Q31fmuRr72/pYLDkHm/fAi6+Hjedo98QhQvmoHEW9rnPQ2jfeABh2dGG9A8rZkVB/4NaNhrw31CUkDr6Cw==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/constants.client-types/-/constants.client-types-0.4.7.tgz}
+    id: registry.npmjs.org/@react_db_client/constants.client-types/0.4.7
     name: '@react_db_client/constants.client-types'
-    version: 0.4.5
+    version: 0.4.7
     peerDependencies:
       react: '*'
       react-dom: '*'
@@ -1292,11 +1292,11 @@ packages:
       react: registry.npmjs.org/react/17.0.2
       react-dom: registry.npmjs.org/react-dom/17.0.2_react@17.0.2
 
-  registry.npmjs.org/@react_db_client/constants.demo-data/0.4.3_sfoxds7t5ydpegc3knd667wn6m:
-    resolution: {integrity: sha512-WOH1D59Fj9VstlOMU8bMm+vW9PiixiE1jiWSocPbtUi+OHhBbXnVJu2CngB7ltTW6cYXUuVZNsTZF+mrQ9PfCA==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/constants.demo-data/-/constants.demo-data-0.4.3.tgz}
-    id: registry.npmjs.org/@react_db_client/constants.demo-data/0.4.3
+  registry.npmjs.org/@react_db_client/constants.demo-data/0.4.5_sfoxds7t5ydpegc3knd667wn6m:
+    resolution: {integrity: sha512-mfhUCLcyyKff0U1drRthN1yJa/4nDbvYLtF0OcIJL5WnlY6F+ujQuWrkDxuziAtrAXZjcuI9AM0ZdtsZf35Tbw==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/constants.demo-data/-/constants.demo-data-0.4.5.tgz}
+    id: registry.npmjs.org/@react_db_client/constants.demo-data/0.4.5
     name: '@react_db_client/constants.demo-data'
-    version: 0.4.3
+    version: 0.4.5
     peerDependencies:
       react: '*'
       react-dom: '*'
@@ -1306,7 +1306,7 @@ packages:
       react-dom:
         optional: true
     dependencies:
-      '@react_db_client/constants.client-types': registry.npmjs.org/@react_db_client/constants.client-types/0.4.5_sfoxds7t5ydpegc3knd667wn6m
+      '@react_db_client/constants.client-types': registry.npmjs.org/@react_db_client/constants.client-types/0.4.7_sfoxds7t5ydpegc3knd667wn6m
       core-js: registry.npmjs.org/core-js/3.27.1
       react: registry.npmjs.org/react/17.0.2
       react-dom: registry.npmjs.org/react-dom/17.0.2_react@17.0.2

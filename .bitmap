@@ -17,7 +17,7 @@
     },
     "async-hooks/use-async-object-manager": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.2.53",
+        "version": "0.2.55",
         "mainFile": "index.ts",
         "rootDir": "react_db_client/async-hooks/use-async-object-manager"
     },
@@ -47,13 +47,13 @@
     },
     "components/file-manager": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.2.151",
+        "version": "0.2.153",
         "mainFile": "index.ts",
         "rootDir": "react_db_client/components/file-manager"
     },
     "components/file-uploader": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.2.93",
+        "version": "0.2.95",
         "mainFile": "index.ts",
         "rootDir": "react_db_client/components/file-uploader"
     },
@@ -77,13 +77,13 @@
     },
     "components/search-and-select": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.4.47",
+        "version": "0.4.49",
         "mainFile": "index.ts",
         "rootDir": "react_db_client/components/search-and-select"
     },
     "components/search-and-select-dropdown": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.2.122",
+        "version": "0.2.124",
         "mainFile": "index.ts",
         "rootDir": "react_db_client/components/search-and-select-dropdown"
     },
@@ -95,7 +95,7 @@
     },
     "components/styled-select-list": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.4.28",
+        "version": "0.4.30",
         "mainFile": "index.ts",
         "rootDir": "react_db_client/components/styled-select-list"
     },
