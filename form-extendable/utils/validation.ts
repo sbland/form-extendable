@@ -17,7 +17,7 @@ export const formValidation = <D, V>(
   if (missingFields.length > 0)
     return {
       error: `Missing the following fields: ${missingFields
-        .map((h) => h.uid)
+        .map((h) => h.label)
         .join(', ')}`,
       fields: missingFields.map((h) => h.uid),
     };

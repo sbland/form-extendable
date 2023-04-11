@@ -93,6 +93,8 @@ export const Form = <CompleteFormType,>({
   const [submitting, setSubmitting] = React.useState(false);
   const [formDirty, setFormDirty] = React.useState(false);
   const [hasLocalChanges, setHasLocalChanges] = React.useState(false);
+  const [validationErrors, setValidationErrors] =
+    React.useState<IValidationError | null>(null);
   const [lastChangedFieldValue, setlLastChangedFieldValue] =
     React.useState<[any, any]>();
 
@@ -115,6 +117,7 @@ export const Form = <CompleteFormType,>({
 
   const updateFormData = React.useCallback(
     (field, value) => {
+      setValidationErrors(null);
       setFormDirty(true);
       setHasLocalChanges(true);
       setlLastChangedFieldValue([field, value]);
@@ -134,6 +137,7 @@ export const Form = <CompleteFormType,>({
 
   const handleSubmit = React.useCallback(
     (debounce = true, throwErrors = true) => {
+      setValidationErrors(null);
       setSubmitting(true);
       // TODO: We may want to validate after debounce!
       const validationResult = formValidation(formData, flattenedHeadings);
@@ -146,7 +150,7 @@ export const Form = <CompleteFormType,>({
       } else if (errorCallback && throwErrors) {
         errorCallback((validationResult as IValidationError).error);
       } else {
-        // TODO: Handle errors when autosaving
+        setValidationErrors(validationResult as IValidationError);
       }
     },
     [
@@ -179,6 +183,7 @@ export const Form = <CompleteFormType,>({
   ]);
 
   const message =
+    (validationErrors && `Form validation error: ${validationErrors.error}`) ||
     (submitting && 'Saving unsaved changes') ||
     ((hasLocalChanges || formDirty) && 'Unsaved changes!') ||
     'All changes are saved';

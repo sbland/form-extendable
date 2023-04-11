@@ -8,7 +8,7 @@ import {
 import { defaultTheme, FormThemeProvider } from '@form-extendable/styles';
 import { screen, waitFor } from '@testing-library/react';
 import { ItemEditor } from './item-editor';
-import { demoParams, demoData } from './demo-data';
+import { demoParams, demoData, demoParamsMin } from './demo-data';
 
 const asyncGetFiles = () => async () => {
   return [];
@@ -112,7 +112,7 @@ export const BasicItemEditorAutosave = () => {
           saveErrorCallback={(e) => setError(e)}
           additionalData={{}}
           onCancel={() => {}}
-          params={[demoParams[0]]}
+          params={demoParamsMin}
           collection="democollection"
           asyncGetDocument={async () => demoData}
           asyncPutDocument={async (collection, id, data) => {
