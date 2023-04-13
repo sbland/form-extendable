@@ -45,6 +45,12 @@
         "mainFile": "index.ts",
         "rootDir": "react_db_client/components/are-you-sure-btn"
     },
+    "components/column-manager": {
+        "scope": "samnbuk.react_db_client",
+        "version": "0.4.30",
+        "mainFile": "index.ts",
+        "rootDir": "react_db_client/components/column-manager"
+    },
     "components/component-map": {
         "scope": "samnbuk.form-extendable",
         "version": "0.1.118",
