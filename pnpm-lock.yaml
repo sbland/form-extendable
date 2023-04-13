@@ -10,7 +10,6 @@ importers:
       '@babel/runtime': 7.20.0
       '@form-extendable/samnbuk.form-extendable.generator.typescript': 0.0.3
       '@react_db_client/components.custom-select-dropdown': 0.2.35
-      '@react_db_client/components.filter-manager': 0.2.68
       '@react_db_client/components.form.form-components.bubble-selector': 0.2.15
       '@react_db_client/components.form.form-components.multi-select-dropdown': 0.2.23
       '@react_db_client/components.form.form-components.toggle-box': 0.2.29
@@ -21,6 +20,7 @@ importers:
       '@react_db_client/helpers.func-tools': 0.1.9
       '@react_db_client/helpers.generate-uid': 0.1.2
       '@react_db_client/helpers.html-helpers': 0.0.7
+      '@react_db_client/hooks.use-auto-hide-panel-hook': 0.2.5
       '@react_db_client/hooks.use-combined-ref': 0.0.3
       '@samnbuk/react_db_client.react-extended': 0.0.4
       '@samnbuk/react_db_client.testing.enzyme-setup': 0.1.3
@@ -55,7 +55,6 @@ importers:
     dependencies:
       '@form-extendable/samnbuk.form-extendable.generator.typescript': link:form-extendable/generator/typescript
       '@react_db_client/components.custom-select-dropdown': registry.npmjs.org/@react_db_client/components.custom-select-dropdown/0.2.35_xeb6c7uvfpfdvw4pqwy3bhlxym
-      '@react_db_client/components.filter-manager': registry.npmjs.org/@react_db_client/components.filter-manager/0.2.68_prnmxsaeh25mtzfwxc3kqksypq
       '@react_db_client/components.form.form-components.bubble-selector': registry.npmjs.org/@react_db_client/components.form.form-components.bubble-selector/0.2.15_xeb6c7uvfpfdvw4pqwy3bhlxym
       '@react_db_client/components.form.form-components.multi-select-dropdown': registry.npmjs.org/@react_db_client/components.form.form-components.multi-select-dropdown/0.2.23_xeb6c7uvfpfdvw4pqwy3bhlxym
       '@react_db_client/components.form.form-components.toggle-box': registry.npmjs.org/@react_db_client/components.form.form-components.toggle-box/0.2.29_ffy3bvkuhiwnciom6ihgqtkp3i
@@ -65,6 +64,7 @@ importers:
       '@react_db_client/helpers.func-tools': registry.npmjs.org/@react_db_client/helpers.func-tools/0.1.9_sfoxds7t5ydpegc3knd667wn6m
       '@react_db_client/helpers.generate-uid': registry.npmjs.org/@react_db_client/helpers.generate-uid/0.1.2_sfoxds7t5ydpegc3knd667wn6m
       '@react_db_client/helpers.html-helpers': registry.npmjs.org/@react_db_client/helpers.html-helpers/0.0.7_sfoxds7t5ydpegc3knd667wn6m
+      '@react_db_client/hooks.use-auto-hide-panel-hook': registry.npmjs.org/@react_db_client/hooks.use-auto-hide-panel-hook/0.2.5_hzvbofeflkfkchybs6ixku6zqq
       '@react_db_client/hooks.use-combined-ref': registry.npmjs.org/@react_db_client/hooks.use-combined-ref/0.0.3_sfoxds7t5ydpegc3knd667wn6m
       '@samnbuk/react_db_client.testing.enzyme-setup': 0.1.3
       '@teambit/eslint-config-bit-react': registry.npmjs.org/@teambit/eslint-config-bit-react/0.0.367_enkrjj6hkhm6qaqrzpyv5tpdq4
@@ -188,6 +188,9 @@ importers:
     specifiers: {}
 
   react_db_client/components/file-uploader:
+    specifiers: {}
+
+  react_db_client/components/filter-manager:
     specifiers: {}
 
   react_db_client/components/generic-catalogue:
@@ -1052,36 +1055,6 @@ packages:
       - react-is
     dev: false
 
-  registry.npmjs.org/@react_db_client/components.emoji/0.1.14_ffy3bvkuhiwnciom6ihgqtkp3i:
-    resolution: {integrity: sha512-Kn2pEUyAI5F6KsGHwPeyY8ImSmgISXkp3wYXaQYwN6bTEw+LOXAIQjiCduZGFfZV5r7Rx0mUkpw3QIbN8H1YOQ==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/components.emoji/-/components.emoji-0.1.14.tgz}
-    id: registry.npmjs.org/@react_db_client/components.emoji/0.1.14
-    name: '@react_db_client/components.emoji'
-    version: 0.1.14
-    peerDependencies:
-      '@testing-library/react': '*'
-      prop-types: '*'
-      react: '*'
-      react-dom: '*'
-    peerDependenciesMeta:
-      '@testing-library/react':
-        optional: true
-      prop-types:
-        optional: true
-      react:
-        optional: true
-      react-dom:
-        optional: true
-    dependencies:
-      '@testing-library/react': registry.npmjs.org/@testing-library/react/12.1.5_sfoxds7t5ydpegc3knd667wn6m
-      core-js: registry.npmjs.org/core-js/3.27.1
-      prop-types: registry.npmjs.org/prop-types/15.8.1
-      react: registry.npmjs.org/react/17.0.2
-      react-dom: registry.npmjs.org/react-dom/17.0.2_react@17.0.2
-      styled-components: registry.npmjs.org/styled-components/5.3.6_d5kzqcx725xkmyluugjzy5jwom
-    transitivePeerDependencies:
-      - react-is
-    dev: false
-
   registry.npmjs.org/@react_db_client/components.emoji/0.1.19_ffy3bvkuhiwnciom6ihgqtkp3i:
     resolution: {integrity: sha512-N+2C2dxj1oE3PXzbitGZ+SA+ut4on9WztRnkvM9NrfO5Nlp2YPJVA+3H4a5WvwW+63uyJ1YrJlfd46jSxjOqFw==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/components.emoji/-/components.emoji-0.1.19.tgz}
     id: registry.npmjs.org/@react_db_client/components.emoji/0.1.19
@@ -1109,49 +1082,6 @@ packages:
       react-dom: registry.npmjs.org/react-dom/17.0.2_react@17.0.2
       styled-components: registry.npmjs.org/styled-components/5.3.6_d5kzqcx725xkmyluugjzy5jwom
     transitivePeerDependencies:
-      - react-is
-    dev: false
-
-  registry.npmjs.org/@react_db_client/components.filter-manager/0.2.68_prnmxsaeh25mtzfwxc3kqksypq:
-    resolution: {integrity: sha512-NmBJLumMIyoAQa+X0+CgTES2ftbgBshLw7IQek8mhkewgMcZeUPyV+U3tK0EjZk5fXRSrzVulIxIbnaYXpGiQw==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/components.filter-manager/-/components.filter-manager-0.2.68.tgz}
-    id: registry.npmjs.org/@react_db_client/components.filter-manager/0.2.68
-    name: '@react_db_client/components.filter-manager'
-    version: 0.2.68
-    peerDependencies:
-      '@testing-library/react': '*'
-      '@testing-library/user-event': '*'
-      lodash: '*'
-      prop-types: '*'
-      react: '*'
-      react-dom: '*'
-    peerDependenciesMeta:
-      '@testing-library/react':
-        optional: true
-      '@testing-library/user-event':
-        optional: true
-      lodash:
-        optional: true
-      prop-types:
-        optional: true
-      react:
-        optional: true
-      react-dom:
-        optional: true
-    dependencies:
-      '@react_db_client/components.form.form-components.toggle-box': registry.npmjs.org/@react_db_client/components.form.form-components.toggle-box/0.2.33_ffy3bvkuhiwnciom6ihgqtkp3i
-      '@react_db_client/constants.client-types': registry.npmjs.org/@react_db_client/constants.client-types/0.4.7_sfoxds7t5ydpegc3knd667wn6m
-      '@react_db_client/helpers.func-tools': registry.npmjs.org/@react_db_client/helpers.func-tools/0.1.9_sfoxds7t5ydpegc3knd667wn6m
-      '@react_db_client/hooks.use-auto-hide-panel-hook': registry.npmjs.org/@react_db_client/hooks.use-auto-hide-panel-hook/0.2.3_hzvbofeflkfkchybs6ixku6zqq
-      '@testing-library/react': registry.npmjs.org/@testing-library/react/12.1.5_sfoxds7t5ydpegc3knd667wn6m
-      '@testing-library/user-event': registry.npmjs.org/@testing-library/user-event/14.4.3_ua4wuun3fnehcjqtqj2e2ldgpe
-      core-js: registry.npmjs.org/core-js/3.27.1
-      lodash: registry.npmjs.org/lodash/4.17.21
-      prop-types: registry.npmjs.org/prop-types/15.8.1
-      react: registry.npmjs.org/react/17.0.2
-      react-dom: registry.npmjs.org/react-dom/17.0.2_react@17.0.2
-      styled-components: registry.npmjs.org/styled-components/5.3.6_d5kzqcx725xkmyluugjzy5jwom
-    transitivePeerDependencies:
-      - '@testing-library/react-hooks'
       - react-is
     dev: false
 
@@ -1289,37 +1219,6 @@ packages:
     dependencies:
       '@react_db_client/components.emoji': registry.npmjs.org/@react_db_client/components.emoji/0.1.13_ffy3bvkuhiwnciom6ihgqtkp3i
       '@react_db_client/constants.client-types': registry.npmjs.org/@react_db_client/constants.client-types/0.4.4_sfoxds7t5ydpegc3knd667wn6m
-      '@testing-library/react': registry.npmjs.org/@testing-library/react/12.1.5_sfoxds7t5ydpegc3knd667wn6m
-      core-js: registry.npmjs.org/core-js/3.27.1
-      prop-types: registry.npmjs.org/prop-types/15.8.1
-      react: registry.npmjs.org/react/17.0.2
-      react-dom: registry.npmjs.org/react-dom/17.0.2_react@17.0.2
-    transitivePeerDependencies:
-      - react-is
-    dev: false
-
-  registry.npmjs.org/@react_db_client/components.form.form-components.toggle-box/0.2.33_ffy3bvkuhiwnciom6ihgqtkp3i:
-    resolution: {integrity: sha512-XpsmZV+MrgpcvqLaHQULqXSTzuhNo4EoBEZTiTS+cU6SnAMXYk2TSQ75OpjF+rgOSVW+meGu2Kywud2j0HVxvw==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/components.form.form-components.toggle-box/-/components.form.form-components.toggle-box-0.2.33.tgz}
-    id: registry.npmjs.org/@react_db_client/components.form.form-components.toggle-box/0.2.33
-    name: '@react_db_client/components.form.form-components.toggle-box'
-    version: 0.2.33
-    peerDependencies:
-      '@testing-library/react': '*'
-      prop-types: '*'
-      react: '*'
-      react-dom: '*'
-    peerDependenciesMeta:
-      '@testing-library/react':
-        optional: true
-      prop-types:
-        optional: true
-      react:
-        optional: true
-      react-dom:
-        optional: true
-    dependencies:
-      '@react_db_client/components.emoji': registry.npmjs.org/@react_db_client/components.emoji/0.1.14_ffy3bvkuhiwnciom6ihgqtkp3i
-      '@react_db_client/constants.client-types': registry.npmjs.org/@react_db_client/constants.client-types/0.4.7_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/react': registry.npmjs.org/@testing-library/react/12.1.5_sfoxds7t5ydpegc3knd667wn6m
       core-js: registry.npmjs.org/core-js/3.27.1
       prop-types: registry.npmjs.org/prop-types/15.8.1
@@ -1517,6 +1416,7 @@ packages:
       core-js: registry.npmjs.org/core-js/3.27.1
       react: registry.npmjs.org/react/17.0.2
       react-dom: registry.npmjs.org/react-dom/17.0.2_react@17.0.2
+    dev: true
 
   registry.npmjs.org/@react_db_client/constants.client-types/0.4.8_sfoxds7t5ydpegc3knd667wn6m:
     resolution: {integrity: sha512-SSk3IKTDODpf/qvNSKJsCgQw8GY1d22V3v6BzcvkCwzUve+/e/N24GECz9raIhF0+aFzHRQTc69KiU5HR2rmrA==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/constants.client-types/-/constants.client-types-0.4.8.tgz}
@@ -1737,29 +1637,6 @@ packages:
       react-dom:
         optional: true
     dependencies:
-      core-js: registry.npmjs.org/core-js/3.27.1
-      react: registry.npmjs.org/react/17.0.2
-      react-dom: registry.npmjs.org/react-dom/17.0.2_react@17.0.2
-    dev: false
-
-  registry.npmjs.org/@react_db_client/hooks.use-auto-hide-panel-hook/0.2.3_hzvbofeflkfkchybs6ixku6zqq:
-    resolution: {integrity: sha512-/pHDnL0eqrA73VMTuzpQ9zziOtI7/xzsMgODHTygXCM5RgP+v7PUj5Iv5i4Ce+mF4TbfuIndRptiJjWtB6Fn6g==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/hooks.use-auto-hide-panel-hook/-/hooks.use-auto-hide-panel-hook-0.2.3.tgz}
-    id: registry.npmjs.org/@react_db_client/hooks.use-auto-hide-panel-hook/0.2.3
-    name: '@react_db_client/hooks.use-auto-hide-panel-hook'
-    version: 0.2.3
-    peerDependencies:
-      '@testing-library/react-hooks': '*'
-      react: '*'
-      react-dom: '*'
-    peerDependenciesMeta:
-      '@testing-library/react-hooks':
-        optional: true
-      react:
-        optional: true
-      react-dom:
-        optional: true
-    dependencies:
-      '@testing-library/react-hooks': registry.npmjs.org/@testing-library/react-hooks/8.0.1_hiunvzosbwliizyirxfy6hjyim
       core-js: registry.npmjs.org/core-js/3.27.1
       react: registry.npmjs.org/react/17.0.2
       react-dom: registry.npmjs.org/react-dom/17.0.2_react@17.0.2
