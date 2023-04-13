@@ -4,6 +4,22 @@ import {
   EFilterType,
 } from '@react_db_client/constants.client-types';
 
+export const demoParamsMin: THeading<any>[] = [
+  {
+    uid: 'text',
+    label: 'Text',
+    type: EFilterType.text,
+    required: true,
+    group: 0,
+  },
+  {
+    uid: 'textNotRequired',
+    label: 'Text Required',
+    type: EFilterType.text,
+    group: 0,
+  },
+];
+
 export const demoParams: THeading<any>[] = [
   {
     uid: 'text',

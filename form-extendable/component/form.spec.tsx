@@ -172,7 +172,7 @@ describe('Form Main Component', () => {
         const submitBtn = screen.getByRole('button', { name: /Submit/ });
         await UserEvent.click(submitBtn);
         expect(errorCallback).toHaveBeenCalledWith(
-          'Missing the following fields: text, embeddedText'
+          'Missing the following fields: Text, Embedded Text'
         );
       });
       test('Should call on submit with edit data when clicking the save button after filling in form', async () => {
@@ -331,6 +331,7 @@ describe('Form Main Component', () => {
           { textarea: 'hello' },
           fillInCustomField
         );
+        await screen.findByText('Form validation error: Missing the following fields: Text, Embedded Text');
         expect(onSubmit).not.toHaveBeenCalled();
 
         await fillInForm(
