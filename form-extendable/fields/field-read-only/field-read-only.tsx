@@ -16,6 +16,7 @@ export const FieldReadOnly = <V, H extends THeading<V>>(
 ) => {
   const { uid, unit, value, type } = props;
   let val: string | null = typeof value === 'string' ? value : null;
+  if (!val && typeof value === 'number') val = String(value);
   if (val && type === EFilterType.select)
     val =
       ((props as IFieldReadOnlyProps).options &&

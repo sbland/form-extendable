@@ -8,18 +8,18 @@ importers:
   .:
     specifiers:
       '@babel/runtime': 7.20.0
-      '@form-extendable/samnbuk.form-extendable.generator.typescript': 0.0.3
-      '@react_db_client/components.custom-select-dropdown': 0.2.35
+      '@form-extendable/samnbuk.form-extendable.generator.typescript': 0.0.13
+      '@react_db_client/components.custom-select-dropdown': 0.2.39
       '@react_db_client/components.form.form-components.multi-select-dropdown': 0.2.23
       '@react_db_client/components.search-and-select-v2': ^0.0.5
-      '@react_db_client/constants.demo-data': 0.4.5
+      '@react_db_client/constants.demo-data': 0.4.6
       '@react_db_client/constants.style': 0.4.1
       '@react_db_client/helpers.composition-wraps': 0.1.13
       '@react_db_client/helpers.func-tools': 0.1.9
-      '@react_db_client/helpers.generate-uid': 0.1.2
-      '@react_db_client/helpers.html-helpers': 0.0.7
-      '@react_db_client/hooks.use-combined-ref': 0.0.3
-      '@samnbuk/react_db_client.react-extended': 0.0.4
+      '@react_db_client/helpers.generate-uid': 0.1.3
+      '@react_db_client/helpers.html-helpers': 0.0.8
+      '@react_db_client/hooks.use-combined-ref': 0.0.4
+      '@samnbuk/react_db_client.react-extended': 0.1.0
       '@samnbuk/react_db_client.testing.enzyme-setup': 0.1.3
       '@teambit/eslint-config-bit-react': ~0.0.367
       '@teambit/harmony': 0.4.6
@@ -51,15 +51,15 @@ importers:
       styled-components: ^5.3.6
     dependencies:
       '@form-extendable/samnbuk.form-extendable.generator.typescript': link:form-extendable/generator/typescript
-      '@react_db_client/components.custom-select-dropdown': registry.npmjs.org/@react_db_client/components.custom-select-dropdown/0.2.35_xeb6c7uvfpfdvw4pqwy3bhlxym
+      '@react_db_client/components.custom-select-dropdown': registry.npmjs.org/@react_db_client/components.custom-select-dropdown/0.2.39_xeb6c7uvfpfdvw4pqwy3bhlxym
       '@react_db_client/components.form.form-components.multi-select-dropdown': registry.npmjs.org/@react_db_client/components.form.form-components.multi-select-dropdown/0.2.23_xeb6c7uvfpfdvw4pqwy3bhlxym
       '@react_db_client/components.search-and-select-v2': registry.npmjs.org/@react_db_client/components.search-and-select-v2/0.0.5_prnmxsaeh25mtzfwxc3kqksypq
       '@react_db_client/constants.style': registry.npmjs.org/@react_db_client/constants.style/0.4.1_d5kzqcx725xkmyluugjzy5jwom
       '@react_db_client/helpers.composition-wraps': registry.npmjs.org/@react_db_client/helpers.composition-wraps/0.1.13_d5kzqcx725xkmyluugjzy5jwom
       '@react_db_client/helpers.func-tools': registry.npmjs.org/@react_db_client/helpers.func-tools/0.1.9_sfoxds7t5ydpegc3knd667wn6m
-      '@react_db_client/helpers.generate-uid': registry.npmjs.org/@react_db_client/helpers.generate-uid/0.1.2_sfoxds7t5ydpegc3knd667wn6m
-      '@react_db_client/helpers.html-helpers': registry.npmjs.org/@react_db_client/helpers.html-helpers/0.0.7_sfoxds7t5ydpegc3knd667wn6m
-      '@react_db_client/hooks.use-combined-ref': registry.npmjs.org/@react_db_client/hooks.use-combined-ref/0.0.3_sfoxds7t5ydpegc3knd667wn6m
+      '@react_db_client/helpers.generate-uid': registry.npmjs.org/@react_db_client/helpers.generate-uid/0.1.3_sfoxds7t5ydpegc3knd667wn6m
+      '@react_db_client/helpers.html-helpers': registry.npmjs.org/@react_db_client/helpers.html-helpers/0.0.8_sfoxds7t5ydpegc3knd667wn6m
+      '@react_db_client/hooks.use-combined-ref': registry.npmjs.org/@react_db_client/hooks.use-combined-ref/0.0.4_sfoxds7t5ydpegc3knd667wn6m
       '@samnbuk/react_db_client.testing.enzyme-setup': 0.1.3
       '@teambit/eslint-config-bit-react': registry.npmjs.org/@teambit/eslint-config-bit-react/0.0.367_enkrjj6hkhm6qaqrzpyv5tpdq4
       '@teambit/harmony': registry.npmjs.org/@teambit/harmony/0.4.6
@@ -85,8 +85,8 @@ importers:
       styled-components: registry.npmjs.org/styled-components/5.3.10_d5kzqcx725xkmyluugjzy5jwom
     devDependencies:
       '@babel/runtime': registry.npmjs.org/@babel/runtime/7.20.0
-      '@react_db_client/constants.demo-data': registry.npmjs.org/@react_db_client/constants.demo-data/0.4.5_sfoxds7t5ydpegc3knd667wn6m
-      '@samnbuk/react_db_client.react-extended': 0.0.4_sfoxds7t5ydpegc3knd667wn6m
+      '@react_db_client/constants.demo-data': registry.npmjs.org/@react_db_client/constants.demo-data/0.4.6_sfoxds7t5ydpegc3knd667wn6m
+      '@samnbuk/react_db_client.react-extended': 0.1.0_sfoxds7t5ydpegc3knd667wn6m
       '@types/jest': registry.npmjs.org/@types/jest/26.0.20
       '@types/node': registry.npmjs.org/@types/node/12.20.4
       '@types/react': registry.npmjs.org/@types/react/17.0.58
@@ -225,8 +225,8 @@ importers:
 
 packages:
 
-  /@samnbuk/react_db_client.react-extended/0.0.4_sfoxds7t5ydpegc3knd667wn6m:
-    resolution: {integrity: sha1-E1njakxiPF7UDxp2C7lx7hQa0Cs=, tarball: '@samnbuk/react_db_client.react-extended/-/@samnbuk-react_db_client.react-extended-0.0.4.tgz'}
+  /@samnbuk/react_db_client.react-extended/0.1.0_sfoxds7t5ydpegc3knd667wn6m:
+    resolution: {integrity: sha1-YYLSnU0nBtP/R2bmf8WG6u8tqaQ=, tarball: '@samnbuk/react_db_client.react-extended/-/@samnbuk-react_db_client.react-extended-0.1.0.tgz'}
     peerDependencies:
       react: '*'
       react-dom: '*'
@@ -236,8 +236,8 @@ packages:
       react-dom:
         optional: true
     dependencies:
-      '@babel/runtime': registry.npmjs.org/@babel/runtime/7.12.18
-      '@teambit/harmony': registry.npmjs.org/@teambit/harmony/0.3.3
+      '@babel/runtime': registry.npmjs.org/@babel/runtime/7.20.0
+      '@teambit/harmony': registry.npmjs.org/@teambit/harmony/0.4.6
       core-js: registry.npmjs.org/core-js/3.30.1
       react: registry.npmjs.org/react/17.0.2
       react-dom: registry.npmjs.org/react-dom/17.0.2_react@17.0.2
@@ -682,14 +682,6 @@ packages:
       '@babel/helper-plugin-utils': registry.npmjs.org/@babel/helper-plugin-utils/7.21.5
     dev: false
 
-  registry.npmjs.org/@babel/runtime/7.12.18:
-    resolution: {integrity: sha512-BogPQ7ciE6SYAUPtlm9tWbgI9+2AgqSam6QivMgXgAT+fKbgppaj4ZX15MHeLC1PVF5sNk70huBu20XxWOs8Cg==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@babel/runtime/-/runtime-7.12.18.tgz}
-    name: '@babel/runtime'
-    version: 7.12.18
-    dependencies:
-      regenerator-runtime: registry.npmjs.org/regenerator-runtime/0.13.11
-    dev: true
-
   registry.npmjs.org/@babel/runtime/7.20.0:
     resolution: {integrity: sha512-NDYdls71fTXoU8TZHfbBWg7DiZfNzClcKui/+kyi6ppD2L1qnWW3VV6CjtaBXSUGGhiTWJ6ereOIkUvenif66Q==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@babel/runtime/-/runtime-7.20.0.tgz}
     name: '@babel/runtime'
@@ -1028,11 +1020,11 @@ packages:
       - supports-color
     dev: false
 
-  registry.npmjs.org/@react_db_client/components.custom-select-dropdown/0.2.35_xeb6c7uvfpfdvw4pqwy3bhlxym:
-    resolution: {integrity: sha512-Ym12Lp2vWdAtWtFM8bulnY9weWomLi3cdY3UUFsW3U/5DLTqq7E7mepIFFQal+U8ZywZ3EtbLSaUh/4E1UXdIQ==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/components.custom-select-dropdown/-/components.custom-select-dropdown-0.2.35.tgz}
-    id: registry.npmjs.org/@react_db_client/components.custom-select-dropdown/0.2.35
+  registry.npmjs.org/@react_db_client/components.custom-select-dropdown/0.2.39_xeb6c7uvfpfdvw4pqwy3bhlxym:
+    resolution: {integrity: sha512-LMZQThCgg58QndwuO/KOQVO7EByjAGgB3/zBnKw1owUgnA6KhZ97V0rwWoci9YymtNTlV9W/krjF2uOHvUSy2g==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/components.custom-select-dropdown/-/components.custom-select-dropdown-0.2.39.tgz}
+    id: registry.npmjs.org/@react_db_client/components.custom-select-dropdown/0.2.39
     name: '@react_db_client/components.custom-select-dropdown'
-    version: 0.2.35
+    version: 0.2.39
     peerDependencies:
       '@testing-library/react': '*'
       '@testing-library/user-event': '*'
@@ -1051,7 +1043,7 @@ packages:
       react-dom:
         optional: true
     dependencies:
-      '@react_db_client/constants.style': registry.npmjs.org/@react_db_client/constants.style/0.4.1_d5kzqcx725xkmyluugjzy5jwom
+      '@react_db_client/constants.style': registry.npmjs.org/@react_db_client/constants.style/0.4.2_d5kzqcx725xkmyluugjzy5jwom
       '@testing-library/react': registry.npmjs.org/@testing-library/react/12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/user-event': registry.npmjs.org/@testing-library/user-event/14.4.3_ua4wuun3fnehcjqtqj2e2ldgpe
       core-js: registry.npmjs.org/core-js/3.30.1
@@ -1353,25 +1345,6 @@ packages:
       - supports-color
     dev: false
 
-  registry.npmjs.org/@react_db_client/constants.client-types/0.4.7_sfoxds7t5ydpegc3knd667wn6m:
-    resolution: {integrity: sha512-GX9/Q31fmuRr72/pYLDkHm/fAi6+Hjedo98QhQvmoHEW9rnPQ2jfeABh2dGG9A8rZkVB/4NaNhrw31CUkDr6Cw==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/constants.client-types/-/constants.client-types-0.4.7.tgz}
-    id: registry.npmjs.org/@react_db_client/constants.client-types/0.4.7
-    name: '@react_db_client/constants.client-types'
-    version: 0.4.7
-    peerDependencies:
-      react: '*'
-      react-dom: '*'
-    peerDependenciesMeta:
-      react:
-        optional: true
-      react-dom:
-        optional: true
-    dependencies:
-      core-js: registry.npmjs.org/core-js/3.30.1
-      react: registry.npmjs.org/react/17.0.2
-      react-dom: registry.npmjs.org/react-dom/17.0.2_react@17.0.2
-    dev: true
-
   registry.npmjs.org/@react_db_client/constants.client-types/0.4.8_sfoxds7t5ydpegc3knd667wn6m:
     resolution: {integrity: sha512-SSk3IKTDODpf/qvNSKJsCgQw8GY1d22V3v6BzcvkCwzUve+/e/N24GECz9raIhF0+aFzHRQTc69KiU5HR2rmrA==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/constants.client-types/-/constants.client-types-0.4.8.tgz}
     id: registry.npmjs.org/@react_db_client/constants.client-types/0.4.8
@@ -1389,13 +1362,12 @@ packages:
       core-js: registry.npmjs.org/core-js/3.30.1
       react: registry.npmjs.org/react/17.0.2
       react-dom: registry.npmjs.org/react-dom/17.0.2_react@17.0.2
-    dev: false
 
-  registry.npmjs.org/@react_db_client/constants.demo-data/0.4.5_sfoxds7t5ydpegc3knd667wn6m:
-    resolution: {integrity: sha512-mfhUCLcyyKff0U1drRthN1yJa/4nDbvYLtF0OcIJL5WnlY6F+ujQuWrkDxuziAtrAXZjcuI9AM0ZdtsZf35Tbw==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/constants.demo-data/-/constants.demo-data-0.4.5.tgz}
-    id: registry.npmjs.org/@react_db_client/constants.demo-data/0.4.5
+  registry.npmjs.org/@react_db_client/constants.demo-data/0.4.6_sfoxds7t5ydpegc3knd667wn6m:
+    resolution: {integrity: sha512-iWg2ZavQpmh1VX9FQh/BEneHwalunRb//I5hJuKZXSig9qYi8fF76CWsyx6g8SkFgrx4O90e4yd5h8XHJxDqlw==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/constants.demo-data/-/constants.demo-data-0.4.6.tgz}
+    id: registry.npmjs.org/@react_db_client/constants.demo-data/0.4.6
     name: '@react_db_client/constants.demo-data'
-    version: 0.4.5
+    version: 0.4.6
     peerDependencies:
       react: '*'
       react-dom: '*'
@@ -1405,7 +1377,7 @@ packages:
       react-dom:
         optional: true
     dependencies:
-      '@react_db_client/constants.client-types': registry.npmjs.org/@react_db_client/constants.client-types/0.4.7_sfoxds7t5ydpegc3knd667wn6m
+      '@react_db_client/constants.client-types': registry.npmjs.org/@react_db_client/constants.client-types/0.4.8_sfoxds7t5ydpegc3knd667wn6m
       core-js: registry.npmjs.org/core-js/3.30.1
       react: registry.npmjs.org/react/17.0.2
       react-dom: registry.npmjs.org/react-dom/17.0.2_react@17.0.2
@@ -1558,11 +1530,11 @@ packages:
       react-dom: registry.npmjs.org/react-dom/17.0.2_react@17.0.2
     dev: false
 
-  registry.npmjs.org/@react_db_client/helpers.generate-uid/0.1.2_sfoxds7t5ydpegc3knd667wn6m:
-    resolution: {integrity: sha512-XhNyIomijEKFP9VlHXBpfl3YhV9oXzocbZ/EStug7XH+I3eFSVXhC9XYSC2/8QE0iUTipByzR/xGgOPXT5OLlA==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/helpers.generate-uid/-/helpers.generate-uid-0.1.2.tgz}
-    id: registry.npmjs.org/@react_db_client/helpers.generate-uid/0.1.2
+  registry.npmjs.org/@react_db_client/helpers.generate-uid/0.1.3_sfoxds7t5ydpegc3knd667wn6m:
+    resolution: {integrity: sha512-pPX8DTHBSnptGF8vZaPSqGtsPpDrY4XX5MXDBzgy7gNR64LOW/R9zPZ3oreSCCA/QerJMO7BFVyN69PKgUw91A==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/helpers.generate-uid/-/helpers.generate-uid-0.1.3.tgz}
+    id: registry.npmjs.org/@react_db_client/helpers.generate-uid/0.1.3
     name: '@react_db_client/helpers.generate-uid'
-    version: 0.1.2
+    version: 0.1.3
     peerDependencies:
       react: '*'
       react-dom: '*'
@@ -1577,11 +1549,11 @@ packages:
       react-dom: registry.npmjs.org/react-dom/17.0.2_react@17.0.2
     dev: false
 
-  registry.npmjs.org/@react_db_client/helpers.html-helpers/0.0.7_sfoxds7t5ydpegc3knd667wn6m:
-    resolution: {integrity: sha512-5JEkRRIl8N37eqpMGs11oYTUt2EqDRHI7Pl85rdtV2NdJIx3fU2uR9UsbSeuf8Og+UcZF+bnuD9b1qjKu9+rIA==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/helpers.html-helpers/-/helpers.html-helpers-0.0.7.tgz}
-    id: registry.npmjs.org/@react_db_client/helpers.html-helpers/0.0.7
+  registry.npmjs.org/@react_db_client/helpers.html-helpers/0.0.8_sfoxds7t5ydpegc3knd667wn6m:
+    resolution: {integrity: sha512-Ulgr1eJbWE5BsD/78gifHMB4C+xK3++lfo1X42ZnGpLBR3IhmVYIwQhJFiXQW4lt+MTfDCnPZlmxB1aCVpsbNg==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/helpers.html-helpers/-/helpers.html-helpers-0.0.8.tgz}
+    id: registry.npmjs.org/@react_db_client/helpers.html-helpers/0.0.8
     name: '@react_db_client/helpers.html-helpers'
-    version: 0.0.7
+    version: 0.0.8
     peerDependencies:
       react: '*'
       react-dom: '*'
@@ -1619,11 +1591,11 @@ packages:
       react-dom: registry.npmjs.org/react-dom/17.0.2_react@17.0.2
     dev: false
 
-  registry.npmjs.org/@react_db_client/hooks.use-combined-ref/0.0.3_sfoxds7t5ydpegc3knd667wn6m:
-    resolution: {integrity: sha512-Xb9pPhQVE6OMzsKmCHVGoDPcp3FWykNTVYU1Dam8QiV3VNudfpS45CPqFxw+3nUjyJJ3udaEaAJYgHwY8vS8WQ==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/hooks.use-combined-ref/-/hooks.use-combined-ref-0.0.3.tgz}
-    id: registry.npmjs.org/@react_db_client/hooks.use-combined-ref/0.0.3
+  registry.npmjs.org/@react_db_client/hooks.use-combined-ref/0.0.4_sfoxds7t5ydpegc3knd667wn6m:
+    resolution: {integrity: sha512-27ngATvMAtzM/M72j1ji3aCn2QQ6bd5zBvoJ2D1gweK/3cTpgtBGvAOmB0pKkfu7B/ZikOKMfgGnmaiVwlAIHQ==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/hooks.use-combined-ref/-/hooks.use-combined-ref-0.0.4.tgz}
+    id: registry.npmjs.org/@react_db_client/hooks.use-combined-ref/0.0.4
     name: '@react_db_client/hooks.use-combined-ref'
-    version: 0.0.3
+    version: 0.0.4
     peerDependencies:
       react: '*'
       react-dom: '*'
@@ -1700,19 +1672,6 @@ packages:
       - typescript
     dev: false
 
-  registry.npmjs.org/@teambit/harmony/0.3.3:
-    resolution: {integrity: sha512-gjUrfjEvEI46K0OlLbolRWRsLns8oNUmg8IGlb0DExKYwHtF77dn2ZZM4dXVBFT7+xiscBVTcYpUA4eORbbm1g==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@teambit/harmony/-/harmony-0.3.3.tgz}
-    name: '@teambit/harmony'
-    version: 0.3.3
-    engines: {node: '>=12.22.0'}
-    dependencies:
-      cleargraph: registry.npmjs.org/cleargraph/5.8.0
-      comment-json: registry.npmjs.org/comment-json/3.0.3
-      fs-extra: registry.npmjs.org/fs-extra/8.1.0
-      reflect-metadata: registry.npmjs.org/reflect-metadata/0.1.13
-      user-home: registry.npmjs.org/user-home/2.0.0
-    dev: true
-
   registry.npmjs.org/@teambit/harmony/0.4.6:
     resolution: {integrity: sha512-9cWKyOVauMc56GQnosRqez22qz+4YrydJs1X1qXQJSToUA3Op874NFgjawRXp8g+V9MF2XT4NZIM3jzNXyQhIQ==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@teambit/harmony/-/harmony-0.4.6.tgz}
     name: '@teambit/harmony'
@@ -1724,7 +1683,6 @@ packages:
       fs-extra: registry.npmjs.org/fs-extra/8.1.0
       reflect-metadata: registry.npmjs.org/reflect-metadata/0.1.13
       user-home: registry.npmjs.org/user-home/2.0.0
-    dev: false
 
   registry.npmjs.org/@testing-library/dom/8.19.1:
     resolution: {integrity: sha512-P6iIPyYQ+qH8CvGauAqanhVnjrnRe0IZFSYCeGkSRW9q3u8bdVn2NPI+lasFyVsEQn1J/IFmp5Aax41+dAP9wg==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@testing-library/dom/-/dom-8.19.1.tgz}
