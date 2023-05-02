@@ -225,12 +225,6 @@
         "mainFile": "index.ts",
         "rootDir": "form-extendable/fields/field-text-area"
     },
-    "generator/typescript": {
-        "scope": "samnbuk.form-extendable",
-        "version": "0.0.13",
-        "mainFile": "index.ts",
-        "rootDir": "form-extendable/generator/typescript"
-    },
     "helpers/data-processing": {
         "scope": "samnbuk.react_db_client",
         "version": "0.2.54",

@@ -8,7 +8,6 @@ importers:
   .:
     specifiers:
       '@babel/runtime': 7.20.0
-      '@form-extendable/samnbuk.form-extendable.generator.typescript': 0.0.13
       '@react_db_client/components.custom-select-dropdown': 0.2.39
       '@react_db_client/components.form.form-components.multi-select-dropdown': 0.2.23
       '@react_db_client/components.search-and-select-v2': ^0.0.5
@@ -50,7 +49,6 @@ importers:
       react-use: 17.4.0
       styled-components: ^5.3.6
     dependencies:
-      '@form-extendable/samnbuk.form-extendable.generator.typescript': link:form-extendable/generator/typescript
       '@react_db_client/components.custom-select-dropdown': registry.npmjs.org/@react_db_client/components.custom-select-dropdown/0.2.39_xeb6c7uvfpfdvw4pqwy3bhlxym
       '@react_db_client/components.form.form-components.multi-select-dropdown': registry.npmjs.org/@react_db_client/components.form.form-components.multi-select-dropdown/0.2.23_xeb6c7uvfpfdvw4pqwy3bhlxym
       '@react_db_client/components.search-and-select-v2': registry.npmjs.org/@react_db_client/components.search-and-select-v2/0.0.5_prnmxsaeh25mtzfwxc3kqksypq
@@ -140,9 +138,6 @@ importers:
     specifiers: {}
 
   form-extendable/fields/field-text-area:
-    specifiers: {}
-
-  form-extendable/generator/typescript:
     specifiers: {}
 
   form-extendable/lib:
