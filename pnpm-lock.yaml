@@ -9,12 +9,12 @@ importers:
     specifiers:
       '@babel/runtime': 7.20.0
       '@react_db_client/components.custom-select-dropdown': 0.2.39
-      '@react_db_client/components.form.form-components.multi-select-dropdown': 0.2.23
+      '@react_db_client/components.form.form-components.multi-select-dropdown': 0.2.29
       '@react_db_client/components.search-and-select-v2': ^0.0.5
       '@react_db_client/constants.demo-data': 0.4.6
-      '@react_db_client/constants.style': 0.4.1
-      '@react_db_client/helpers.composition-wraps': 0.1.13
-      '@react_db_client/helpers.func-tools': 0.1.9
+      '@react_db_client/constants.style': 0.4.2
+      '@react_db_client/helpers.composition-wraps': 0.1.14
+      '@react_db_client/helpers.func-tools': 0.1.10
       '@react_db_client/helpers.generate-uid': 0.1.3
       '@react_db_client/helpers.html-helpers': 0.0.8
       '@react_db_client/hooks.use-combined-ref': 0.0.4
@@ -50,11 +50,11 @@ importers:
       styled-components: ^5.3.6
     dependencies:
       '@react_db_client/components.custom-select-dropdown': registry.npmjs.org/@react_db_client/components.custom-select-dropdown/0.2.39_xeb6c7uvfpfdvw4pqwy3bhlxym
-      '@react_db_client/components.form.form-components.multi-select-dropdown': registry.npmjs.org/@react_db_client/components.form.form-components.multi-select-dropdown/0.2.23_xeb6c7uvfpfdvw4pqwy3bhlxym
+      '@react_db_client/components.form.form-components.multi-select-dropdown': registry.npmjs.org/@react_db_client/components.form.form-components.multi-select-dropdown/0.2.29_xeb6c7uvfpfdvw4pqwy3bhlxym
       '@react_db_client/components.search-and-select-v2': registry.npmjs.org/@react_db_client/components.search-and-select-v2/0.0.5_prnmxsaeh25mtzfwxc3kqksypq
-      '@react_db_client/constants.style': registry.npmjs.org/@react_db_client/constants.style/0.4.1_d5kzqcx725xkmyluugjzy5jwom
-      '@react_db_client/helpers.composition-wraps': registry.npmjs.org/@react_db_client/helpers.composition-wraps/0.1.13_d5kzqcx725xkmyluugjzy5jwom
-      '@react_db_client/helpers.func-tools': registry.npmjs.org/@react_db_client/helpers.func-tools/0.1.9_sfoxds7t5ydpegc3knd667wn6m
+      '@react_db_client/constants.style': registry.npmjs.org/@react_db_client/constants.style/0.4.2_d5kzqcx725xkmyluugjzy5jwom
+      '@react_db_client/helpers.composition-wraps': registry.npmjs.org/@react_db_client/helpers.composition-wraps/0.1.14_d5kzqcx725xkmyluugjzy5jwom
+      '@react_db_client/helpers.func-tools': registry.npmjs.org/@react_db_client/helpers.func-tools/0.1.10_sfoxds7t5ydpegc3knd667wn6m
       '@react_db_client/helpers.generate-uid': registry.npmjs.org/@react_db_client/helpers.generate-uid/0.1.3_sfoxds7t5ydpegc3knd667wn6m
       '@react_db_client/helpers.html-helpers': registry.npmjs.org/@react_db_client/helpers.html-helpers/0.0.8_sfoxds7t5ydpegc3knd667wn6m
       '@react_db_client/hooks.use-combined-ref': registry.npmjs.org/@react_db_client/hooks.use-combined-ref/0.0.4_sfoxds7t5ydpegc3knd667wn6m
@@ -1050,36 +1050,6 @@ packages:
       - react-is
     dev: false
 
-  registry.npmjs.org/@react_db_client/components.emoji/0.1.13_ffy3bvkuhiwnciom6ihgqtkp3i:
-    resolution: {integrity: sha512-u7feUpM+4aFL018bM2osxSTMveonWkm1QG7S9ipb6K8BUB2FU84AexOHfGXXuWDp1tHm8kFySfj6Q7+l/UNfEg==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/components.emoji/-/components.emoji-0.1.13.tgz}
-    id: registry.npmjs.org/@react_db_client/components.emoji/0.1.13
-    name: '@react_db_client/components.emoji'
-    version: 0.1.13
-    peerDependencies:
-      '@testing-library/react': '*'
-      prop-types: '*'
-      react: '*'
-      react-dom: '*'
-    peerDependenciesMeta:
-      '@testing-library/react':
-        optional: true
-      prop-types:
-        optional: true
-      react:
-        optional: true
-      react-dom:
-        optional: true
-    dependencies:
-      '@testing-library/react': registry.npmjs.org/@testing-library/react/12.1.5_sfoxds7t5ydpegc3knd667wn6m
-      core-js: registry.npmjs.org/core-js/3.30.1
-      prop-types: registry.npmjs.org/prop-types/15.8.1
-      react: registry.npmjs.org/react/17.0.2
-      react-dom: registry.npmjs.org/react-dom/17.0.2_react@17.0.2
-      styled-components: registry.npmjs.org/styled-components/5.3.10_d5kzqcx725xkmyluugjzy5jwom
-    transitivePeerDependencies:
-      - react-is
-    dev: false
-
   registry.npmjs.org/@react_db_client/components.emoji/0.1.19_ffy3bvkuhiwnciom6ihgqtkp3i:
     resolution: {integrity: sha512-N+2C2dxj1oE3PXzbitGZ+SA+ut4on9WztRnkvM9NrfO5Nlp2YPJVA+3H4a5WvwW+63uyJ1YrJlfd46jSxjOqFw==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/components.emoji/-/components.emoji-0.1.19.tgz}
     id: registry.npmjs.org/@react_db_client/components.emoji/0.1.19
@@ -1153,11 +1123,11 @@ packages:
       - react-is
     dev: false
 
-  registry.npmjs.org/@react_db_client/components.form.form-components.multi-select-dropdown/0.2.23_xeb6c7uvfpfdvw4pqwy3bhlxym:
-    resolution: {integrity: sha512-KC2zjWXg7wtJyr2pjLj3IzvUmxAVPdIlWD7mck26rWGEHco5Utyp1jJkreoxKARbVNlSfj4Em848kLGIZuc/qw==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/components.form.form-components.multi-select-dropdown/-/components.form.form-components.multi-select-dropdown-0.2.23.tgz}
-    id: registry.npmjs.org/@react_db_client/components.form.form-components.multi-select-dropdown/0.2.23
+  registry.npmjs.org/@react_db_client/components.form.form-components.multi-select-dropdown/0.2.29_xeb6c7uvfpfdvw4pqwy3bhlxym:
+    resolution: {integrity: sha512-8fvEZcQSlB28JBxuApz6czHd3PKYnjU2/j8TkMXhB/N5sy7Cl27f2RJHZd4gKXUTKlvLvF1VbcvLIy0UQ8Cn4w==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/components.form.form-components.multi-select-dropdown/-/components.form.form-components.multi-select-dropdown-0.2.29.tgz}
+    id: registry.npmjs.org/@react_db_client/components.form.form-components.multi-select-dropdown/0.2.29
     name: '@react_db_client/components.form.form-components.multi-select-dropdown'
-    version: 0.2.23
+    version: 0.2.29
     peerDependencies:
       '@testing-library/react': '*'
       '@testing-library/user-event': '*'
@@ -1176,7 +1146,7 @@ packages:
       react-dom:
         optional: true
     dependencies:
-      '@react_db_client/components.emoji': registry.npmjs.org/@react_db_client/components.emoji/0.1.13_ffy3bvkuhiwnciom6ihgqtkp3i
+      '@react_db_client/components.emoji': registry.npmjs.org/@react_db_client/components.emoji/0.1.19_ffy3bvkuhiwnciom6ihgqtkp3i
       '@testing-library/react': registry.npmjs.org/@testing-library/react/12.1.5_sfoxds7t5ydpegc3knd667wn6m
       '@testing-library/user-event': registry.npmjs.org/@testing-library/user-event/14.4.3_ua4wuun3fnehcjqtqj2e2ldgpe
       core-js: registry.npmjs.org/core-js/3.30.1
@@ -1378,28 +1348,6 @@ packages:
       react-dom: registry.npmjs.org/react-dom/17.0.2_react@17.0.2
     dev: true
 
-  registry.npmjs.org/@react_db_client/constants.style/0.4.1_d5kzqcx725xkmyluugjzy5jwom:
-    resolution: {integrity: sha512-LS4xjEOAVJqHZ9eu+3gBYkehZvXAEmwK/AoB7tam4+kOO8EltGrKT25uwqKfFxSMhaHEx1baErPShimBp/F9sQ==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/constants.style/-/constants.style-0.4.1.tgz}
-    id: registry.npmjs.org/@react_db_client/constants.style/0.4.1
-    name: '@react_db_client/constants.style'
-    version: 0.4.1
-    peerDependencies:
-      react: '*'
-      react-dom: '*'
-    peerDependenciesMeta:
-      react:
-        optional: true
-      react-dom:
-        optional: true
-    dependencies:
-      core-js: registry.npmjs.org/core-js/3.30.1
-      react: registry.npmjs.org/react/17.0.2
-      react-dom: registry.npmjs.org/react-dom/17.0.2_react@17.0.2
-      styled-components: registry.npmjs.org/styled-components/5.3.10_d5kzqcx725xkmyluugjzy5jwom
-    transitivePeerDependencies:
-      - react-is
-    dev: false
-
   registry.npmjs.org/@react_db_client/constants.style/0.4.2_d5kzqcx725xkmyluugjzy5jwom:
     resolution: {integrity: sha512-LHhVFaTeIYuhuCgjwCkRgtgRhzvGFiwkljBQeOOjyyBJOefrN6M3zzyTaRqTZW9Pa5ojQY7dOp7koAvvEUORag==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/constants.style/-/constants.style-0.4.2.tgz}
     id: registry.npmjs.org/@react_db_client/constants.style/0.4.2
@@ -1418,28 +1366,6 @@ packages:
       react: registry.npmjs.org/react/17.0.2
       react-dom: registry.npmjs.org/react-dom/17.0.2_react@17.0.2
       styled-components: registry.npmjs.org/styled-components/5.3.10_d5kzqcx725xkmyluugjzy5jwom
-    transitivePeerDependencies:
-      - react-is
-    dev: false
-
-  registry.npmjs.org/@react_db_client/helpers.composition-wraps/0.1.13_d5kzqcx725xkmyluugjzy5jwom:
-    resolution: {integrity: sha512-0k03/ESDv4Tb/BYc3wx+0AEPXuRq7x+hxrjv+tanN/ImDeLGLzaQTXrPiU/eqyMztTWzE1vdRbONamGM6t8nxA==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/helpers.composition-wraps/-/helpers.composition-wraps-0.1.13.tgz}
-    id: registry.npmjs.org/@react_db_client/helpers.composition-wraps/0.1.13
-    name: '@react_db_client/helpers.composition-wraps'
-    version: 0.1.13
-    peerDependencies:
-      react: '*'
-      react-dom: '*'
-    peerDependenciesMeta:
-      react:
-        optional: true
-      react-dom:
-        optional: true
-    dependencies:
-      '@react_db_client/constants.style': registry.npmjs.org/@react_db_client/constants.style/0.4.1_d5kzqcx725xkmyluugjzy5jwom
-      core-js: registry.npmjs.org/core-js/3.30.1
-      react: registry.npmjs.org/react/17.0.2
-      react-dom: registry.npmjs.org/react-dom/17.0.2_react@17.0.2
     transitivePeerDependencies:
       - react-is
     dev: false
@@ -1492,25 +1418,6 @@ packages:
     id: registry.npmjs.org/@react_db_client/helpers.func-tools/0.1.10
     name: '@react_db_client/helpers.func-tools'
     version: 0.1.10
-    peerDependencies:
-      react: '*'
-      react-dom: '*'
-    peerDependenciesMeta:
-      react:
-        optional: true
-      react-dom:
-        optional: true
-    dependencies:
-      core-js: registry.npmjs.org/core-js/3.30.1
-      react: registry.npmjs.org/react/17.0.2
-      react-dom: registry.npmjs.org/react-dom/17.0.2_react@17.0.2
-    dev: false
-
-  registry.npmjs.org/@react_db_client/helpers.func-tools/0.1.9_sfoxds7t5ydpegc3knd667wn6m:
-    resolution: {integrity: sha512-CLXHv7D3o1ypkHASc67K+rkdvtFb+T2tQiIfUDXKGjMbNxYFcM+vCJhxFPsdpbdGJmfsl6A2vCdgGREgNRAzXQ==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/helpers.func-tools/-/helpers.func-tools-0.1.9.tgz}
-    id: registry.npmjs.org/@react_db_client/helpers.func-tools/0.1.9
-    name: '@react_db_client/helpers.func-tools'
-    version: 0.1.9
     peerDependencies:
       react: '*'
       react-dom: '*'

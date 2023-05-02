@@ -46,11 +46,11 @@
     "policy": {
       "dependencies": {
         "@babel/runtime": "7.20.7",
-        "@react_db_client/components.form.form-components.multi-select-dropdown": "0.2.23",
+        "@react_db_client/components.form.form-components.multi-select-dropdown": "0.2.29",
         "@react_db_client/components.search-and-select-v2": "^0.0.5",
-        "@react_db_client/constants.style": "0.4.1",
-        "@react_db_client/helpers.composition-wraps": "0.1.13",
-        "@react_db_client/helpers.func-tools": "0.1.9",
+        "@react_db_client/constants.style": "0.4.2",
+        "@react_db_client/helpers.composition-wraps": "0.1.14",
+        "@react_db_client/helpers.func-tools": "0.1.10",
         "@teambit/eslint-config-bit-react": "~0.0.367",
         "@teambit/harmony": "0.4.6",
         "@testing-library/react-hooks": "^8.0.1",
