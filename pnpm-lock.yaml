@@ -10,9 +10,7 @@ importers:
       '@babel/runtime': 7.20.0
       '@form-extendable/samnbuk.form-extendable.generator.typescript': 0.0.3
       '@react_db_client/components.custom-select-dropdown': 0.2.35
-      '@react_db_client/components.form.form-components.bubble-selector': 0.2.15
       '@react_db_client/components.form.form-components.multi-select-dropdown': 0.2.23
-      '@react_db_client/components.form.form-components.toggle-box': 0.2.29
       '@react_db_client/components.search-and-select-v2': 0.0.4
       '@react_db_client/constants.demo-data': 0.4.5
       '@react_db_client/constants.style': 0.4.1
@@ -20,7 +18,6 @@ importers:
       '@react_db_client/helpers.func-tools': 0.1.9
       '@react_db_client/helpers.generate-uid': 0.1.2
       '@react_db_client/helpers.html-helpers': 0.0.7
-      '@react_db_client/hooks.use-auto-hide-panel-hook': 0.2.5
       '@react_db_client/hooks.use-combined-ref': 0.0.3
       '@samnbuk/react_db_client.react-extended': 0.0.4
       '@samnbuk/react_db_client.testing.enzyme-setup': 0.1.3
@@ -55,16 +52,13 @@ importers:
     dependencies:
       '@form-extendable/samnbuk.form-extendable.generator.typescript': link:form-extendable/generator/typescript
       '@react_db_client/components.custom-select-dropdown': registry.npmjs.org/@react_db_client/components.custom-select-dropdown/0.2.35_xeb6c7uvfpfdvw4pqwy3bhlxym
-      '@react_db_client/components.form.form-components.bubble-selector': registry.npmjs.org/@react_db_client/components.form.form-components.bubble-selector/0.2.15_xeb6c7uvfpfdvw4pqwy3bhlxym
       '@react_db_client/components.form.form-components.multi-select-dropdown': registry.npmjs.org/@react_db_client/components.form.form-components.multi-select-dropdown/0.2.23_xeb6c7uvfpfdvw4pqwy3bhlxym
-      '@react_db_client/components.form.form-components.toggle-box': registry.npmjs.org/@react_db_client/components.form.form-components.toggle-box/0.2.29_ffy3bvkuhiwnciom6ihgqtkp3i
       '@react_db_client/components.search-and-select-v2': registry.npmjs.org/@react_db_client/components.search-and-select-v2/0.0.4_prnmxsaeh25mtzfwxc3kqksypq
       '@react_db_client/constants.style': registry.npmjs.org/@react_db_client/constants.style/0.4.1_d5kzqcx725xkmyluugjzy5jwom
       '@react_db_client/helpers.composition-wraps': registry.npmjs.org/@react_db_client/helpers.composition-wraps/0.1.13_d5kzqcx725xkmyluugjzy5jwom
       '@react_db_client/helpers.func-tools': registry.npmjs.org/@react_db_client/helpers.func-tools/0.1.9_sfoxds7t5ydpegc3knd667wn6m
       '@react_db_client/helpers.generate-uid': registry.npmjs.org/@react_db_client/helpers.generate-uid/0.1.2_sfoxds7t5ydpegc3knd667wn6m
       '@react_db_client/helpers.html-helpers': registry.npmjs.org/@react_db_client/helpers.html-helpers/0.0.7_sfoxds7t5ydpegc3knd667wn6m
-      '@react_db_client/hooks.use-auto-hide-panel-hook': registry.npmjs.org/@react_db_client/hooks.use-auto-hide-panel-hook/0.2.5_hzvbofeflkfkchybs6ixku6zqq
       '@react_db_client/hooks.use-combined-ref': registry.npmjs.org/@react_db_client/hooks.use-combined-ref/0.0.3_sfoxds7t5ydpegc3knd667wn6m
       '@samnbuk/react_db_client.testing.enzyme-setup': 0.1.3
       '@teambit/eslint-config-bit-react': registry.npmjs.org/@teambit/eslint-config-bit-react/0.0.367_enkrjj6hkhm6qaqrzpyv5tpdq4
@@ -193,6 +187,12 @@ importers:
   react_db_client/components/filter-manager:
     specifiers: {}
 
+  react_db_client/components/form/form-components/bubble-selector:
+    specifiers: {}
+
+  react_db_client/components/form/form-components/toggle-box:
+    specifiers: {}
+
   react_db_client/components/generic-catalogue:
     specifiers: {}
 
@@ -218,6 +218,9 @@ importers:
     specifiers: {}
 
   react_db_client/helpers/data-processing:
+    specifiers: {}
+
+  react_db_client/hooks/use-auto-hide-panel-hook:
     specifiers: {}
 
 packages:
@@ -1128,40 +1131,6 @@ packages:
       - react-is
     dev: false
 
-  registry.npmjs.org/@react_db_client/components.form.form-components.bubble-selector/0.2.15_xeb6c7uvfpfdvw4pqwy3bhlxym:
-    resolution: {integrity: sha512-o9arTojToPyxiKqZ6AyUCJKbHpGsrxO9vY0LaY77i2Grnm2Jd1rb44ryoyHdie2YfI9wrL+J7mPISpAXJLCNlA==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/components.form.form-components.bubble-selector/-/components.form.form-components.bubble-selector-0.2.15.tgz}
-    id: registry.npmjs.org/@react_db_client/components.form.form-components.bubble-selector/0.2.15
-    name: '@react_db_client/components.form.form-components.bubble-selector'
-    version: 0.2.15
-    peerDependencies:
-      '@testing-library/react': '*'
-      '@testing-library/user-event': '*'
-      prop-types: '*'
-      react: '*'
-      react-dom: '*'
-    peerDependenciesMeta:
-      '@testing-library/react':
-        optional: true
-      '@testing-library/user-event':
-        optional: true
-      prop-types:
-        optional: true
-      react:
-        optional: true
-      react-dom:
-        optional: true
-    dependencies:
-      '@testing-library/react': registry.npmjs.org/@testing-library/react/12.1.5_sfoxds7t5ydpegc3knd667wn6m
-      '@testing-library/user-event': registry.npmjs.org/@testing-library/user-event/14.4.3_ua4wuun3fnehcjqtqj2e2ldgpe
-      core-js: registry.npmjs.org/core-js/3.27.1
-      prop-types: registry.npmjs.org/prop-types/15.8.1
-      react: registry.npmjs.org/react/17.0.2
-      react-dom: registry.npmjs.org/react-dom/17.0.2_react@17.0.2
-      styled-components: registry.npmjs.org/styled-components/5.3.6_d5kzqcx725xkmyluugjzy5jwom
-    transitivePeerDependencies:
-      - react-is
-    dev: false
-
   registry.npmjs.org/@react_db_client/components.form.form-components.multi-select-dropdown/0.2.23_xeb6c7uvfpfdvw4pqwy3bhlxym:
     resolution: {integrity: sha512-KC2zjWXg7wtJyr2pjLj3IzvUmxAVPdIlWD7mck26rWGEHco5Utyp1jJkreoxKARbVNlSfj4Em848kLGIZuc/qw==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/components.form.form-components.multi-select-dropdown/-/components.form.form-components.multi-select-dropdown-0.2.23.tgz}
     id: registry.npmjs.org/@react_db_client/components.form.form-components.multi-select-dropdown/0.2.23
@@ -1193,37 +1162,6 @@ packages:
       react: registry.npmjs.org/react/17.0.2
       react-dom: registry.npmjs.org/react-dom/17.0.2_react@17.0.2
       styled-components: registry.npmjs.org/styled-components/5.3.6_d5kzqcx725xkmyluugjzy5jwom
-    transitivePeerDependencies:
-      - react-is
-    dev: false
-
-  registry.npmjs.org/@react_db_client/components.form.form-components.toggle-box/0.2.29_ffy3bvkuhiwnciom6ihgqtkp3i:
-    resolution: {integrity: sha512-wH+RQ0ndNlX5iBMnS8oOM9qUqG+H5x7xdlmrr0gRkqlAaWuaz2b72FkUiZTpJ+/mX/HbN3cVrB7hFveWZBs0jg==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/components.form.form-components.toggle-box/-/components.form.form-components.toggle-box-0.2.29.tgz}
-    id: registry.npmjs.org/@react_db_client/components.form.form-components.toggle-box/0.2.29
-    name: '@react_db_client/components.form.form-components.toggle-box'
-    version: 0.2.29
-    peerDependencies:
-      '@testing-library/react': '*'
-      prop-types: '*'
-      react: '*'
-      react-dom: '*'
-    peerDependenciesMeta:
-      '@testing-library/react':
-        optional: true
-      prop-types:
-        optional: true
-      react:
-        optional: true
-      react-dom:
-        optional: true
-    dependencies:
-      '@react_db_client/components.emoji': registry.npmjs.org/@react_db_client/components.emoji/0.1.13_ffy3bvkuhiwnciom6ihgqtkp3i
-      '@react_db_client/constants.client-types': registry.npmjs.org/@react_db_client/constants.client-types/0.4.4_sfoxds7t5ydpegc3knd667wn6m
-      '@testing-library/react': registry.npmjs.org/@testing-library/react/12.1.5_sfoxds7t5ydpegc3knd667wn6m
-      core-js: registry.npmjs.org/core-js/3.27.1
-      prop-types: registry.npmjs.org/prop-types/15.8.1
-      react: registry.npmjs.org/react/17.0.2
-      react-dom: registry.npmjs.org/react-dom/17.0.2_react@17.0.2
     transitivePeerDependencies:
       - react-is
     dev: false
@@ -1378,25 +1316,6 @@ packages:
       - jest
       - react-is
       - supports-color
-    dev: false
-
-  registry.npmjs.org/@react_db_client/constants.client-types/0.4.4_sfoxds7t5ydpegc3knd667wn6m:
-    resolution: {integrity: sha512-FnJiYf1kpyJn83uLHF/ELZeQRS3UxnXU5rvKngBaIJFM6QGsQGc3D8EdgnCqumGK8V7Zortaa0qSaxmXwYCxfA==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/constants.client-types/-/constants.client-types-0.4.4.tgz}
-    id: registry.npmjs.org/@react_db_client/constants.client-types/0.4.4
-    name: '@react_db_client/constants.client-types'
-    version: 0.4.4
-    peerDependencies:
-      react: '*'
-      react-dom: '*'
-    peerDependenciesMeta:
-      react:
-        optional: true
-      react-dom:
-        optional: true
-    dependencies:
-      core-js: registry.npmjs.org/core-js/3.27.1
-      react: registry.npmjs.org/react/17.0.2
-      react-dom: registry.npmjs.org/react-dom/17.0.2_react@17.0.2
     dev: false
 
   registry.npmjs.org/@react_db_client/constants.client-types/0.4.7_sfoxds7t5ydpegc3knd667wn6m:
