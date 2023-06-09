@@ -11,7 +11,34 @@ import {
   DEMO_IMAGE_FILES_MANY,
   dummyProps,
 } from './demo-data';
-import { editValue, editValueMulti } from './test-utils';
+import { editValue } from './test-utils';
+
+const mockImage = {
+  src: null,
+  onload: () => {},
+  onerror: () => {},
+  width: 100,
+  height: 200,
+  hasLoaded: false, // added just for testing
+};
+
+declare global {
+  /* imagesUploaded set as global so can be accessed in other files */
+  var imagesUploaded: typeof mockImage[];
+}
+
+global.imagesUploaded = [];
+
+beforeEach(() => {
+  global.imagesUploaded = [];
+  global.URL.createObjectURL = jest.fn().mockImplementation(() => 'testURL');
+  // @ts-ignore
+  window.Image = function () {
+    const image = { ...mockImage };
+    global.imagesUploaded.push(image);
+    return image;
+  };
+});
 
 // TODO: Something in Search and select causing act error
 describe('field-file', () => {
@@ -120,7 +147,10 @@ describe('field-file', () => {
           screen.getByTestId('curState').textContent || '[]'
         );
         expect(curState[0].map((c) => ({ ...c, data: undefined }))).toEqual(
-          newFiles
+          newFiles.map((f) => ({
+            ...f,
+            data: undefined,
+          }))
         );
       });
     });

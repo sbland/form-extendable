@@ -79,6 +79,8 @@ export const DEMO_IMAGE_FILES_MANY = [
       filePath: '',
       label: `bit-logo_${i}.svg`,
       name: `bit-logo_${i}.svg`,
+      height: 200,
+      width: 100,
       fileType: EFileType.IMAGE,
     })),
 ];

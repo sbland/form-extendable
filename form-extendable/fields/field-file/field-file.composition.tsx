@@ -33,8 +33,15 @@ const useManageDbFiles = (initialFiles: IFile[]) => {
   });
   const [selection, setSelection] = React.useState<IFile[]>([]);
   const handleFileUpload =
-    () => async (data: File, fileType: EFileType, callback: () => void) => {
+    () =>
+    async (
+      data: File,
+      fileType: EFileType,
+      callback: () => void,
+      fileMetaDataIn: Partial<IFile>
+    ) => {
       const fileMetaData: IFile = {
+        ...fileMetaDataIn,
         uid: data.name,
         label: data.name,
         name: data.name,

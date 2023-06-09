@@ -47,7 +47,7 @@ export interface IDefaultComponentMapProps {
   asyncGetRefObjs: TAsyncGetDocuments<unknown extends IObj ? unknown : IObj>;
   asyncFileUpload: (
     metaData?: any
-  ) => (data: File, fileType: EFileType, callback: () => void) => Promise<void>;
+  ) => (data: File, fileType: EFileType, callback: () => void, fileMetaData: Partial<IFile>) => Promise<void>;
   fileServerUrl: string;
   PopupPanel: React.FC<IPopupProps>;
 }

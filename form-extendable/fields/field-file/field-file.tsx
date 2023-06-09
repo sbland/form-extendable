@@ -24,7 +24,12 @@ export interface IFieldFileProps
   ) => (filters?: FilterObjectClass[]) => Promise<IFile[]>;
   asyncFileUpload: (
     metaData?: any
-  ) => (data: File, fileType: EFileType, callback: () => void) => Promise<void>;
+  ) => (
+    data: File,
+    fileType: EFileType,
+    callback: () => void,
+    fileMetaData: Partial<IFile>
+  ) => Promise<void>;
   PopupPanel: React.FC<IPopupProps>;
 }
 

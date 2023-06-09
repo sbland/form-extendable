@@ -40,6 +40,35 @@ beforeEach(() => {
   jest.clearAllMocks();
 });
 
+/* Setup image file upload mocking */
+const mockImage = {
+  src: null,
+  onload: () => {},
+  onerror: () => {},
+  width: 100,
+  height: 200,
+  hasLoaded: false, // added just for testing
+};
+
+declare global {
+  /* imagesUploaded set as global so can be accessed in other files */
+  var imagesUploaded: typeof mockImage[];
+}
+
+global.imagesUploaded = [];
+
+beforeEach(() => {
+  global.imagesUploaded = [];
+  global.URL.createObjectURL = jest.fn().mockImplementation(() => 'testURL');
+  // @ts-ignore
+  window.Image = function () {
+    const image = { ...mockImage };
+    global.imagesUploaded.push(image);
+    return image;
+  };
+});
+/* === */
+
 const fillInCustomField =
   (formEl: HTMLFormElement, headingsData: THeading<any>[]) =>
   async ([k, v]) => {
@@ -331,7 +360,9 @@ describe('Form Main Component', () => {
           { textarea: 'hello' },
           fillInCustomField
         );
-        await screen.findByText('Form validation error: Missing the following fields: Text, Embedded Text');
+        await screen.findByText(
+          'Form validation error: Missing the following fields: Text, Embedded Text'
+        );
         expect(onSubmit).not.toHaveBeenCalled();
 
         await fillInForm(

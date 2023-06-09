@@ -1,5 +1,5 @@
 import React from 'react';
-import { screen, within } from '@testing-library/react';
+import { screen, within, waitFor, act } from '@testing-library/react';
 import UserEvent from '@testing-library/user-event';
 import {
   IHeadingFile,
@@ -12,6 +12,19 @@ import {
   EFilterType,
   IFile,
 } from '@react_db_client/constants.client-types';
+
+const mockImage = {
+  src: null,
+  onload: () => {},
+  onerror: () => {},
+  width: 100,
+  height: 200,
+  hasLoaded: false, // added just for testing
+};
+declare global {
+  /* imagesUploaded set as global so can be accessed in other files */
+  var imagesUploaded: typeof mockImage[];
+}
 
 export type THeadingTypes =
   | IHeadingImage
@@ -66,7 +79,20 @@ export const editValueCommon = async (
     const uploadBtn = within(fileManager).getByRole('button', {
       name: 'Upload',
     });
+    if (heading.fileType === EFileType.IMAGE) {
+      act(() => {
+        global.imagesUploaded = global.imagesUploaded.map((image) => {
+          if (!image.hasLoaded) image.onload();
+          return { ...image, hasLoaded: true };
+        });
+      });
+    }
+    await waitFor(() => expect(uploadBtn).not.toBeDisabled(), {
+      timeout: 5000,
+    });
+
     await UserEvent.click(uploadBtn);
+    await within(fileManager).findByText("Upload complete");
 
     const sasPanels = within(fileManager).getByTestId(
       'rdc-sas-file-manager-existing-files'
