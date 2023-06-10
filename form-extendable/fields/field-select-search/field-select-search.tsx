@@ -24,8 +24,8 @@ export const FieldSelectSearch: React.FC<TFieldSelectSearchProps<any>> = <
 >({
   uid,
   onChange,
+  onBlur,
   value,
-  required,
   searchFn,
   searchFieldTargetField, // the target field that the search string applies to
   labelField = 'label', // The field in the returned data to use as the label
@@ -52,6 +52,7 @@ export const FieldSelectSearch: React.FC<TFieldSelectSearchProps<any>> = <
         searchFieldPlaceholder={valuePlaceholder}
         // required={required}
         id={`${uid}-input`}
+        onBlur={onBlur}
         {...inputProps}
       />
     </>

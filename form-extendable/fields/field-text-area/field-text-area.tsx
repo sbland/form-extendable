@@ -11,6 +11,7 @@ export const FieldTextArea: React.FC<TFieldTextAreaProps> = ({
   uid,
   unit,
   onChange,
+  onBlur,
   value,
   required,
   initHeight = 10,
@@ -72,6 +73,7 @@ export const FieldTextArea: React.FC<TFieldTextAreaProps> = ({
           onFocus={() => {
             ref.current?.select();
           }}
+          onBlur={onBlur}
           onChange={(e) => manageInputChange(e.target.value)}
           required={required}
           aria-labelledby={`${uid}-label`}

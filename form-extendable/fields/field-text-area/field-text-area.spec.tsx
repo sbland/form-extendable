@@ -8,12 +8,14 @@ import * as compositions from './field-text-area.composition';
 import { defaultVal } from './demo-data';
 
 const onChange = jest.fn();
+const onBlur = jest.fn();
 
 const defaultProps: IFieldComponentProps<string, IHeadingTextArea> = {
   uid: 'uid',
   unit: 'unit',
   value: defaultVal,
   onChange,
+  onBlur,
   type: EFilterType.textLong,
   label: 'Text Area',
 };

@@ -17,6 +17,7 @@ export const FieldSelect = ({
   uid,
   unit,
   onChange,
+  onBlur,
   value,
   options,
   required,
@@ -62,6 +63,7 @@ export const FieldSelect = ({
             allowEmptySearch
             aria-labelledby={`${uid}-label`}
             id={`${uid}-input`}
+            onBlur={onBlur}
             {...inputProps}
           />
           {unit && <span>{unit}</span>}

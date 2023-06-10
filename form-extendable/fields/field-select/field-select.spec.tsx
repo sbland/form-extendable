@@ -7,6 +7,7 @@ import * as compositions from './field-select.composition';
 import { defaultVal, demoOptions } from './demo-data';
 
 const onChange = jest.fn();
+const onBlur = jest.fn();
 
 const defaultProps: TFieldSelectProps = {
   type: EFilterType.select,
@@ -16,6 +17,7 @@ const defaultProps: TFieldSelectProps = {
   value: defaultVal,
   options: demoOptions,
   onChange,
+  onBlur,
 };
 
 describe('Field Select', () => {

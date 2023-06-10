@@ -1,6 +1,9 @@
 import React from 'react';
 import { EFilterType } from '@react_db_client/constants.client-types';
-import { WrapFieldComponent, CompositionWrapDefault } from '@form-extendable/composition-helpers';
+import {
+  WrapFieldComponent,
+  CompositionWrapDefault,
+} from '@form-extendable/composition-helpers';
 import { FieldText } from './field-text';
 
 export const BasicFieldText = () => (
@@ -12,6 +15,7 @@ export const BasicFieldText = () => (
         type={EFilterType.text}
         unit="UNIT"
         onChange={(v) => alert(`Changed: id, val: ${v}`)}
+        onBlur={() => {}}
         value="hello from FieldText"
       />
     </WrapFieldComponent>
@@ -31,6 +35,7 @@ export const BasicFieldTextWithLabel = () => (
         type={EFilterType.text}
         unit="UNIT"
         onChange={(v) => alert(`Changed: id, val: ${v}`)}
+        onBlur={() => {}}
         value="hello from FieldText"
       />
     </WrapFieldComponent>

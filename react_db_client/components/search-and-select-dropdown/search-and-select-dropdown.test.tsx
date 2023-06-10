@@ -87,16 +87,10 @@ describe('SearchAndSelect', () => {
       const searchInput: HTMLInputElement = screen.getByRole('textbox');
       expect(searchInput.value).toEqual(demoResultData[0].label);
     });
-  });
-  describe('forward ref', () => {
-    test.todo('should pass ref to input');
-  });
-  describe('input validation', () => {
-    test.todo('should show error when has input but nothing selected');
     test('should clear input if change focus and nothing selected', async () => {
       render(<compositions.DemoData />);
       const searchField: HTMLInputElement = screen.getByRole('textbox');
-      await waitFor(() => expect(searchField.value).toEqual('search...'));
+      await waitFor(() => expect(searchField.value).toEqual(''));
       await UserEvent.click(searchField);
       await UserEvent.clear(searchField);
       await waitFor(() => expect(searchField.value).toEqual(''));
@@ -105,7 +99,39 @@ describe('SearchAndSelect', () => {
       const resultList = await screen.findByRole('list', {}, { timeout: 3000 });
       await within(resultList).findAllByRole('listitem');
       await UserEvent.click(searchField.parentElement as HTMLElement);
-      await waitFor(() => expect(searchField.value).toEqual('search...'));
+      await waitFor(() => expect(searchField.value).toEqual(''));
     });
+    test('should keep the selected value when we click off the search field', async () => {
+      render(<compositions.DemoData />);
+      const searchField: HTMLInputElement = screen.getByRole('textbox');
+      await waitFor(() => expect(searchField.value).toEqual(''));
+      await UserEvent.click(searchField);
+      await UserEvent.clear(searchField);
+      await waitFor(() => expect(searchField.value).toEqual(''));
+      await UserEvent.keyboard('A');
+      await waitFor(() => expect(searchField.value).toEqual('A'));
+      const resultList = await screen.findByRole('list', {}, { timeout: 3000 });
+      const resultItems = await within(resultList).findAllByRole('listitem');
+      const firstItemBtn = within(resultItems[0]).getByRole('button');
+      await UserEvent.click(firstItemBtn);
+      expect(searchField.value).toEqual(demoResultData[0].label);
+      await UserEvent.click(searchField.parentElement as HTMLElement);
+      await waitFor(() =>
+        expect(searchField.value).toEqual(demoResultData[0].label)
+      );
+    });
+  });
+  describe("Additional buttons", () => {
+    describe('Add new button', () => {
+      test.todo("should show add new button when allowAddNew is true");
+      test.todo("should not show add new button when allowAddNew is false");
+      test.todo("should call add new callback when add new button is clicked");
+    });
+  })
+  describe('forward ref', () => {
+    test.todo('should pass ref to input');
+  });
+  describe('input validation', () => {
+    test.todo('should show error when has input but nothing selected');
   });
 });

@@ -16,6 +16,7 @@ export const BasicFieldDict = () => {
           type={EFilterType.dict}
           unit="UNIT"
           onChange={(v) => alert(`Changed: id, val: ${v}`)}
+          onBlur={() => {}}
           value={{
             example: 'hello',
             nested: {

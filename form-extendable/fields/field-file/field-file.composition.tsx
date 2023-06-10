@@ -185,6 +185,7 @@ export const FilesManyForTesting = () => {
             value={selection}
             multiple
             onChange={handleSelect}
+            onBlur={() => {}}
             asyncFileUpload={handleFileUpload}
             asyncGetFiles={() => asyncGetFiles}
           />

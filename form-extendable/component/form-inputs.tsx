@@ -6,14 +6,17 @@ import {
   TComponentMap,
   THeading,
 } from '@form-extendable/lib';
-import { FormField as DefaultFormField, IFormFieldProps } from './form-field';
 import { FormSection } from '@form-extendable/styles';
+import { IFormFieldValidationError } from '@form-extendable/lib';
+import { FormField as DefaultFormField, IFormFieldProps } from './form-field';
 
 export interface IFormInputsProps<CompleteFormType> {
   FormField: React.FC<IFormFieldProps<any, THeading<any>>>;
   headings: THeading<any>[];
   formData: CompleteFormType;
+  fieldErrors?: { [uid: Uid]: IFormFieldValidationError };
   onFormInputChange: (uid: Uid, val: any) => void;
+  onFormInputBlur: (field: Uid) => void;
   orientation: 'horiz' | 'vert';
   heading?: Uid;
   showTitle?: boolean;
@@ -28,7 +31,9 @@ export const FormInputs = <CompleteFormType,>({
   FormField,
   headings,
   formData,
+  fieldErrors,
   onFormInputChange,
+  onFormInputBlur,
   orientation,
   heading: sectionTitle,
   showTitle,
@@ -48,7 +53,6 @@ export const FormInputs = <CompleteFormType,>({
     .filter((f) => f)
     .join(' ');
 
-  // console.info('FORM DATA', formData?.numberCapped);
   const fields = useMemo(
     () =>
       headings.map((heading) => {
@@ -63,7 +67,9 @@ export const FormInputs = <CompleteFormType,>({
               key={heading.uid}
               headings={(heading as IHeadingEmbedded).children}
               formData={formData}
+              fieldErrors={fieldErrors}
               onFormInputChange={onFormInputChange}
+              onFormInputBlur={onFormInputBlur}
               orientation={(heading as IHeadingEmbedded).orientation}
               heading={(heading as IHeadingEmbedded).label}
               additionalData={additionalData}
@@ -81,11 +87,13 @@ export const FormInputs = <CompleteFormType,>({
           <FormField
             heading={heading}
             onChange={(newVal) => onFormInputChange(heading.uid, newVal)}
+            onBlur={() => onFormInputBlur(heading.uid)}
             value={value}
             key={heading.uid}
             additionalData={additionalData}
             componentMap={componentMap}
             disableAutoFill={disableAutoFill}
+            error={fieldErrors && fieldErrors[heading.uid]}
           />
         );
       }),

@@ -15,6 +15,7 @@ import { defaultVal } from './demo-data';
 // );
 
 const onChange = jest.fn();
+const onBlur = jest.fn();
 const searchFn = jest.fn();
 
 const defaultProps: TFieldSelectSearchProps<IObj> = {
@@ -23,6 +24,7 @@ const defaultProps: TFieldSelectSearchProps<IObj> = {
   uid: 'demoid',
   unit: 'demounit',
   onChange,
+  onBlur,
   value: defaultVal,
   multiple: false,
   required: false,

@@ -54,6 +54,7 @@ export const FormSection = styled.section`
 
   .form_row {
     flex-grow: 1;
+    position: relative;
     display: flex;
     border: ${({ theme }) => theme.formExtendableTheme.row.border};
     padding: ${({ theme }) => theme.formExtendableTheme.row.padding};
@@ -69,41 +70,58 @@ export const FormSection = styled.section`
   .formSection.horiz > .form_row {
     justify-content: flex-start;
   }
+  .form_row_inner {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    flex-grow: 1;
+    height: fit-content;
+    max-width: ${({ theme }) => theme.formExtendableTheme.row.labelMaxWidth};
+    align-self: flex-start;
+  }
+
+  /* FORM FIELD ERROR */
+  .form_field_error {
+    color: ${({ theme }) => theme.formExtendableTheme.errorPopup.color};
+    font-size: ${({ theme }) => theme.formExtendableTheme.errorPopup.fontSize};
+    line-height: ${({ theme }) =>
+      theme.formExtendableTheme.typography.lineHeight};
+    background: ${({ theme }) =>
+      theme.formExtendableTheme.errorPopup.background};
+    border: ${({ theme }) => theme.formExtendableTheme.errorPopup.border};
+    outline: ${({ theme }) => theme.formExtendableTheme.errorPopup.border};
+    padding: ${({ theme }) => theme.formExtendableTheme.errorPopup.padding};
+    margin-right: 1rem;
+    text-align: right;
+  }
 
   /* FORM LABEL */
   .form_label {
     line-height: ${({ theme }) =>
       theme.formExtendableTheme.typography.lineHeight};
     display: flex;
+    height: fit-content;
 
     &,
     label,
     .label_wrap_inner {
+      height: fit-content;
+      display: flex;
+      justify-content: flex-end;
       line-height: ${({ theme }) =>
         theme.formExtendableTheme.typography.lineHeight};
       flex-grow: 1;
     }
-    & label {
-      &:after {
-        content: ':';
-        display: inline;
-        width: 1rem;
-        height: 1rem;
-      }
+    label {
+      display: flex;
+      justify-content: flex-end;
+      max-width: fit-content;
     }
 
     &,
     * {
       &.required {
         color: ${({ theme }) => theme.formExtendableTheme.colors.warning};
-        & label {
-          &:before {
-            content: '*';
-            display: inline;
-            width: 1rem;
-            height: 1rem;
-          }
-        }
       }
     }
 
@@ -128,7 +146,9 @@ export const FormSection = styled.section`
     * {
       width: inherit;
       text-align: left;
-      flex-grow: 1;
+      label {
+        flex-grow: 1;
+      }
     }
   }
   .formSection.horiz > .form_row > .form_label {
@@ -150,6 +170,10 @@ export const FormSection = styled.section`
   .formComponentWrap {
     flex-grow: 1;
     display: flex;
+    line-height: ${({ theme }) =>
+      theme.formExtendableTheme.typography.lineHeight};
+    min-height: ${({ theme }) =>
+      theme.formExtendableTheme.typography.lineHeight};
   }
 
   /* SECTION HEADING */
@@ -309,7 +333,7 @@ export const FormSection = styled.section`
         flex-direction: row;
         align-items: flex-start; // Ensures inputs align to bottom of label
         .form_label {
-          align-self: flex-start;
+          // align-self: flex-end;
         }
       }
       &.horiz > .form_row {
@@ -323,16 +347,14 @@ export const FormSection = styled.section`
         height: fit-content;
         max-width: ${({ theme }) =>
           theme.formExtendableTheme.row.labelMaxWidth};
-        // flex-grow: 0;
       }
     }
     .form_label {
-      margin-right: 1rem;
-      &,
       label,
       .label_wrap_inner {
-        height: ${({ theme }) =>
+        min-height: ${({ theme }) =>
           theme.formExtendableTheme.typography.lineHeight};
+        height: fit-content;
       }
     }
   }
@@ -432,27 +454,11 @@ export const FormStyled = styled.div`
         theme.formExtendableTheme.typography.lineHeight};
       flex-grow: 1;
     }
-    & label {
-      &:after {
-        content: ':';
-        display: inline;
-        width: 1rem;
-        height: 1rem;
-      }
-    }
 
     &,
     * {
       &.required {
         color: ${({ theme }) => theme.formExtendableTheme.colors.warning};
-        & label {
-          &:before {
-            content: '*';
-            display: inline;
-            width: 1rem;
-            height: 1rem;
-          }
-        }
       }
     }
 
@@ -658,7 +664,7 @@ export const FormStyled = styled.div`
         flex-direction: row;
         align-items: flex-start; // Ensures inputs align to bottom of label
         .form_label {
-          align-self: flex-start;
+          // align-self: flex-start;
         }
       }
       &.horiz > .form_row {
@@ -666,13 +672,12 @@ export const FormStyled = styled.div`
       }
     }
     .formSection.vert > .form_row > .form_label {
-      &,
-      * {
-        width: ${({ theme }) => theme.formExtendableTheme.row.labelTargetWidth};
+      max-width: ${({ theme }) => theme.formExtendableTheme.row.labelMaxWidth};
+      width: ${({ theme }) => theme.formExtendableTheme.row.labelTargetWidth};
+      // &,
+      label {
         height: fit-content;
-        max-width: ${({ theme }) =>
-          theme.formExtendableTheme.row.labelMaxWidth};
-        // flex-grow: 0;
+        max-width: fit-content;
       }
     }
     .form_label {
@@ -680,8 +685,9 @@ export const FormStyled = styled.div`
       &,
       label,
       .label_wrap_inner {
-        height: ${({ theme }) =>
+        min-height: ${({ theme }) =>
           theme.formExtendableTheme.typography.lineHeight};
+        height: fit-content;
       }
     }
   }

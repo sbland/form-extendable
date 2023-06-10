@@ -26,6 +26,7 @@ export const FieldNumber: React.FC<TFieldNumberProps> = ({
   step,
   defaultValue = '',
   onChange,
+  onBlur: onBlurIn,
   value: valueIn,
   required,
   disableAutoFill,
@@ -50,6 +51,7 @@ export const FieldNumber: React.FC<TFieldNumberProps> = ({
   };
 
   const onBlur = () => {
+    // TODO: can we move this to form validation
     setFocused(false);
     if ((value === '' || value == null) && parseInput(defaultValue) !== '')
       onChange(defaultValue as '');
@@ -57,6 +59,7 @@ export const FieldNumber: React.FC<TFieldNumberProps> = ({
       // skip
     } else if (value < min) onChange(min);
     else if (value > max) onChange(max);
+    onBlurIn();
   };
 
   function handleClickOutside(event) {

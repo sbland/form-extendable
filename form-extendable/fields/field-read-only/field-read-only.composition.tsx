@@ -7,6 +7,7 @@ export const BasicFieldReadOnly = () => (
     uid="readonly"
     label="Read Only"
     onChange={() => {}}
+    onBlur={() => {}}
     value="hello from FieldReadOnly"
     unit="TEXT"
     type={EFilterType.text}

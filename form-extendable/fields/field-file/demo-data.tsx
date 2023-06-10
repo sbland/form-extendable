@@ -94,6 +94,7 @@ export const dummyProps: IFieldFileProps = {
   type: EFilterType.file,
   multiple: false,
   onChange,
+  onBlur: () => {},
   fileType: EFileType.IMAGE,
   value: DEMO_IMAGE_FILES_DATA[0],
   fileServerUrl: 'https://static.bit.dev',

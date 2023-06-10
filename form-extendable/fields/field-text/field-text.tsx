@@ -9,6 +9,7 @@ export const FieldText: React.FC<
   uid,
   unit,
   onChange,
+  onBlur,
   value,
   inputTypeOverride,
   required,
@@ -29,6 +30,7 @@ export const FieldText: React.FC<
         onFocus={() => {
           ref?.current?.select();
         }}
+        onBlur={onBlur}
         aria-labelledby={`${uid}-label`}
         value={value || ''}
         onChange={(e) => onChange(e.target.value)}

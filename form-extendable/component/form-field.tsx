@@ -13,7 +13,9 @@ import {
   defaultComponent,
   defaultComponentMap,
 } from '@form-extendable/components.component-map';
+import { IFormFieldValidationError } from '@form-extendable/lib';
 import { FieldLabel } from './field-label';
+import { FormFieldError } from './field-error';
 
 export interface IFormFieldProps<V, H extends THeading<V>>
   extends IFieldProps<V, H> {
@@ -21,43 +23,50 @@ export interface IFormFieldProps<V, H extends THeading<V>>
 }
 
 export interface IFormFieldWrapProps {
-  rowClassname?: string;
   children: React.ReactNode;
   uid: Uid;
   type: string;
-  labelClassName?: string;
   hideLabel?: boolean;
   expandInput?: boolean;
   label: string;
   hasChanged?: boolean;
+  error?: IFormFieldValidationError;
+  required?: boolean;
 }
 
 export const FormFieldWrap: React.FC<IFormFieldWrapProps> = ({
-  rowClassname,
   children,
   uid,
   type,
-  labelClassName,
   hideLabel,
   expandInput,
   label,
   hasChanged,
-}) => (
-  <div className={rowClassname} key={uid} data-testid={`${type}-${uid}`}>
-    <div
-      className={labelClassName}
-      style={{ display: hideLabel && expandInput ? 'none' : 'inherit' }}
-    >
-      <FieldLabel
-        uid={uid}
-        label={label}
-        hasChanged={hasChanged}
-        hidden={hideLabel}
-      />
-    </div>
-    <div className="formComponentWrap">{children}</div>
-  </div>
-);
+  error,
+  required,
+}) => {
+  const rowClassname = ['form_row', `form_row_heading_id_${uid}`]
+    .filter((f) => f)
+    .join(' ');
+  return (
+    <>
+      <div className={rowClassname} data-testid={`${type}-${uid}`}>
+        <div className="form_row_inner">
+          <FieldLabel
+            uid={uid}
+            label={label}
+            hasChanged={hasChanged}
+            hidden={hideLabel}
+            required={required}
+            expandInput={expandInput}
+          />
+          <FormFieldError error={error} />
+        </div>
+        <div className="formComponentWrap">{children}</div>
+      </div>
+    </>
+  );
+};
 
 /**
  *
@@ -68,7 +77,16 @@ export const FormFieldWrap: React.FC<IFormFieldWrapProps> = ({
 export const FormField = <V, H extends THeading<V>>(
   propsIn: IFormFieldProps<V, H>
 ) => {
-  const { heading, value, onChange, additionalData, componentMap, disableAutoFill } = propsIn;
+  const {
+    heading,
+    value,
+    onChange,
+    onBlur,
+    additionalData,
+    componentMap,
+    disableAutoFill,
+    error,
+  } = propsIn;
 
   const { label, required, type, uid, hasChanged, hideLabel, expandInput } =
     heading;
@@ -89,6 +107,7 @@ export const FormField = <V, H extends THeading<V>>(
   const props: IFieldComponentProps<V, H> = useMemo(() => {
     const fProps: IFieldComponentProps<V, H> = {
       onChange,
+      onBlur,
       value,
       key: `${heading.uid}-sub`,
       additionalData,
@@ -98,28 +117,16 @@ export const FormField = <V, H extends THeading<V>>(
     return fProps;
   }, [heading, onChange, value, additionalData]);
 
-  const labelClassName = [
-    'form_label',
-    `${required ? 'required' : ''}`,
-    `${hasChanged ? 'hasChanged' : ''}`,
-    `${hideLabel ? 'hidden' : ''}`,
-  ]
-    .filter((f) => f)
-    .join(' ');
-  const rowClassname = ['form_row', `form_row_heading_id_${uid}`]
-    .filter((f) => f)
-    .join(' ');
-
   return (
     <FormFieldWrap
-      rowClassname={rowClassname}
       uid={uid}
       type={type}
-      labelClassName={labelClassName}
       hideLabel={hideLabel}
       expandInput={expandInput}
       label={label}
       hasChanged={hasChanged}
+      error={error}
+      required={required}
     >
       <FormComponent
         {...(props as React.ComponentProps<typeof FormComponent>)}

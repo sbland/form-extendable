@@ -5,6 +5,7 @@ import { FieldTextArea, TFieldTextAreaProps } from './field-text-area';
 import { defaultVal } from './demo-data';
 
 const onChange = () => {};
+const onBlur = () => {};
 
 const defaultProps: TFieldTextAreaProps = {
   type: EFilterType.textLong,
@@ -13,6 +14,7 @@ const defaultProps: TFieldTextAreaProps = {
   unit: 'unit',
   value: defaultVal,
   onChange,
+  onBlur,
 };
 
 export const BasicFieldTextArea = () => (

@@ -50,6 +50,7 @@ export const ExampleField = () => {
             unit="UNIT"
             onChange={(v) => alert(`Changed: id, val: ${v}`)}
             value="hello from FieldText"
+            onBlur={() => {}}
           />
         </WrapFieldComponent>
       </CompositionWrapDefault>

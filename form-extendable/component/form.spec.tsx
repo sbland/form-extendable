@@ -36,6 +36,11 @@ jest.mock('./dummy-api', () => ({
   getInitialFormData: jest.fn().mockReturnValue({}),
 }));
 
+const clickToggleBtn = async (label: string) => {
+  const btn = screen.getByRole('button', { name: label });
+  await UserEvent.click(btn);
+};
+
 beforeEach(() => {
   jest.clearAllMocks();
 });
@@ -52,7 +57,7 @@ const mockImage = {
 
 declare global {
   /* imagesUploaded set as global so can be accessed in other files */
-  var imagesUploaded: typeof mockImage[];
+  var imagesUploaded: (typeof mockImage)[];
 }
 
 global.imagesUploaded = [];
@@ -201,7 +206,7 @@ describe('Form Main Component', () => {
         const submitBtn = screen.getByRole('button', { name: /Submit/ });
         await UserEvent.click(submitBtn);
         expect(errorCallback).toHaveBeenCalledWith(
-          'Missing the following fields: Text, Embedded Text'
+          'Text field is required'
         );
       });
       test('Should call on submit with edit data when clicking the save button after filling in form', async () => {
@@ -361,7 +366,7 @@ describe('Form Main Component', () => {
           fillInCustomField
         );
         await screen.findByText(
-          'Form validation error: Missing the following fields: Text, Embedded Text'
+          'Form validation error: Text field is required'
         );
         expect(onSubmit).not.toHaveBeenCalled();
 
@@ -485,6 +490,68 @@ describe('Form Main Component', () => {
       });
       test.todo('should be able to swap a file');
       test.todo('should be able to select multiple files');
+    });
+    describe('Form validation', () => {
+      test('should show an asterix on the text input label as it is required', async () => {
+        setInitialFormData({});
+        render(<compositions.BasicForm />);
+        await compositions.BasicForm.waitForReady();
+        const textInputFieldLabel: HTMLInputElement = screen.getByText('Text');
+        expect(
+          within(textInputFieldLabel.parentElement as HTMLElement).getByText(
+            '*'
+          )
+        ).toBeInTheDocument();
+      });
+      test("should highlight required fields that haven't been filled in", async () => {
+        setInitialFormData({});
+        render(<compositions.BasicForm />);
+        await compositions.BasicForm.waitForReady();
+        await clickToggleBtn('Validate on Blur');
+        const textInputField: HTMLInputElement = screen.getByLabelText('Text');
+        expect(textInputField.value).toEqual('');
+        // expect(textInputFieldError).not.toBeInTheDocument();
+        await UserEvent.click(textInputField);
+        await UserEvent.tab();
+        // expect(textInputFieldError).toBeInTheDocument();
+        // TODO: Implement this
+        const textInputFieldLabel: HTMLInputElement = screen.getByText('Text');
+        expect(
+          within(textInputFieldLabel.parentElement as HTMLElement).getByText(
+            '*'
+          )
+        ).toBeInTheDocument();
+        expect(
+          within(textInputFieldLabel.parentElement?.parentElement?.parentElement as HTMLElement).getByText(
+            'Text field is required'
+          )
+        ).toBeInTheDocument();
+      });
+      test('should show any form errors at the bottom of the form', async () => {
+        setInitialFormData({});
+        render(<compositions.BasicForm />);
+        await compositions.BasicForm.waitForReady();
+        await clickToggleBtn('Validate on Blur');
+        // text input is required
+        const textInputField: HTMLInputElement = screen.getByLabelText('Text');
+        expect(textInputField.value).toEqual('');
+        await UserEvent.click(textInputField);
+        await UserEvent.tab();
+        await screen.findByText(
+          'Form validation error: Text field is required'
+        );
+      });
+      test.todo(
+        "should highlight fields that don't match the validation rules"
+      );
+      describe('Custom validation', () => {});
+      describe('Field Validation', () => {
+        test.todo(
+          'should be able to validate a field based on the value of another field'
+        );
+        test.todo("should be able to validate a field based on it's own value");
+        // Additional validation tests should be placed in individual field test
+      });
     });
   });
 });

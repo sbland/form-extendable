@@ -13,6 +13,7 @@ const defaultProps: IFieldComponentProps<string, IHeadingText> = {
   value: 'a',
   label: 'read only',
   onChange: () => null,
+  onBlur: () => null,
 };
 
 describe('FieldReadOnly', () => {

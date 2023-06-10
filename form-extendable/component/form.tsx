@@ -4,7 +4,8 @@ import cloneDeep from 'lodash/cloneDeep';
 import { Uid } from '@react_db_client/constants.client-types';
 import { Emoji } from '@react_db_client/components.emoji';
 import { defaultComponentMap } from '@form-extendable/components.component-map';
-import { TComponentMap, THeading } from '@form-extendable/lib';
+import { flattenHeadings } from '@form-extendable/testing';
+import { TComponentMap, THeading, IFormFieldValidationError } from '@form-extendable/lib';
 import {
   formValidation,
   IValidationError,
@@ -14,7 +15,6 @@ import {
 import { FormField as DefaultFormField, IFormFieldProps } from './form-field';
 import { FormInputs } from './form-inputs';
 import { FormStatus, IFormStatusProps } from './form-status';
-import { flattenHeadings } from '@form-extendable/testing';
 
 export interface IFormSubmit<CompleteFormType> {
   formEditData: Partial<CompleteFormType>;
@@ -42,8 +42,10 @@ export interface IFormProps<CompleteFormType> {
   additionalData?: Partial<CompleteFormType>;
   componentMap?: TComponentMap;
   autosave?: boolean;
-  FormStatusComponent?: React.FC<IFormStatusProps>;
+  FormStatusComponent?: React.FC<IFormStatusProps> | null;
   debounceTimeout?: number;
+  validateOnBlur?: boolean;
+  validateOnChange?: boolean;
 }
 /** Generic Form Component that manages updates and layout
  *
@@ -86,17 +88,25 @@ export const Form = <CompleteFormType,>({
   debounceTimeout = 400,
   FormStatusComponent = FormStatus,
   componentMap = defaultComponentMap(),
+  validateOnBlur = false,
+  validateOnChange = false,
 }: IFormProps<CompleteFormType>) => {
   const [formEditData, setFormEditData] = React.useState<
     Partial<CompleteFormType>
   >({});
+  const formDataInitialRef = React.useRef(formDataInitial);
   const [submitting, setSubmitting] = React.useState(false);
   const [formDirty, setFormDirty] = React.useState(false);
   const [hasLocalChanges, setHasLocalChanges] = React.useState(false);
   const [validationErrors, setValidationErrors] =
     React.useState<IValidationError | null>(null);
+  const [fieldValidationErrors, setFieldValidationErrors] = React.useState<{
+    [uid: Uid]: IFormFieldValidationError;
+  }>({});
+
   const [lastChangedFieldValue, setlLastChangedFieldValue] =
     React.useState<[any, any]>();
+  const touchedFields = React.useRef<Uid[]>([]);
 
   const callSubmitDebounced = useDebounce({
     fn: async (submitData: IFormSubmit<CompleteFormType>) =>
@@ -117,17 +127,65 @@ export const Form = <CompleteFormType,>({
 
   const updateFormData = React.useCallback(
     (field, value) => {
-      setValidationErrors(null);
+      formDataInitialRef.current[field] = value;
+      if (!touchedFields.current.includes(field))
+        touchedFields.current.push(field);
+      if (validateOnChange) {
+        // TODO: Only validate "Touched" fields
+        const [validationResult, validationMessages, validationFieldErrors] =
+          formValidation(
+            formDataInitialRef.current,
+            flattenedHeadings.filter((h) =>
+              touchedFields.current.includes(h.uid)
+            )
+          );
+        if (validationResult !== true) {
+          setValidationErrors(validationMessages);
+          setFieldValidationErrors(validationFieldErrors);
+        } else {
+          setValidationErrors(null);
+          setFieldValidationErrors({});
+        }
+      } else {
+        setValidationErrors(null);
+        setFieldValidationErrors({});
+      }
       setFormDirty(true);
       setHasLocalChanges(true);
       setlLastChangedFieldValue([field, value]);
       setFormEditData((prev) => {
+        // TODO: Can we replace this with formDataINitialRef.current?
         const newFormData = cloneDeep(prev);
         newFormData[field] = value;
         return newFormData;
       });
     },
     [onChange, autosave]
+  );
+
+  const onFormInputBlur = React.useCallback(
+    (field) => {
+      if (!touchedFields.current.includes(field))
+        touchedFields.current.push(field);
+
+      if (validateOnBlur) {
+        const [validationResult, validationMessages, validationFieldErrors] =
+          formValidation(
+            formDataInitialRef.current,
+            flattenedHeadings.filter((h) =>
+              touchedFields.current.includes(h.uid)
+            )
+          );
+        if (validationResult !== true) {
+          setFieldValidationErrors(validationFieldErrors);
+          setValidationErrors(validationMessages);
+        } else {
+          setValidationErrors(null);
+          setFieldValidationErrors({});
+        }
+      }
+    },
+    [validateOnBlur]
   );
 
   const flattenedHeadings = React.useMemo(
@@ -140,17 +198,21 @@ export const Form = <CompleteFormType,>({
       setValidationErrors(null);
       setSubmitting(true);
       // TODO: We may want to validate after debounce!
-      const validationResult = formValidation(formData, flattenedHeadings);
+      const [validationResult, validationMessages, fieldValidationErrors] =
+        formValidation(formData, flattenedHeadings);
       if (validationResult === true && debounce)
         callSubmitDebounced({ formEditData, formData });
       else if (validationResult === true && !debounce) {
         onSubmit({ formEditData, formData });
         setSubmitting(false);
         setFormDirty(false);
-      } else if (errorCallback && throwErrors) {
-        errorCallback((validationResult as IValidationError).error);
+      } else if (errorCallback && throwErrors && validationResult !== true) {
+        errorCallback(validationMessages.message);
+      } else if (validationResult === false) {
+        setValidationErrors(validationMessages);
+        setFieldValidationErrors(fieldValidationErrors);
       } else {
-        setValidationErrors(validationResult as IValidationError);
+        // Should not reach this point
       }
     },
     [
@@ -183,7 +245,8 @@ export const Form = <CompleteFormType,>({
   ]);
 
   const message =
-    (validationErrors && `Form validation error: ${validationErrors.error}`) ||
+    (validationErrors &&
+      `Form validation error: ${validationErrors.message}`) ||
     (submitting && 'Saving unsaved changes') ||
     ((hasLocalChanges || formDirty) && 'Unsaved changes!') ||
     'All changes are saved';
@@ -213,10 +276,12 @@ export const Form = <CompleteFormType,>({
         headings={headings}
         formData={formData}
         onFormInputChange={updateFormData}
+        onFormInputBlur={onFormInputBlur}
         orientation={orientation}
         additionalData={additionalData}
         componentMap={componentMap}
         FormField={FormField}
+        fieldErrors={fieldValidationErrors}
       />
       <section
         ref={(ref) => ref && setEndButtonContainerRef(ref)}

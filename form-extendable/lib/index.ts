@@ -5,3 +5,4 @@ export * from './IFormData';
 export * from './IOpt';
 export * from './IObj';
 export * from './IPopupProps';
+export { EFormValidationError, IFormFieldValidationError } from './IErrors';

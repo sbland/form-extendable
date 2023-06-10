@@ -5,6 +5,7 @@ import { FieldSelect, TFieldSelectProps } from './field-select';
 import { defaultVal, demoOptions } from './demo-data';
 
 const onChange = () => {};
+const onBlur = () => {};
 
 const defaultProps: TFieldSelectProps = {
   type: EFilterType.select,
@@ -13,6 +14,7 @@ const defaultProps: TFieldSelectProps = {
   unit: 'unit',
   value: defaultVal,
   options: demoOptions,
+  onBlur,
   onChange,
 };
 

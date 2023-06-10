@@ -31,6 +31,13 @@ export interface IFormTheme extends IReactDbTheme {
     labelMaxWidth: string;
     labelTargetWidth: string;
   };
+  errorPopup: {
+    color: string;
+    background: string;
+    border: string;
+    padding: string;
+    fontSize: string;
+  };
   media: {
     mediumWidth: string | number;
   };
@@ -97,6 +104,13 @@ export const defaultTheme: IFormTheme = {
     default: 'outline: 1px solid red;',
     onHover: `background: yellow;`,
     onFocus: `background: green;`,
+  },
+  errorPopup: {
+    color: 'white',
+    background: 'tomato',
+    border: '1px solid tomato',
+    padding: '0.2rem',
+    fontSize: '0.8rem',
   },
   row: {
     padding: '0.2rem',

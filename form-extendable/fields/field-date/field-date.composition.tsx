@@ -15,6 +15,7 @@ export const BasicFieldDate = () => (
         label="Date field"
         // defaultValue={defaultVal}
         onChange={() => {}}
+        onBlur={() => {}}
         value={defaultVal}
         required
       />

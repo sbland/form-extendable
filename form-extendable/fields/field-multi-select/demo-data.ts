@@ -32,6 +32,7 @@ export const props: TFieldMultiSelect = {
   uid: demoHeading.uid,
   unit: 'unit',
   onChange: () => {},
+  onBlur: () => {},
   options: demoOptions,
   value: [demoOptions[0].uid],
   required: demoHeading.required,
