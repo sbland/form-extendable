@@ -21,8 +21,8 @@ import { FieldNumber } from '@form-extendable/fields.field-number';
 import { FieldSelect } from '@form-extendable/fields.field-select';
 import { FieldMultiSelect } from '@form-extendable/fields.field-multi-select';
 import { FieldDict } from '@form-extendable/fields.field-dict';
+import { FieldSelectReference } from '@form-extendable/fields.field-select-reference';
 import {
-  searchFnReference,
   FieldSelectSearch,
   FieldSelectSearchMulti,
 } from '@form-extendable/fields.field-select-search';
@@ -47,9 +47,19 @@ export interface IDefaultComponentMapProps {
   asyncGetRefObjs: TAsyncGetDocuments<unknown extends IObj ? unknown : IObj>;
   asyncFileUpload: (
     metaData?: any
-  ) => (data: File, fileType: EFileType, callback: () => void, fileMetaData: Partial<IFile>) => Promise<void>;
+  ) => (
+    data: File,
+    fileType: EFileType,
+    callback: () => void,
+    fileMetaData: Partial<IFile>
+  ) => Promise<void>;
   fileServerUrl: string;
   PopupPanel: React.FC<IPopupProps>;
+  AddNewReferenceComponent: React.FC<{
+    collection: string;
+    onCancel: () => void;
+    onSubmit: (data: unknown extends IObj ? unknown : IObj) => void;
+  }>;
 }
 
 const defaultInputs: IDefaultComponentMapProps = {
@@ -63,6 +73,7 @@ const defaultInputs: IDefaultComponentMapProps = {
     throw Error('Missing asyncGetRefObjs prop');
   },
   fileServerUrl: 'MISSING_FILE_SERVER_URL',
+  AddNewReferenceComponent: () => <>MISSING_ADD_NEW_REFERENCE_COMPONENT</>,
   PopupPanel: ({ children }) => <>{children}</>,
 };
 
@@ -72,6 +83,7 @@ export const defaultComponentMap = ({
   asyncGetRefObjs = defaultInputs.asyncGetRefObjs,
   fileServerUrl = defaultInputs.fileServerUrl,
   PopupPanel = defaultInputs.PopupPanel,
+  AddNewReferenceComponent = defaultInputs.AddNewReferenceComponent,
 }: Partial<IDefaultComponentMapProps> = defaultInputs): TComponentMap => ({
   [EFilterType.uid]: () => allowReadOnly(FieldText),
   [EFilterType.text]: () => allowReadOnly(FieldText),
@@ -124,34 +136,41 @@ export const defaultComponentMap = ({
       )
     ),
   [EFilterType.reference]: () =>
-    allowReadOnly((props) =>
-      props.multiple ? (
-        <FieldSelectSearch
+    allowReadOnly(
+      (props) => (
+        <FieldSelectReference
           {...props}
-          searchFn={searchFnReference(
-            asyncGetRefObjs,
-            props.collection,
-            '_id',
-            props.labelField
-          )}
-          returnFieldOnSelect="_id"
-          multiple
-          defaultValue={undefined}
-        />
-      ) : (
-        <FieldSelectSearch
-          {...props}
-          searchFn={searchFnReference(
-            asyncGetRefObjs,
-            props.collection,
-            '_id',
-            props.labelField
-          )}
-          returnFieldOnSelect="_id"
-          multiple={false}
-          defaultValue={null}
+          asyncGetRefObjs={asyncGetRefObjs}
+          AddNewReferenceComponent={AddNewReferenceComponent}
         />
       )
+      // props.multiple ? (
+      //   <FieldSelectSearch
+      //     {...props}
+      //     searchFn={searchFnReference(
+      //       asyncGetRefObjs,
+      //       props.collection,
+      //       '_id',
+      //       props.labelField
+      //     )}
+      //     returnFieldOnSelect="_id"
+      //     multiple
+      //     defaultValue={undefined}
+      //   />
+      // ) : (
+      //   <FieldSelectSearch
+      //     {...props}
+      //     searchFn={searchFnReference(
+      //       asyncGetRefObjs,
+      //       props.collection,
+      //       '_id',
+      //       props.labelField
+      //     )}
+      //     returnFieldOnSelect="_id"
+      //     multiple={false}
+      //     defaultValue={null}
+      //   />
+      // )
     ),
   [EFilterType.dict]: () => allowReadOnly(FieldDict),
   [EFilterType.embedded]: () => allowReadOnly(FieldNotImplemented),

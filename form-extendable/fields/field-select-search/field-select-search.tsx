@@ -7,7 +7,6 @@ import {
 import {
   IFieldComponentProps,
   IHeadingSelectSearch,
-  IHeadingSelectSearchMulti,
   IObj,
 } from '@form-extendable/lib';
 

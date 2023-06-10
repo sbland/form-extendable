@@ -253,6 +253,7 @@ export const demoHeadingsData: THeading<any>[] = [
     collection: 'democollection',
     type: EFilterType.reference,
     searchFieldTargetField: 'label',
+    allowAddNew: true,
   },
   {
     uid: 'select',

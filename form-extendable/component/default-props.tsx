@@ -3,7 +3,7 @@ import React from 'react';
 import { TAsyncGetDocuments } from '@react_db_client/constants.client-types';
 import { PopupPanelManagedWithContentWrap } from '@react_db_client/components.popup-panel-v2';
 import { defaultComponentMap } from '@form-extendable/components.component-map';
-import { IObj, IPopupProps } from '@form-extendable/lib';
+import { IObj } from '@form-extendable/lib';
 import {
   CustomFieldType,
   demoCustomTypeHeading,
@@ -14,6 +14,7 @@ import {
 import { IFormProps } from './form';
 import { FormField } from './form-field';
 import { errorCallback, onSubmit } from './dummy-api';
+import { ExampleGetRefObjectComponent } from '@form-extendable/fields.field-select-reference';
 
 const fileServerUrl = 'https://static.bit.dev';
 
@@ -31,6 +32,7 @@ export const getComponentMap = (asyncGetFiles, onUpload) => ({
     asyncFileUpload: () => async (data, fileType) => onUpload(data, fileType),
     fileServerUrl,
     PopupPanel: PopupPanelManagedWithContentWrap,
+    AddNewReferenceComponent: ExampleGetRefObjectComponent,
   }),
 });
 
