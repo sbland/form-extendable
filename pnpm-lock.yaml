@@ -1,15 +1,13 @@
 lockfileVersion: '6.0'
 
-neverBuiltDependencies:
-  - core-js
+settings:
+  autoInstallPeers: false
+  excludeLinksFromLockfile: true
 
 importers:
 
   .:
     dependencies:
-      '@react_db_client/async-hooks.use-async-request':
-        specifier: 0.2.27
-        version: registry.npmjs.org/@react_db_client/async-hooks.use-async-request@0.2.27(@testing-library/react-hooks@8.0.1)(@testing-library/react@12.1.5)(@testing-library/user-event@14.4.3)(prop-types@15.8.1)(react-dom@17.0.2)(react@17.0.2)
       '@react_db_client/components.form.form-components.multi-select-dropdown':
         specifier: 0.2.30
         version: registry.npmjs.org/@react_db_client/components.form.form-components.multi-select-dropdown@0.2.30(@testing-library/react@12.1.5)(@testing-library/user-event@14.4.3)(prop-types@15.8.1)(react-dom@17.0.2)(react-is@16.13.1)(react@17.0.2)
@@ -31,9 +29,6 @@ importers:
       '@react_db_client/helpers.html-helpers':
         specifier: 0.0.8
         version: registry.npmjs.org/@react_db_client/helpers.html-helpers@0.0.8(react-dom@17.0.2)(react@17.0.2)
-      '@react_db_client/hooks.use-auto-hide-panel-hook':
-        specifier: 0.2.8
-        version: registry.npmjs.org/@react_db_client/hooks.use-auto-hide-panel-hook@0.2.8(@testing-library/react-hooks@8.0.1)(react-dom@17.0.2)(react@17.0.2)
       '@react_db_client/hooks.use-combined-ref':
         specifier: 0.0.4
         version: registry.npmjs.org/@react_db_client/hooks.use-combined-ref@0.0.4(react-dom@17.0.2)(react@17.0.2)
@@ -42,7 +37,7 @@ importers:
         version: 0.1.3
       '@teambit/eslint-config-bit-react':
         specifier: ~0.0.367
-        version: registry.npmjs.org/@teambit/eslint-config-bit-react@0.0.367(eslint-plugin-import@2.26.0)(eslint-plugin-jsx-a11y@6.7.0)(eslint-plugin-react@7.31.11)(react-dom@17.0.2)(react@17.0.2)
+        version: registry.npmjs.org/@teambit/eslint-config-bit-react@0.0.367(@teambit/legacy@node_modules+@teambit+legacy)(eslint-plugin-import@2.26.0)(eslint-plugin-jsx-a11y@6.7.0)(eslint-plugin-react@7.31.11)(react-dom@17.0.2)(react@17.0.2)
       '@teambit/harmony':
         specifier: 0.4.6
         version: registry.npmjs.org/@teambit/harmony@0.4.6
@@ -974,41 +969,6 @@ packages:
       react-dom: registry.npmjs.org/react-dom@17.0.2(react@17.0.2)
     dev: false
 
-  registry.npmjs.org/@react_db_client/async-hooks.use-async-request@0.2.27(@testing-library/react-hooks@8.0.1)(@testing-library/react@12.1.5)(@testing-library/user-event@14.4.3)(prop-types@15.8.1)(react-dom@17.0.2)(react@17.0.2):
-    resolution: {integrity: sha512-rP/3al6qXeOoC0oLmTxsDBJ5R0Xl/z1//PdLqDYq8P31WFwy3biHSl/7DLOtOseASb/ATb883OH3JJP3vdms3g==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/async-hooks.use-async-request/-/async-hooks.use-async-request-0.2.27.tgz}
-    id: registry.npmjs.org/@react_db_client/async-hooks.use-async-request/0.2.27
-    name: '@react_db_client/async-hooks.use-async-request'
-    version: 0.2.27
-    peerDependencies:
-      '@testing-library/react': '*'
-      '@testing-library/react-hooks': '*'
-      '@testing-library/user-event': '*'
-      prop-types: '*'
-      react: '*'
-      react-dom: '*'
-    peerDependenciesMeta:
-      '@testing-library/react':
-        optional: true
-      '@testing-library/react-hooks':
-        optional: true
-      '@testing-library/user-event':
-        optional: true
-      prop-types:
-        optional: true
-      react:
-        optional: true
-      react-dom:
-        optional: true
-    dependencies:
-      '@testing-library/react': registry.npmjs.org/@testing-library/react@12.1.5(react-dom@17.0.2)(react@17.0.2)
-      '@testing-library/react-hooks': registry.npmjs.org/@testing-library/react-hooks@8.0.1(@types/react@17.0.58)(react-dom@17.0.2)(react@17.0.2)
-      '@testing-library/user-event': registry.npmjs.org/@testing-library/user-event@14.4.3(@testing-library/dom@8.19.1)
-      core-js: registry.npmjs.org/core-js@3.30.1
-      prop-types: registry.npmjs.org/prop-types@15.8.1
-      react: registry.npmjs.org/react@17.0.2
-      react-dom: registry.npmjs.org/react-dom@17.0.2(react@17.0.2)
-    dev: false
-
   registry.npmjs.org/@react_db_client/components.column-manager@0.4.38(@testing-library/react-hooks@8.0.1)(@testing-library/react@12.1.5)(@testing-library/user-event@14.4.3)(prop-types@15.8.1)(react-dom@17.0.2)(react-is@16.13.1)(react@17.0.2):
     resolution: {integrity: sha512-6k09sNR3mMrUit8evR40EnbivF6OLSZZpXNkWFagK5+TCYw9eH8azzUVPznEtWuf3zEW9B1nnLqTeWnuFFKs/Q==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/components.column-manager/-/components.column-manager-0.4.38.tgz}
     id: registry.npmjs.org/@react_db_client/components.column-manager/0.4.38
@@ -1497,29 +1457,6 @@ packages:
       react-dom: registry.npmjs.org/react-dom@17.0.2(react@17.0.2)
     dev: false
 
-  registry.npmjs.org/@react_db_client/hooks.use-auto-hide-panel-hook@0.2.8(@testing-library/react-hooks@8.0.1)(react-dom@17.0.2)(react@17.0.2):
-    resolution: {integrity: sha512-bq4Drm8O9U/Bm8mWZWNtoPSfMOzJJ21W2A1XPwceFHYkX5SJAYsS1EQQFBoEIpQbf0+XAB+MnWyKHJuRVA+86A==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/hooks.use-auto-hide-panel-hook/-/hooks.use-auto-hide-panel-hook-0.2.8.tgz}
-    id: registry.npmjs.org/@react_db_client/hooks.use-auto-hide-panel-hook/0.2.8
-    name: '@react_db_client/hooks.use-auto-hide-panel-hook'
-    version: 0.2.8
-    peerDependencies:
-      '@testing-library/react-hooks': '*'
-      react: '*'
-      react-dom: '*'
-    peerDependenciesMeta:
-      '@testing-library/react-hooks':
-        optional: true
-      react:
-        optional: true
-      react-dom:
-        optional: true
-    dependencies:
-      '@testing-library/react-hooks': registry.npmjs.org/@testing-library/react-hooks@8.0.1(@types/react@17.0.58)(react-dom@17.0.2)(react@17.0.2)
-      core-js: registry.npmjs.org/core-js@3.30.1
-      react: registry.npmjs.org/react@17.0.2
-      react-dom: registry.npmjs.org/react-dom@17.0.2(react@17.0.2)
-    dev: false
-
   registry.npmjs.org/@react_db_client/hooks.use-combined-ref@0.0.4(react-dom@17.0.2)(react@17.0.2):
     resolution: {integrity: sha512-27ngATvMAtzM/M72j1ji3aCn2QQ6bd5zBvoJ2D1gweK/3cTpgtBGvAOmB0pKkfu7B/ZikOKMfgGnmaiVwlAIHQ==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/hooks.use-combined-ref/-/hooks.use-combined-ref-0.0.4.tgz}
     id: registry.npmjs.org/@react_db_client/hooks.use-combined-ref/0.0.4
@@ -1566,7 +1503,7 @@ packages:
       react-dom: registry.npmjs.org/react-dom@17.0.2(react@17.0.2)
     dev: false
 
-  registry.npmjs.org/@teambit/eslint-config-bit-react@0.0.367(eslint-plugin-import@2.26.0)(eslint-plugin-jsx-a11y@6.7.0)(eslint-plugin-react@7.31.11)(react-dom@17.0.2)(react@17.0.2):
+  registry.npmjs.org/@teambit/eslint-config-bit-react@0.0.367(@teambit/legacy@node_modules+@teambit+legacy)(eslint-plugin-import@2.26.0)(eslint-plugin-jsx-a11y@6.7.0)(eslint-plugin-react@7.31.11)(react-dom@17.0.2)(react@17.0.2):
     resolution: {integrity: sha512-d8N9+n/OSxaVpeFBkRhYm6QvqKbzaMf4bN8NJrLmPBuJh4on74U3z4xsqu8sLIphEO0fA2G8ISB9Mo+TINqbMw==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@teambit/eslint-config-bit-react/-/eslint-config-bit-react-0.0.367.tgz}
     id: registry.npmjs.org/@teambit/eslint-config-bit-react/0.0.367
     name: '@teambit/eslint-config-bit-react'
@@ -1586,6 +1523,7 @@ packages:
       react-dom:
         optional: true
     dependencies:
+      '@teambit/legacy': link:node_modules/@teambit/legacy
       '@typescript-eslint/eslint-plugin': registry.npmjs.org/@typescript-eslint/eslint-plugin@4.13.0(@typescript-eslint/parser@4.13.0)
       '@typescript-eslint/parser': registry.npmjs.org/@typescript-eslint/parser@4.13.0
       core-js: registry.npmjs.org/core-js@3.30.1
@@ -2835,6 +2773,7 @@ packages:
     resolution: {integrity: sha512-ZNS5nbiSwDTq4hFosEDqm65izl2CWmLz0hARJMyNQBgkUZMIF51cQiMvIQKA6hvuaeWxQDP3hEedM1JZIgTldQ==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/core-js/-/core-js-3.30.1.tgz}
     name: core-js
     version: 3.30.1
+    requiresBuild: true
 
   registry.npmjs.org/core-util-is@1.0.3:
     resolution: {integrity: sha512-ZQBvi1DcpJ4GDqanjucZ2Hj3wEO5pZDS89BWbkcrvdxksJorwUDDZamX9ldFkp9aw2lmBDLgkObEA4DWNJ9FYQ==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/core-util-is/-/core-util-is-1.0.3.tgz}

@@ -5,6 +5,7 @@ import {
   FilterObjectClass,
   FilterOption,
 } from '@react_db_client/constants.client-types';
+// import { useAutoHidePanel } from '@react_db_client/hooks.use-auto-hide-panel-hook';
 import { useAutoHidePanel } from '@react_db_client/hooks.use-auto-hide-panel-hook';
 
 import { FiltersList } from './FiltersList';
@@ -24,7 +25,9 @@ export interface IFilterPanelProps {
   floating?: boolean;
   autoOpenPanel?: boolean;
   customFilters?: { [key: string]: TFilterFunc };
-  customFiltersComponents?: { [key: string]: React.FC<IFilterComponentProps<any, true>> };
+  customFiltersComponents?: {
+    [key: string]: React.FC<IFilterComponentProps<any, true>>;
+  };
 }
 
 /**
@@ -58,7 +61,11 @@ export const FilterPanel = ({
   customFiltersComponents,
 }: IFilterPanelProps) => {
   const menuRef = useRef<HTMLDivElement>(null);
-  const [showPanel, setShowPanel] = useAutoHidePanel(menuRef, floating, showPanelOverride);
+  const [showPanel, setShowPanel] = useAutoHidePanel(
+    menuRef,
+    floating,
+    showPanelOverride
+  );
   // Auto show panel if values change
   useEffect(() => {
     if (filterData && Object.keys(filterData).length > 0) {
@@ -67,7 +74,9 @@ export const FilterPanel = ({
     }
   }, [filterData, autoOpenPanel, setShowPanel]);
 
-  const panelClassName = ['filterPanel_panel', floating ? 'floating' : ''].join(' ');
+  const panelClassName = ['filterPanel_panel', floating ? 'floating' : ''].join(
+    ' '
+  );
   return (
     <div className="filterManager" data-testid="rdc-filterManger">
       <button
@@ -87,10 +96,12 @@ export const FilterPanel = ({
         <FiltersList
           filterData={filterData}
           deleteFilter={(filterIndex) => deleteFilter(filterIndex)}
-          updateFilter={(filterIndex, newFilterData) => updateFilter(filterIndex, newFilterData)}
+          updateFilter={(filterIndex, newFilterData) =>
+            updateFilter(filterIndex, newFilterData)
+          }
           fieldsData={fieldsData}
           // customFilters={customFilters}
-          customFiltersComponents={customFiltersComponents}
+          customFiltersComponents={customFiltersComponents || {}}
           updateFieldTarget={updateFieldTarget}
           updateOperator={updateOperator}
         />
@@ -117,7 +128,8 @@ export const FilterPanel = ({
 };
 
 FilterPanel.propTypes = {
-  filters: PropTypes.arrayOf(PropTypes.instanceOf(FilterObjectClass)).isRequired,
+  filters: PropTypes.arrayOf(PropTypes.instanceOf(FilterObjectClass))
+    .isRequired,
   addFilter: PropTypes.func.isRequired,
   deleteFilter: PropTypes.func.isRequired,
   updateFilter: PropTypes.func.isRequired,
