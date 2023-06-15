@@ -1,4 +1,6 @@
 import React from 'react';
+import { EFilterType } from '@react_db_client/constants.client-types';
+import { IObj } from '@form-extendable/lib';
 import {
   FieldSelectReference,
   IFieldSelectReferenceProps,
@@ -6,13 +8,11 @@ import {
 } from './field-select-reference';
 import { ExampleGetRefObjectComponent } from './example-new-ref-obj-component';
 import { defaultVal } from './demo-data';
-import { EFilterType } from '@react_db_client/constants.client-types';
-import { IObj } from '@form-extendable/lib';
 
-const onChange = jest.fn();
-const onBlur = jest.fn();
+const onChange = () => {};
+const onBlur = () => {};
 
-const asyncGetRefObjs = jest.fn();
+const asyncGetRefObjs = async () => [];
 
 const defaultProps: TFieldSelectReferenceProps<IObj> &
   IFieldSelectReferenceProps<IObj> = {

@@ -9,7 +9,17 @@ export const ExampleGetRefObjectComponent = ({
   collection: string;
   onCancel: () => void;
   onSubmit: (data: IObj) => void;
-}) => (
+}) => {
+  const [state, setState] = React.useState<any>(null);
+
+  React.useEffect(() => {
+    if(state){
+      const stateOut = state;
+      setState(null);
+      onSubmit(stateOut)
+    }
+  }, [state, onSubmit])
+  return (
   <div
     style={{
       position: 'absolute',
@@ -21,13 +31,13 @@ export const ExampleGetRefObjectComponent = ({
       outline: '1px solid black',
     }}
   >
-    <h1>ExampleGetRefObjectComponent</h1>
+    <h1>{collection} editor</h1>
     <button onClick={onCancel}>Cancel</button>
     <button
-      onClick={() => onSubmit({ uid: 'newObj', label: `New ${collection}` })}
+      onClick={() => setState({ uid: 'newObj', label: `New ${collection}` })}
       type="button"
     >
-      Submit
+      Submit Add Ref
     </button>
   </div>
-);
+)};

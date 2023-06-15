@@ -81,6 +81,14 @@ export const demoParams: THeading<any>[] = [
     fileType: EFileType.IMAGE,
     group: 7,
   },
+  {
+    uid: 'reference',
+    label: 'Reference',
+    collection: 'democollection',
+    type: EFilterType.reference,
+    searchFieldTargetField: 'label',
+    allowAddNew: true,
+  },
 ];
 
 export const demoData = {

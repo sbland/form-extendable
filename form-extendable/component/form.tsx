@@ -5,7 +5,11 @@ import { Uid } from '@react_db_client/constants.client-types';
 import { Emoji } from '@react_db_client/components.emoji';
 import { defaultComponentMap } from '@form-extendable/components.component-map';
 import { flattenHeadings } from '@form-extendable/testing';
-import { TComponentMap, THeading, IFormFieldValidationError } from '@form-extendable/lib';
+import {
+  TComponentMap,
+  THeading,
+  IFormFieldValidationError,
+} from '@form-extendable/lib';
 import {
   formValidation,
   IValidationError,
@@ -22,7 +26,7 @@ export interface IFormSubmit<CompleteFormType> {
 }
 
 export interface IFormProps<CompleteFormType> {
-  id?: Uid;
+  id: Uid;
   FormField?: React.FC<IFormFieldProps<any, THeading<any>>>;
   formDataInitial?: Partial<CompleteFormType>;
   headings: THeading<any>[];
@@ -150,17 +154,17 @@ export const Form = <CompleteFormType,>({
         setValidationErrors(null);
         setFieldValidationErrors({});
       }
-      setFormDirty(true);
-      setHasLocalChanges(true);
-      setlLastChangedFieldValue([field, value]);
       setFormEditData((prev) => {
         // TODO: Can we replace this with formDataINitialRef.current?
         const newFormData = cloneDeep(prev);
         newFormData[field] = value;
         return newFormData;
       });
+      setFormDirty(true);
+      setHasLocalChanges(true);
+      setlLastChangedFieldValue([field, value]);
     },
-    [onChange, autosave]
+    [onChange, autosave, validateOnChange]
   );
 
   const onFormInputBlur = React.useCallback(

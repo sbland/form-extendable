@@ -48,7 +48,7 @@ export interface IUseAsyncObjectManagerArgs<DocType extends IDocument> {
 
 export interface IUseAsyncObjectManagerReturn<DocType extends IDocument> {
   loadedData?: Partial<DocType>;
-  saveData: () => void;
+  saveData: (data?: Partial<DocType>) => void;
   updateData: (newData: Partial<DocType>, save?: boolean) => void;
   updateField: (
     field: Uid,
@@ -283,8 +283,12 @@ export const useAsyncObjectManager = <DocType extends IDocument>({
     if (save || autoSave) setShouldSave(true);
   };
 
-  const saveData = () => {
-    setShouldSave(true);
+  const saveData = (data?: Partial<DocType>) => {
+    if (data) {
+      updateData(data, true);
+    } else {
+      setShouldSave(true);
+    }
   };
 
   const deleteObject = () => {
@@ -310,6 +314,7 @@ export const useAsyncObjectManager = <DocType extends IDocument>({
     new AsyncRequestError(savingDataState.error.message, savingDataState.error);
 
   const [callCount, setCallCount] = React.useState(0);
+
   React.useEffect(() => {
     if (loadedDataState.loading) setCallCount((prev) => prev + 1);
   }, [loadedDataState.loading]);

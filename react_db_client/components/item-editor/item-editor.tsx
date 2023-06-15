@@ -6,7 +6,7 @@ import {
   useAsyncObjectManager,
 } from '@react_db_client/async-hooks.use-async-object-manager';
 import { AsyncRequestError } from '@react_db_client/async-hooks.use-async-request';
-import { Form, FormField, IFormProps } from '@form-extendable/component';
+import { Form, FormField, IFormProps, IFormSubmit } from '@form-extendable/component';
 import { TComponentMap, THeading } from '@form-extendable/lib';
 
 import {
@@ -131,15 +131,20 @@ export const ItemEditor = <ResultType extends IDocument>({
     [savedData, updateField]
   );
 
+  const handleFormSave = React.useCallback((data: IFormSubmit<any>) => {
+    saveData(data.formEditData);
+  }, [saveData])
+
   const classNames = [id].filter((f) => f).join(' ');
 
   return (
     <div className="itemEditor_wrap" data-testid="rdc-itemEditor">
       <div className={`sectionWrapper ${classNames}`}>
         <Form
+          id={id}
           formDataInitial={data}
           headings={mappedFields}
-          onSubmit={saveData}
+          onSubmit={handleFormSave}
           onChange={handleUpdate}
           showEndBtns={!(autosave || formProps.autosave)}
           submitBtnText={submitBtnText}

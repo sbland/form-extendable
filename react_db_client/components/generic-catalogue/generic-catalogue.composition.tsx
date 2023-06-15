@@ -1,10 +1,10 @@
 import React from 'react';
-import { IPopupProps } from '@form-extendable/lib';
 import { ItemEditor } from '@react_db_client/components.item-editor';
 import { PopupPanelManagedWithContentWrap } from '@react_db_client/components.popup-panel-v2';
 import { IDocument } from '@react_db_client/constants.client-types';
 import { defaultComponentMap } from '@form-extendable/components.component-map';
 import { CompositionWrapDefault } from '@form-extendable/composition-helpers';
+import { ExampleGetRefObjectComponent } from '@form-extendable/fields.field-select-reference';
 import { GenericCatalogue, IGenericCatalogueProps } from './generic-catalogue';
 import {
   demoHeadingsData,
@@ -33,6 +33,7 @@ const componentMap = defaultComponentMap({
   asyncGetFiles,
   fileServerUrl,
   PopupPanel: PopupPanelManagedWithContentWrap,
+  AddNewReferenceComponent: ExampleGetRefObjectComponent,
 });
 
 const defaultProps: IGenericCatalogueProps<IDocument> = {
@@ -49,10 +50,12 @@ const defaultProps: IGenericCatalogueProps<IDocument> = {
   notificationDispatch: alert,
   asyncGetDocument: async () => Object.values(demoResults)[0],
   asyncGetDocuments: async () => Object.values(demoResults),
-  asyncPutDocument: async () => {
+  asyncPutDocument: async (collection, id, data) => {
+    console.info(data);
     return { ok: true };
   },
-  asyncPostDocument: async () => {
+  asyncPostDocument: async (collection, id, data) => {
+    console.info(data);
     return { ok: true };
   },
   asyncDeleteDocument: async () => ({ ok: true }),
@@ -64,6 +67,7 @@ const defaultProps: IGenericCatalogueProps<IDocument> = {
   itemEditorProps: {
     formProps: {
       autosave: true,
+      debounceTimeout: 700,
     },
   },
 };

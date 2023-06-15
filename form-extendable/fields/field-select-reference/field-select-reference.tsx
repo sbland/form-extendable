@@ -30,8 +30,8 @@ export const FieldSelectReference = <V extends IObj>(
 ) => {
   const [showAddNew, setShowAddNew] = React.useState(false);
   const onAddNew = (data: V) => {
-    props.onChange(data);
     setShowAddNew(false);
+    props.onChange(data);
   };
   if (props.allowAddNew) {
     return (

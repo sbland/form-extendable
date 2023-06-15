@@ -205,9 +205,7 @@ describe('Form Main Component', () => {
 
         const submitBtn = screen.getByRole('button', { name: /Submit/ });
         await UserEvent.click(submitBtn);
-        expect(errorCallback).toHaveBeenCalledWith(
-          'Text field is required'
-        );
+        expect(errorCallback).toHaveBeenCalledWith('Text field is required');
       });
       test('Should call on submit with edit data when clicking the save button after filling in form', async () => {
         setInitialFormData({});
@@ -383,113 +381,168 @@ describe('Form Main Component', () => {
         expect(onSubmit).toHaveBeenCalledTimes(1);
       });
     });
-    describe('File types', () => {
-      test('should be able to upload a new file', async () => {
-        setInitialFormData({});
-        render(<compositions.BasicForm />);
-        await compositions.BasicForm.waitForReady();
+    describe('Specific Field types', () => {
+      describe('File types', () => {
+        test('should be able to upload a new file', async () => {
+          setInitialFormData({});
+          render(<compositions.BasicForm />);
+          await compositions.BasicForm.waitForReady();
 
-        const newFile: IFile = {
-          uid: 'new-file.pdf',
-          filePath: '',
-          label: 'new-file.pdf',
-          name: 'new-file.pdf',
-          fileType: EFileType.DOCUMENT,
-          data: new File(['newfile'], 'new-file.pdf', { type: 'document/pdf' }),
-        };
-
-        const demoData1 = {
-          ...MIN_FORM_DATA,
-          file: newFile,
-        };
-
-        await fillInForm(
-          screen.getByRole('form'),
-          demoHeadingsData as any,
-          demoData1,
-          fillInCustomField
-        );
-        const submitBtn = screen.getByRole('button', { name: /Submit/ });
-        await UserEvent.click(submitBtn);
-        expect(onSubmit).toHaveBeenCalledTimes(1);
-        expect(onSubmit).toHaveBeenCalledWith({
-          formData: demoData1,
-          formEditData: demoData1,
-        });
-      });
-      test('should be able to upload multiple files', async () => {
-        setInitialFormData({});
-        render(<compositions.BasicForm />);
-        await compositions.BasicForm.waitForReady();
-        const newFiles: IFile[] = [
-          {
-            uid: 'new-file-a.pdf',
+          const newFile: IFile = {
+            uid: 'new-file.pdf',
             filePath: '',
-            label: 'new-file-a.pdf',
-            name: 'new-file-a.pdf',
+            label: 'new-file.pdf',
+            name: 'new-file.pdf',
             fileType: EFileType.DOCUMENT,
-            data: new File(['newfile'], 'new-file-a.pdf', {
+            data: new File(['newfile'], 'new-file.pdf', {
               type: 'document/pdf',
             }),
-          },
-          {
-            uid: 'new-file-b.pdf',
-            filePath: '',
-            label: 'new-file-b.pdf',
-            name: 'new-file-b.pdf',
-            fileType: EFileType.DOCUMENT,
-            data: new File(['newfile'], 'new-file-b.pdf', {
-              type: 'document/pdf',
-            }),
-          },
-        ];
-        // Commented values cannot be edited (yet!)
-        const demoData1 = {
-          ...MIN_FORM_DATA,
-          fileMultiple: newFiles,
-        };
+          };
 
-        await fillInForm(
-          screen.getByRole('form'),
-          demoHeadingsData as any,
-          demoData1,
-          fillInCustomField
-        );
-        const submitBtn = screen.getByRole('button', { name: /Submit/ });
-        await UserEvent.click(submitBtn);
-        expect(onSubmit).toHaveBeenCalledTimes(1);
-        expect(onSubmit).toHaveBeenCalledWith({
-          formData: demoData1,
-          formEditData: demoData1,
+          const demoData1 = {
+            ...MIN_FORM_DATA,
+            file: newFile,
+          };
+
+          await fillInForm(
+            screen.getByRole('form'),
+            demoHeadingsData as any,
+            demoData1,
+            fillInCustomField
+          );
+          const submitBtn = screen.getByRole('button', { name: /Submit/ });
+          await UserEvent.click(submitBtn);
+          expect(onSubmit).toHaveBeenCalledTimes(1);
+          expect(onSubmit).toHaveBeenCalledWith({
+            formData: demoData1,
+            formEditData: demoData1,
+          });
+        });
+        test('should be able to upload multiple files', async () => {
+          setInitialFormData({});
+          render(<compositions.BasicForm />);
+          await compositions.BasicForm.waitForReady();
+          const newFiles: IFile[] = [
+            {
+              uid: 'new-file-a.pdf',
+              filePath: '',
+              label: 'new-file-a.pdf',
+              name: 'new-file-a.pdf',
+              fileType: EFileType.DOCUMENT,
+              data: new File(['newfile'], 'new-file-a.pdf', {
+                type: 'document/pdf',
+              }),
+            },
+            {
+              uid: 'new-file-b.pdf',
+              filePath: '',
+              label: 'new-file-b.pdf',
+              name: 'new-file-b.pdf',
+              fileType: EFileType.DOCUMENT,
+              data: new File(['newfile'], 'new-file-b.pdf', {
+                type: 'document/pdf',
+              }),
+            },
+          ];
+          // Commented values cannot be edited (yet!)
+          const demoData1 = {
+            ...MIN_FORM_DATA,
+            fileMultiple: newFiles,
+          };
+
+          await fillInForm(
+            screen.getByRole('form'),
+            demoHeadingsData as any,
+            demoData1,
+            fillInCustomField
+          );
+          const submitBtn = screen.getByRole('button', { name: /Submit/ });
+          await UserEvent.click(submitBtn);
+          expect(onSubmit).toHaveBeenCalledTimes(1);
+          expect(onSubmit).toHaveBeenCalledWith({
+            formData: demoData1,
+            formEditData: demoData1,
+          });
+        });
+
+        test('should be able to select an existing file', async () => {
+          setInitialFormData({});
+          render(<compositions.BasicForm />);
+          await compositions.BasicFormComplete.waitForReady();
+
+          const demoData1 = {
+            ...MIN_FORM_DATA,
+            file: DEMO_FILES_DATA[0],
+          };
+
+          await fillInForm(
+            screen.getByRole('form'),
+            demoHeadingsData as any,
+            demoData1,
+            fillInCustomField
+          );
+          const submitBtn = screen.getByRole('button', { name: /Submit/ });
+          await UserEvent.click(submitBtn);
+          expect(onSubmit).toHaveBeenCalledTimes(1);
+          expect(onSubmit).toHaveBeenCalledWith({
+            formData: demoData1,
+            formEditData: demoData1,
+          });
+        });
+        test.todo('should be able to swap a file');
+        test.todo('should be able to select multiple files');
+      });
+      describe('Reference Dropdown', () => {
+        test('should be able to add a new reference document and assign to the form', async () => {
+          setInitialFormData({});
+          render(<compositions.BasicFormAutosave />);
+          await compositions.BasicFormAutosave.waitForReady();
+
+          expect(onSubmit).not.toHaveBeenCalled();
+          const mainForm = screen.getByRole('form');
+          const refRow = within(mainForm).getByTestId('reference-reference');
+          const addRefBtn = within(refRow).getByRole('button', {
+            name: /Add New/,
+          });
+          await UserEvent.click(addRefBtn);
+
+          const saveBtn = screen.getByRole('button', {
+            name: /Submit Add Ref/,
+          });
+          await UserEvent.click(saveBtn);
+          await waitFor(() =>
+            within(refRow).getByPlaceholderText('New democollection')
+          );
+
+          await fillInForm(
+            screen.getByRole('form'),
+            flattenHeadings(demoHeadingsData),
+            MIN_FORM_DATA,
+            fillInCustomField
+          );
+
+          await screen.findByText('Saving unsaved changes');
+          await screen.findByText('All changes are saved');
+
+          expect(onSubmit).toHaveBeenCalledTimes(1);
+          expect(onSubmit).toHaveBeenCalledWith({
+            formData: {
+              ...MIN_FORM_DATA,
+              reference: {
+                uid: 'newObj',
+                label: 'New democollection',
+              },
+            },
+            formEditData: {
+              ...MIN_FORM_DATA,
+              reference: {
+                uid: 'newObj',
+                label: 'New democollection',
+              },
+            },
+          });
         });
       });
-
-      test('should be able to select an existing file', async () => {
-        setInitialFormData({});
-        render(<compositions.BasicForm />);
-        await compositions.BasicFormComplete.waitForReady();
-
-        const demoData1 = {
-          ...MIN_FORM_DATA,
-          file: DEMO_FILES_DATA[0],
-        };
-
-        await fillInForm(
-          screen.getByRole('form'),
-          demoHeadingsData as any,
-          demoData1,
-          fillInCustomField
-        );
-        const submitBtn = screen.getByRole('button', { name: /Submit/ });
-        await UserEvent.click(submitBtn);
-        expect(onSubmit).toHaveBeenCalledTimes(1);
-        expect(onSubmit).toHaveBeenCalledWith({
-          formData: demoData1,
-          formEditData: demoData1,
-        });
-      });
-      test.todo('should be able to swap a file');
-      test.todo('should be able to select multiple files');
     });
     describe('Form validation', () => {
       test('should show an asterix on the text input label as it is required', async () => {
@@ -522,9 +575,10 @@ describe('Form Main Component', () => {
           )
         ).toBeInTheDocument();
         expect(
-          within(textInputFieldLabel.parentElement?.parentElement?.parentElement as HTMLElement).getByText(
-            'Text field is required'
-          )
+          within(
+            textInputFieldLabel.parentElement?.parentElement
+              ?.parentElement as HTMLElement
+          ).getByText('Text field is required')
         ).toBeInTheDocument();
       });
       test('should show any form errors at the bottom of the form', async () => {

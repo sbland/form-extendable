@@ -97,6 +97,14 @@ export const demoHeadingsData: THeading<any>[] = [
     required: true,
     group: 0,
   },
+  {
+    uid: 'reference',
+    label: 'Reference',
+    collection: 'democollection',
+    type: EFilterType.reference,
+    searchFieldTargetField: 'label',
+    allowAddNew: true,
+  },
 ];
 
 export const CustomField = ({ acceptValue, cellData, editMode, focused }) => {

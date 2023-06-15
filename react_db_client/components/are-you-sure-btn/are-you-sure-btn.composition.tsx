@@ -1,13 +1,11 @@
 import { PopupProvider } from '@react_db_client/components.popup-panel-v2';
 import React from 'react';
-import { AreYouSureBtn } from './are-you-sure-btn';
+import { AreYouSureBtn, IAreYouSureProps } from './are-you-sure-btn';
 
-const defaultProps = {
+const defaultProps: IAreYouSureProps = {
   onConfirmed: () => alert('confirmed'),
-  message: 'Yes',
   disabled: false,
   btnText: 'Click me',
-  PopupPanel: ({ children, isOpen }) => (isOpen ? children : ''),
 };
 
 export const BasicAreYouSureBtn = () => {
@@ -16,7 +14,32 @@ export const BasicAreYouSureBtn = () => {
     <>
       <PopupProvider>
         {' '}
-        <AreYouSureBtn {...defaultProps} onConfirmed={() => setConfirmed(true)} />
+        <AreYouSureBtn
+          {...defaultProps}
+          onConfirmed={() => setConfirmed(true)}
+        />
+      </PopupProvider>
+      {confirmed && <p>User confirmed</p>}
+    </>
+  );
+};
+
+export const MultipleAreYouSureBtn = () => {
+  const [confirmed, setConfirmed] = React.useState(false);
+  return (
+    <>
+      <PopupProvider>
+        {' '}
+        <AreYouSureBtn
+          {...defaultProps}
+          notes="This is a note"
+          onConfirmed={() => setConfirmed(true)}
+        />
+        <AreYouSureBtn
+          {...defaultProps}
+          notes="This is a another note"
+          onConfirmed={() => setConfirmed(true)}
+        />
       </PopupProvider>
       {confirmed && <p>User confirmed</p>}
     </>

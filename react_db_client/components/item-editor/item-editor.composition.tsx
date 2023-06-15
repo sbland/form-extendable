@@ -9,6 +9,7 @@ import { defaultTheme, FormThemeProvider } from '@form-extendable/styles';
 import { screen, waitFor } from '@testing-library/react';
 import { ItemEditor } from './item-editor';
 import { demoParams, demoData, demoParamsMin } from './demo-data';
+import { ExampleGetRefObjectComponent } from '@form-extendable/fields.field-select-reference';
 
 const asyncGetFiles = () => async () => {
   return [];
@@ -23,6 +24,7 @@ const componentMap = defaultComponentMap({
   asyncGetFiles,
   fileServerUrl,
   PopupPanel: Popup,
+  AddNewReferenceComponent: ExampleGetRefObjectComponent,
 });
 
 export const BasicItemEditor = () => {
@@ -112,10 +114,11 @@ export const BasicItemEditorAutosave = () => {
           saveErrorCallback={(e) => setError(e)}
           additionalData={{}}
           onCancel={() => {}}
-          params={demoParamsMin}
+          params={demoParams}
           collection="democollection"
           asyncGetDocument={async () => demoData}
           asyncPutDocument={async (collection, id, data) => {
+            console.info(data);
             setError(null);
             setSubmittedCallbackData(null);
             setSavedData(null);
@@ -154,6 +157,7 @@ export const TestForm = () => {
   return (
     <FormThemeProvider theme={defaultTheme}>
       <Form
+        id="Example form"
         formDataInitial={{}}
         headings={demoParams}
         onSubmit={() => {}}
