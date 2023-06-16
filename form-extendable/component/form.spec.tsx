@@ -194,7 +194,21 @@ describe('Form Main Component', () => {
               getCustomFieldDisplayValue
             );
 
-            expect(fieldDisplayValue).toEqual(expectedDisplayValue);
+            // screen.debug(formComponent);
+            try {
+              await waitFor(() => {
+                expect(fieldDisplayValue).toEqual(expectedDisplayValue);
+              });
+            } catch (error) {
+              screen.debug(formComponent);
+              console.error(
+                `Error comparing field display value for ${heading.uid}`,
+                error
+              );
+              console.log('expectedDisplayValue', expectedDisplayValue);
+              console.log('fieldDisplayValue', fieldDisplayValue);
+              throw error;
+            }
           }
         }
       });

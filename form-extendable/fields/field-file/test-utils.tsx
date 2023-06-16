@@ -23,7 +23,7 @@ const mockImage = {
 };
 declare global {
   /* imagesUploaded set as global so can be accessed in other files */
-  var imagesUploaded: typeof mockImage[];
+  var imagesUploaded: (typeof mockImage)[];
 }
 
 export type THeadingTypes =
@@ -92,7 +92,7 @@ export const editValueCommon = async (
     });
 
     await UserEvent.click(uploadBtn);
-    await within(fileManager).findByText("Upload complete");
+    await within(fileManager).findByText('Upload complete');
 
     const sasPanels = within(fileManager).getByTestId(
       'rdc-sas-file-manager-existing-files'
@@ -226,10 +226,15 @@ export const getDisplayValue = async <T,>(
     const filesListItems: HTMLImageElement[] = within(filesList)
       .getAllByRole('listitem')
       .map<HTMLImageElement[]>((f) => within(f).queryAllByRole('img'))
-      .map((f) => f && f[0])
+      .reduce((acc, curr) => [...acc, ...curr], [])
       .filter((f) => f != null) as HTMLImageElement[];
-    const imgAlts = filesListItems.filter((f) => f).map((f) => f.alt);
-    return imgAlts.filter((f) => f).join(',');
+
+    const imgAlts = filesListItems
+      .filter((f) => f)
+      .map((f) => f.alt)
+      .filter((f) => f);
+
+    return imgAlts.join(',');
   } else {
     console.info(heading);
     throw new Error(`Not Implemented: ${heading.uid}`);

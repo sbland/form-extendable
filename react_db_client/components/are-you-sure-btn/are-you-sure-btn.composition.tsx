@@ -34,11 +34,13 @@ export const MultipleAreYouSureBtn = () => {
           {...defaultProps}
           notes="This is a note"
           onConfirmed={() => setConfirmed(true)}
+          btnText="Click me 1"
         />
         <AreYouSureBtn
           {...defaultProps}
           notes="This is a another note"
           onConfirmed={() => setConfirmed(true)}
+          btnText="Click me 2"
         />
       </PopupProvider>
       {confirmed && <p>User confirmed</p>}

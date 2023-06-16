@@ -26,4 +26,20 @@ describe('Are you sure button', () => {
       await screen.findByText('User confirmed');
     });
   });
+  describe('Edge cases', () => {
+    test('should show correct notes when there are multiple btns', async() => {
+      render(<compositions.MultipleAreYouSureBtn />);
+      const btn = screen.getByRole('button', {name: 'Click me 1'});
+      await UserEvent.click(btn);
+      await screen.findByText('Are You Sure?');
+      expect(screen.getByText('This is a note')).toBeInTheDocument();
+      const closePanelBtn = screen.getByRole('button', { name: /Cancel/ });
+      await UserEvent.click(closePanelBtn);
+
+      const btn2 = screen.getByRole('button', {name: 'Click me 2'});
+      await UserEvent.click(btn2);
+      await screen.findByText('Are You Sure?');
+      expect(screen.getByText('This is a another note')).toBeInTheDocument();
+    });
+  });
 });

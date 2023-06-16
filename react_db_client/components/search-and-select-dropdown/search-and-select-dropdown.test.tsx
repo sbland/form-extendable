@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  screen,
-  render,
-  within,
-  waitForElementToBeRemoved,
-  waitFor,
-} from '@testing-library/react';
+import { screen, render, within, waitFor } from '@testing-library/react';
 import UserEvent from '@testing-library/user-event';
 import * as compositions from './search-and-select-dropdown.composition';
 import { demoResultData } from './demo-data';
@@ -53,9 +47,7 @@ describe('SearchAndSelect', () => {
       await UserEvent.keyboard('A');
       await screen.findByRole('list', {}, { timeout: 3000 });
       await UserEvent.click(document.body);
-      await waitFor(() =>
-        expect(screen.queryByRole('list')).not.toBeInTheDocument()
-      );
+      await waitFor(() => expect(screen.queryByRole('list')).not.toBeInTheDocument());
       const dropdownBtn = screen.getByRole('button', { name: /Show Results/ });
       await UserEvent.click(dropdownBtn);
       const resultList = await screen.findByRole('list', {}, { timeout: 3000 });
@@ -71,9 +63,7 @@ describe('SearchAndSelect', () => {
       const resultItems = await within(resultList).findAllByRole('listitem');
       const firstItemBtn = within(resultItems[0]).getByRole('button');
       await UserEvent.click(firstItemBtn);
-      expect(screen.getByTestId('curSel').textContent).toEqual(
-        demoResultData[0].uid
-      );
+      expect(screen.getByTestId('curSel').textContent).toEqual(demoResultData[0].uid);
       expect(screen.queryByRole('list')).not.toBeInTheDocument();
     });
     test('should set the search value to match the selected items label field', async () => {
@@ -116,18 +106,16 @@ describe('SearchAndSelect', () => {
       await UserEvent.click(firstItemBtn);
       expect(searchField.value).toEqual(demoResultData[0].label);
       await UserEvent.click(searchField.parentElement as HTMLElement);
-      await waitFor(() =>
-        expect(searchField.value).toEqual(demoResultData[0].label)
-      );
+      await waitFor(() => expect(searchField.value).toEqual(demoResultData[0].label));
     });
   });
-  describe("Additional buttons", () => {
+  describe('Additional buttons', () => {
     describe('Add new button', () => {
-      test.todo("should show add new button when allowAddNew is true");
-      test.todo("should not show add new button when allowAddNew is false");
-      test.todo("should call add new callback when add new button is clicked");
+      test.todo('should show add new button when allowAddNew is true');
+      test.todo('should not show add new button when allowAddNew is false');
+      test.todo('should call add new callback when add new button is clicked');
     });
-  })
+  });
   describe('forward ref', () => {
     test.todo('should pass ref to input');
   });

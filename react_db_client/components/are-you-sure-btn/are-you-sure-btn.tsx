@@ -27,35 +27,36 @@ export const AreYouSureBtn = ({
   notes,
 }: IAreYouSureProps) => {
   const { dispatchPopupRegister } = React.useContext(PopupPanelContext);
+  const uniquePanelRef = React.useRef<string>(`${popupId}_${Date.now()}_${Math.random()}`);
 
   const handleFirstClick = () => {
     dispatchPopupRegister({
       type: EPopupRegisterAction.OPEN_POPUP,
-      args: popupId,
+      args: uniquePanelRef.current,
     });
   };
 
   const handleCancel = () => {
     dispatchPopupRegister({
       type: EPopupRegisterAction.CLOSE_POPUP,
-      args: popupId,
+      args: uniquePanelRef.current,
     });
   };
 
   const handleAccept = () => {
     dispatchPopupRegister({
       type: EPopupRegisterAction.CLOSE_POPUP,
-      args: popupId,
+      args: uniquePanelRef.current,
     });
     onConfirmed();
   };
 
   return (
     <>
-      <PopupPanel id={popupId}>
+      <PopupPanel id={uniquePanelRef.current}>
         <PopupContentWrap
           handleClose={handleCancel}
-          id={popupId}
+          id={uniquePanelRef.current}
           title="Are you sure?"
         >
           <div className="areYouSurePanel_wrap">

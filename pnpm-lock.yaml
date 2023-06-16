@@ -11,9 +11,6 @@ importers:
       '@react_db_client/components.form.form-components.multi-select-dropdown':
         specifier: 0.2.30
         version: registry.npmjs.org/@react_db_client/components.form.form-components.multi-select-dropdown@0.2.30(@testing-library/react@12.1.5)(@testing-library/user-event@14.4.3)(prop-types@15.8.1)(react-dom@17.0.2)(react-is@16.13.1)(react@17.0.2)
-      '@react_db_client/components.search-and-select-v2':
-        specifier: ^0.0.12
-        version: registry.npmjs.org/@react_db_client/components.search-and-select-v2@0.0.12(@testing-library/react-hooks@8.0.1)(@testing-library/react@12.1.5)(@testing-library/user-event@14.4.3)(lodash@4.17.21)(prop-types@15.8.1)(react-dom@17.0.2)(react-is@16.13.1)(react@17.0.2)
       '@react_db_client/constants.style':
         specifier: 0.4.3
         version: registry.npmjs.org/@react_db_client/constants.style@0.4.3(react-dom@17.0.2)(react-is@16.13.1)(react@17.0.2)
@@ -32,6 +29,9 @@ importers:
       '@react_db_client/hooks.use-combined-ref':
         specifier: 0.0.4
         version: registry.npmjs.org/@react_db_client/hooks.use-combined-ref@0.0.4(react-dom@17.0.2)(react@17.0.2)
+      '@react_db_client/hooks.use-debounce':
+        specifier: 0.0.3
+        version: registry.npmjs.org/@react_db_client/hooks.use-debounce@0.0.3(@testing-library/react@12.1.5)(@testing-library/user-event@14.4.3)(react-dom@17.0.2)(react@17.0.2)
       '@samnbuk/react_db_client.testing.enzyme-setup':
         specifier: 0.1.3
         version: 0.1.3
@@ -207,6 +207,8 @@ importers:
   react_db_client/components/search-and-select: {}
 
   react_db_client/components/search-and-select-dropdown: {}
+
+  react_db_client/components/search-and-select-v2: {}
 
   react_db_client/components/selection-preview: {}
 
@@ -934,86 +936,6 @@ packages:
       tslib: registry.npmjs.org/tslib@2.5.0
     dev: false
 
-  registry.npmjs.org/@react_db_client/async-hooks.use-async-request@0.2.24(@testing-library/react-hooks@8.0.1)(@testing-library/react@12.1.5)(@testing-library/user-event@14.4.3)(prop-types@15.8.1)(react-dom@17.0.2)(react@17.0.2):
-    resolution: {integrity: sha512-jYxqgzhfRN/GVr287ckb44Rn1xM2TNNLTWcKPBX8xVtFsFjIeRfkeL+/34u0tUEYtGrTAJHqS6rOmT6s1jM2jQ==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/async-hooks.use-async-request/-/async-hooks.use-async-request-0.2.24.tgz}
-    id: registry.npmjs.org/@react_db_client/async-hooks.use-async-request/0.2.24
-    name: '@react_db_client/async-hooks.use-async-request'
-    version: 0.2.24
-    peerDependencies:
-      '@testing-library/react': '*'
-      '@testing-library/react-hooks': '*'
-      '@testing-library/user-event': '*'
-      prop-types: '*'
-      react: '*'
-      react-dom: '*'
-    peerDependenciesMeta:
-      '@testing-library/react':
-        optional: true
-      '@testing-library/react-hooks':
-        optional: true
-      '@testing-library/user-event':
-        optional: true
-      prop-types:
-        optional: true
-      react:
-        optional: true
-      react-dom:
-        optional: true
-    dependencies:
-      '@testing-library/react': registry.npmjs.org/@testing-library/react@12.1.5(react-dom@17.0.2)(react@17.0.2)
-      '@testing-library/react-hooks': registry.npmjs.org/@testing-library/react-hooks@8.0.1(@types/react@17.0.58)(react-dom@17.0.2)(react@17.0.2)
-      '@testing-library/user-event': registry.npmjs.org/@testing-library/user-event@14.4.3(@testing-library/dom@8.19.1)
-      core-js: registry.npmjs.org/core-js@3.30.1
-      prop-types: registry.npmjs.org/prop-types@15.8.1
-      react: registry.npmjs.org/react@17.0.2
-      react-dom: registry.npmjs.org/react-dom@17.0.2(react@17.0.2)
-    dev: false
-
-  registry.npmjs.org/@react_db_client/components.column-manager@0.4.38(@testing-library/react-hooks@8.0.1)(@testing-library/react@12.1.5)(@testing-library/user-event@14.4.3)(prop-types@15.8.1)(react-dom@17.0.2)(react-is@16.13.1)(react@17.0.2):
-    resolution: {integrity: sha512-6k09sNR3mMrUit8evR40EnbivF6OLSZZpXNkWFagK5+TCYw9eH8azzUVPznEtWuf3zEW9B1nnLqTeWnuFFKs/Q==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/components.column-manager/-/components.column-manager-0.4.38.tgz}
-    id: registry.npmjs.org/@react_db_client/components.column-manager/0.4.38
-    name: '@react_db_client/components.column-manager'
-    version: 0.4.38
-    peerDependencies:
-      '@testing-library/react': '*'
-      '@testing-library/react-hooks': '*'
-      '@testing-library/user-event': '*'
-      prop-types: '*'
-      react: '*'
-      react-dom: '*'
-    peerDependenciesMeta:
-      '@testing-library/react':
-        optional: true
-      '@testing-library/react-hooks':
-        optional: true
-      '@testing-library/user-event':
-        optional: true
-      prop-types:
-        optional: true
-      react:
-        optional: true
-      react-dom:
-        optional: true
-    dependencies:
-      '@react_db_client/constants.client-types': registry.npmjs.org/@react_db_client/constants.client-types@0.8.0(react-dom@17.0.2)(react@17.0.2)
-      '@react_db_client/helpers.composition-wraps': registry.npmjs.org/@react_db_client/helpers.composition-wraps@0.1.15(react-dom@17.0.2)(react-is@16.13.1)(react@17.0.2)
-      '@samnbuk/react_db_client.testing.enzyme-setup': 0.1.3
-      '@testing-library/react': registry.npmjs.org/@testing-library/react@12.1.5(react-dom@17.0.2)(react@17.0.2)
-      '@testing-library/react-hooks': registry.npmjs.org/@testing-library/react-hooks@8.0.1(@types/react@17.0.58)(react-dom@17.0.2)(react@17.0.2)
-      '@testing-library/user-event': registry.npmjs.org/@testing-library/user-event@14.4.3(@testing-library/dom@8.19.1)
-      core-js: registry.npmjs.org/core-js@3.30.1
-      prop-types: registry.npmjs.org/prop-types@15.8.1
-      react: registry.npmjs.org/react@17.0.2
-      react-dom: registry.npmjs.org/react-dom@17.0.2(react@17.0.2)
-      styled-components: registry.npmjs.org/styled-components@5.3.11(react-dom@17.0.2)(react-is@16.13.1)(react@17.0.2)
-    transitivePeerDependencies:
-      - enzyme
-      - enzyme-adapter-react-16
-      - jest
-      - react-is
-      - supports-color
-    dev: false
-
   registry.npmjs.org/@react_db_client/components.emoji@0.1.20(@testing-library/react@12.1.5)(prop-types@15.8.1)(react-dom@17.0.2)(react-is@16.13.1)(react@17.0.2):
     resolution: {integrity: sha512-tkFPsTIbDu/+bpZMTVugui+VN96RfCgLfIPborY/ZvvDVI93gDHS5w6uqYrMBT/4glIMul6G02P81AmWKwRHkg==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/components.emoji/-/components.emoji-0.1.20.tgz}
     id: registry.npmjs.org/@react_db_client/components.emoji/0.1.20
@@ -1041,49 +963,6 @@ packages:
       react-dom: registry.npmjs.org/react-dom@17.0.2(react@17.0.2)
       styled-components: registry.npmjs.org/styled-components@5.3.11(react-dom@17.0.2)(react-is@16.13.1)(react@17.0.2)
     transitivePeerDependencies:
-      - react-is
-    dev: false
-
-  registry.npmjs.org/@react_db_client/components.filter-manager@0.2.93(@testing-library/react-hooks@8.0.1)(@testing-library/react@12.1.5)(@testing-library/user-event@14.4.3)(lodash@4.17.21)(prop-types@15.8.1)(react-dom@17.0.2)(react-is@16.13.1)(react@17.0.2):
-    resolution: {integrity: sha512-HxCPm8zkdUth52TSVvIwRdHXq5dP4bF8y2XZUrTaqjreieGn8gxAUHZq17Pp6ZtHKKn/u8E0GrI9ABzNjUmjYg==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/components.filter-manager/-/components.filter-manager-0.2.93.tgz}
-    id: registry.npmjs.org/@react_db_client/components.filter-manager/0.2.93
-    name: '@react_db_client/components.filter-manager'
-    version: 0.2.93
-    peerDependencies:
-      '@testing-library/react': '*'
-      '@testing-library/user-event': '*'
-      lodash: '*'
-      prop-types: '*'
-      react: '*'
-      react-dom: '*'
-    peerDependenciesMeta:
-      '@testing-library/react':
-        optional: true
-      '@testing-library/user-event':
-        optional: true
-      lodash:
-        optional: true
-      prop-types:
-        optional: true
-      react:
-        optional: true
-      react-dom:
-        optional: true
-    dependencies:
-      '@react_db_client/components.form.form-components.toggle-box': registry.npmjs.org/@react_db_client/components.form.form-components.toggle-box@0.2.43(@testing-library/react@12.1.5)(prop-types@15.8.1)(react-dom@17.0.2)(react-is@16.13.1)(react@17.0.2)
-      '@react_db_client/constants.client-types': registry.npmjs.org/@react_db_client/constants.client-types@0.8.0(react-dom@17.0.2)(react@17.0.2)
-      '@react_db_client/helpers.func-tools': registry.npmjs.org/@react_db_client/helpers.func-tools@0.1.10(react-dom@17.0.2)(react@17.0.2)
-      '@react_db_client/hooks.use-auto-hide-panel-hook': registry.npmjs.org/@react_db_client/hooks.use-auto-hide-panel-hook@0.2.5(@testing-library/react-hooks@8.0.1)(react-dom@17.0.2)(react@17.0.2)
-      '@testing-library/react': registry.npmjs.org/@testing-library/react@12.1.5(react-dom@17.0.2)(react@17.0.2)
-      '@testing-library/user-event': registry.npmjs.org/@testing-library/user-event@14.4.3(@testing-library/dom@8.19.1)
-      core-js: registry.npmjs.org/core-js@3.30.1
-      lodash: registry.npmjs.org/lodash@4.17.21
-      prop-types: registry.npmjs.org/prop-types@15.8.1
-      react: registry.npmjs.org/react@17.0.2
-      react-dom: registry.npmjs.org/react-dom@17.0.2(react@17.0.2)
-      styled-components: registry.npmjs.org/styled-components@5.3.11(react-dom@17.0.2)(react-is@16.13.1)(react@17.0.2)
-    transitivePeerDependencies:
-      - '@testing-library/react-hooks'
       - react-is
     dev: false
 
@@ -1122,158 +1001,6 @@ packages:
       - react-is
     dev: false
 
-  registry.npmjs.org/@react_db_client/components.form.form-components.toggle-box@0.2.43(@testing-library/react@12.1.5)(prop-types@15.8.1)(react-dom@17.0.2)(react-is@16.13.1)(react@17.0.2):
-    resolution: {integrity: sha512-WXTipH8OKjPENFNcIgmLJuJCmVZOr1cK+bhdKNi3MX++pbecZ0Q8lGUHHA8kZInsbTH51NxnZkzpNpo24Ne26w==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/components.form.form-components.toggle-box/-/components.form.form-components.toggle-box-0.2.43.tgz}
-    id: registry.npmjs.org/@react_db_client/components.form.form-components.toggle-box/0.2.43
-    name: '@react_db_client/components.form.form-components.toggle-box'
-    version: 0.2.43
-    peerDependencies:
-      '@testing-library/react': '*'
-      prop-types: '*'
-      react: '*'
-      react-dom: '*'
-    peerDependenciesMeta:
-      '@testing-library/react':
-        optional: true
-      prop-types:
-        optional: true
-      react:
-        optional: true
-      react-dom:
-        optional: true
-    dependencies:
-      '@react_db_client/components.emoji': registry.npmjs.org/@react_db_client/components.emoji@0.1.20(@testing-library/react@12.1.5)(prop-types@15.8.1)(react-dom@17.0.2)(react-is@16.13.1)(react@17.0.2)
-      '@react_db_client/constants.client-types': registry.npmjs.org/@react_db_client/constants.client-types@0.8.0(react-dom@17.0.2)(react@17.0.2)
-      '@testing-library/react': registry.npmjs.org/@testing-library/react@12.1.5(react-dom@17.0.2)(react@17.0.2)
-      core-js: registry.npmjs.org/core-js@3.30.1
-      prop-types: registry.npmjs.org/prop-types@15.8.1
-      react: registry.npmjs.org/react@17.0.2
-      react-dom: registry.npmjs.org/react-dom@17.0.2(react@17.0.2)
-    transitivePeerDependencies:
-      - react-is
-    dev: false
-
-  registry.npmjs.org/@react_db_client/components.search-and-select-v2@0.0.12(@testing-library/react-hooks@8.0.1)(@testing-library/react@12.1.5)(@testing-library/user-event@14.4.3)(lodash@4.17.21)(prop-types@15.8.1)(react-dom@17.0.2)(react-is@16.13.1)(react@17.0.2):
-    resolution: {integrity: sha512-13AYf+RRTt+XvPoDYPuqVW7brSW4raRKzR4c+T91vJVe2xkpvKHvlERvhYd68zKwyyAdG6RQLWmqtWTWaNRd7A==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/components.search-and-select-v2/-/components.search-and-select-v2-0.0.12.tgz}
-    id: registry.npmjs.org/@react_db_client/components.search-and-select-v2/0.0.12
-    name: '@react_db_client/components.search-and-select-v2'
-    version: 0.0.12
-    peerDependencies:
-      '@testing-library/react': '*'
-      '@testing-library/user-event': '*'
-      prop-types: '*'
-      react: '*'
-      react-dom: '*'
-    peerDependenciesMeta:
-      '@testing-library/react':
-        optional: true
-      '@testing-library/user-event':
-        optional: true
-      prop-types:
-        optional: true
-      react:
-        optional: true
-      react-dom:
-        optional: true
-    dependencies:
-      '@react_db_client/async-hooks.use-async-request': registry.npmjs.org/@react_db_client/async-hooks.use-async-request@0.2.24(@testing-library/react-hooks@8.0.1)(@testing-library/react@12.1.5)(@testing-library/user-event@14.4.3)(prop-types@15.8.1)(react-dom@17.0.2)(react@17.0.2)
-      '@react_db_client/components.emoji': registry.npmjs.org/@react_db_client/components.emoji@0.1.20(@testing-library/react@12.1.5)(prop-types@15.8.1)(react-dom@17.0.2)(react-is@16.13.1)(react@17.0.2)
-      '@react_db_client/components.filter-manager': registry.npmjs.org/@react_db_client/components.filter-manager@0.2.93(@testing-library/react-hooks@8.0.1)(@testing-library/react@12.1.5)(@testing-library/user-event@14.4.3)(lodash@4.17.21)(prop-types@15.8.1)(react-dom@17.0.2)(react-is@16.13.1)(react@17.0.2)
-      '@react_db_client/components.selection-preview': registry.npmjs.org/@react_db_client/components.selection-preview@0.4.39(@testing-library/react@12.1.5)(prop-types@15.8.1)(react-dom@17.0.2)(react-is@16.13.1)(react@17.0.2)
-      '@react_db_client/components.styled-select-list': registry.npmjs.org/@react_db_client/components.styled-select-list@0.4.54(@testing-library/react-hooks@8.0.1)(@testing-library/react@12.1.5)(@testing-library/user-event@14.4.3)(prop-types@15.8.1)(react-dom@17.0.2)(react-is@16.13.1)(react@17.0.2)
-      '@react_db_client/constants.client-types': registry.npmjs.org/@react_db_client/constants.client-types@0.8.0(react-dom@17.0.2)(react@17.0.2)
-      '@react_db_client/hooks.use-debounce': registry.npmjs.org/@react_db_client/hooks.use-debounce@0.0.3(@testing-library/react@12.1.5)(@testing-library/user-event@14.4.3)(react-dom@17.0.2)(react@17.0.2)
-      '@testing-library/react': registry.npmjs.org/@testing-library/react@12.1.5(react-dom@17.0.2)(react@17.0.2)
-      '@testing-library/user-event': registry.npmjs.org/@testing-library/user-event@14.4.3(@testing-library/dom@8.19.1)
-      core-js: registry.npmjs.org/core-js@3.30.1
-      prop-types: registry.npmjs.org/prop-types@15.8.1
-      react: registry.npmjs.org/react@17.0.2
-      react-dom: registry.npmjs.org/react-dom@17.0.2(react@17.0.2)
-      styled-components: registry.npmjs.org/styled-components@5.3.11(react-dom@17.0.2)(react-is@16.13.1)(react@17.0.2)
-    transitivePeerDependencies:
-      - '@testing-library/react-hooks'
-      - enzyme
-      - enzyme-adapter-react-16
-      - jest
-      - lodash
-      - react-is
-      - supports-color
-    dev: false
-
-  registry.npmjs.org/@react_db_client/components.selection-preview@0.4.39(@testing-library/react@12.1.5)(prop-types@15.8.1)(react-dom@17.0.2)(react-is@16.13.1)(react@17.0.2):
-    resolution: {integrity: sha512-PcXV7LXZ+7EhgwuVaHnXvK0f9Wk38BtzH72R8mkZyotnqfC8Qf5eEfEKuIjeuL5HOnKqJCtoiIhDDbkHkoilpg==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/components.selection-preview/-/components.selection-preview-0.4.39.tgz}
-    id: registry.npmjs.org/@react_db_client/components.selection-preview/0.4.39
-    name: '@react_db_client/components.selection-preview'
-    version: 0.4.39
-    peerDependencies:
-      '@testing-library/react': '*'
-      prop-types: '*'
-      react: '*'
-      react-dom: '*'
-    peerDependenciesMeta:
-      '@testing-library/react':
-        optional: true
-      prop-types:
-        optional: true
-      react:
-        optional: true
-      react-dom:
-        optional: true
-    dependencies:
-      '@react_db_client/constants.client-types': registry.npmjs.org/@react_db_client/constants.client-types@0.8.0(react-dom@17.0.2)(react@17.0.2)
-      '@react_db_client/helpers.data-processing': registry.npmjs.org/@react_db_client/helpers.data-processing@0.2.58(react-dom@17.0.2)(react@17.0.2)
-      '@testing-library/react': registry.npmjs.org/@testing-library/react@12.1.5(react-dom@17.0.2)(react@17.0.2)
-      core-js: registry.npmjs.org/core-js@3.30.1
-      prop-types: registry.npmjs.org/prop-types@15.8.1
-      react: registry.npmjs.org/react@17.0.2
-      react-dom: registry.npmjs.org/react-dom@17.0.2(react@17.0.2)
-      styled-components: registry.npmjs.org/styled-components@5.3.11(react-dom@17.0.2)(react-is@16.13.1)(react@17.0.2)
-    transitivePeerDependencies:
-      - react-is
-    dev: false
-
-  registry.npmjs.org/@react_db_client/components.styled-select-list@0.4.54(@testing-library/react-hooks@8.0.1)(@testing-library/react@12.1.5)(@testing-library/user-event@14.4.3)(prop-types@15.8.1)(react-dom@17.0.2)(react-is@16.13.1)(react@17.0.2):
-    resolution: {integrity: sha512-aGplA63HjdONXv+A68bMFGvicuvJ/GjcwT0pz67IeboE2ydXgoZFlv5c+rDTnHjgzkk2omoCBMddYC4fS6M3UQ==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/components.styled-select-list/-/components.styled-select-list-0.4.54.tgz}
-    id: registry.npmjs.org/@react_db_client/components.styled-select-list/0.4.54
-    name: '@react_db_client/components.styled-select-list'
-    version: 0.4.54
-    peerDependencies:
-      '@testing-library/react': '*'
-      '@testing-library/user-event': '*'
-      prop-types: '*'
-      react: '*'
-      react-dom: '*'
-    peerDependenciesMeta:
-      '@testing-library/react':
-        optional: true
-      '@testing-library/user-event':
-        optional: true
-      prop-types:
-        optional: true
-      react:
-        optional: true
-      react-dom:
-        optional: true
-    dependencies:
-      '@react_db_client/components.column-manager': registry.npmjs.org/@react_db_client/components.column-manager@0.4.38(@testing-library/react-hooks@8.0.1)(@testing-library/react@12.1.5)(@testing-library/user-event@14.4.3)(prop-types@15.8.1)(react-dom@17.0.2)(react-is@16.13.1)(react@17.0.2)
-      '@react_db_client/constants.client-types': registry.npmjs.org/@react_db_client/constants.client-types@0.8.0(react-dom@17.0.2)(react@17.0.2)
-      '@react_db_client/helpers.data-processing': registry.npmjs.org/@react_db_client/helpers.data-processing@0.2.58(react-dom@17.0.2)(react@17.0.2)
-      '@testing-library/react': registry.npmjs.org/@testing-library/react@12.1.5(react-dom@17.0.2)(react@17.0.2)
-      '@testing-library/user-event': registry.npmjs.org/@testing-library/user-event@14.4.3(@testing-library/dom@8.19.1)
-      core-js: registry.npmjs.org/core-js@3.30.1
-      prop-types: registry.npmjs.org/prop-types@15.8.1
-      react: registry.npmjs.org/react@17.0.2
-      react-dom: registry.npmjs.org/react-dom@17.0.2(react@17.0.2)
-      styled-components: registry.npmjs.org/styled-components@5.3.11(react-dom@17.0.2)(react-is@16.13.1)(react@17.0.2)
-    transitivePeerDependencies:
-      - '@testing-library/react-hooks'
-      - enzyme
-      - enzyme-adapter-react-16
-      - jest
-      - react-is
-      - supports-color
-    dev: false
-
   registry.npmjs.org/@react_db_client/constants.client-types@0.8.0(react-dom@17.0.2)(react@17.0.2):
     resolution: {integrity: sha512-rA69EAjG2u/Kuxz4RQPDBNoQrnQn1CZTxPUFbuQsDgaumLI3LjO03+gZp6+swSikpnXk9MQx2Swu/4bBvG554g==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/constants.client-types/-/constants.client-types-0.8.0.tgz}
     id: registry.npmjs.org/@react_db_client/constants.client-types/0.8.0
@@ -1291,6 +1018,7 @@ packages:
       core-js: registry.npmjs.org/core-js@3.30.1
       react: registry.npmjs.org/react@17.0.2
       react-dom: registry.npmjs.org/react-dom@17.0.2(react@17.0.2)
+    dev: true
 
   registry.npmjs.org/@react_db_client/constants.demo-data@0.4.7(react-dom@17.0.2)(react@17.0.2):
     resolution: {integrity: sha512-/AYESbsRWICbGe/f3i58Xda1PgLrazaqr10KrOlVCuVUQcx9MlYJVDJ2qEO+/qLQT+GLjhk309Lt/wPOg79xsQ==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/constants.demo-data/-/constants.demo-data-0.4.7.tgz}
@@ -1356,27 +1084,6 @@ packages:
       - react-is
     dev: false
 
-  registry.npmjs.org/@react_db_client/helpers.data-processing@0.2.58(react-dom@17.0.2)(react@17.0.2):
-    resolution: {integrity: sha512-js/StvlVuPs6uUDrzx6imu71w7iivgUKYl1ADH4ZnbncpqI9MUvxg+mKjGQdcRv92yEIeX9ub6pUhORiVBw/PA==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/helpers.data-processing/-/helpers.data-processing-0.2.58.tgz}
-    id: registry.npmjs.org/@react_db_client/helpers.data-processing/0.2.58
-    name: '@react_db_client/helpers.data-processing'
-    version: 0.2.58
-    peerDependencies:
-      react: '*'
-      react-dom: '*'
-    peerDependenciesMeta:
-      react:
-        optional: true
-      react-dom:
-        optional: true
-    dependencies:
-      '@react_db_client/constants.client-types': registry.npmjs.org/@react_db_client/constants.client-types@0.8.0(react-dom@17.0.2)(react@17.0.2)
-      '@react_db_client/helpers.func-tools': registry.npmjs.org/@react_db_client/helpers.func-tools@0.1.10(react-dom@17.0.2)(react@17.0.2)
-      core-js: registry.npmjs.org/core-js@3.30.1
-      react: registry.npmjs.org/react@17.0.2
-      react-dom: registry.npmjs.org/react-dom@17.0.2(react@17.0.2)
-    dev: false
-
   registry.npmjs.org/@react_db_client/helpers.func-tools@0.1.10(react-dom@17.0.2)(react@17.0.2):
     resolution: {integrity: sha512-6ma7SnSdCQEJsdSayOPsXXzznBAhO3mxYmY95gJ7MPJMLd1sVc4vq2z9XrVSv/n9koLWqLw3AotJ3CR9CZqq9A==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/helpers.func-tools/-/helpers.func-tools-0.1.10.tgz}
     id: registry.npmjs.org/@react_db_client/helpers.func-tools/0.1.10
@@ -1429,29 +1136,6 @@ packages:
       react-dom:
         optional: true
     dependencies:
-      core-js: registry.npmjs.org/core-js@3.30.1
-      react: registry.npmjs.org/react@17.0.2
-      react-dom: registry.npmjs.org/react-dom@17.0.2(react@17.0.2)
-    dev: false
-
-  registry.npmjs.org/@react_db_client/hooks.use-auto-hide-panel-hook@0.2.5(@testing-library/react-hooks@8.0.1)(react-dom@17.0.2)(react@17.0.2):
-    resolution: {integrity: sha512-CdEkm1xRJBBLq1yqLeanGtqHcm/RPNVCkB/E6ZxuXZn8lL5cwW12H3EdfD8s6U+MZUPHG71lKlTFTp794S5cOw==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/hooks.use-auto-hide-panel-hook/-/hooks.use-auto-hide-panel-hook-0.2.5.tgz}
-    id: registry.npmjs.org/@react_db_client/hooks.use-auto-hide-panel-hook/0.2.5
-    name: '@react_db_client/hooks.use-auto-hide-panel-hook'
-    version: 0.2.5
-    peerDependencies:
-      '@testing-library/react-hooks': '*'
-      react: '*'
-      react-dom: '*'
-    peerDependenciesMeta:
-      '@testing-library/react-hooks':
-        optional: true
-      react:
-        optional: true
-      react-dom:
-        optional: true
-    dependencies:
-      '@testing-library/react-hooks': registry.npmjs.org/@testing-library/react-hooks@8.0.1(@types/react@17.0.58)(react-dom@17.0.2)(react@17.0.2)
       core-js: registry.npmjs.org/core-js@3.30.1
       react: registry.npmjs.org/react@17.0.2
       react-dom: registry.npmjs.org/react-dom@17.0.2(react@17.0.2)

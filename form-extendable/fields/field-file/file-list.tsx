@@ -29,7 +29,7 @@ export const FileItem = ({
     case EFileType.IMAGE:
       return (
         <FileListImageItemStyle key={fileData.uid}>
-          <img src={fullFilePath} alt={fileData.label} />
+          <img src={fullFilePath} alt={fileData.label} role="img" />
           <FileItemBtnWrap>
             <ImageItemDeleteBtn onClick={() => deleteFile(fileData.uid)}>
               <Emoji emoj="🗑️" label="Remove" />
