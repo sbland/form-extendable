@@ -184,6 +184,7 @@ export interface IHeadingText
 export interface IHeadingDict
   extends Omit<IHeading<string|object, HTMLInputElement>, 'type'> {
   type: EFilterType.dict;
+  labelField?: string;
 }
 
 export interface IHeadingTable
