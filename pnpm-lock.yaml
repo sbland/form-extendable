@@ -17,6 +17,9 @@ importers:
       '@react_db_client/helpers.composition-wraps':
         specifier: 0.1.15
         version: registry.npmjs.org/@react_db_client/helpers.composition-wraps@0.1.15(react-dom@17.0.2)(react-is@16.13.1)(react@17.0.2)
+      '@react_db_client/helpers.filter-helpers':
+        specifier: 0.2.38
+        version: registry.npmjs.org/@react_db_client/helpers.filter-helpers@0.2.38(react-dom@17.0.2)(react@17.0.2)
       '@react_db_client/helpers.func-tools':
         specifier: 0.1.10
         version: registry.npmjs.org/@react_db_client/helpers.func-tools@0.1.10(react-dom@17.0.2)(react@17.0.2)
@@ -1018,7 +1021,6 @@ packages:
       core-js: registry.npmjs.org/core-js@3.30.1
       react: registry.npmjs.org/react@17.0.2
       react-dom: registry.npmjs.org/react-dom@17.0.2(react@17.0.2)
-    dev: true
 
   registry.npmjs.org/@react_db_client/constants.demo-data@0.4.7(react-dom@17.0.2)(react@17.0.2):
     resolution: {integrity: sha512-/AYESbsRWICbGe/f3i58Xda1PgLrazaqr10KrOlVCuVUQcx9MlYJVDJ2qEO+/qLQT+GLjhk309Lt/wPOg79xsQ==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/constants.demo-data/-/constants.demo-data-0.4.7.tgz}
@@ -1082,6 +1084,26 @@ packages:
       react-dom: registry.npmjs.org/react-dom@17.0.2(react@17.0.2)
     transitivePeerDependencies:
       - react-is
+    dev: false
+
+  registry.npmjs.org/@react_db_client/helpers.filter-helpers@0.2.38(react-dom@17.0.2)(react@17.0.2):
+    resolution: {integrity: sha512-Y/SNBomgtUZaK4Q141D8M5u3ns2/BbuyCEWB/XeFbH5mkZkefYZAi21TsbiHyRsqpaA7Tusk0374r2qVN2DZSA==, registry: https://node.bit.dev/, tarball: https://registry.npmjs.org/@react_db_client/helpers.filter-helpers/-/helpers.filter-helpers-0.2.38.tgz}
+    id: registry.npmjs.org/@react_db_client/helpers.filter-helpers/0.2.38
+    name: '@react_db_client/helpers.filter-helpers'
+    version: 0.2.38
+    peerDependencies:
+      react: '*'
+      react-dom: '*'
+    peerDependenciesMeta:
+      react:
+        optional: true
+      react-dom:
+        optional: true
+    dependencies:
+      '@react_db_client/constants.client-types': registry.npmjs.org/@react_db_client/constants.client-types@0.8.0(react-dom@17.0.2)(react@17.0.2)
+      core-js: registry.npmjs.org/core-js@3.30.1
+      react: registry.npmjs.org/react@17.0.2
+      react-dom: registry.npmjs.org/react-dom@17.0.2(react@17.0.2)
     dev: false
 
   registry.npmjs.org/@react_db_client/helpers.func-tools@0.1.10(react-dom@17.0.2)(react@17.0.2):
