@@ -75,6 +75,7 @@ FieldSelectSearch.propTypes = {
   ]),
   // defaultVal: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   onChange: PropTypes.func.isRequired,
+  // @ts-ignore
   multiple: PropTypes.bool,
   required: PropTypes.bool,
   searchFn: PropTypes.func.isRequired,

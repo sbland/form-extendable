@@ -75,7 +75,7 @@ Useful when using a custom field
  */
 export const Form = <CompleteFormType,>({
   id,
-  FormField = DefaultFormField,
+  FormField = DefaultFormField as any,
   formDataInitial = {},
   headings,
   onSubmit,
@@ -284,7 +284,7 @@ export const Form = <CompleteFormType,>({
         orientation={orientation}
         additionalData={additionalData}
         componentMap={componentMap}
-        FormField={FormField}
+        FormField={FormField as any}
         fieldErrors={fieldValidationErrors}
       />
       <section

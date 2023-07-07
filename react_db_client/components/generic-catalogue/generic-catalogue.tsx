@@ -146,6 +146,7 @@ export const GenericCatalogue = <ResultType extends IDocument>({
     const fromUid = uid;
     const toCollection = collection;
     const toUid = generateUid(collection, null, null);
+    // TODO: Should not set label here
     const additionalData = { label: toUid };
     copyItem([fromCollection, fromUid, toCollection, toUid, additionalData]);
   };

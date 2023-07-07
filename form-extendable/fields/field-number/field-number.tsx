@@ -107,7 +107,7 @@ export const FieldNumber: React.FC<TFieldNumberProps> = ({
 FieldNumber.propTypes = {
   uid: PropTypes.string.isRequired,
   unit: PropTypes.string,
-  value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  value: PropTypes.oneOfType([PropTypes.number]),
   min: PropTypes.number,
   max: PropTypes.number,
   step: PropTypes.number,

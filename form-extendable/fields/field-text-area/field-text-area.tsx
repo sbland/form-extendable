@@ -89,7 +89,7 @@ export const FieldTextArea: React.FC<TFieldTextAreaProps> = ({
 FieldTextArea.propTypes = {
   uid: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   unit: PropTypes.string,
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  value: PropTypes.oneOfType([PropTypes.string]),
   onChange: PropTypes.func.isRequired,
   required: PropTypes.bool,
   initHeight: PropTypes.number,

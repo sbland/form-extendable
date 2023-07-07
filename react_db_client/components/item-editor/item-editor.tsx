@@ -149,7 +149,7 @@ export const ItemEditor = <ResultType extends IDocument>({
           showEndBtns={!(autosave || formProps.autosave)}
           submitBtnText={submitBtnText}
           componentMap={componentMap}
-          FormField={FormField}
+          FormField={FormField as any}
           endButtonRefOverride={endButtonRefOverride}
           autosave={autosave}
           {...(formProps as Partial<IFormProps<ResultType>>)}

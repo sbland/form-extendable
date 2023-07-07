@@ -165,7 +165,7 @@ export const TestForm = () => {
         showEndBtns
         submitBtnText="Save Item"
         componentMap={componentMap}
-        FormField={FormField}
+        FormField={FormField as any}
       />
     </FormThemeProvider>
   );

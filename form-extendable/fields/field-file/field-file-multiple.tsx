@@ -139,9 +139,11 @@ const valueValidatorFull = PropTypes.oneOfType([
 
 FieldFileMultiple.propTypes = {
   uid: PropTypes.string.isRequired,
+  // @ts-ignore
   value: valueValidatorFull,
   onChange: PropTypes.func.isRequired,
   fileType: PropTypes.oneOf(Object.values(EFileType)).isRequired,
+  // @ts-ignore
   multiple: PropTypes.bool,
   fileServerUrl: PropTypes.string.isRequired,
   asyncGetFiles: PropTypes.func.isRequired,
