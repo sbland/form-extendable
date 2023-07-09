@@ -44,7 +44,8 @@ export const FieldSelectReference = <V extends IObj>(
               props.asyncGetRefObjs,
               props.collection,
               '_id',
-              props.labelField
+              props.labelField,
+              props.filters
             )}
             returnFieldOnSelect="_id"
             multiple={false}
@@ -78,7 +79,8 @@ export const FieldSelectReference = <V extends IObj>(
         props.asyncGetRefObjs,
         props.collection,
         '_id',
-        props.labelField
+        props.labelField,
+        props.filters
       )}
       returnFieldOnSelect="_id"
       multiple={false}

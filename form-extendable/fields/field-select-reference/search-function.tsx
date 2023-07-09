@@ -9,7 +9,13 @@ export const searchFnReference =
     asyncGetDocuments: TAsyncGetDocuments<T>,
     collection: string,
     schema?: string,
-    sortBy?: string
+    sortBy?: string,
+    filters: FilterObjectClass[] = []
   ) =>
-  async (filters?: FilterObjectClass[]): Promise<IObj[]> =>
-    asyncGetDocuments(collection, filters || [], schema, sortBy);
+  async (filtersInner: FilterObjectClass[] = []): Promise<IObj[]> =>
+    asyncGetDocuments(
+      collection,
+      [...filters, ...filtersInner],
+      schema,
+      sortBy
+    );

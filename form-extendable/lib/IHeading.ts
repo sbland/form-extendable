@@ -117,6 +117,7 @@ export interface IHeadingReference<T extends IObj>
   type: EFilterType.reference;
   collection: string;
   allowAddNew?: boolean;
+  filters?: FilterObjectClass[];
 }
 export interface IHeadingReferenceMulti<T extends IObj>
   extends Omit<IHeadingSelectSearchMulti<T>, 'searchFn' | 'type'> {
