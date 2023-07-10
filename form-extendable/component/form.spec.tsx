@@ -169,7 +169,7 @@ describe('Form Main Component', () => {
           multiSelect: ['Multi Select 1', 'Multi Select 2'],
           embeddedText: 'Embedded Text',
           // selectSearchMulti: ['foo'], // TODO: not implemented
-          // multiSelectList: ['foo'],
+          multiSelectList: ['Multi Select noDrop 1'],
           // multiSelectListShowAll: ['foo'],
           // video: 'example_video.mov',
           longText: demoFormData.longText,
@@ -200,7 +200,10 @@ describe('Form Main Component', () => {
                 expect(fieldDisplayValue).toEqual(expectedDisplayValue);
               });
             } catch (error) {
-              screen.debug(formComponent);
+              const fieldComponent = screen.getByTestId(
+                `${heading.type}-${heading.uid}`
+              );
+              screen.debug(fieldComponent);
               console.error(
                 `Error comparing field display value for ${heading.uid}`,
                 error

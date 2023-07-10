@@ -35,7 +35,7 @@
     },
     "component": {
         "scope": "samnbuk.form-extendable",
-        "version": "0.5.33",
+        "version": "0.5.34",
         "mainFile": "index.ts",
         "rootDir": "form-extendable/component"
     },
@@ -53,7 +53,7 @@
     },
     "components/component-map": {
         "scope": "samnbuk.form-extendable",
-        "version": "0.1.171",
+        "version": "0.1.172",
         "mainFile": "index.ts",
         "rootDir": "form-extendable/components/component-map"
     },
@@ -101,13 +101,13 @@
     },
     "components/generic-catalogue": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.2.341",
+        "version": "0.2.342",
         "mainFile": "index.ts",
         "rootDir": "react_db_client/components/generic-catalogue"
     },
     "components/item-editor": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.2.302",
+        "version": "0.2.303",
         "mainFile": "index.ts",
         "rootDir": "react_db_client/components/item-editor"
     },
@@ -191,7 +191,7 @@
     },
     "fields/field-multi-select": {
         "scope": "samnbuk.form-extendable",
-        "version": "0.1.88",
+        "version": "0.1.89",
         "mainFile": "index.ts",
         "rootDir": "form-extendable/fields/field-multi-select"
     },
@@ -269,7 +269,7 @@
     },
     "testing": {
         "scope": "samnbuk.form-extendable",
-        "version": "0.0.162",
+        "version": "0.0.163",
         "mainFile": "index.ts",
         "rootDir": "form-extendable/testing"
     },

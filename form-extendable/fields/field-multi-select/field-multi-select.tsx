@@ -64,9 +64,9 @@ export const FieldMultiSelect = ({
   }
 
   if (selectType === 'showall') {
-    const va = (Array.isArray(value) ? value : [value]).filter(
+    const va = value ? (Array.isArray(value) ? value : [value]).filter(
       (vi) => vi !== null
-    );
+    ) : [];
     const v =
       typeof va[0] === 'object'
         ? (va as unknown as IOpt[]).map(

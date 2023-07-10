@@ -138,10 +138,11 @@ export const getDisplayValue = async (
     heading.asDropdown === false &&
     heading.selectType !== 'showall'
   ) {
-    const selectedBtns = within(fieldComponent).getAllByRole('button');
+    const selectedBtns = within(fieldComponent).getAllByRole('listitem');
     screen.debug(selectedBtns);
-    // TODO: Implement this
-    return ['UNKNOWN SELECT'];
+    return selectedBtns
+      .filter((s) => within(s).queryByTestId('-selected', { exact: false }))
+      .map((s) => s.textContent) as string[];
   } else if (
     heading.type === EFilterType.selectMulti &&
     heading.asDropdown === true
