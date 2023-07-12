@@ -12,6 +12,15 @@ import {
   demoResults,
 } from './demo-data';
 
+import {
+  asyncGetDocument,
+  asyncGetDocuments,
+  asyncPutDocument,
+  asyncPostDocument,
+  asyncDeleteDocument,
+  asyncCopyDocument,
+} from './mock-api';
+
 const ItemEditorPopup = (
   props: Omit<
     React.ComponentProps<typeof PopupPanelManagedWithContentWrap>,
@@ -48,18 +57,12 @@ const defaultProps: IGenericCatalogueProps<IDocument> = {
   additionalSaveData: {},
   ItemEditor: ItemEditorPopup,
   notificationDispatch: alert,
-  asyncGetDocument: async () => Object.values(demoResults)[0],
-  asyncGetDocuments: async () => Object.values(demoResults),
-  asyncPutDocument: async (collection, id, data) => {
-    console.info(data);
-    return { ok: true };
-  },
-  asyncPostDocument: async (collection, id, data) => {
-    console.info(data);
-    return { ok: true };
-  },
-  asyncDeleteDocument: async () => ({ ok: true }),
-  asyncCopyDocument: async () => ({ ok: true }),
+  asyncGetDocument,
+  asyncGetDocuments,
+  asyncPutDocument,
+  asyncPostDocument,
+  asyncDeleteDocument,
+  asyncCopyDocument,
   componentMap,
   customParsers: {},
   customSort: null,

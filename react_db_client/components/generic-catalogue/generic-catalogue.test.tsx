@@ -2,6 +2,7 @@ import React from 'react';
 import { render, screen, waitFor, within } from '@testing-library/react';
 import UserEvent from '@testing-library/user-event';
 import * as compositions from './generic-catalogue.composition';
+import * as mockApi from './mock-api';
 
 const searchForDocument = async (
   el: ReturnType<typeof within> | typeof screen,
@@ -50,6 +51,14 @@ describe('Generic Catalogue', () => {
       const searchResults = await searchForDocument(screen, 'demo');
       await openExistingItemEditor(searchResults[0]);
     });
+    test('should load data from api when opening existing item', async () => {
+      render(<compositions.WrappedGenericCatalogue />);
+      const searchResults = await searchForDocument(screen, 'demo');
+      await openExistingItemEditor(searchResults[0]);
+      const itemEditor = await screen.findByTestId('rdc-itemEditor');
+      const nameInput = within(itemEditor).getByLabelText('Name');
+      expect(nameInput).toHaveValue('Foo');
+    });
     test('should close item editor when pressing close button', async () => {
       render(<compositions.WrappedGenericCatalogue />);
       const searchResults = await searchForDocument(screen, 'demo');
@@ -65,6 +74,16 @@ describe('Generic Catalogue', () => {
         'should clear previously selected data when creating a new item'
       );
       test.todo('should use post api if item is new');
+      test('should not call api if item is new and not saved', async () => {
+        const loadHardwareSetSpy = jest.spyOn(mockApi, 'asyncGetDocument');
+        render(<compositions.WrappedGenericCatalogueManaged />);
+        const createNewButton = screen.getByRole('button', {
+          name: /Create New Demo Item/,
+        });
+        await UserEvent.click(createNewButton);
+        await screen.findByTestId('rdc-itemEditor');
+        expect(loadHardwareSetSpy).not.toHaveBeenCalled();
+      });
       test('should use put api after new item saved', async () => {
         render(<compositions.WrappedGenericCatalogueManaged />);
         const createNewButton = screen.getByRole('button', {

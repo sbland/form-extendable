@@ -12,7 +12,7 @@ beforeAll(() => {
 });
 
 describe('Item editor with async object manager', () => {
-  test.only('should be able to edit and save an existing document', async () => {
+  test('should be able to edit and save an existing document', async () => {
     const demoDoc = exampleDocuments[0];
     render(<ItemEditorWithAsyncObjectManager />);
     const form: HTMLFormElement = screen.getByRole('form');

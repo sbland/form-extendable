@@ -101,13 +101,13 @@
     },
     "components/generic-catalogue": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.2.342",
+        "version": "0.2.343",
         "mainFile": "index.ts",
         "rootDir": "react_db_client/components/generic-catalogue"
     },
     "components/item-editor": {
         "scope": "samnbuk.react_db_client",
-        "version": "0.2.303",
+        "version": "0.2.304",
         "mainFile": "index.ts",
         "rootDir": "react_db_client/components/item-editor"
     },

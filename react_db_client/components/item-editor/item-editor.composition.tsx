@@ -10,6 +10,11 @@ import { screen, waitFor } from '@testing-library/react';
 import { ItemEditor } from './item-editor';
 import { demoParams, demoData, demoParamsMin } from './demo-data';
 import { ExampleGetRefObjectComponent } from '@form-extendable/fields.field-select-reference';
+import {
+  asyncDeleteDocument,
+  asyncPostDocument,
+  asyncPutDocument,
+} from './mock-api';
 
 const asyncGetFiles = () => async () => {
   return [];
@@ -58,10 +63,10 @@ export const BasicItemEditor = () => {
               throw new Error('You asked for an error?!');
             }
             setSavedData(d as typeof demoData);
-            return { ok: true };
+            return asyncPutDocument(collection, id, d);
           }}
-          asyncPostDocument={async () => ({ ok: true })}
-          asyncDeleteDocument={async () => ({ ok: true })}
+          asyncPostDocument={asyncPostDocument}
+          asyncDeleteDocument={asyncDeleteDocument}
           componentMap={componentMap}
         />
       </FormThemeProvider>
@@ -116,19 +121,20 @@ export const BasicItemEditorAutosave = () => {
           onCancel={() => {}}
           params={demoParams}
           collection="democollection"
-          asyncGetDocument={async () => demoData}
-          asyncPutDocument={async (collection, id, data) => {
-            console.info(data);
+           asyncGetDocument={async () => demoData}
+          asyncPutDocument={async (collection, id, d) => {
             setError(null);
             setSubmittedCallbackData(null);
             setSavedData(null);
-            if (!data.label) throw new Error('Must have label!');
-            setSavedData(data as typeof demoData);
-            return { ok: true };
+            if (d.text === 'ERROR') {
+              throw new Error('You asked for an error?!');
+            }
+            setSavedData(d as typeof demoData);
+            return asyncPutDocument(collection, id, d);
           }}
+          asyncPostDocument={asyncPostDocument}
+          asyncDeleteDocument={asyncDeleteDocument}
           autosave
-          asyncPostDocument={async () => ({ ok: true })}
-          asyncDeleteDocument={async () => ({ ok: true })}
           componentMap={componentMap}
           formProps={{
             errorCallback: console.warn,
@@ -168,5 +174,67 @@ export const TestForm = () => {
         FormField={FormField as any}
       />
     </FormThemeProvider>
+  );
+};
+
+
+export const NewItemEditorAutosave = () => {
+  const [submittedCallbackData, setSubmittedCallbackData] = React.useState<
+    typeof demoData | null
+  >(null);
+  const [savedData, setSavedData] = React.useState<typeof demoData | null>(
+    null
+  );
+  const [callCount, setCallCount] = React.useState(0);
+  const [error, setError] = React.useState<null | Error>(null);
+  return (
+    <>
+      <FormThemeProvider theme={defaultTheme}>
+        <ItemEditor
+          id="demo-id"
+          inputUid={demoData.uid}
+          isNew
+          onSubmitCallback={(d) => {
+            setSubmittedCallbackData(d);
+            setCallCount((prev) => prev + 1);
+          }}
+          saveErrorCallback={(e) => setError(e)}
+          additionalData={{}}
+          onCancel={() => {}}
+          params={demoParams}
+          collection="democollection"
+           asyncGetDocument={async () => demoData}
+          asyncPutDocument={async (collection, id, d) => {
+            setError(null);
+            setSubmittedCallbackData(null);
+            setSavedData(null);
+            if (d.text === 'ERROR') {
+              throw new Error('You asked for an error?!');
+            }
+            setSavedData(d as typeof demoData);
+            return asyncPutDocument(collection, id, d);
+          }}
+          asyncPostDocument={asyncPostDocument}
+          asyncDeleteDocument={asyncDeleteDocument}
+          autosave
+          componentMap={componentMap}
+          formProps={{
+            errorCallback: console.warn,
+            autosave: true,
+            debounceTimeout: 1000,
+          }}
+        />
+      </FormThemeProvider>
+      {submittedCallbackData && (
+        <p data-testid="submittedCallbackData">
+          {JSON.stringify(submittedCallbackData || {})}
+        </p>
+      )}
+      {savedData && (
+        <p data-testid="savedData">{JSON.stringify(savedData || {})}</p>
+      )}
+      <p data-testid="callCount">{callCount}</p>
+      <p data-testid="error">{String(error) || 'No error'}</p>
+    </>
   );
 };
