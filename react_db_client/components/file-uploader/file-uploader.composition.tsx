@@ -1,10 +1,10 @@
 import React from 'react';
 import { CompositionWrapDefault } from '@react_db_client/helpers.composition-wraps';
 import { EFileType, IFile } from '@react_db_client/constants.client-types';
+import ReactJson from 'react-json-view';
 import { FileUploader } from './file-uploader';
 import { FileUploaderSimple } from './file-uploader-simple';
 import { asyncFileUpload, onUpload } from './dummy-data';
-import ReactJson from 'react-json-view';
 
 const defaultProps = {
   fileType: EFileType.IMAGE,
@@ -25,7 +25,12 @@ export const BasicFileUploader = () => {
             callback: () => void,
             metaData: Partial<IFile>
           ) => {
-            await defaultProps.asyncFileUpload(data, fileType, callback, metaData);
+            await defaultProps.asyncFileUpload(
+              data,
+              fileType,
+              callback,
+              metaData
+            );
             setUploadedFiles(metaData);
             /* Call default props asyncFileUpload for tests*/
           }}
@@ -39,6 +44,12 @@ export const BasicFileUploader = () => {
 export const BasicFileUploaderSimple = () => (
   <CompositionWrapDefault height="40rem" width="50rem">
     <FileUploaderSimple {...defaultProps} />
+  </CompositionWrapDefault>
+);
+
+export const BasicFileUploaderSimpleDoc = () => (
+  <CompositionWrapDefault height="40rem" width="50rem">
+    <FileUploaderSimple {...defaultProps} fileType={EFileType.DOCUMENT} />
   </CompositionWrapDefault>
 );
 
